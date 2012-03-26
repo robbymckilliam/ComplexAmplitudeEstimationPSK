@@ -1,0 +1,9 @@
+A document and softwares for estimators of complex amplitude and signal phase of phase-shift keyed signals.  Run the
+
+build.sh
+
+bash script to compile the plots and the latex document paper.tex.  The software (and plot data) is in the /code folder.  The script
+
+runsim.sh
+
+will run the simulations.  You require scala 2.9.x to run the simulations.
