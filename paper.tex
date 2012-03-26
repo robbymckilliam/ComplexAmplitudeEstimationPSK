@@ -1,0 +1,316 @@
+\documentclass[a4paper,10pt]{article}
+
+\usepackage{mathbf-abbrevs}
+\input{defs}
+
+\usepackage{amsmath,amsfonts,amssymb, amsthm, bm}
+
+\usepackage[square,comma,numbers,sort&compress]{natbib}
+
+\newcommand{\sgn}{\operatorname{sgn}}
+\newcommand{\sinc}{\operatorname{sinc}}
+\newcommand{\rect}[1]{\operatorname{rect}\left(#1\right)}
+
+%opening
+\title{Carrier phase and amplitude estimation using pilots and data}
+\author{Robby McKilliam}
+
+\begin{document}
+
+\maketitle
+
+In this document we describe estimators of carrier phase and signal amplitude of a transmitted communications signal that contains both pilots, known to the receiver, and data, unknown to the receiver.  We focus on signaling constellations that have symbols lying on the complex unit circle, such as binary phase shift keying (BPSK), quaternary phase shift keying (QPSK), and M-PSK.  
+
+In this setting, the transmitted symbols take the form,
+\[
+s_i = \exp\left( j\frac{2\pi}{M} u_i \right),
+\]
+where $j = \sqrt{-1}$ and $u_i$ is an integer in the set $\{0, 1, \dots, M-1\}$ and $M$ is the size of the constellation, i.e. we have assumed an $M$-PSK constellation.  We assume that some of the transmitted symbols are \emph{pilot symbols} known to the receiver and the remainder are information carrying \emph{data symbols} with phase that is unknown to the receiver.  So,
+\[
+s_i = \begin{cases}
+p_i & i \in P, \\
+d_i & i \in D, \\
+0 & otherwise,
+\end{cases}
+\]
+where $P$ is the set of indices describing the position of the pilot symbols $p_i$, and $D$ is a set of indices describing the position of the data symbols $d_i$.  The sets $P$ and $D$ are disjoint, i.e. $P \cap D = \emptyset$, and the union $P \cup D$ contains all those indices where the transmitter is active.  Outside $P \cup D$ the transmitter is silent (not active).  
+
+We assume that time offset estimation (symbol timing) and matched filtering have already been performed.  The recieved symbols are then given by,
+\begin{equation}\label{eq:sigmod}
+y_i = a_0 s_i + w_i, \qquad i \in P \cup D,
+\end{equation}
+where $w_i$ is noise and $a_0$ is a complex number representing both carrier phase and signal amplitude.  Our aim is to estimate $a_0$ from the noisy symbols $\{ y_i, i \in P \cup D \}$.  Complicating matters is that the data symbols $d_i$ are not known to the reciever.  
+
+Estimation problems of this type have undergone extensive prior study~\cite{Wilson1989,Makrakis1990,Liu1991,Mackenthun1994,Sweldens2001}.  The existing literature mostly considers what is called \emph{noncoherent detection} where no pilots symbols exist ($P = \emptyset$ where $\emptyset$ is the empty set).  In the nocoherent setting \emph{differential encoding} is often used, and for this reason the estimation problem has been called \emph{multiple symbol differential detection}.  Arguably, the literature culminates in the paper of Mackenthun~\cite{Mackenthun1994} who described a least squares estimator (maximum likelihood under the assumption that the noise sequence $\{w_i, i \in \ints\}$ is additive white and Gaussian) requiring only $O(L \log L)$ arithmetic operations, where $L = \abs{P \cup D}$ is the total number of symbols transmitted.  Sweldens~\cite{Sweldens2001} rediscovered Mackenthun's algorithm in 2001.
+
+Here, we will describe a new algorithm for computing the least squares estimator that requires only $O(L)$ operations.  We also consider a slightly more general model than is usual, one that allows the utilisation of pilot symbols, i.e., \emph{coherent detection}.  Our model includes the noncoherent case by setting the number of pilot symbols to zero, that is, putting $P = \emptyset$.
+
+In the literature it has been common to assume that the data symbols $\{d_i, i \in D\}$ are of primary interest and the complex gain $a_0$ is a nuisance parameter.  The metric of performance is correspondingly \emph{symbol error rate}, or \emph{bit error rate}.  Whilst estimating the symbols (or more precisely the transmitted bits) is ultimately the goal, we take the opposite approach here.  Our aim is to estimate $a_0$, and we treat the unknown data symbols as nuisance parameters.  This is motivated by the fact that in our intended application (narrowband satellite communications) and in most modern communication systems the data symbols are \emph{coded}.  For this reason raw symbol error rate is not of specific interest at this stage.  Instead, we desire an accurate estimator $\hat{a}$ of $a_0$, so that the compensated recieved symbols $\hat{a}^{-1}y_i$ can be accurately modelled using an additive noise channel.  The additive noise channel is a common assumption for subsequent reciever operations, such as decoding.  Consequently, our metric of performance will not be symbol or bit error rate, it will be mean square error (MSE) between complex gain $a_0$ and its estimator $\hat{a}$, that is, our metric is $E\abs{a_0 - \hat{a}}^2$ where $E$ denotes the expected value.
+
+\section{Mackentun's least squares estimator}\label{sec:least-squar-estim}
+
+In this section we derive Mackentun's~\cite{Mackenthun1994} least squares estimator for the coherent case.  Mackenthun specifically consider the noncoherent case, but only minor modifications are required to meaninfully include the pilot symbols, and the fundamental ideas in this section come from~\cite{Mackenthun1994}.  For the purpose of anaylsing computational complexity, we will assume that the number of data symbols $\abs{D}$ is proportional to the total number of symbols $L$, so that, for example, $O(L) = O(\abs{D})$.  In this case Mackentun's algorithm requires $O(L \log L)$ arithmetic operations.  This complexity arises from the need to sort a list of $\abs{D}$ elements.  In Section~\ref{sec:line-time-algor} we will show that a full sort is not neccesary, and that the least squares estimator can be implemented in $O(L)$ operations.
+
+Define the sum of squares function
+\begin{align}
+SS(a, \{d_i, i \in D\}) &= \sum_{i \in P \cup D} \abs{ y_i - a s_i }^2 \nonumber \\
+&= \sum_{i \in P \cup D} \abs{y_i}^2 - a s_i y_i^* - a^* s_i^* y_i + aa^*. \label{eq:SS}
+\end{align}
+Fixing the $\{d_i, i \in D\}$, differentiating with respect to $a^*$, and setting the resulting equation to zero we find that the least squares estimator of $a_0$, satisfies
+\begin{equation}\label{eq:hata}
+\hat{a} = \frac{1}{L} \sum_{i \in P \cup D} y_i s_i^* = \frac{Y}{L}
+\end{equation}
+where $L = \abs{P \cup D}$ is the total number of symbols transmitted, and to simplify our notation we put 
+\[
+Y = \sum_{i \in P \cup D} y_i s_i^* = \sum_{i \in P } y_i p_i^* + \sum_{i \in D } y_i d_i^*
+\]  
+Note that $Y$ is a function of the unknown data symbols $\{ d_i, i \in D\}$ and we could write $Y(\{ d_i, i \in D\})$, but have chosen to surpress the argument $(\{ d_i, i \in D\})$ for notational clarity.  Substituting $\hat{a} = \frac{Y}{L}$ into~\eqref{eq:SS} we obtain the sum of squares function, conditioned on minimisation with respect to $a$,
+\begin{equation}\label{eq:SSdatasymbols}
+SS(\{d_i, i \in D\}) = A - \frac{1}{L}\abs{Y}^2,
+\end{equation}
+where $A = \sum_{i \in P \cup D}\abs{y_i}^2$ is a constant.  Observe that given a candidate value for the data symbols, we can compute the corresponding sum of squares function $SS(\{d_i, i \in D\})$ in $O(L)$ arithmetic operations.  We will show that there are atmost $(M+1)\abs{D}$ candidate values of the least squares estimator of the data symbols~\cite{Sweldens2001,Mackenthun1994}.  %When the number of data symbols is not small, this set is substantially smaller than the entire set of possible transmitted symbols, which is of size $M^{\abs{D}}$.
+
+To see this, let $a = \rho e^{j\theta}$.  Now the sum of squares function can be written as
+\begin{align*}
+SS(\rho, \theta, \{d_i, i \in D\}) &= \sum_{i \in P \cup D} \abs{ y_i - \rho e^{j\theta} s_i }^2  \\
+&= \sum_{i \in P} \abs{ y_i - \rho e^{j\theta} p_i }^2 + \sum_{i \in D} \abs{ y_i - \rho e^{j\theta} d_i }^2.
+\end{align*}
+For given $\theta$, the least squares estimator of the $i$th data symbol $d_i$ is given by minimising $\abs{ y_i - \rho e^{j\theta} d_i }^2$, that is,
+\begin{equation}\label{eq:hatdfinxtheta}
+\hat{d}_i(\theta) = \exp\left( j\frac{2\pi}{M}\hat{u}_i(\theta) \right) \qquad \text{where} \qquad \hat{u}_i(\theta) = \round{\frac{M}{2\pi}\angle( e^{-j\theta}y_i)},
+\end{equation}
+where $\round{\cdot}$ rounds its argument to the nearest integer\footnote{The direction of rounding for half-integers is not important so long as it is consistent.  The authors have chosen to round up half-integers in their own implementation.}.  Note that $\hat{d}_i(\theta)$ does not depend on the amplitude $\rho$.  As defined, $\hat{u}_i(\theta)$ is not strictly inside the set of integers $\{0, 1, \dots, M-1\}$, but this is not of consequence, as we intend its value to be considered modulo $M$.  With this in mind let $\phi_i = \angle y_i$, then,
+\[
+\hat{u}_i(\theta) = \round{\frac{M}{2\pi}( \phi_i - \theta )}
+\]
+which is equivalent to the definition from~\eqref{eq:hatdfinxtheta} modulo $M$.
+
+We only require to consider $\theta$ in the interval $[0, 2\pi)$.  Consider how $\hat{d}_i(\theta)$ changes as $\theta$ varies from $0$ to $2\pi$.  Define the integer $b_i = \hat{d}_i(0)$ and the real number 
+\[
+z_i = \phi_i - \frac{2\pi}{M}\hat{u}_i(0) = \phi_i - \frac{2\pi}{M}\round{\frac{M}{2\pi}\phi_i},
+\]
+then,
+\begin{equation}\label{eq:uicombos}
+\hat{d}_i(\theta) = 
+\begin{cases}
+b_i, &  0 \leq \theta < z_i + \frac{\pi}{M} \\
+b_i e^{-j2\pi/M}, & z_i + \frac{\pi}{M} \leq \theta < z_i + \frac{3\pi}{M} \\ 
+\vdots & \\
+b_i e^{-j2\pi k /M}, & z_i + \frac{\pi(2k - 1)}{M} \leq \theta < z_i + \frac{\pi(2k + 1)}{M}  \\ 
+\vdots & \\
+b_i e^{-j2\pi}, &  z_i + \frac{\pi(2M - 1)}{M} \leq \theta < 2\pi. \\
+\end{cases}
+\end{equation}
+
+Let $f(\theta)$ be the sequence $\{ \hat{d}_i(\theta), i \in D \}$. So, $f(\theta)$ is a function mapping the interval $[-\nicefrac{1}{2}, \nicefrac{1}{2})$ to a sequence of $M$-PSK symbols indexed by the elements of $D$.  Observe that $f(\theta)$ is piecewise continuous.  The subintervals of $[0, 2\pi)$ over which $f(\theta)$ remains contant are determined by the values of $\{z_i, i \in D\}$.
+
+Let $S$ be the set of all $f(\theta)$ as $\theta$ varies from $0$ to $2\pi$, that is,
+\[
+S = \{ f(\theta) \mid \theta \in [0, 2 \pi) \}.
+\]
+It is clear from~\eqref{eq:hatdfinxtheta}, that $S$ contains the sequence $\{ \hat{d}_i, i \in D \}$ corresponding to the least squares estimator of the data symbols, i.e., the minimiser of~\eqref{eq:SSdatasymbols}.  Observe from~\eqref{eq:uicombos} that there are atmost $(M+1)\abs{D}$ sequences in $S$, because there are $M+1$ sequences for each $i \in D$.
+
+The sequences in $S$ can be enumerated as follows.  Let $\sigma$ denote the permutation of the indicies in $D$ such that $z_{\sigma(i)}$ are in ascending order, i.e.
+\begin{equation}\label{eq:sigmasortind}
+z_{\sigma(i)} \leq z_{\sigma(k)}
+\end{equation}
+whenever $i < k $ where $i, k \in \{0, 1, \dots, \abs{D}-1\}$.  It is convenient to define the indices into $\sigma$ to be taken modulo $\abs{D}$, that is, if $m$ is an integer not from $\{0, 1, \dots, \abs{D}-1\}$ then we define $\sigma(m) = \sigma(k)$ where $k \equiv m \mod \abs{D}$ and $k \in  \{0, 1, \dots, \abs{D}-1\}$.  The first sequence in $S$ is 
+\[
+f_0 = f(0) = \{ b_i, i \in D \}
+\]  
+The next sequence $f_1$ is given by replacing the element $b_{\sigma(1)}$ in $f_0$ with $b_{\sigma(1)}e^{-j2\pi/M}$.  Given a sequence $x$ we use $x e_i$ to denote $x$ with the $i$th element replaced by $x_i e^{-j2\pi/M}$.  Using this notation,  
+\[
+f_1 = f_0 e_{\sigma(0)}.
+\] 
+The next sequence in $S$ is correspondingly 
+\[
+f_2 = f_0 e_{\sigma(0)} e_{\sigma(1)} = f_1 e_{\sigma(1)},
+\]
+and the $k$th sequence is
+\begin{equation}\label{eq:fkrec}
+f_{k+1} = f_{k} e_{\sigma(k)},
+\end{equation}
+In this way, all $(M+1)\abs{D}$ sequences in $S$ can be recursively computed.
+
+We want to find the sequence $f_k \in S$ corresponding to the minimiser of~(\ref{eq:SSdatasymbols}).  A naive approach would be to compute $SS(f_k)$ for each sequence in $S$ and return the minimiser.  Computing $SS(f_k)$ for any particular $k$ requires $O(L)$ arithmetics operations.  So, this naive approach would require $O(L (M+1) \abs{D}) = O(L^2)$ operations in total.  Mackenthun~\cite{Mackenthun1994} showed how $SS(f_k)$ can be computed recursively.
+
+Let,
+\begin{equation}\label{eq:SSfk}
+SS(f_k) = A - \frac{1}{L}\abs{Y_k}^2,
+\end{equation}
+where, 
+\begin{align*}
+Y_k = Y( f_k ) &= \sum_{i \in P} y_i p_i^*  + \sum_{i \in D} y_i f_{ki}^* \\
+&= B + \sum_{i \in D}g_{ki},
+\end{align*}
+where $B = \sum_{i \in P} y_i p_i^*$ is a constant, independent of the data symbols, and $f_{ki}$ denotes the $i$th symbol in the sequence $f_k$, and for convenience, we put $g_{ki}  = y_i f_{ki}^*$.  Letting $g_{k} =\{ y_i f_{ki}^*, i \in D\}$ we have, from~\eqref{eq:fkrec}, that $g_k$ satisfies the recursive equation
+\[
+g_{k+1} = g_{k} e_{\sigma(k)}^*,
+\]
+where $g_{k} e_{\sigma(k)}^*$ indicates the sequence $g_k$ with the $\sigma(k)$th element replaced by $g_{k \sigma(k)}e^{j2\pi/M}$.  Now,
+\[
+Y_0 = B + \sum_{i \in D} g_{0i}
+\] 
+can be computed in $O(L)$ operations, and
+\begin{align*}
+Y_1 &= B + \sum_{i \in D} g_{1i} \\
+&= B +  (e^{j2\pi/M} - 1)g_{0\sigma(0)} + \sum_{i \in D} g_{0i} \\
+&= Y_0 + (e^{j2\pi/M} - 1) g_{0\sigma(0)},
+\end{align*}
+In general we have,
+\[
+Y_{k+1} = Y_k + (e^{j2\pi/M} - 1) g_{k\sigma(k)}.
+\]
+So, each $Y_k$ can be computed from it predecessor $Y_{k-1}$ in a constant number of operations.  Given $Y_k$, the value of $SS(f_k)$ can be computed in constant number of operations using~\eqref{eq:SSfk}.  Let $\hat{k}$ be integer the sequence that minimises $SS(f_k)$.  The least squares estimator of the complex amplitude is then computed according to~\eqref{eq:hata}, as 
+\[
+\hat{a} = \frac{1}{L} Y_{\hat{k}}.
+\]
+Psuedocode is given in Algorithm~\ref{alg:loglinear}.  This descibes a practical implementation of Mackenthun's algorithms.  Line~\ref{alg_return} contains the function $\operatorname{sortindicies}$ that, given the sequence $z = \{z_i, i \in D\}$, returns the permutation $\sigma$ of the indices in $D$ as desrcibed in~\eqref{eq:sigmasortind}.  Computing the $\operatorname{sortindicies}$ function requires sorting $\abs{D}$ elements.  This requires $O(L \log L)$ operations.  The $\operatorname{sortindicies}$ is the bottleneck in this algorithm.  All the other lines require only $O(L)$ operations to execute.  In the next sections we will show how to the sortinces function can be avoided.  This leads to an algorithm that requires only $O(L)$ operations.
+
+\begin{algorithm} \label{alg:loglinear}
+\SetAlCapFnt{\small}
+\SetAlTitleFnt{}
+\caption{Mackenthun's least squares estimator}
+\dontprintsemicolon
+\KwIn{$\{y_i, i \in P \cup D \}$}
+\For{$i \in D$}{
+$\phi = \angle{y_i}$ \;
+$u = \frac{2\pi}{M}\round{\frac{M}{2\pi}\phi} $ \;
+$z_i = \phi -  u $ \;
+$g_i = y_i e^{-j u}$ \;
+}
+$\sigma = \operatorname{sortindicies}(z)$ \nllabel{alg_return} \;
+$Y = \sum_{i \in P} y_i p_i^* + \sum_{i \in D} g_i $ \;
+$\hat{a} = \frac{1}{L} Y$ \;
+$\hat{Q} = \frac{1}{L}\abs{Y}^2$\;
+\For{$k= 0$ \emph{\textbf{to}} $(M+1)\abs{D}-1$}{
+$Y = Y + (e^{j2\pi/M} - 1) g_{\sigma(k)}$ \;
+$g_{\sigma(k)} = g_{\sigma(k)} e^{j2\pi/M} $\;
+$Q = \frac{1}{L}\abs{Y}^2$\;
+\If{$Q > \hat{Q}$}{
+ 	$\hat{Q} = Q$ \;
+ 	$\hat{a} =  \frac{1}{L} Y$ \;
+ }
+}
+\Return{$\hat{a}$ \nllabel{alg_return}}
+\end{algorithm}
+
+
+
+
+
+%Let $f$ be a function maping $\reals$ to $\reals^N$ defined so that the $i$th element of $f(\theta)$ is $\round{\frac{M}{2\pi}( \phi_i - \theta )}$.  Let $\phi$ be the vector of length $N$ with element $[\phi_1, \dots, \phi_N]$ and define the $\round{\cdots}$ to operate elementwise on vectors, then
+%\[
+%f(\theta) = \round{\frac{M}{2\pi}( \phi - \theta )}.
+%\]
+%The function $f(\theta)$ is piecewise continuous.
+
+\section{A linear-time algorithm}\label{sec:line-time-algor}
+
+
+
+
+\section{Simulations}\label{sec:simulations}
+
+
+\begin{figure*}[tp]
+	\centering
+		\includegraphics{code/plot-1.mps}
+		\caption{Amplitude error}
+		\label{fig:plotamp}
+\end{figure*}
+
+
+\begin{figure*}[tp]
+	\centering
+		\includegraphics{code/plot-2.mps}
+		\caption{Phase error}
+		\label{fig:plotamp}
+\end{figure*}
+
+\begin{figure*}[tp]
+	\centering
+		\includegraphics{code/plot-3.mps}
+		\caption{Complex gain error}
+		\label{fig:plotamp}
+\end{figure*}
+
+\appendix
+
+% \section{Matched filtering: samples to symbols}
+
+% The continuous time transmitted signal takes the form,
+% \[
+% x(t) = \sum_{i \in \ints} s_i g(t - iT),
+% \]
+% where $g(t)$ is the transmission pulse shape, $T$ is the symbol period.  Assume that the received signal undergoes time and phase offset, is attenuated by some amount and is also subject to additive noise.  The model for the analogue received signal is,
+% \begin{align*}
+% r(t) &=  w(t) + \alpha_0 x(t - \tau_0) \\
+% &= v(t) + \sum_{i \in \ints} s_i g(t - iT - \tau_0),
+% \end{align*}
+% where $\alpha_0 \in \complex$ is a complex number representing both attenuation and phase offset, $\tau_0$ is the time offset and $w(t)$ is a continuous noise process.  Assume that an accurate estimate of the time offset $\tau_0$ is available.  We would like to process the signal $r(t)$ so as to obtain a signal in the form of~\eqref{eq:sigmod}.  This is the task of \emph{matched filtering}.
+
+% Consider the inner product
+% \begin{align*}
+% \dotprod{r(t)}{g(T_sn - Ti -  \tau_0)} &= \dotprod{v(t) + \sum_{k \in \ints} s_k g(t - kT - \tau_0)}{g(T_sn - Ti - \tau)}  \\
+% &= w_i +  \dotprod{\alpha_0 \sum_{k \in \ints} s_k g(t - kT - \tau_0)}{g(T_sn - Ti - \tau)} \\
+% &= w_i +  \alpha_0 \sum_{k \in \ints} s_k \dotprod{ g(t - kT - \tau_0)}{g(T_sn - Ti - \tau)} \\
+% &= w_i + \alpha_0s_i = y_i
+% \end{align*}
+% where we put $w_i = \dotprod{v(t)}{g(T_sn - Ti - \tau)}$, and we have required that the transmission pulse $g(t)$ and it's shifts $g(t - Ti)$ are orthogonal, i.e.
+% \begin{equation}
+% \dotprod{g(t - iT)}{g(t - kT)} = \int_{\infty}^{\infty} g(t - iT)g^*(t-kT) \, dt = \begin{cases} 1 & i=k \\ 0 & i \neq k, \end{cases} \label{eq:contorthpulse}
+% \end{equation}
+% So, the recieved symbols can be obtained by computing the inner product of the recieved sequence signal with the pulse.
+
+% Thus far, we have assumed continuous processing of a continuous recieved signal.  However, typically in modern communications, only a sampled version of $r(t)$ is available at the reciever, i.e.
+% \[
+% r_n = r(nT_s) = v_n + \alpha_0 x(T_sn - \tau_0),
+% \] 
+% where $n$  is an integer and $T_s$ is the sampling period and the sequence $\{v_n, n \in \ints \}$ is a discrete noise process.  In this case, we replace the continuous time inner product, with the discrete time inner product, i.e. put
+% \[
+% \dotprod{r(t)}{g(t - iT - \tau)} = \sum_{n\in\ints}r(nT_s)g^*(T_sn - Ti - \tau_0) = \sum_{n\in\ints} r_n g^*(T_sn - Ti - \tau_0)
+% \]
+% The inner product above is an infinite sum and probably cannot be computed in practice.  However, in practical systems the number of samples observed is finite.  In what follows we assume that $N$ consecutive samples $r_1, r_2, \dots, r_N$ are observed and we set $r_n = 0$ whenever $n \notin \{1, 2, \dots, N\}$.  Now, the inner products are always finite sums
+% \[
+% \dotprod{r(t)}{g(t - iT - \tau_0)} =  \sum_{n=1}^N r_n g^*(T_sn - Ti - \tau_0).
+% \]
+% These finite inner products are computable in practice.  Computing the inner products directly using the summation above is not necessarily the most efficient approach.  Instead, the fast Fourier transfrom can be used, as we now show.
+
+% We assume that $T_s$ is rationally related to $T$, i.e. $T_s = \frac{p}{q}T$ for some relatively prime integers $p$ and $q$.  This property is a common assumption in the literature.  In fact, it is common to assume the stronger condition, that $T$ is a multiple of $T_s$~\cite{Oerder_synch_square_circstat_2008}.  At the very least, this assumption can be made an accurate approximation by an appropriate choice of $p$ and $q$~\cite{Mordell_Diophantine_equations_1969,Clarkson_thesis}.
+
+% Let 
+% \[
+% g_n = g^*(-\tfrac{T_s}{p} n - \tau_0).
+% \]
+% Then
+% \[
+% g_{k-n} = g^*(-\tfrac{T_s}{p}(k - n) - \tau_0) = g^*(n\tfrac{T_s}{p} - k\tfrac{T_s}{p} - \tau_0) = g^*(n\tfrac{T_s}{p} - \tfrac{k}{q}T - \tau_0)
+% \]
+% Let
+% \begin{equation} \label{eq:zzerofill}
+% z_n = \begin{cases} 
+% r_{n/c} & n/p \in \{1, \dots, N \} \\
+% 0 & \text{otherwise}
+% \end{cases}
+% \end{equation}
+% be a zero filled version of $r_n$.  Now
+% \begin{align*}
+% h_k &= \dotprod{r(t)}{g(t - \tfrac{k}{q}T - \tau_0)} \\
+% &=  \sum_{n\in\ints} r_n g^*(T_sn - \tfrac{k}{q}T - \tau_0) \\
+% &= \sum_{n\in\ints} z_n g^*(\tfrac{T_s}{p}n - \tfrac{k}{q}T - \tau_0) \\
+% &= \sum_{n\in\ints} z_n g_{k-n}.
+% \end{align*}
+% So $h_k$ is the convolution between the sequence $\{z_n\}$ and the sequence $\{g_n\}$.  The convoultion can be computed using the fast Fourier transform.  The length of the transform required is
+% \[
+% BLERG.
+% \]  
+% It only remains to observe that $y_i = h_{iq}$.
+
+
+
+
+\bibliography{../../bib/bib}
+
+
+\end{document}
