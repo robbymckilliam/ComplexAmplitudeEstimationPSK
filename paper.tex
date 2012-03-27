@@ -207,8 +207,19 @@ $Q = \frac{1}{L}\abs{Y}^2$\;
 
 \section{A linear-time algorithm}\label{sec:line-time-algor}
 
-
-
+\begin{lemma}
+Let $\hat{a} = \hat{\rho}e^{j\hat{\theta}}$ so that $\hat{\theta}$ is the least squares estimator of the carrier phase and $\hat{\rho}$ is the least squares estimator of the amplitude.  Let 
+\[
+\lambda_i = \phi_i - \hat{\theta} - \frac{2\pi}{M}\round{\frac{M}{2\pi}(\phi_i - \hat{\theta})}.
+\]
+Then 
+\[
+\abs{\lambda_i} \leq \frac{1}{2M} - \frac{1}{2LM BLERG}
+\]
+for all $i \in P \cup D$.
+\end{lemma}
+\begin{proof}
+\end{proof}
 
 \section{Simulations}\label{sec:simulations}
 
@@ -225,14 +236,14 @@ $Q = \frac{1}{L}\abs{Y}^2$\;
 	\centering
 		\includegraphics{code/plot-2.mps}
 		\caption{Phase error}
-		\label{fig:plotamp}
+		\label{fig:plotphase}
 \end{figure*}
 
 \begin{figure*}[tp]
 	\centering
 		\includegraphics{code/plot-3.mps}
 		\caption{Complex gain error}
-		\label{fig:plotamp}
+		\label{fig:plotcamp}
 \end{figure*}
 
 \appendix
