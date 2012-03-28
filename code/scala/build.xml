@@ -6,20 +6,13 @@
   <property name="scala.home" value="${env.SCALA_HOME}" />
 
   <target name="init">
-    <property
-	name="scala-library.jar"
-	value="${scala.home}/lib/scala-library.jar"
-	/>
+    <property name="scala-library.jar" value="${scala.home}/lib/scala-library.jar" />
     <path id="build.classpath">
       <pathelement location="${scala-library.jar}"   />
-      <pathelement location="${base.dir}/../lib/PubSim.jar"   />
-      <pathelement location="${base.dir}/../lib/colt.jar"   />
-      <pathelement location="${base.dir}/../lib/flanagan.jar"   />
-      <pathelement location="${base.dir}/../lib/JGraphT.jar"   />
-      <pathelement location="${base.dir}/../lib/RngPack.jar"   />
-      <pathelement location="${base.dir}/../lib/Jama-1.0.2.jar"   />
-      <pathelement location="${base.dir}/../lib/ScalaNumbers.jar"   />
-      <pathelement location="${build.dir}"   />
+      <fileset dir="${base.dir}/../lib">
+	<include name="*.jar" />
+	<exclude name="ComplexAmplitudePSK.jar" />
+      </fileset>
     </path>
     <taskdef resource="scala/tools/ant/antlib.xml">
       <classpath>
