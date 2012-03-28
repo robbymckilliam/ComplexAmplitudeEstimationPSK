@@ -25,8 +25,12 @@ import numbers.finite.PolarComplex
 class ViterbiViterbi(M : Int, D : Seq[Int], F : Double => Double) 
 extends NonCoherentComplexAmplitudeEstimator(M) {
   
+  val L = D.length
+  
+  /** The magnitude estimator returned is not accurate! */ 
   def estimate(y : Seq[Complex]) : Complex = {
-    return y.foldLeft(Complex.zero)( (s,v) => s + new PolarComplex(F(v.magnitude),M*v.angle) )
+    val Y = y.foldLeft(Complex.zero)( (s,v) => s + new PolarComplex(F(v.magnitude),M*v.angle) )/L
+    return new PolarComplex(Y.magnitude, Y.angle/M)
   }
   
 }
