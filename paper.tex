@@ -49,22 +49,22 @@ In the literature it has been common to assume that the data symbols $\{d_i, i \
 
 \section{Mackentun's least squares estimator}\label{sec:least-squar-estim}
 
-In this section we derive Mackentun's~\cite{Mackenthun1994} least squares estimator for the coherent case.  Mackenthun specifically consider the noncoherent case, but only minor modifications are required to meaninfully include the pilot symbols, and the fundamental ideas in this section come from~\cite{Mackenthun1994}.  For the purpose of anaylsing computational complexity, we will assume that the number of data symbols $\abs{D}$ is proportional to the total number of symbols $L$, so that, for example, $O(L) = O(\abs{D})$.  In this case Mackentun's algorithm requires $O(L \log L)$ arithmetic operations.  This complexity arises from the need to sort a list of $\abs{D}$ elements.  In Section~\ref{sec:line-time-algor} we will show that a full sort is not neccesary, and that the least squares estimator can be implemented in $O(L)$ operations.
+In this section we derive Mackentun's~\cite{Mackenthun1994} least squares estimator.  Mackenthun specifically considered the noncoherent setting, but only minor modifications are required to meaninfully include the pilot symbols, so we also consider the coherent setting here.  For the purpose of anaylsing computational complexity, we will assume that the number of data symbols $\abs{D}$ is proportional to the total number of symbols $L$, so that, for example, $O(L) = O(\abs{D})$.  In this case Mackentun's algorithm requires $O(L \log L)$ arithmetic operations.  This complexity arises from the need to sort a list of $\abs{D}$ elements.  In Section~\ref{sec:line-time-algor} we will show that a full sort is not neccesary, and that the least squares estimator can be implemented in $O(L)$ operations.
 
 Define the sum of squares function
 \begin{align}
 SS(a, \{d_i, i \in D\}) &= \sum_{i \in P \cup D} \abs{ y_i - a s_i }^2 \nonumber \\
 &= \sum_{i \in P \cup D} \abs{y_i}^2 - a s_i y_i^* - a^* s_i^* y_i + aa^*. \label{eq:SS}
 \end{align}
-Fixing the $\{d_i, i \in D\}$, differentiating with respect to $a^*$, and setting the resulting equation to zero we find that the least squares estimator of $a_0$, satisfies
+Fixing the data symbols $\{d_i, i \in D\}$, differentiating with respect to $a^*$, and setting the resulting equation to zero we find that the least squares estimator of $a_0$, satisfies
 \begin{equation}\label{eq:hata}
-\hat{a} = \frac{1}{L} \sum_{i \in P \cup D} y_i s_i^* = \frac{Y}{L}
+\hat{a} = \frac{1}{L} \sum_{i \in P \cup D} y_i s_i^* = \frac{1}{L} Y
 \end{equation}
 where $L = \abs{P \cup D}$ is the total number of symbols transmitted, and to simplify our notation we put 
 \[
 Y = \sum_{i \in P \cup D} y_i s_i^* = \sum_{i \in P } y_i p_i^* + \sum_{i \in D } y_i d_i^*
 \]  
-Note that $Y$ is a function of the unknown data symbols $\{ d_i, i \in D\}$ and we could write $Y(\{ d_i, i \in D\})$, but have chosen to surpress the argument $(\{ d_i, i \in D\})$ for notational clarity.  Substituting $\hat{a} = \frac{Y}{L}$ into~\eqref{eq:SS} we obtain the sum of squares function, conditioned on minimisation with respect to $a$,
+Note that $Y$ is a function of the unknown data symbols $\{ d_i, i \in D\}$ and we could write $Y(\{ d_i, i \in D\})$, but have chosen to surpress the argument $(\{ d_i, i \in D\})$ for notational clarity.  Substituting $\hat{a} = \frac{1}{L}Y$ into~\eqref{eq:SS} we obtain the sum of squares function, conditioned on minimisation with respect to $a$,
 \begin{equation}\label{eq:SSdatasymbols}
 SS(\{d_i, i \in D\}) = A - \frac{1}{L}\abs{Y}^2,
 \end{equation}
@@ -79,7 +79,7 @@ For given $\theta$, the least squares estimator of the $i$th data symbol $d_i$ i
 \begin{equation}\label{eq:hatdfinxtheta}
 \hat{d}_i(\theta) = \exp\left( j\frac{2\pi}{M}\hat{u}_i(\theta) \right) \qquad \text{where} \qquad \hat{u}_i(\theta) = \round{\frac{M}{2\pi}\angle( e^{-j\theta}y_i)},
 \end{equation}
-where $\round{\cdot}$ rounds its argument to the nearest integer\footnote{The direction of rounding for half-integers is not important so long as it is consistent.  The authors have chosen to round up half-integers in their own implementation.}.  Note that $\hat{d}_i(\theta)$ does not depend on the amplitude $\rho$.  As defined, $\hat{u}_i(\theta)$ is not strictly inside the set of integers $\{0, 1, \dots, M-1\}$, but this is not of consequence, as we intend its value to be considered modulo $M$.  With this in mind let $\phi_i = \angle y_i$, then,
+and where $\round{\cdot}$ rounds its argument to the nearest integer\footnote{The direction of rounding for half-integers is not important so long as it is consistent.  The authors have chosen to round up half-integers in their own implementation.}.  Note that $\hat{d}_i(\theta)$ does not depend on the amplitude $\rho$.  As defined, $\hat{u}_i(\theta)$ is not strictly inside the set of integers $\{0, 1, \dots, M-1\}$, but this is not of consequence, as we intend its value to be considered modulo $M$.  With this in mind let $\phi_i = \angle y_i$, then,
 \[
 \hat{u}_i(\theta) = \round{\frac{M}{2\pi}( \phi_i - \theta )}
 \]
