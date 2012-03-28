@@ -33,9 +33,12 @@
     <mkdir dir="${build.dir}" />
     <scalac srcdir="${sources.dir}"
             destdir="${build.dir}"
-            classpathref="build.classpath">
+            classpathref="build.classpath"
+	    addparams="-optimise">
       <include name="src/**/*.scala"   />
     </scalac>
+    <jar destfile="${base.dir}/../lib/ComplexAmplitudePSK.jar" basedir="${build.dir}" />
   </target>
+
 
 </project>
