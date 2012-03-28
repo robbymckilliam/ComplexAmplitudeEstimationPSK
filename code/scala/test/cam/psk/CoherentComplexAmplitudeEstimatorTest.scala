@@ -28,7 +28,7 @@ class CoherentComplexAmplitudeEstimatorTest {
   def testError = {
     val M = 4
     val P = List(); val D = List();
-    val est = new Mackenthun(M,P,D,null)
+    val est = new MackenthunCoherent(M,P,D,null)
     
     {
       val ahat = new PolarComplex(1.0, 0.1)

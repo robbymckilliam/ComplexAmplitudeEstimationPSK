@@ -25,10 +25,9 @@ class MackenthunTest {
   val P = 0 until numpilots //pilots at the front
   val D = numpilots until L //data at the back
   
-  val est = new Mackenthun(M,P,D,s)
-  
   @Test
-  def testEstimate() {   
+  def testCoherentEstimate() {   
+    val est = new MackenthunCoherent(M,P,D,s)
     val iters = 100
     var mse = 0.0
     for(i <- 1 to iters) {
@@ -39,6 +38,23 @@ class MackenthunTest {
       val err = (ahat - a0).mag2
       mse = mse + err
       assertTrue(err < 0.01)
+    }
+    println(mse/iters)
+  }
+  
+  @Test
+  def testNonCoherentEstimate() {      
+    val estnc = new MackenthunNonCoherent(M,D)
+    val iters = 100
+    var mse = 0.0
+    for(i <- 1 to iters) {
+      val std = 0.01
+      val y = s.map(si => a0*si + new RectComplex(std*rand.nextGaussian, std*rand.nextGaussian) ) 
+      val ahat = estnc.estimate(y)
+      //println(ahat + " and " + a0)
+      val (ae, pe) = estnc.error(ahat, a0)
+      mse = mse + pe
+      assertTrue(pe < 0.01)
     }
     println(mse/iters)
   }
