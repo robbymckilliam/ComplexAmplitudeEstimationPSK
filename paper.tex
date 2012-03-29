@@ -110,7 +110,7 @@ S = \{ f(\theta) \mid \theta \in [0, 2 \pi) \}.
 \]
 It is clear from~\eqref{eq:hatdfinxtheta}, that $S$ contains the sequence $\{ \hat{d}_i, i \in D \}$ corresponding to the least squares estimator of the data symbols, i.e., the minimiser of~\eqref{eq:SSdatasymbols}.  Observe from~\eqref{eq:uicombos} that there are atmost $(M+1)\abs{D}$ sequences in $S$, because there are $M+1$ sequences for each $i \in D$.
 
-The sequences in $S$ can be enumerated as follows.  Let $\sigma$ denote the permutation of the indicies in $D$ such that $z_{\sigma(i)}$ are in ascending order, i.e.
+The sequences in $S$ can be enumerated as follows.  Let $\sigma$ denote the permutation of the indicies in $D$ such that $z_{\sigma(i)}$ are in ascending order, that is,
 \begin{equation}\label{eq:sigmasortind}
 z_{\sigma(i)} \leq z_{\sigma(k)}
 \end{equation}
@@ -130,9 +130,9 @@ and the $k$th sequence is
 \begin{equation}\label{eq:fkrec}
 f_{k+1} = f_{k} e_{\sigma(k)},
 \end{equation}
-In this way, all $(M+1)\abs{D}$ sequences in $S$ can be recursively computed.
+In this way, all $(M+1)\abs{D}$ sequences in $S$ can be recursively enumerated.
 
-We want to find the sequence $f_k \in S$ corresponding to the minimiser of~(\ref{eq:SSdatasymbols}).  A naive approach would be to compute $SS(f_k)$ for each sequence in $S$ and return the minimiser.  Computing $SS(f_k)$ for any particular $k$ requires $O(L)$ arithmetics operations.  So, this naive approach would require $O(L (M+1) \abs{D}) = O(L^2)$ operations in total.  Mackenthun~\cite{Mackenthun1994} showed how $SS(f_k)$ can be computed recursively.
+We want to find the sequence $f_k \in S$ corresponding to the minimiser of~(\ref{eq:SSdatasymbols}).  A naive approach would be to compute $SS(f_k)$ for each sequence in $S$ and return the minimiser.  Computing $SS(f_k)$ for any particular $k$ requires $O(L)$ arithmetic operations.  So, this naive approach would require $O(L (M+1) \abs{D}) = O(L^2)$ operations in total.  Mackenthun~\cite{Mackenthun1994} showed how $SS(f_k)$ can be computed recursively.
 
 Let,
 \begin{equation}\label{eq:SSfk}
@@ -155,17 +155,17 @@ can be computed in $O(L)$ operations, and
 \begin{align*}
 Y_1 &= B + \sum_{i \in D} g_{1i} \\
 &= B +  (e^{j2\pi/M} - 1)g_{0\sigma(0)} + \sum_{i \in D} g_{0i} \\
-&= Y_0 + (e^{j2\pi/M} - 1) g_{0\sigma(0)},
+&= Y_0 + \eta g_{0\sigma(0)},
 \end{align*}
-In general we have,
+where $\eta = (e^{j2\pi/M} - 1)$.  In general we have,
 \[
-Y_{k+1} = Y_k + (e^{j2\pi/M} - 1) g_{k\sigma(k)}.
+Y_{k+1} = Y_k + \eta g_{k\sigma(k)}.
 \]
 So, each $Y_k$ can be computed from it predecessor $Y_{k-1}$ in a constant number of operations.  Given $Y_k$, the value of $SS(f_k)$ can be computed in constant number of operations using~\eqref{eq:SSfk}.  Let $\hat{k}$ be integer the sequence that minimises $SS(f_k)$.  The least squares estimator of the complex amplitude is then computed according to~\eqref{eq:hata}, as 
 \[
 \hat{a} = \frac{1}{L} Y_{\hat{k}}.
 \]
-Psuedocode is given in Algorithm~\ref{alg:loglinear}.  This descibes a practical implementation of Mackenthun's algorithms.  Line~\ref{alg_return} contains the function $\operatorname{sortindicies}$ that, given the sequence $z = \{z_i, i \in D\}$, returns the permutation $\sigma$ of the indices in $D$ as desrcibed in~\eqref{eq:sigmasortind}.  Computing the $\operatorname{sortindicies}$ function requires sorting $\abs{D}$ elements.  This requires $O(L \log L)$ operations.  The $\operatorname{sortindicies}$ is the bottleneck in this algorithm.  All the other lines require only $O(L)$ operations to execute.  In the next sections we will show how to the sortinces function can be avoided.  This leads to an algorithm that requires only $O(L)$ operations.
+Psuedocode is given in Algorithm~\ref{alg:loglinear}.  This descibes a practical implementation of Mackenthun's algorithm.  Line~\ref{alg_sortindices} contains the function $\operatorname{sortindicies}$ that, given the sequence $z = \{z_i, i \in D\}$, returns the permutation $\sigma$ of the indices in $D$ as described in~\eqref{eq:sigmasortind}.  Computing the $\operatorname{sortindicies}$ function requires sorting $\abs{D}$ elements.  This requires $O(L \log L)$ operations.  The $\operatorname{sortindicies}$ function is the primary bottleneck in this algorithm.  The loops on lines~\ref{alg_loop_setup} and~\ref{alg_loop_search} and the operations on lines~\ref{alg_Y} to lines~\ref{alg_Q} all requirse $O(L)$ or less operations.  In the next sections we will show how to the sortinces function can be avoided.  This leads to an algorithm that requires only $O(L)$ operations.
 
 \begin{algorithm} \label{alg:loglinear}
 \SetAlCapFnt{\small}
@@ -173,17 +173,17 @@ Psuedocode is given in Algorithm~\ref{alg:loglinear}.  This descibes a practical
 \caption{Mackenthun's least squares estimator}
 \dontprintsemicolon
 \KwIn{$\{y_i, i \in P \cup D \}$}
-\For{$i \in D$}{
+\For{$i \in D$ \nllabel{alg_loop_setup}}{
 $\phi = \angle{y_i}$ \;
 $u = \frac{2\pi}{M}\round{\frac{M}{2\pi}\phi} $ \;
 $z_i = \phi -  u $ \;
 $g_i = y_i e^{-j u}$ \;
 }
-$\sigma = \operatorname{sortindicies}(z)$ \nllabel{alg_return} \;
-$Y = \sum_{i \in P} y_i p_i^* + \sum_{i \in D} g_i $ \;
+$\sigma = \operatorname{sortindicies}(z)$ \nllabel{alg_sortindices} \;
+$Y = \sum_{i \in P} y_i p_i^* + \sum_{i \in D} g_i $ \nllabel{alg_Y}\;
 $\hat{a} = \frac{1}{L} Y$ \;
-$\hat{Q} = \frac{1}{L}\abs{Y}^2$\;
-\For{$k= 0$ \emph{\textbf{to}} $(M+1)\abs{D}-1$}{
+$\hat{Q} = \frac{1}{L}\abs{Y}^2$ \nllabel{alg_Q} \;
+\For{$k= 0$ \emph{\textbf{to}} $(M+1)\abs{D}-1$ \nllabel{alg_loop_search}}{
 $Y = Y + (e^{j2\pi/M} - 1) g_{\sigma(k)}$ \;
 $g_{\sigma(k)} = g_{\sigma(k)} e^{j2\pi/M} $\;
 $Q = \frac{1}{L}\abs{Y}^2$\;
@@ -219,6 +219,34 @@ Then
 for all $i \in P \cup D$.
 \end{lemma}
 \begin{proof}
+Recall that $\hat{d}_i = \hat{d}_i(\hat{\theta})$ are the minimsers of $SS$.  The proof now proceeds by contradiction.  Assume that $\lambda_i > \frac{1}{2M} - \frac{1}{2LM BLERG}$ for some $k$.  Put $r_i = \hat{d}_i e_k$, then
+\begin{align*}
+Y(\{ r_i, i \in D\}) &= \frac{1}{L}\left( B + \sum_{i \in D} y_i\hat{r}_i^* \right) \\
+&= \hat{Y} + \frac{1}{L}\eta y_k\hat{d}_k^*.
+\end{align*}
+where we put $\hat{Y} = Y(\{ \hat{d}_i, i \in D\})$.  Now,
+\begin{align*}
+SS(\{r_i, i \in D\}) &= A - \frac{1}{L} \abs{ Y(\{ r_i, i \in D\}) }^2 \\
+&= A - \frac{1}{L} \abs{ \hat{Y} + \frac{1}{L} \eta y_k\hat{d}_k^* }^2 \\
+&= A - \frac{1}{L}\abs{\hat{Y}}^2 - \frac{2}{L^2}\Re\left(\eta \hat{Y}^* y_k \hat{d}_k^* \right) -  \frac{1}{L^3}\abs{ \eta y_k \hat{d}_k^* }^2\\
+&= SS(\{\hat{d}_i, i \in D\}) - R
+\end{align*}
+where 
+\[
+R = \frac{2}{L^2}\Re\left(\eta \hat{Y}^* y_k \hat{d}_k^* \right) +  \frac{1}{L^3}\abs{ \eta y_k \hat{d}_k^* }^2.
+\]
+We will show that $R$ is positive, from which is will follow that $SS(\{r_i, i \in D\}) < SS(\{\hat{d}_i, i \in D\})$, violating the fact that $\{\hat{d}_i, i \in D\}$ are minimisers of $SS$.
+
+To see that $R$ is positive write
+\begin{align*}
+R &\geq  \frac{2}{L^2}\abs{\hat{Y} y_k}\Re\left(\eta e^{j(\phi_i - \hat{\theta})}\hat{d}_k^* \right) +  \frac{1}{L^3}\abs{ \eta}^2 \abs{ y_k }^2 \\
+&= \frac{1}{L^2}\abs{y_k} \left( 2\abs{\hat{Y}}\Re\left(\eta e^{j(\phi_i - \hat{\theta})} \hat{d}_k^* \right) + \frac{1}{L}\abs{ \eta}^2 \abs{ y_k }  \right) 
+\end{align*}
+so it is sufficient to show that
+\[
+\Re\left(\eta e^{j(\phi_i - \hat{\theta})} \hat{d}_k^* \right) > - \frac{\abs{ \eta}^2 \abs{ y_k }}{2 L \abs{\hat{Y}}}.
+\]
+Unfinished.  This proof will work, but the problem is that $\abs{y_k}$ can be really small.  The would appear to neccesitate a very large number of buckets.  In some sense, this is no problem, but you have to be able to allocate memory for all of these?  Atleast you need a way of ordering them, up to a certain resolution, without sorting.  I'm not convinced this will ever be possible.
 \end{proof}
 
 \section{Simulations}\label{sec:simulations}
