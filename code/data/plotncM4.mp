@@ -47,17 +47,17 @@ sh = 0.2cm;
 ups = 0.35cm;
 
 ls:=0;
-label.rt(btex $Mackenthun$ etex, (1cm,sh + ls*ups));
+label.rt(btex Mackenthun etex, (1cm,sh + ls*ups));
 draw (sx,sh + ls*ups)--(1cm,sh + ls*ups);
 draw dot shifted 1/2[(sx,sh + ls*ups),(1cm,sh + ls*ups)];
 
 ls:=1;
-label.rt(btex $Unmodulated Carrier$ etex, (1cm,sh + ls*ups));
+label.rt(btex Unmodulated Carrier etex, (1cm,sh + ls*ups));
 draw (sx,sh + ls*ups)--(1cm,sh + ls*ups);
 %draw cross shifted 1/2[(sx,sh + ls*ups),(1cm,sh + ls*ups)];
 
 ls:=2;
-label.rt(btex $Viterbi Viterbi$ etex, (1cm,sh + ls*ups));
+label.rt(btex Viterbi Viterbi etex, (1cm,sh + ls*ups));
 draw (sx,sh + ls*ups)--(1cm,sh + ls*ups);
 draw circle shifted 1/2[(sx,sh + ls*ups),(1cm,sh + ls*ups)];
 
@@ -91,12 +91,14 @@ draw begingraph(plotwidth, plotheight);
   gdraw "MackenthunNonCoherentM4L1000a"; gdraw "MackenthunNonCoherentM4L1000a" plot(dot); glabel.llft(btex $L = 1000$ etex, 1000);
   gdraw "MackenthunNonCoherentM4L100a"; gdraw "MackenthunNonCoherentM4L100a" plot(dot); glabel.llft(btex $L = 100$ etex, 1000);
   gdraw "MackenthunNonCoherentM4L10a"; gdraw "MackenthunNonCoherentM4L10a" plot(dot); glabel.llft(btex $L = 10$ etex, 1000);
-  %gdraw "MackenthunNonCoherentM4L10000absP1000a"; gdraw "MackenthunNonCoherentM4L10000absP1000a" plot(dot); glabel.llft(btex $L = 10000$ etex, 1000);
+  %gdraw "MackenthunNonCoherentM4L10000a"; gdraw "MackenthunNonCoherentM4L10000a" plot(dot); glabel.llft(btex $L = 10000$ etex, 1000);
 
   gdraw "ViterbiViterbiM4L1000a"; gdraw "ViterbiViterbiM4L1000a" plot(circle); 
   gdraw "ViterbiViterbiM4L100a"; gdraw "ViterbiViterbiM4L100a" plot(circle); 
   gdraw "ViterbiViterbiM4L10a"; gdraw "ViterbiViterbiM4L10a" plot(circle);
-
+  %gdraw "ViterbiViterbiM4L10000a"; gdraw "ViterbiViterbiM4L10000a" plot(circle);
+  %gdraw "ViterbiViterbiM4L100000a"; gdraw "ViterbiViterbiM4L100000a" plot(circle);
+  
   gdraw "MackenthunCoherentM4L1000absP1000a"; 
   gdraw "MackenthunCoherentM4L100absP100a"; 
   gdraw "MackenthunCoherentM4L10absP10a"; 
@@ -128,12 +130,14 @@ draw begingraph(plotwidth, plotheight);
   gdraw "MackenthunNonCoherentM4L1000p"; gdraw "MackenthunNonCoherentM4L1000p" plot(dot); glabel.llft(btex $L = 1000$ etex, 1000);
   gdraw "MackenthunNonCoherentM4L100p"; gdraw "MackenthunNonCoherentM4L100p" plot(dot); glabel.llft(btex $L = 100$ etex, 1000);
   gdraw "MackenthunNonCoherentM4L10p"; gdraw "MackenthunNonCoherentM4L10p" plot(dot); glabel.llft(btex $L = 10$ etex, 1000);
-  %gdraw "MackenthunNonCoherentM4L10000absP1000p"; gdraw "MackenthunNonCoherentM4L10000absP1000p" plot(dot); glabel.llft(btex $L = 10000$ etex, 1000);
+  %gdraw "MackenthunNonCoherentM4L10000p"; gdraw "MackenthunNonCoherentM4L10000p" plot(dot); glabel.llft(btex $L = 10000$ etex, 1000);
 
-   gdraw "ViterbiViterbiM4L1000p"; gdraw "ViterbiViterbiM4L1000p" plot(circle); 
+  gdraw "ViterbiViterbiM4L1000p"; gdraw "ViterbiViterbiM4L1000p" plot(circle); 
   gdraw "ViterbiViterbiM4L100p"; gdraw "ViterbiViterbiM4L100p" plot(circle); 
   gdraw "ViterbiViterbiM4L10p"; gdraw "ViterbiViterbiM4L10p" plot(circle);
-
+  %gdraw "ViterbiViterbiM4L10000p"; gdraw "ViterbiViterbiM4L10000p" plot(circle);
+  %gdraw "ViterbiViterbiM4L100000p"; gdraw "ViterbiViterbiM4L100000p" plot(circle);
+  
   gdraw "MackenthunCoherentM4L1000absP1000p"; 
   gdraw "MackenthunCoherentM4L100absP100p"; 
   gdraw "MackenthunCoherentM4L10absP10p";
@@ -164,11 +168,13 @@ draw begingraph(plotwidth, plotheight);
   gdraw "MackenthunNonCoherentM4L1000c"; gdraw "MackenthunNonCoherentM4L1000c" plot(dot); glabel.llft(btex $L = 1000$ etex, 1000);
   gdraw "MackenthunNonCoherentM4L100c"; gdraw "MackenthunNonCoherentM4L100c" plot(dot); glabel.llft(btex $L = 100$ etex, 1000);
   gdraw "MackenthunNonCoherentM4L10c"; gdraw "MackenthunNonCoherentM4L10c" plot(dot); glabel.llft(btex $L = 10$ etex, 1000);
-  %gdraw "MackenthunNonCoherentM4L10000absP1000c"; gdraw "MackenthunNonCoherentM4L10000absP1000c" plot(dot); glabel.llft(btex $L = 10000$ etex, 1000);
+  %gdraw "MackenthunNonCoherentM4L10000c"; gdraw "MackenthunNonCoherentM4L10000c" plot(dot); glabel.llft(btex $L = 10000$ etex, 1000);
 
   gdraw "ViterbiViterbiM4L1000c"; gdraw "ViterbiViterbiM4L1000c" plot(circle); 
   gdraw "ViterbiViterbiM4L100c"; gdraw "ViterbiViterbiM4L100c" plot(circle); 
   gdraw "ViterbiViterbiM4L10c"; gdraw "ViterbiViterbiM4L10c" plot(circle);
+  %gdraw "ViterbiViterbiM4L10000c"; gdraw "ViterbiViterbiM4L10000c" plot(circle);
+  %gdraw "ViterbiViterbiM4L100000c"; gdraw "ViterbiViterbiM4L100000c" plot(circle);
   
   gdraw "MackenthunCoherentM4L1000absP1000c"; 
   gdraw "MackenthunCoherentM4L100absP100c"; 

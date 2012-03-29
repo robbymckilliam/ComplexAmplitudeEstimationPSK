@@ -12,7 +12,7 @@ import pubsim.Util
 val Ms = List(2,4,8) //BPSK, QPSK, 8-PSK
 val Ls = List(10, 100, 1000)
 val a0 = new PolarComplex(1,2*scala.math.Pi*(new scala.util.Random).nextDouble)
-val iters = 500
+val iters = 20000
 
 //construct an array of noise distributions with a logarithmic scale
 val SNRdBs = -20 to 20 by 1
@@ -23,7 +23,7 @@ val starttime = (new java.util.Date).getTime
 for( L <- Ls; M <- Ms ) {
 
   //for a range of different numbers of pilots
-  for( numpilots <- List( 5, L/10, L ) ) {
+  for( numpilots <- List( 1, 5, L/2, L/10, L ).removeDuplicates ) {
 
     val P = 0 until numpilots //pilots at the front
     val D = numpilots until L //data at the back
@@ -35,7 +35,7 @@ for( L <- Ls; M <- Ms ) {
 
     for( estf <- estfactory ) {
       
-      val estname =  "data/" + estf(null).getClass.getSimpleName + "M" + M + "L" + L.toString + "absP" + P.length
+      val estname =  estf(null).getClass.getSimpleName + "M" + M + "L" + L.toString + "absP" + P.length
       print("Running " + estname)
       val eststarttime = (new java.util.Date).getTime
 
@@ -63,9 +63,9 @@ for( L <- Ls; M <- Ms ) {
       val estruntime = (new java.util.Date).getTime - eststarttime
       println(" finished in " + (estruntime/1000.0) + " seconds.")
       
-      val filea = new java.io.FileWriter(estname + "a")
-      val filep = new java.io.FileWriter(estname + "p")
-      val filec = new java.io.FileWriter(estname + "c")
+      val filea = new java.io.FileWriter("data/" + estname + "a")
+      val filep = new java.io.FileWriter("data/" + estname + "p")
+      val filec = new java.io.FileWriter("data/" + estname + "c")
       (mselist, SNRdBs).zipped.foreach{ (mse, snr) =>
 	val (ma,mp,mc) = mse
 				       filea.write(snr.toString.replace('E', 'e') + "\t" + ma.toString.replace('E', 'e')  + "\n") 
