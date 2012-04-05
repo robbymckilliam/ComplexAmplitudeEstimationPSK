@@ -23,6 +23,7 @@ extends CoherentComplexAmplitudeEstimator {
   
   protected val w = 2.0*scala.math.Pi/M
   protected val eta = new PolarComplex(1, w)
+  protected val nu = eta - 1.0
   
   protected def sigma(k : Int)= z(k % D.length).i
 
@@ -45,7 +46,7 @@ extends CoherentComplexAmplitudeEstimator {
     var ahat = Y / L
     var Qhat = Y.mag2 / L
     for( k <- 0 until (M+1)*D.length ){
-      Y = Y + (eta-1.0)*g(sigma(k))
+      Y = Y + nu*g(sigma(k))
       g(sigma(k)) = g(sigma(k))*eta
       val Q = Y.mag2 / L
       if( Q > Qhat ){
@@ -73,6 +74,7 @@ extends NonCoherentComplexAmplitudeEstimator(M) {
   
   protected val w = 2.0*scala.math.Pi/M
   protected val eta = new PolarComplex(1, w)
+  protected val nu = eta - 1.0
   
   protected def sigma(k : Int)= z(k % D.length).i
 
@@ -94,7 +96,7 @@ extends NonCoherentComplexAmplitudeEstimator(M) {
     var ahat = Y / L
     var Qhat = Y.mag2 / L
     for( k <- 0 until D.length ){
-      Y = Y + (eta-1.0)*g(sigma(k))
+      Y = Y + nu*g(sigma(k))
       g(sigma(k)) = g(sigma(k))*eta
       val Q = Y.mag2 / L
       if( Q > Qhat ){
