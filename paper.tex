@@ -197,6 +197,7 @@ $Q = \frac{1}{L}\abs{Y}^2$\;
 
 
 
+\section{Statistical properties}
 
 
 %Let $f$ be a function maping $\reals$ to $\reals^N$ defined so that the $i$th element of $f(\theta)$ is $\round{\frac{M}{2\pi}( \phi_i - \theta )}$.  Let $\phi$ be the vector of length $N$ with element $[\phi_1, \dots, \phi_N]$ and define the $\round{\cdots}$ to operate elementwise on vectors, then
@@ -205,49 +206,49 @@ $Q = \frac{1}{L}\abs{Y}^2$\;
 %\]
 %The function $f(\theta)$ is piecewise continuous.
 
-\section{A linear-time algorithm}\label{sec:line-time-algor}
+% \section{A linear-time algorithm}\label{sec:line-time-algor}
 
-\begin{lemma}
-Let $\hat{a} = \hat{\rho}e^{j\hat{\theta}}$ so that $\hat{\theta}$ is the least squares estimator of the carrier phase and $\hat{\rho}$ is the least squares estimator of the amplitude.  Let 
-\[
-\lambda_i = \phi_i - \hat{\theta} - \frac{2\pi}{M}\round{\frac{M}{2\pi}(\phi_i - \hat{\theta})}.
-\]
-Then 
-\[
-\abs{\lambda_i} \leq \frac{1}{2M} - \frac{1}{2LM BLERG}
-\]
-for all $i \in P \cup D$.
-\end{lemma}
-\begin{proof}
-Recall that $\hat{d}_i = \hat{d}_i(\hat{\theta})$ are the minimsers of $SS$.  The proof now proceeds by contradiction.  Assume that $\lambda_i > \frac{1}{2M} - \frac{1}{2LM BLERG}$ for some $k$.  Put $r_i = \hat{d}_i e_k$, then
-\begin{align*}
-Y(\{ r_i, i \in D\}) &= \frac{1}{L}\left( B + \sum_{i \in D} y_i\hat{r}_i^* \right) \\
-&= \hat{Y} + \frac{1}{L}\eta y_k\hat{d}_k^*.
-\end{align*}
-where we put $\hat{Y} = Y(\{ \hat{d}_i, i \in D\})$.  Now,
-\begin{align*}
-SS(\{r_i, i \in D\}) &= A - \frac{1}{L} \abs{ Y(\{ r_i, i \in D\}) }^2 \\
-&= A - \frac{1}{L} \abs{ \hat{Y} + \frac{1}{L} \eta y_k\hat{d}_k^* }^2 \\
-&= A - \frac{1}{L}\abs{\hat{Y}}^2 - \frac{2}{L^2}\Re\left(\eta \hat{Y}^* y_k \hat{d}_k^* \right) -  \frac{1}{L^3}\abs{ \eta y_k \hat{d}_k^* }^2\\
-&= SS(\{\hat{d}_i, i \in D\}) - R
-\end{align*}
-where 
-\[
-R = \frac{2}{L^2}\Re\left(\eta \hat{Y}^* y_k \hat{d}_k^* \right) +  \frac{1}{L^3}\abs{ \eta y_k \hat{d}_k^* }^2.
-\]
-We will show that $R$ is positive, from which is will follow that $SS(\{r_i, i \in D\}) < SS(\{\hat{d}_i, i \in D\})$, violating the fact that $\{\hat{d}_i, i \in D\}$ are minimisers of $SS$.
+% \begin{lemma}
+% Let $\hat{a} = \hat{\rho}e^{j\hat{\theta}}$ so that $\hat{\theta}$ is the least squares estimator of the carrier phase and $\hat{\rho}$ is the least squares estimator of the amplitude.  Let 
+% \[
+% \lambda_i = \phi_i - \hat{\theta} - \frac{2\pi}{M}\round{\frac{M}{2\pi}(\phi_i - \hat{\theta})}.
+% \]
+% Then 
+% \[
+% \abs{\lambda_i} \leq \frac{1}{2M} - \frac{1}{2LM BLERG}
+% \]
+% for all $i \in P \cup D$.
+% \end{lemma}
+% \begin{proof}
+% Recall that $\hat{d}_i = \hat{d}_i(\hat{\theta})$ are the minimsers of $SS$.  The proof now proceeds by contradiction.  Assume that $\lambda_i > \frac{1}{2M} - \frac{1}{2LM BLERG}$ for some $k$.  Put $r_i = \hat{d}_i e_k$, then
+% \begin{align*}
+% Y(\{ r_i, i \in D\}) &= \frac{1}{L}\left( B + \sum_{i \in D} y_i\hat{r}_i^* \right) \\
+% &= \hat{Y} + \frac{1}{L}\eta y_k\hat{d}_k^*.
+% \end{align*}
+% where we put $\hat{Y} = Y(\{ \hat{d}_i, i \in D\})$.  Now,
+% \begin{align*}
+% SS(\{r_i, i \in D\}) &= A - \frac{1}{L} \abs{ Y(\{ r_i, i \in D\}) }^2 \\
+% &= A - \frac{1}{L} \abs{ \hat{Y} + \frac{1}{L} \eta y_k\hat{d}_k^* }^2 \\
+% &= A - \frac{1}{L}\abs{\hat{Y}}^2 - \frac{2}{L^2}\Re\left(\eta \hat{Y}^* y_k \hat{d}_k^* \right) -  \frac{1}{L^3}\abs{ \eta y_k \hat{d}_k^* }^2\\
+% &= SS(\{\hat{d}_i, i \in D\}) - R
+% \end{align*}
+% where 
+% \[
+% R = \frac{2}{L^2}\Re\left(\eta \hat{Y}^* y_k \hat{d}_k^* \right) +  \frac{1}{L^3}\abs{ \eta y_k \hat{d}_k^* }^2.
+% \]
+% We will show that $R$ is positive, from which is will follow that $SS(\{r_i, i \in D\}) < SS(\{\hat{d}_i, i \in D\})$, violating the fact that $\{\hat{d}_i, i \in D\}$ are minimisers of $SS$.
 
-To see that $R$ is positive write
-\begin{align*}
-R &\geq  \frac{2}{L^2}\abs{\hat{Y} y_k}\Re\left(\eta e^{j(\phi_i - \hat{\theta})}\hat{d}_k^* \right) +  \frac{1}{L^3}\abs{ \eta}^2 \abs{ y_k }^2 \\
-&= \frac{1}{L^2}\abs{y_k} \left( 2\abs{\hat{Y}}\Re\left(\eta e^{j(\phi_i - \hat{\theta})} \hat{d}_k^* \right) + \frac{1}{L}\abs{ \eta}^2 \abs{ y_k }  \right) 
-\end{align*}
-so it is sufficient to show that
-\[
-\Re\left(\eta e^{j(\phi_i - \hat{\theta})} \hat{d}_k^* \right) > - \frac{\abs{ \eta}^2 \abs{ y_k }}{2 L \abs{\hat{Y}}}.
-\]
-Unfinished.  This proof will work, but the problem is that $\abs{y_k}$ can be really small.  The would appear to neccesitate a very large number of buckets.  In some sense, this is no problem, but you have to be able to allocate memory for all of these?  Atleast you need a way of ordering them, up to a certain resolution, without sorting.  I'm not convinced this will ever be possible.
-\end{proof}
+% To see that $R$ is positive write
+% \begin{align*}
+% R &\geq  \frac{2}{L^2}\abs{\hat{Y} y_k}\Re\left(\eta e^{j(\phi_i - \hat{\theta})}\hat{d}_k^* \right) +  \frac{1}{L^3}\abs{ \eta}^2 \abs{ y_k }^2 \\
+% &= \frac{1}{L^2}\abs{y_k} \left( 2\abs{\hat{Y}}\Re\left(\eta e^{j(\phi_i - \hat{\theta})} \hat{d}_k^* \right) + \frac{1}{L}\abs{ \eta}^2 \abs{ y_k }  \right) 
+% \end{align*}
+% so it is sufficient to show that
+% \[
+% \Re\left(\eta e^{j(\phi_i - \hat{\theta})} \hat{d}_k^* \right) > - \frac{\abs{ \eta}^2 \abs{ y_k }}{2 L \abs{\hat{Y}}}.
+% \]
+% Unfinished.  This proof will work, but the problem is that $\abs{y_k}$ can be really small.  The would appear to neccesitate a very large number of buckets.  In some sense, this is no problem, but you have to be able to allocate memory for all of these?  Atleast you need a way of ordering them, up to a certain resolution, without sorting.  I'm not convinced this will ever be possible.
+% \end{proof}
 
 \section{Simulations}\label{sec:simulations}
 
@@ -399,75 +400,75 @@ Our first set of simulations considers the case where there are a number of pilo
 
 \appendix
 
-% \section{Matched filtering: samples to symbols}
+\section{Matched filtering: samples to symbols}
 
-% The continuous time transmitted signal takes the form,
-% \[
-% x(t) = \sum_{i \in \ints} s_i g(t - iT),
-% \]
-% where $g(t)$ is the transmission pulse shape, $T$ is the symbol period.  Assume that the received signal undergoes time and phase offset, is attenuated by some amount and is also subject to additive noise.  The model for the analogue received signal is,
-% \begin{align*}
-% r(t) &=  w(t) + \alpha_0 x(t - \tau_0) \\
-% &= v(t) + \sum_{i \in \ints} s_i g(t - iT - \tau_0),
-% \end{align*}
-% where $\alpha_0 \in \complex$ is a complex number representing both attenuation and phase offset, $\tau_0$ is the time offset and $w(t)$ is a continuous noise process.  Assume that an accurate estimate of the time offset $\tau_0$ is available.  We would like to process the signal $r(t)$ so as to obtain a signal in the form of~\eqref{eq:sigmod}.  This is the task of \emph{matched filtering}.
+The continuous time transmitted signal takes the form,
+\[
+x(t) = \sum_{i \in \ints} s_i g(t - iT),
+\]
+where $g(t)$ is the transmission pulse shape, $T$ is the symbol period.  Assume that the received signal undergoes time and phase offset, is attenuated by some amount and is also subject to additive noise.  The model for the analogue received signal is,
+\begin{align*}
+r(t) &=  w(t) + \alpha_0 x(t - \tau_0) \\
+&= v(t) + \sum_{i \in \ints} s_i g(t - iT - \tau_0),
+\end{align*}
+where $\alpha_0 \in \complex$ is a complex number representing both attenuation and phase offset, $\tau_0$ is the time offset and $w(t)$ is a continuous noise process.  Assume that an accurate estimate of the time offset $\tau_0$ is available.  We would like to process the signal $r(t)$ so as to obtain a signal in the form of~\eqref{eq:sigmod}.  This is the task of \emph{matched filtering}.
 
-% Consider the inner product
-% \begin{align*}
-% \dotprod{r(t)}{g(T_sn - Ti -  \tau_0)} &= \dotprod{v(t) + \sum_{k \in \ints} s_k g(t - kT - \tau_0)}{g(T_sn - Ti - \tau)}  \\
-% &= w_i +  \dotprod{\alpha_0 \sum_{k \in \ints} s_k g(t - kT - \tau_0)}{g(T_sn - Ti - \tau)} \\
-% &= w_i +  \alpha_0 \sum_{k \in \ints} s_k \dotprod{ g(t - kT - \tau_0)}{g(T_sn - Ti - \tau)} \\
-% &= w_i + \alpha_0s_i = y_i
-% \end{align*}
-% where we put $w_i = \dotprod{v(t)}{g(T_sn - Ti - \tau)}$, and we have required that the transmission pulse $g(t)$ and it's shifts $g(t - Ti)$ are orthogonal, i.e.
-% \begin{equation}
-% \dotprod{g(t - iT)}{g(t - kT)} = \int_{\infty}^{\infty} g(t - iT)g^*(t-kT) \, dt = \begin{cases} 1 & i=k \\ 0 & i \neq k, \end{cases} \label{eq:contorthpulse}
-% \end{equation}
-% So, the recieved symbols can be obtained by computing the inner product of the recieved sequence signal with the pulse.
+Consider the inner product
+\begin{align*}
+\dotprod{r(t)}{g(T_sn - Ti -  \tau_0)} &= \dotprod{v(t) + \sum_{k \in \ints} s_k g(t - kT - \tau_0)}{g(T_sn - Ti - \tau)}  \\
+&= w_i +  \dotprod{\alpha_0 \sum_{k \in \ints} s_k g(t - kT - \tau_0)}{g(T_sn - Ti - \tau)} \\
+&= w_i +  \alpha_0 \sum_{k \in \ints} s_k \dotprod{ g(t - kT - \tau_0)}{g(T_sn - Ti - \tau)} \\
+&= w_i + \alpha_0s_i = y_i
+\end{align*}
+where we put $w_i = \dotprod{v(t)}{g(T_sn - Ti - \tau)}$, and we have required that the transmission pulse $g(t)$ and it's shifts $g(t - Ti)$ are orthogonal, i.e.
+\begin{equation}
+\dotprod{g(t - iT)}{g(t - kT)} = \int_{\infty}^{\infty} g(t - iT)g^*(t-kT) \, dt = \begin{cases} 1 & i=k \\ 0 & i \neq k, \end{cases} \label{eq:contorthpulse}
+\end{equation}
+So, the recieved symbols can be obtained by computing the inner product of the recieved sequence signal with the pulse.
 
-% Thus far, we have assumed continuous processing of a continuous recieved signal.  However, typically in modern communications, only a sampled version of $r(t)$ is available at the reciever, i.e.
-% \[
-% r_n = r(nT_s) = v_n + \alpha_0 x(T_sn - \tau_0),
-% \] 
-% where $n$  is an integer and $T_s$ is the sampling period and the sequence $\{v_n, n \in \ints \}$ is a discrete noise process.  In this case, we replace the continuous time inner product, with the discrete time inner product, i.e. put
-% \[
-% \dotprod{r(t)}{g(t - iT - \tau)} = \sum_{n\in\ints}r(nT_s)g^*(T_sn - Ti - \tau_0) = \sum_{n\in\ints} r_n g^*(T_sn - Ti - \tau_0)
-% \]
-% The inner product above is an infinite sum and probably cannot be computed in practice.  However, in practical systems the number of samples observed is finite.  In what follows we assume that $N$ consecutive samples $r_1, r_2, \dots, r_N$ are observed and we set $r_n = 0$ whenever $n \notin \{1, 2, \dots, N\}$.  Now, the inner products are always finite sums
-% \[
-% \dotprod{r(t)}{g(t - iT - \tau_0)} =  \sum_{n=1}^N r_n g^*(T_sn - Ti - \tau_0).
-% \]
-% These finite inner products are computable in practice.  Computing the inner products directly using the summation above is not necessarily the most efficient approach.  Instead, the fast Fourier transfrom can be used, as we now show.
+Thus far, we have assumed continuous processing of a continuous recieved signal.  However, typically in modern communications, only a sampled version of $r(t)$ is available at the reciever, i.e.
+\[
+r_n = r(nT_s) = v_n + \alpha_0 x(T_sn - \tau_0),
+\] 
+where $n$  is an integer and $T_s$ is the sampling period and the sequence $\{v_n, n \in \ints \}$ is a discrete noise process.  In this case, we replace the continuous time inner product, with the discrete time inner product, i.e. put
+\[
+\dotprod{r(t)}{g(t - iT - \tau)} = \sum_{n\in\ints}r(nT_s)g^*(T_sn - Ti - \tau_0) = \sum_{n\in\ints} r_n g^*(T_sn - Ti - \tau_0)
+\]
+The inner product above is an infinite sum and probably cannot be computed in practice.  However, in practical systems the number of samples observed is finite.  In what follows we assume that $N$ consecutive samples $r_1, r_2, \dots, r_N$ are observed and we set $r_n = 0$ whenever $n \notin \{1, 2, \dots, N\}$.  Now, the inner products are always finite sums
+\[
+\dotprod{r(t)}{g(t - iT - \tau_0)} =  \sum_{n=1}^N r_n g^*(T_sn - Ti - \tau_0).
+\]
+These finite inner products are computable in practice.  Computing the inner products directly using the summation above is not necessarily the most efficient approach.  Instead, the fast Fourier transfrom can be used, as we now show.
 
-% We assume that $T_s$ is rationally related to $T$, i.e. $T_s = \frac{p}{q}T$ for some relatively prime integers $p$ and $q$.  This property is a common assumption in the literature.  In fact, it is common to assume the stronger condition, that $T$ is a multiple of $T_s$~\cite{Oerder_synch_square_circstat_2008}.  At the very least, this assumption can be made an accurate approximation by an appropriate choice of $p$ and $q$~\cite{Mordell_Diophantine_equations_1969,Clarkson_thesis}.
+We assume that $T_s$ is rationally related to $T$, i.e. $T_s = \frac{p}{q}T$ for some relatively prime integers $p$ and $q$.  This property is a common assumption in the literature.  In fact, it is common to assume the stronger condition, that $T$ is a multiple of $T_s$~\cite{Oerder_synch_square_circstat_2008}.  At the very least, this assumption can be made an accurate approximation by an appropriate choice of $p$ and $q$~\cite{Mordell_Diophantine_equations_1969,Clarkson_thesis}.
 
-% Let 
-% \[
-% g_n = g^*(-\tfrac{T_s}{p} n - \tau_0).
-% \]
-% Then
-% \[
-% g_{k-n} = g^*(-\tfrac{T_s}{p}(k - n) - \tau_0) = g^*(n\tfrac{T_s}{p} - k\tfrac{T_s}{p} - \tau_0) = g^*(n\tfrac{T_s}{p} - \tfrac{k}{q}T - \tau_0)
-% \]
-% Let
-% \begin{equation} \label{eq:zzerofill}
-% z_n = \begin{cases} 
-% r_{n/c} & n/p \in \{1, \dots, N \} \\
-% 0 & \text{otherwise}
-% \end{cases}
-% \end{equation}
-% be a zero filled version of $r_n$.  Now
-% \begin{align*}
-% h_k &= \dotprod{r(t)}{g(t - \tfrac{k}{q}T - \tau_0)} \\
-% &=  \sum_{n\in\ints} r_n g^*(T_sn - \tfrac{k}{q}T - \tau_0) \\
-% &= \sum_{n\in\ints} z_n g^*(\tfrac{T_s}{p}n - \tfrac{k}{q}T - \tau_0) \\
-% &= \sum_{n\in\ints} z_n g_{k-n}.
-% \end{align*}
-% So $h_k$ is the convolution between the sequence $\{z_n\}$ and the sequence $\{g_n\}$.  The convoultion can be computed using the fast Fourier transform.  The length of the transform required is
-% \[
-% BLERG.
-% \]  
-% It only remains to observe that $y_i = h_{iq}$.
+Let 
+\[
+g_n = g^*(-\tfrac{T_s}{p} n - \tau_0).
+\]
+Then
+\[
+g_{k-n} = g^*(-\tfrac{T_s}{p}(k - n) - \tau_0) = g^*(n\tfrac{T_s}{p} - k\tfrac{T_s}{p} - \tau_0) = g^*(n\tfrac{T_s}{p} - \tfrac{k}{q}T - \tau_0)
+\]
+Let
+\begin{equation} \label{eq:zzerofill}
+z_n = \begin{cases} 
+r_{n/c} & n/p \in \{1, \dots, N \} \\
+0 & \text{otherwise}
+\end{cases}
+\end{equation}
+be a zero filled version of $r_n$.  Now
+\begin{align*}
+h_k &= \dotprod{r(t)}{g(t - \tfrac{k}{q}T - \tau_0)} \\
+&=  \sum_{n\in\ints} r_n g^*(T_sn - \tfrac{k}{q}T - \tau_0) \\
+&= \sum_{n\in\ints} z_n g^*(\tfrac{T_s}{p}n - \tfrac{k}{q}T - \tau_0) \\
+&= \sum_{n\in\ints} z_n g_{k-n}.
+\end{align*}
+So $h_k$ is the convolution between the sequence $\{z_n\}$ and the sequence $\{g_n\}$.  The convoultion can be computed using the fast Fourier transform.  The length of the transform required is
+\[
+BLERG.
+\]  
+It only remains to observe that $y_i = h_{iq}$.
 
 
 
