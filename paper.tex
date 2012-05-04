@@ -43,13 +43,13 @@ where $w_i$ is noise and $a_0$ is a complex number representing both carrier pha
 
 Estimation problems of this type have undergone extensive prior study~\cite{Wilson1989,Makrakis1990,Liu1991,Mackenthun1994,Sweldens2001}.  The existing literature mostly considers what is called \emph{noncoherent detection} where no pilots symbols exist ($P = \emptyset$ where $\emptyset$ is the empty set).  In the nocoherent setting \emph{differential encoding} is often used, and for this reason the estimation problem has been called \emph{multiple symbol differential detection}.  Arguably, the literature culminates in the paper of Mackenthun~\cite{Mackenthun1994} who described a least squares estimator (maximum likelihood under the assumption that the noise sequence $\{w_i, i \in \ints\}$ is additive white and Gaussian) requiring only $O(L \log L)$ arithmetic operations, where $L = \abs{P \cup D}$ is the total number of symbols transmitted.  Sweldens~\cite{Sweldens2001} rediscovered Mackenthun's algorithm in 2001.
 
-Here, we will describe a new algorithm for computing the least squares estimator that requires only $O(L)$ operations.  We also consider a slightly more general model than is usual, one that allows the utilisation of pilot symbols, i.e., \emph{coherent detection}.  Our model includes the noncoherent case by setting the number of pilot symbols to zero, that is, putting $P = \emptyset$.
+Here, consider a slightly more general model than is usual, one that allows the utilisation of pilot symbols, i.e., \emph{coherent detection}.  Our model includes the noncoherent case by setting the number of pilot symbols to zero, that is, putting $P = \emptyset$.
 
 In the literature it has been common to assume that the data symbols $\{d_i, i \in D\}$ are of primary interest and the complex gain $a_0$ is a nuisance parameter.  The metric of performance is correspondingly \emph{symbol error rate}, or \emph{bit error rate}.  Whilst estimating the symbols (or more precisely the transmitted bits) is ultimately the goal, we take the opposite approach here.  Our aim is to estimate $a_0$, and we treat the unknown data symbols as nuisance parameters.  This is motivated by the fact that in our intended application (narrowband satellite communications) and in most modern communication systems the data symbols are \emph{coded}.  For this reason raw symbol error rate is not of specific interest at this stage.  Instead, we desire an accurate estimator $\hat{a}$ of $a_0$, so that the compensated recieved symbols $\hat{a}^{-1}y_i$ can be accurately modelled using an additive noise channel.  The additive noise channel is a common assumption for subsequent reciever operations, such as decoding.  Consequently, our metric of performance will not be symbol or bit error rate, it will be mean square error (MSE) between complex gain $a_0$ and its estimator $\hat{a}$, that is, our metric is $E\abs{a_0 - \hat{a}}^2$ where $E$ denotes the expected value.
 
 \section{Mackentun's least squares estimator}\label{sec:least-squar-estim}
 
-In this section we derive Mackentun's~\cite{Mackenthun1994} least squares estimator.  Mackenthun specifically considered the noncoherent setting, but only minor modifications are required to meaninfully include the pilot symbols, so we also consider the coherent setting here.  For the purpose of anaylsing computational complexity, we will assume that the number of data symbols $\abs{D}$ is proportional to the total number of symbols $L$, so that, for example, $O(L) = O(\abs{D})$.  In this case Mackentun's algorithm requires $O(L \log L)$ arithmetic operations.  This complexity arises from the need to sort a list of $\abs{D}$ elements.  In Section~\ref{sec:line-time-algor} we will show that a full sort is not neccesary, and that the least squares estimator can be implemented in $O(L)$ operations.
+In this section we derive Mackentun's~\cite{Mackenthun1994} least squares estimator.  Mackenthun specifically considered the noncoherent setting, but only minor modifications are required to meaninfully include the pilot symbols, so we also consider the coherent setting here.  For the purpose of anaylsing computational complexity, we will assume that the number of data symbols $\abs{D}$ is proportional to the total number of symbols $L$, so that, for example, $O(L) = O(\abs{D})$.  In this case Mackentun's algorithm requires $O(L \log L)$ arithmetic operations.  This complexity arises from the need to sort a list of $\abs{D}$ elements.  %In Section~\ref{sec:line-time-algor} we will show that a full sort is not neccesary, and that the least squares estimator can be implemented in $O(L)$ operations.
 
 Define the sum of squares function
 \begin{align}
@@ -62,7 +62,7 @@ Fixing the data symbols $\{d_i, i \in D\}$, differentiating with respect to $a^*
 \end{equation}
 where $L = \abs{P \cup D}$ is the total number of symbols transmitted, and to simplify our notation we put 
 \[
-Y = \sum_{i \in P \cup D} y_i s_i^* = \sum_{i \in P } y_i p_i^* + \sum_{i \in D } y_i d_i^*
+Y = \sum_{i \in P \cup D} y_i s_i^* = \sum_{i \in P } y_i p_i^* + \sum_{i \in D } y_i d_i^*.
 \]  
 Note that $Y$ is a function of the unknown data symbols $\{ d_i, i \in D\}$ and we could write $Y(\{ d_i, i \in D\})$, but have chosen to surpress the argument $(\{ d_i, i \in D\})$ for notational clarity.  Substituting $\hat{a} = \frac{1}{L}Y$ into~\eqref{eq:SS} we obtain the sum of squares function, conditioned on minimisation with respect to $a$,
 \begin{equation}\label{eq:SSdatasymbols}
@@ -161,17 +161,17 @@ where $\eta = (e^{j2\pi/M} - 1)$.  In general we have,
 \[
 Y_{k+1} = Y_k + \eta g_{k\sigma(k)}.
 \]
-So, each $Y_k$ can be computed from it predecessor $Y_{k-1}$ in a constant number of operations.  Given $Y_k$, the value of $SS(f_k)$ can be computed in constant number of operations using~\eqref{eq:SSfk}.  Let $\hat{k}$ be integer the sequence that minimises $SS(f_k)$.  The least squares estimator of the complex amplitude is then computed according to~\eqref{eq:hata}, as 
+So, each $Y_k$ can be computed from it predecessor $Y_{k-1}$ in a constant number of operations.  Given $Y_k$, the value of $SS(f_k)$ can be computed in a constant number of operations using~\eqref{eq:SSfk}.  Let $\hat{k}$ be the integer that minimises $SS(f_k)$, i.e. $\hat{k} = \arg\min SS(f_k)$.  The least squares estimator of the complex amplitude is then computed according to~\eqref{eq:hata}, as 
 \[
 \hat{a} = \frac{1}{L} Y_{\hat{k}}.
 \]
-Psuedocode is given in Algorithm~\ref{alg:loglinear}.  This descibes a practical implementation of Mackenthun's algorithm.  Line~\ref{alg_sortindices} contains the function $\operatorname{sortindicies}$ that, given the sequence $z = \{z_i, i \in D\}$, returns the permutation $\sigma$ of the indices in $D$ as described in~\eqref{eq:sigmasortind}.  Computing the $\operatorname{sortindicies}$ function requires sorting $\abs{D}$ elements.  This requires $O(L \log L)$ operations.  The $\operatorname{sortindicies}$ function is the primary bottleneck in this algorithm.  The loops on lines~\ref{alg_loop_setup} and~\ref{alg_loop_search} and the operations on lines~\ref{alg_Y} to lines~\ref{alg_Q} all requirse $O(L)$ or less operations.  In the next sections we will show how to the sortinces function can be avoided.  This leads to an algorithm that requires only $O(L)$ operations.
+Psuedocode is given in Algorithm~\ref{alg:loglinear}.  Line~\ref{alg_sortindices} contains the function $\operatorname{sortindicies}$ that, given the sequence $z = \{z_i, i \in D\}$, returns the permutation $\sigma$ of the indices in $D$ as described in~\eqref{eq:sigmasortind}.  Computing the $\operatorname{sortindicies}$ function requires sorting $\abs{D}$ elements.  This requires $O(L \log L)$ operations.  The $\operatorname{sortindicies}$ function is the primary bottleneck in this algorithm.  The loops on lines~\ref{alg_loop_setup} and~\ref{alg_loop_search} and the operations on lines~\ref{alg_Y} to lines~\ref{alg_Q} all requirse $O(L)$ or less operations.  %In the next sections we will show how to the sortinces function can be avoided.  This leads to an algorithm that requires only $O(L)$ operations.
 
 \begin{algorithm} \label{alg:loglinear}
 \SetAlCapFnt{\small}
 \SetAlTitleFnt{}
 \caption{Mackenthun's least squares estimator}
-\dontprintsemicolon
+\DontPrintSemicolon
 \KwIn{$\{y_i, i \in P \cup D \}$}
 \For{$i \in D$ \nllabel{alg_loop_setup}}{
 $\phi = \angle{y_i}$ \;
@@ -199,12 +199,65 @@ $Q = \frac{1}{L}\abs{Y}^2$\;
 
 \section{Statistical properties}
 
+BLERG $\hat{a}$ is a biased estimator, particularly when the SNR is low, we show firs that $\hat{\theta}$ is strongly consistent, we are then able to analyse the behaviour of $\hat{a}$.
 
-%Let $f$ be a function maping $\reals$ to $\reals^N$ defined so that the $i$th element of $f(\theta)$ is $\round{\frac{M}{2\pi}( \phi_i - \theta )}$.  Let $\phi$ be the vector of length $N$ with element $[\phi_1, \dots, \phi_N]$ and define the $\round{\cdots}$ to operate elementwise on vectors, then
-%\[
-%f(\theta) = \round{\frac{M}{2\pi}( \phi - \theta )}.
-%\]
-%The function $f(\theta)$ is piecewise continuous.
+Again let $a = \rho e^{j\theta}$ and write the sum of squares function  
+\[
+SS(\rho, \theta, \{d_i, i \in D\}) = \sum_{i \in P \cup D} \abs{y_i}^2 - \rho y_i e^{-j\theta} s_i^* - \rho y_i e^{-\theta} s_i + \rho^2.
+\]
+Differentiating with respect to $\rho$ and setting the resulting expression to zero gives
+\[
+\rho = \frac{Z + Z^*}{2L}
+\]
+where $Z = \sum_{i\in P \cup D}y_i e^{-j\theta} s_i^*$.  Observe that $Z$ is really a function of $\theta$ and $\{d_i, i \in D\}$, but we have supressed the arguments for notational clarity.  We can now write
+\[
+SS(\rho, \theta, \{d_i, i \in D\}) = A - \rho Z - \rho Z^* + L \rho^2
+\]
+and substituting the above expression for $\rho$ into this gives the sum of squares function conditioned upon minimisation with respect to $\rho$,
+\[
+SS(\theta, \{d_i, i \in D\}) = A - \frac{1}{L}\abs{Z}^2.
+\]
+Substituting~(\ref{eq:hatdfinxtheta}) into this gives the sum of squares function conditioned upon minimisation with respect to $\rho$ and the data sequence $\{d_i, i \in D\}$,
+\[
+SS(\theta) = A - \frac{1}{L}\abs{Z(\theta)}^2
+\]
+where
+\[
+Z(\theta)  = \sum_{i \in P} y_i e^{-j\theta} p_i^* + \sum_{i \in D} y_i e^{-j\theta} \hat{d}_i^*(\theta).
+\]
+We have reused $Z$ here, but this should not cause confusion as $Z(\theta)$ and $Z(\theta, \{d_i, i \in D\})$ are easily told apart from there arguments.  From now on, when we right $Z$ without arguments, we will always be refering to $Z(\theta)$.
+
+We are interested in analysing $\hat{\theta}$ the maximiser of $\abs{Z(\theta)}^2$.  Put $\lambda_L = \fracpart{\theta_0 - \hat{\theta}}$.  We want to show that $\lambda_L$ converges to zero as the number of transmitted symbols $L$ increases to $\infty$ where $\fracpart{x}$ denotes $x$ taken `modulo $2\pi$' into the interval $[-\pi, \pi)$, that is
+\[
+\fracpart{x} = x - 2\pi\round{\frac{x}{2\pi}}.
+\]
+Under the assumption that the noise $\{w_i\}$ is circularly symetric then
+\[
+y_i = a_0 s_i + w_i = \rho_j e^{j ( \theta_0 + \Phi_i + k_i) }
+\] 
+where $k_i = \angle s_i$ and the $\Phi_i$ are identically distributed.  The $\Phi_i$ can be identified as \emph{circular random variables}~\cite{Mardia_directional_statistics,Fisher1993,McKilliam_mean_dir_est_sq_arc_length2010}.  Recalling the definition of $\hat{d}_i(\theta)$ and $\hat{u}_i(\theta)$ from~\eqref{eq:hatdfinxtheta}, we have
+\[
+\hat{u}_i(\theta) = \round{\frac{M}{2\pi}(\angle{y_i} - \theta)} = \round{\frac{M}{2\pi}(\lambda + \Phi_i + k_i)}
+\]
+where $\lambda = \fracpart{\theta_0 - \theta}$.  So,
+\begin{align*}
+ y_i e^{-j\theta} \hat{d}_i(\theta)^* &= \rho_j \exp{j \left(\lambda + \Phi_i + k_i - \frac{2\pi}{M}\round{\frac{M}{2\pi}(\lambda + \Phi_i + k_i)}\right)} \\
+&= \rho_j \exp{j \left(\lambda + \Phi_i - \frac{2\pi}{M}\round{\frac{M}{2\pi}(\lambda + \Phi_i) }\right)}
+\end{align*}
+when $i \in D$ and
+\[
+y_i e^{-j\theta} p_i^* = \rho_j \exp j \left(\lambda + \Phi_i )
+\]
+when $i \in P$.  Now we can write
+\[
+Z(\theta) = \sum_{i \in P} \rho_j e^{j(\lambda + \Phi_i)} + \sum_{i \in D}  \rho_j \exp{j \left( \lambda + \Phi_i - \frac{2\pi}{M}\round{\frac{M}{2\pi}(\lambda + \Phi_i)}\right)}.
+\]
+Put $S_L(\lambda) = \frac{1}{L}\abs{Z(\theta)}^2$ and put $\lambda_L = \fracpart{\theta_0 - \hat{\theta}}$.  Then $\lambda_L$ is the maximiser of $S_L(\lambda)$.  We will show that $\lambda_L$ converges almost surely to zero as $L \rightarrow \infty$.  From this, the proof of strong consistency follows.
+
+BLERG  Show $E S_L$ is maximised uniquely at 0, proof follows.
+
+We now prove the asymptotics normality of the estimator.  At the same time we are able to describe the distribution of the amplitude estimator $\hat{\rho}$.  BLERG, first show that it is differentiable at the truth.
+
 
 % \section{A linear-time algorithm}\label{sec:line-time-algor}
 
