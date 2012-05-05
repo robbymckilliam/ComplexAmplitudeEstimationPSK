@@ -23,9 +23,9 @@ In this document we describe estimators of carrier phase and signal amplitude of
 
 In this setting, the transmitted symbols take the form,
 \[
-s_i = \exp\left( j\frac{2\pi}{M} u_i \right),
+s_i = e^{j u_i},
 \]
-where $j = \sqrt{-1}$ and $u_i$ is an integer in the set $\{0, 1, \dots, M-1\}$ and $M$ is the size of the constellation, i.e. we have assumed an $M$-PSK constellation.  We assume that some of the transmitted symbols are \emph{pilot symbols} known to the receiver and the remainder are information carrying \emph{data symbols} with phase that is unknown to the receiver.  So,
+where $j = \sqrt{-1}$ and $u_i$ is from the set $\{0, \tfrac{2\pi}{M}, \dots, (M-1)\tfrac{2\pi}{M}\}$ and $M$ is the size of the constellation, i.e. we have assumed an $M$-PSK constellation.  We assume that some of the transmitted symbols are \emph{pilot symbols} known to the receiver and the remainder are information carrying \emph{data symbols} with phase that is unknown to the receiver.  So,
 \[
 s_i = \begin{cases}
 p_i & i \in P, \\
@@ -41,11 +41,19 @@ y_i = a_0 s_i + w_i, \qquad i \in P \cup D,
 \end{equation}
 where $w_i$ is noise and $a_0$ is a complex number representing both carrier phase and signal amplitude.  Our aim is to estimate $a_0$ from the noisy symbols $\{ y_i, i \in P \cup D \}$.  Complicating matters is that the data symbols $d_i$ are not known to the reciever.  
 
-Estimation problems of this type have undergone extensive prior study~\cite{Wilson1989,Makrakis1990,Liu1991,Mackenthun1994,Sweldens2001}.  The existing literature mostly considers what is called \emph{noncoherent detection} where no pilots symbols exist ($P = \emptyset$ where $\emptyset$ is the empty set).  In the nocoherent setting \emph{differential encoding} is often used, and for this reason the estimation problem has been called \emph{multiple symbol differential detection}.  Arguably, the literature culminates in the paper of Mackenthun~\cite{Mackenthun1994} who described a least squares estimator (maximum likelihood under the assumption that the noise sequence $\{w_i, i \in \ints\}$ is additive white and Gaussian) requiring only $O(L \log L)$ arithmetic operations, where $L = \abs{P \cup D}$ is the total number of symbols transmitted.  Sweldens~\cite{Sweldens2001} rediscovered Mackenthun's algorithm in 2001.
+Estimation problems of this type have undergone extensive prior study~\cite{Wilson1989,Makrakis1990,Liu1991,Mackenthun1994,Sweldens2001}.  The existing literature mostly considers what is called \emph{noncoherent detection} where no pilots symbols exist ($P = \emptyset$ where $\emptyset$ is the empty set).  In the nocoherent setting \emph{differential encoding} is often used, and for this reason the estimation problem has been called \emph{multiple symbol differential detection}.  Arguably, the literature culminates in the paper of Mackenthun~\cite{Mackenthun1994} who described a least squares estimator (maximum likelihood under the assumption that the noise sequence $\{w_i, i \in \ints\}$ is additive white and Gaussian) requiring only $O(L \log L)$ arithmetic operations, where $L = \abs{P \cup D}$ is the total number of symbols transmitted.  Sweldens~\cite{Sweldens2001} rediscovered Mackenthun's algorithm in 2001.  Here, we consider a slightly more general model than is usual, one that allows the utilisation of pilot symbols, i.e., \emph{coherent detection}.  Our model includes the noncoherent case by setting the number of pilot symbols to zero, that is, putting $P = \emptyset$.  By making a minor modification to Mackenthun's estimator, it is possible to meanifully include pilot symbols.
 
-Here, consider a slightly more general model than is usual, one that allows the utilisation of pilot symbols, i.e., \emph{coherent detection}.  Our model includes the noncoherent case by setting the number of pilot symbols to zero, that is, putting $P = \emptyset$.
+In the literature it has been common to assume that the data symbols $\{d_i, i \in D\}$ are of primary interest and the complex gain $a_0$ is a nuisance parameter.  The metric of performance is correspondingly \emph{symbol error rate}, or \emph{bit error rate}.  Whilst estimating the symbols (or more precisely the transmitted bits) is ultimately the goal, we take the opposite approach here.  Our aim is to estimate $a_0$, and we treat the unknown data symbols as nuisance parameters.  This is motivated by the fact that in our intended application (narrowband satellite communications) and in most modern communication systems the data symbols are \emph{coded}.  For this reason raw symbol error rate is not of specific interest at this stage.  Instead, we desire an accurate estimator $\hat{a}$ of $a_0$, so that the compensated recieved symbols $\hat{a}^{-1}y_i$ can be accurately modelled using an additive noise channel.  The additive noise channel is a common assumption for subsequent reciever operations, such as decoding.  Consequently, our metric of performance will not be symbol or bit error rate, it will be mean square error (MSE) between complex gain $a_0$ and its estimator $\hat{a}$, that is, our metric is $\prob\abs{a_0 - \hat{a}}^2$ where $\prob$ is the expected value operator and $\abs{x}$ denotes the magnitude of the complex number $x$. It will actually be informative to consider the magnitude and complex argument (or phase) of the estimator separately, that is, if $\hat{a} = \hat{\rho}e^{j\hat{\theta}}$ and $a_0 = \rho_0e^{j\theta_0}$ where both $\rho_0$ and $\hat{\rho}$ are real, then we consider $\prob\vert\langle\theta_0 - \hat{\theta}\rangle\vert^2$ and $\prob\abs{\rho_0 - \hat{\rho}}^2$.  The function $\fracpart{\cdot}$ denotes its argument taken `modulo $2\pi$' into the interval $[-\pi, \pi)$.  It will become apparent why $\prob\vert\langle\theta_0 - \hat{\theta}\rangle\vert^2$ rather than $\prob\vert\theta_0 - \hat{\theta}\vert^2$ is the appropriate measure of error for the phase parameter.
 
-In the literature it has been common to assume that the data symbols $\{d_i, i \in D\}$ are of primary interest and the complex gain $a_0$ is a nuisance parameter.  The metric of performance is correspondingly \emph{symbol error rate}, or \emph{bit error rate}.  Whilst estimating the symbols (or more precisely the transmitted bits) is ultimately the goal, we take the opposite approach here.  Our aim is to estimate $a_0$, and we treat the unknown data symbols as nuisance parameters.  This is motivated by the fact that in our intended application (narrowband satellite communications) and in most modern communication systems the data symbols are \emph{coded}.  For this reason raw symbol error rate is not of specific interest at this stage.  Instead, we desire an accurate estimator $\hat{a}$ of $a_0$, so that the compensated recieved symbols $\hat{a}^{-1}y_i$ can be accurately modelled using an additive noise channel.  The additive noise channel is a common assumption for subsequent reciever operations, such as decoding.  Consequently, our metric of performance will not be symbol or bit error rate, it will be mean square error (MSE) between complex gain $a_0$ and its estimator $\hat{a}$, that is, our metric is $E\abs{a_0 - \hat{a}}^2$ where $E$ denotes the expected value.
+It is worth commenting on our use of $\prob$ rather than the more usual $\expect$ or $E$ to denote the expected value operator.  The notation comes from Pollard~\cite[Ch 1]{Pollard_users_guide_prob_2002} and is originally due to de Finetti.  The notation is good because it removes unecessary distinction between `probability' and expectation.  Given a random variable $X$ with cumulative density $X$, the probability of an event, say $X \in S$, where $S$ is some subset of the range of $X$, is 
+\[
+\prob \indicator \{X \in S\} = \int \indicator \{X \in S\}(x) dF(x) = \int_{S} dF(x)
+\]
+where $\indicator \{X \in S\}$ is the indicator function of the set $S$, i.e $\indicator \{X \in S\}(x) = 1$ when the argument $x \in S$ and zero otherwise.  We will usually drop the $\onebf$ and simply write $\prob \{ X > \delta \}$ to mean $\prob \onebf\{ X > \delta \}$.  As an example of the utility of this notation, Markov's inequality is plainly 
+\[
+\prob \{ \abs{X} > \delta \}  \leq \prob \frac{\abs{X}}{\delta}\onebf\{ \abs{X} > \delta \} \leq \frac{1}{\delta}\prob\abs{X}.
+\]
+where $\frac{\abs{X}}{\delta}\onebf\{ \abs{X} > \delta \}(x)$ is the function equal to $\abs{x}/\delta$ when the argument $x > \delta$ and zero otherwise.
 
 \section{Mackentun's least squares estimator}\label{sec:least-squar-estim}
 
@@ -60,7 +68,7 @@ Fixing the data symbols $\{d_i, i \in D\}$, differentiating with respect to $a^*
 \begin{equation}\label{eq:hata}
 \hat{a} = \frac{1}{L} \sum_{i \in P \cup D} y_i s_i^* = \frac{1}{L} Y
 \end{equation}
-where $L = \abs{P \cup D}$ is the total number of symbols transmitted, and to simplify our notation we put 
+where $L = \abs{P \cup D}$ is the total number of symbols transmitted, and to simplify our notation we have put 
 \[
 Y = \sum_{i \in P \cup D} y_i s_i^* = \sum_{i \in P } y_i p_i^* + \sum_{i \in D } y_i d_i^*.
 \]  
@@ -68,7 +76,7 @@ Note that $Y$ is a function of the unknown data symbols $\{ d_i, i \in D\}$ and 
 \begin{equation}\label{eq:SSdatasymbols}
 SS(\{d_i, i \in D\}) = A - \frac{1}{L}\abs{Y}^2,
 \end{equation}
-where $A = \sum_{i \in P \cup D}\abs{y_i}^2$ is a constant.  Observe that given a candidate value for the data symbols, we can compute the corresponding sum of squares function $SS(\{d_i, i \in D\})$ in $O(L)$ arithmetic operations.  We will show that there are atmost $(M+1)\abs{D}$ candidate values of the least squares estimator of the data symbols~\cite{Sweldens2001,Mackenthun1994}.  %When the number of data symbols is not small, this set is substantially smaller than the entire set of possible transmitted symbols, which is of size $M^{\abs{D}}$.
+where $A = \sum_{i \in P \cup D}\abs{y_i}^2$ is a constant.  Observe that given a candidate value for the data symbols, we can compute the corresponding sum of squares function $SS(\{d_i, i \in D\})$ in $O(L)$ arithmetic operations.  It turns out that there are atmost $(M+1)\abs{D}$ candidate values of the least squares estimator of the data symbols~\cite{Sweldens2001,Mackenthun1994}.  %When the number of data symbols is not small, this set is substantially smaller than the entire set of possible transmitted symbols, which is of size $M^{\abs{D}}$.
 
 To see this, let $a = \rho e^{j\theta}$.  Now the sum of squares function can be written as
 \begin{align*}
@@ -77,17 +85,21 @@ SS(\rho, \theta, \{d_i, i \in D\}) &= \sum_{i \in P \cup D} \abs{ y_i - \rho e^{
 \end{align*}
 For given $\theta$, the least squares estimator of the $i$th data symbol $d_i$ is given by minimising $\abs{ y_i - \rho e^{j\theta} d_i }^2$, that is,
 \begin{equation}\label{eq:hatdfinxtheta}
-\hat{d}_i(\theta) = \exp\left( j\frac{2\pi}{M}\hat{u}_i(\theta) \right) \qquad \text{where} \qquad \hat{u}_i(\theta) = \round{\frac{M}{2\pi}\angle( e^{-j\theta}y_i)},
+\hat{d}_i(\theta) = e^{j\hat{u}_i(\theta)} \qquad \text{where} \qquad \hat{u}_i(\theta) = \round{\angle( e^{-j\theta}y_i)},
 \end{equation}
-and where $\round{\cdot}$ rounds its argument to the nearest integer\footnote{The direction of rounding for half-integers is not important so long as it is consistent.  The authors have chosen to round up half-integers in their own implementation.}.  Note that $\hat{d}_i(\theta)$ does not depend on the amplitude $\rho$.  As defined, $\hat{u}_i(\theta)$ is not strictly inside the set of integers $\{0, 1, \dots, M-1\}$, but this is not of consequence, as we intend its value to be considered modulo $M$.  With this in mind let $\phi_i = \angle y_i$, then,
+and where $\angle(\cdot)$ denotes the complex argument (or phase), and $\round{\cdot}$ rounds its argument to the nearest multiple of $\frac{2\pi}{M}$.  A word of caution here, it is often the case that $\round{\cdot}$ denotes rounding to the nearest \emph{integer}\footnote{The direction of rounding for half-integers is not important so long as it is consistent.  The authors have chosen to round up half-integers in their own implementation.}.  This is not the case here.  If the function $\operatorname{round}(\cdot)$ takes its argument to the nearest integer then, here,
 \[
-\hat{u}_i(\theta) = \round{\frac{M}{2\pi}( \phi_i - \theta )}
+\round{x} = \tfrac{2\pi}{M}\operatorname{round}\left(\tfrac{M}{2\pi}x\right).
+\] 
+Note that $\hat{d}_i(\theta)$ does not depend on the amplitude $\rho$.  As defined, $\hat{u}_i(\theta)$ is not strictly inside the set $\{0, \tfrac{2\pi}{M}, \dots, (M-1)\tfrac{2\pi}{M}\}$, but this is not of consequence, as we intend its value to be considered modulo $2\pi$.  With this in mind,
+\[
+\hat{u}_i(\theta) = \round{\angle{y_i} - \theta }
 \]
-which is equivalent to the definition from~\eqref{eq:hatdfinxtheta} modulo $M$.
+which is equivalent to the definition from~\eqref{eq:hatdfinxtheta} modulo $2\pi$.
 
 We only require to consider $\theta$ in the interval $[0, 2\pi)$.  Consider how $\hat{d}_i(\theta)$ changes as $\theta$ varies from $0$ to $2\pi$.  Define the integer $b_i = \hat{d}_i(0)$ and the real number 
 \[
-z_i = \phi_i - \frac{2\pi}{M}\hat{u}_i(0) = \phi_i - \frac{2\pi}{M}\round{\frac{M}{2\pi}\phi_i},
+z_i = \angle{y_i} - \hat{u}_i(0) = \angle{y_i} - \round{\angle{y_i}},
 \]
 then,
 \begin{equation}\label{eq:uicombos}
@@ -102,7 +114,7 @@ b_i e^{-j2\pi}, &  z_i + \frac{\pi(2M - 1)}{M} \leq \theta < 2\pi. \\
 \end{cases}
 \end{equation}
 
-Let $f(\theta)$ be the sequence $\{ \hat{d}_i(\theta), i \in D \}$. So, $f(\theta)$ is a function mapping the interval $[-\nicefrac{1}{2}, \nicefrac{1}{2})$ to a sequence of $M$-PSK symbols indexed by the elements of $D$.  Observe that $f(\theta)$ is piecewise continuous.  The subintervals of $[0, 2\pi)$ over which $f(\theta)$ remains contant are determined by the values of $\{z_i, i \in D\}$.
+Let $f(\theta)$ be the sequence $\{ \hat{d}_i(\theta), i \in D \}$. So, $f(\theta)$ is a function mapping the interval $[0, 2\pi)$ to a sequence of $M$-PSK symbols indexed by the elements of $D$.  Observe that $f(\theta)$ is piecewise continuous.  The subintervals of $[0, 2\pi)$ over which $f(\theta)$ remains contant are determined by the values of $\{z_i, i \in D\}$.
 
 Let $S$ be the set of all $f(\theta)$ as $\theta$ varies from $0$ to $2\pi$, that is,
 \[
@@ -162,9 +174,9 @@ where $\eta = (e^{j2\pi/M} - 1)$.  In general we have,
 Y_{k+1} = Y_k + \eta g_{k\sigma(k)}.
 \]
 So, each $Y_k$ can be computed from it predecessor $Y_{k-1}$ in a constant number of operations.  Given $Y_k$, the value of $SS(f_k)$ can be computed in a constant number of operations using~\eqref{eq:SSfk}.  Let $\hat{k}$ be the integer that minimises $SS(f_k)$, i.e. $\hat{k} = \arg\min SS(f_k)$.  The least squares estimator of the complex amplitude is then computed according to~\eqref{eq:hata}, as 
-\[
+\begin{equation}\label{eq:ahatYhat}
 \hat{a} = \frac{1}{L} Y_{\hat{k}}.
-\]
+\end{equation}
 Psuedocode is given in Algorithm~\ref{alg:loglinear}.  Line~\ref{alg_sortindices} contains the function $\operatorname{sortindicies}$ that, given the sequence $z = \{z_i, i \in D\}$, returns the permutation $\sigma$ of the indices in $D$ as described in~\eqref{eq:sigmasortind}.  Computing the $\operatorname{sortindicies}$ function requires sorting $\abs{D}$ elements.  This requires $O(L \log L)$ operations.  The $\operatorname{sortindicies}$ function is the primary bottleneck in this algorithm.  The loops on lines~\ref{alg_loop_setup} and~\ref{alg_loop_search} and the operations on lines~\ref{alg_Y} to lines~\ref{alg_Q} all requirse $O(L)$ or less operations.  %In the next sections we will show how to the sortinces function can be avoided.  This leads to an algorithm that requires only $O(L)$ operations.
 
 \begin{algorithm} \label{alg:loglinear}
@@ -205,7 +217,7 @@ Again let $a = \rho e^{j\theta}$ and write the sum of squares function
 \[
 SS(\rho, \theta, \{d_i, i \in D\}) = \sum_{i \in P \cup D} \abs{y_i}^2 - \rho y_i e^{-j\theta} s_i^* - \rho y_i e^{-\theta} s_i + \rho^2.
 \]
-Differentiating with respect to $\rho$ and setting the resulting expression to zero gives
+Differentiating with respect to $\rho$ and setting the resulting expression to zero gives 
 \[
 \rho = \frac{Z + Z^*}{2L}
 \]
@@ -227,36 +239,50 @@ Z(\theta)  = \sum_{i \in P} y_i e^{-j\theta} p_i^* + \sum_{i \in D} y_i e^{-j\th
 \]
 We have reused $Z$ here, but this should not cause confusion as $Z(\theta)$ and $Z(\theta, \{d_i, i \in D\})$ are easily told apart from there arguments.  From now on, when we right $Z$ without arguments, we will always be refering to $Z(\theta)$.
 
-We are interested in analysing $\hat{\theta}$ the maximiser of $\abs{Z(\theta)}^2$.  Put $\lambda_L = \fracpart{\theta_0 - \hat{\theta}}$.  We want to show that $\lambda_L$ converges to zero as the number of transmitted symbols $L$ increases to $\infty$ where $\fracpart{x}$ denotes $x$ taken `modulo $2\pi$' into the interval $[-\pi, \pi)$, that is
+We are interested in analysing $\hat{\theta}$ the maximiser of $\abs{Z(\theta)}^2$.  Put $\lambda_L = \langle\theta_0 - \hat{\theta}\rangle$.  We want to show that $\lambda_L$ converges to zero as the number of transmitted symbols $L$ increases to $\infty$ where $\sfracpart{x}$ denotes $x$ taken `modulo $2\pi$' into the interval $[-\pi, \pi)$, that is
 \[
-\fracpart{x} = x - 2\pi\round{\frac{x}{2\pi}}.
+\fracpart{x} = x - 2\pi\operatorname{round}\left(\frac{x}{2\pi}\right).
 \]
 Under the assumption that the noise $\{w_i\}$ is circularly symetric then
 \[
 y_i = a_0 s_i + w_i = \rho_j e^{j ( \theta_0 + \Phi_i + k_i) }
 \] 
 where $k_i = \angle s_i$ and the $\Phi_i$ are identically distributed.  The $\Phi_i$ can be identified as \emph{circular random variables}~\cite{Mardia_directional_statistics,Fisher1993,McKilliam_mean_dir_est_sq_arc_length2010}.  Recalling the definition of $\hat{d}_i(\theta)$ and $\hat{u}_i(\theta)$ from~\eqref{eq:hatdfinxtheta}, we have
-\[
-\hat{u}_i(\theta) = \round{\frac{M}{2\pi}(\angle{y_i} - \theta)} = \round{\frac{M}{2\pi}(\lambda + \Phi_i + k_i)}
-\]
+\begin{align*}
+\hat{u}_i(\theta) &= \round{\angle{y_i} - \theta} \\
+&= \round{\theta_0 + \Phi_i + k_i - \theta} \\
+&\equiv \round{ \fracpart{\theta_0 - \theta} + \Phi_i + k_i} \pmod M \\
+&= \round{ \lambda + \Phi_i + k_i } \\
+\end{align*}
 where $\lambda = \fracpart{\theta_0 - \theta}$.  So,
 \begin{align*}
- y_i e^{-j\theta} \hat{d}_i(\theta)^* &= \rho_j \exp{j \left(\lambda + \Phi_i + k_i - \frac{2\pi}{M}\round{\frac{M}{2\pi}(\lambda + \Phi_i + k_i)}\right)} \\
-&= \rho_j \exp{j \left(\lambda + \Phi_i - \frac{2\pi}{M}\round{\frac{M}{2\pi}(\lambda + \Phi_i) }\right)}
+ y_i e^{-j\theta} \hat{d}_i(\theta)^* &= \rho_i e^{j(\lambda + \Phi_i + k_i - \round{\lambda + \Phi_i + k_i})} \\
+&= \rho_i e^{j(\lambda + \Phi_i - \round{\lambda + \Phi_i})}
 \end{align*}
 when $i \in D$ and
 \[
-y_i e^{-j\theta} p_i^* = \rho_j \exp j \left(\lambda + \Phi_i )
+y_i e^{-j\theta} p_i^* = \rho_i e^{j(\lambda + \Phi_i)}
 \]
 when $i \in P$.  Now we can write
 \[
-Z(\theta) = \sum_{i \in P} \rho_j e^{j(\lambda + \Phi_i)} + \sum_{i \in D}  \rho_j \exp{j \left( \lambda + \Phi_i - \frac{2\pi}{M}\round{\frac{M}{2\pi}(\lambda + \Phi_i)}\right)}.
+Z(\theta) = \sum_{i \in P} \rho_i e^{j(\lambda + \Phi_i)} + \sum_{i \in D}  \rho_i e^{j( \lambda + \Phi_i - \round{\lambda + \Phi_i})}.
 \]
-Put $S_L(\lambda) = \frac{1}{L}\abs{Z(\theta)}^2$ and put $\lambda_L = \fracpart{\theta_0 - \hat{\theta}}$.  Then $\lambda_L$ is the maximiser of $S_L(\lambda)$.  We will show that $\lambda_L$ converges almost surely to zero as $L \rightarrow \infty$.  From this, the proof of strong consistency follows.
+Put $S_L(\lambda) = \frac{1}{L}\abs{Z(\theta)}^2$ and put $\lambda_L = \langle\theta_0 - \hat{\theta}\rangle$.  Then $\lambda_L$ is the maximiser of $S_L(\lambda)$.  We will show that $\lambda_L$ converges almost surely to zero as $L \rightarrow \infty$.  From this, the proof of strong consistency follows.
 
 BLERG  Show $E S_L$ is maximised uniquely at 0, proof follows.
 
-We now prove the asymptotics normality of the estimator.  At the same time we are able to describe the distribution of the amplitude estimator $\hat{\rho}$.  BLERG, first show that it is differentiable at the truth.
+We now prove the asymptotic normality of the estimator.  At the same time we are able to describe the distribution of the magnitude estimator $\hat{\rho}$.  Observe that $Z(\theta) = e^{-j\theta}Y(\{\hat{d}_i(\hat{\theta}), i \in D\})$.  From~\eqref{eq:ahatYhat} we obtain
+\begin{align*}\label{eq:hata}
+\hat{a} e^{-j\theta} &= \hat{\rho} e^{j(\hat{\theta} - \theta)} = \hat{\rho} e^{j\lambda_L} \\
+&= \frac{1}{L} e^{-j\theta} Y(\{\hat{d}_i(\hat{\theta}), i \in D\}) \\
+&= \frac{1}{L}  Z(\hat{\theta}) \\
+&= \frac{1}{L} \sum_{i \in P} \rho_i e^{j(\lambda_L + \Phi_i)} + \frac{1}{L}  \sum_{i \in D}  \rho_i e^{j( \lambda_L + \Phi_i - \round{\lambda_L + \Phi_i})}
+\end{align*}
+from which it follows that
+\begin{align*}\label{eq:hatrhoworking}
+\hat{\rho} &=  \frac{1}{L} \sum_{i \in P} \rho_i e^{j\Phi_i} + \frac{1}{L}  \sum_{i \in D}  \rho_i e^{j(\Phi_i - \round{\lambda_L + \Phi_i})} \\
+ &=  \frac{1}{L} \sum_{i \in P} (\rho_0 + w_i) + \frac{1}{L}  \sum_{i \in D}  (\rho_0 + w_i)e^{-j\round{\lambda_L + \Phi_i}} 
+\end{align*}
 
 
 % \section{A linear-time algorithm}\label{sec:line-time-algor}
