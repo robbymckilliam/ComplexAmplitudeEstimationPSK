@@ -25,7 +25,7 @@ In this setting, the transmitted symbols take the form,
 \[
 s_i = e^{j u_i},
 \]
-where $j = \sqrt{-1}$ and $u_i$ is from the set $\{0, \tfrac{2\pi}{M}, \dots, (M-1)\tfrac{2\pi}{M}\}$ and $M$ is the size of the constellation, i.e. we have assumed an $M$-PSK constellation.  We assume that some of the transmitted symbols are \emph{pilot symbols} known to the receiver and the remainder are information carrying \emph{data symbols} with phase that is unknown to the receiver.  So,
+where $j = \sqrt{-1}$ and $u_i$ is from the set $\{0, \tfrac{2\pi}{M}, \dots, \tfrac{2\pi(M-1)}{M}\}$ and $M$ is the size of the constellation, i.e. we have assumed an $M$-PSK constellation.  We assume that some of the transmitted symbols are \emph{pilot symbols} known to the receiver and the remainder are information carrying \emph{data symbols} with phase that is unknown to the receiver.  So,
 \[
 s_i = \begin{cases}
 p_i & i \in P, \\
@@ -251,7 +251,7 @@ where $k_i = \angle s_i$ and the $\Phi_i$ are identically distributed.  The $\Ph
 \begin{align*}
 \hat{u}_i(\theta) &= \round{\angle{y_i} - \theta} \\
 &= \round{\theta_0 + \Phi_i + k_i - \theta} \\
-&\equiv \round{ \fracpart{\theta_0 - \theta} + \Phi_i + k_i} \pmod M \\
+&\equiv \round{ \fracpart{\theta_0 - \theta} + \Phi_i + k_i} \pmod 2\pi \\
 &= \round{ \lambda + \Phi_i + k_i } \\
 \end{align*}
 where $\lambda = \fracpart{\theta_0 - \theta}$.  So,
@@ -278,7 +278,7 @@ We now prove the asymptotic normality of the estimator.  At the same time we are
 &= \frac{1}{L}  Z(\hat{\theta}) \\
 &= \frac{1}{L} \sum_{i \in P} \rho_i e^{j(\lambda_L + \Phi_i)} + \frac{1}{L}  \sum_{i \in D}  \rho_i e^{j( \lambda_L + \Phi_i - \round{\lambda_L + \Phi_i})}
 \end{align*}
-from which it follows that
+and muliplying both sides of this equation by $e^{-j\lambda_L}$,
 \begin{align*}\label{eq:hatrhoworking}
 \hat{\rho} &=  \frac{1}{L} \sum_{i \in P} \rho_i e^{j\Phi_i} + \frac{1}{L}  \sum_{i \in D}  \rho_i e^{j(\Phi_i - \round{\lambda_L + \Phi_i})} \\
  &=  \frac{1}{L} \sum_{i \in P} (\rho_0 + w_i) + \frac{1}{L}  \sum_{i \in D}  (\rho_0 + w_i)e^{-j\round{\lambda_L + \Phi_i}} 
