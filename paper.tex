@@ -211,6 +211,14 @@ $Q = \frac{1}{L}\abs{Y}^2$\;
 
 \section{Statistical properties}
 
+\begin{theorem}
+Let $\{w_i, i \in \ints \}$ be a sequence independent and identically distributed, zero mean, circularly symetric complex random variables with $w_i = \rho_i e^{j\Phi_i}$ such that $h = \prob e^{j\round{\Phi_i}} = \prob e^{j\round{\Phi_1}}$ is a positive real number.  Given $\{y_i, i \in P \cup D\}$ from~\ref{eq:sigmod} let $\hat{a}$ be the least squares estimator of $a_0$.  Let $\hat{a} = \hat{\rho}e^{j\hat{\theta}$ and $a_0 = \rho_0 e^{j\theta_0}$.  Put $L = \abs{P \cup D}$ and assume that $\abs{P}/L \rightarrow p$ and $\abs{D}/L \rightarrow d$ as $L \rightarrow \infty$.  Then:
+\begin{enumerate}
+\item $\fracpart{\theta_0 - \hat{\theta}} \rightarrow 0$ almost surely as $L \rightarrow \infty$,
+\item $\hat{\rho} \rightarrow \rho_0( p + d h )$ almost surely as $L \rightarrow \infty$,
+\end{enumerate}
+\end{theorem}
+
 BLERG $\hat{a}$ is a biased estimator, particularly when the SNR is low, we show firs that $\hat{\theta}$ is strongly consistent, we are then able to analyse the behaviour of $\hat{a}$.
 
 Again let $a = \rho e^{j\theta}$ and write the sum of squares function  
