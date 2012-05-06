@@ -208,13 +208,12 @@ $Q = \frac{1}{L}\abs{Y}^2$\;
 \end{algorithm}
 
 
-
 \section{Statistical properties}
 
 \begin{theorem}
 Let $\{w_i\}$ be a sequence independent and identically distributed, zero mean, circularly symetric complex random variables and let $\{\Phi_i\}$ be the sequence of idenpendent and identically distributed random variables given by $\Phi_i = \angle{(\rho_0 + w_i)}$.  Put 
 \[
-h_1 = \prob e^{j\round{\Phi_1}} \qquad \text{and} \qquad h_2 = \prob w_1 e^{j\round{\Phi_1}}.
+h_1 = \prob e^{-j\round{\Phi_1}} \qquad \text{and} \qquad h_2 = \prob w_1 e^{-j\round{\Phi_1}}.
 \]
 Given the observed noisy data symbols $\{y_i, i \in P \cup D\}$ from~\eqref{eq:sigmod} let $\hat{a}$ be the least squares estimator of $a_0$.  Let $\hat{a} = \hat{\rho}e^{j\hat{\theta}$ and $a_0 = \rho_0 e^{j\theta_0}$.  Put $L = \abs{P \cup D}$.  If 
 \[
@@ -224,7 +223,7 @@ as $L \rightarrow \infty$ for positive real numbers $p$ and $d$, and if both $h_
 \begin{enumerate}
 \item $\sfracpart{\theta_0 - \hat{\theta}} \rightarrow 0$ almost surely as $L \rightarrow \infty$,
 \item $\hat{\rho} \rightarrow \rho_0( p + d h_1 ) + h_2$ almost surely as $L \rightarrow \infty$,
-\item Put $\lambda_L = \sfracpart{\theta_0 - \hat{\theta}}$ and $m_L = \hat{\rho} - \rho_0( p + d h_1 ) + h_2$.  Then the vector $[\lambda_L, m_L]$ converges to the bivariate normal distribution with zero mean and covariance
+\item Put $\lambda_L = \sfracpart{\theta_0 - \hat{\theta}}$ and $m_L = \hat{\rho} - \rho_0( p + d h_1 ) + h_2$.  Then the vector $[\sqrt{N}\lambda_L, \sqrt{N}m_L]$ converges to the bivariate normal distribution with zero mean and covariance
 \[
 C = ?
 \]
@@ -293,17 +292,43 @@ Put $S_L(\lambda) = \frac{1}{L}\abs{Z(\theta)}^2$ and put $\lambda_L = \langle\t
 BLERG  Show $E S_L$ is maximised uniquely at 0, proof follows.
 
 We now prove the asymptotic normality of the estimator.  At the same time we are able to describe the distribution of the magnitude estimator $\hat{\rho}$.  Observe that $Z(\theta) = e^{-j\theta}Y(\{\hat{d}_i(\hat{\theta}), i \in D\})$.  From~\eqref{eq:ahatYhat} we obtain
-\begin{align*}\label{eq:hata}
-\hat{a} e^{-j\theta} &= \hat{\rho} e^{j(\hat{\theta} - \theta)} = \hat{\rho} e^{j\lambda_L} \\
-&= \frac{1}{L} e^{-j\theta} Y(\{\hat{d}_i(\hat{\theta}), i \in D\}) \\
-&= \frac{1}{L}  Z(\hat{\theta}) \\
-&= \frac{1}{L} \sum_{i \in P} \rho_i e^{j(\lambda_L + \Phi_i)} + \frac{1}{L}  \sum_{i \in D}  \rho_i e^{j( \lambda_L + \Phi_i - \round{\lambda_L + \Phi_i})}
-\end{align*}
+\begin{align}\label{eq:hata}
+\hat{a} e^{-j\theta} &= \hat{\rho} e^{j(\hat{\theta} - \theta)} = \hat{\rho} e^{j\lambda_L} \nonumber \\
+&= \frac{1}{L} e^{-j\theta} Y(\{\hat{d}_i(\hat{\theta}), i \in D\}) \nonumber \\
+&= \frac{1}{L}  Z(\hat{\theta}) \nonumber \\
+&= \frac{1}{L} \sum_{i \in P} \rho_i e^{j(\lambda_L + \Phi_i)} + \frac{1}{L}  \sum_{i \in D}  \rho_i e^{j( \lambda_L + \Phi_i - \round{\lambda_L + \Phi_i})} \label{eq:ahatfornorm}
+\end{align}
 and muliplying both sides of this equation by $e^{-j\lambda_L}$,
 \begin{align*}\label{eq:hatrhoworking}
 \hat{\rho} &=  \frac{1}{L} \sum_{i \in P} \rho_i e^{j\Phi_i} + \frac{1}{L}  \sum_{i \in D}  \rho_i e^{j(\Phi_i - \round{\lambda_L + \Phi_i})} \\
- &=  \frac{1}{L} \sum_{i \in P} (\rho_0 + w_i) + \frac{1}{L}  \sum_{i \in D}  (\rho_0 + w_i)e^{-j\round{\lambda_L + \Phi_i}} 
+ &=  \frac{1}{L} \sum_{i \in P} (\rho_0 + w_i) + \frac{1}{L}  \sum_{i \in D}  (\rho_0 + w_i)e^{-j\round{\lambda_L + \Phi_i}}.
 \end{align*}
+By the strong law of large numbers, and since $\lambda_L \rightarrow 0$ (BLERG needs more care than this, but it's true),
+\begin{align*}
+\frac{1}{L}\sum_{i \in P}w_i \rightarrow 0 \\
+\frac{1}{L}\sum_{i \in D}\rho_0e^{-j\round{\lambda_L + \Phi_i}} \rightarrow  \rho_0 h_1 \\
+\frac{1}{L}\sum_{i \in P}w_i e^{-j\round{\lambda_L + \Phi_i}} \rightarrow h_2 \\
+\end{align*}
+and it immediately follows that $\hat{\rho} \rightarrow \rho_0( p + d h_1 ) + h_2$.  This proves statement 2 of our theorem.
+
+We have
+\begin{align*}
+\sqrt{L} m_L =  A_L + B_L +  C_L
+\end{align*}
+where
+\[
+A_L = \frac{1}{\sqrt{L}} \sum_{i \in P}w_i,
+\]
+and
+\[
+B_L = \frac{\rho_0}{\sqrt{L}} \sum_{i \in D}(e^{-j\round{\lambda_L + \Phi_i}} - h_1),
+\]
+and
+\[
+C_L = \frac{1}{\sqrt{L}} \sum_{i \in D}(w_i e^{-j\round{\lambda_L + \Phi_i}} - h_2).
+\]
+Now $A_L$ converges in distribution to the complex normal with zero mean and variance $p\sigma^2$.
+
 
 
 % \section{A linear-time algorithm}\label{sec:line-time-algor}
