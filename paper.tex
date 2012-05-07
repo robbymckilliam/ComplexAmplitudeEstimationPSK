@@ -219,11 +219,14 @@ $Q = \frac{1}{L}\abs{Y}^2$\;
 
 \section{Statistical properties}
 
-We use $\sfracpart{x}$ to denote $x$ taken `modulo $2\pi$' into the interval $[-\pi, \pi)$, that is
+We use $\sfracpart{x}_\pi$ to denote $x$ taken `modulo $2\pi$' into the interval $[-\pi, \pi)$, that is
 \[
-\fracpart{x} = x - 2\pi\operatorname{round}\left(\frac{x}{2\pi}\right).
+\fracpart{x}_\pi = x - 2\pi\operatorname{round}\left(\frac{x}{2\pi}\right).
 \]
-where $\round(\cdot)$ takes its argument to the nearest integer.  The direction of rounding for half-integers is not important so long as it is consistent.  We have chosen to round up half-integers here.
+where $\operatorname{round}(\cdot)$ takes its argument to the nearest integer.  The direction of rounding for half-integers is not important so long as it is consistent.  We have chosen to round up half-integers here.  Similarly we use $\sfracpart{x}$ to denote $x$ taken `modulo $\tfrac{2\pi}{M}$' into the interval $\left[-\tfrac{\pi}{M}, \tfrac{\pi}{M}\right)$, that is
+\[
+\fracpart{x} = x - \frac{2\pi}{M}\operatorname{round}\left(\frac{Mx}{2\pi}\right).
+\]
 
 \begin{theorem}
 Let $\{w_i\}$ be a sequence independent and identically distributed, zero mean, circularly symetric complex random variables.  Put $X_i = \rho_0 + w_i e^{-j\theta_0} s_i^*$ and $\Phi_i = \angle{X_i}$ and 
@@ -236,9 +239,9 @@ Given the observed noisy data symbols $\{y_i, i \in P \cup D\}$ from~\eqref{eq:s
 \] 
 as $L \rightarrow \infty$ and each of $p$ and $d$ and $h$ are positive real numbers, then:
 \begin{enumerate}
-\item $\sfracpart{\theta_0 - \hat{\theta}} \rightarrow 0$ almost surely as $L \rightarrow \infty$,
+\item $\sfracpart{\theta_0 - \hat{\theta}}_\pi \rightarrow 0$ almost surely as $L \rightarrow \infty$,
 \item $\hat{\rho} \rightarrow \rho_0 p + d h$ almost surely as $L \rightarrow \infty$,
-\item Put $\lambda_L = \sfracpart{\theta_0 - \hat{\theta}}$ and $m_L = \hat{\rho} - \rho_0(p + dh)$.  Then the vector $[\sqrt{L}\lambda_L, \sqrt{L}m_L]$ converges to the bivariate normal distribution with zero mean and covariance
+\item Put $\lambda_L = \sfracpart{\theta_0 - \hat{\theta}}_\pi$ and $m_L = \hat{\rho} - \rho_0(p + dh)$.  Then the vector $[\sqrt{L}\lambda_L, \sqrt{L}m_L]$ converges to the bivariate normal distribution with zero mean and covariance
 \[
 C = ?
 \]
@@ -254,19 +257,19 @@ SS(\rho, \theta, \{d_i, i \in D\}) = \sum_{i \in P \cup D} \abs{y_i}^2 - \rho y_
 \]
 Differentiating with respect to $\rho$ and setting the resulting expression to zero gives 
 \[
-\rho = \frac{Z + Z^*}{2L}
+\rho = \frac{Z + Z^*}{2L} = \frac{1}{L}\Re(Z)
 \]
-where $Z = \sum_{i\in P \cup D}y_i e^{-j\theta} s_i^*$.  Observe that $Z$ is really a function of $\theta$ and $\{d_i, i \in D\}$, but we have supressed the arguments for notational clarity.  We can now write
+where $Z = \sum_{i\in P \cup D}y_i e^{-j\theta} s_i^*$ and $\Re(\cdot)$ denotes the real part.  Observe that $Z$ is really a function of $\theta$ and $\{d_i, i \in D\}$, but we have supressed the arguments for notational clarity.  We can now write
 \[
 SS(\rho, \theta, \{d_i, i \in D\}) = A - \rho Z - \rho Z^* + L \rho^2
 \]
 and substituting the above expression for $\rho$ into this gives the sum of squares function conditioned upon minimisation with respect to $\rho$,
 \[
-SS(\theta, \{d_i, i \in D\}) = A - \frac{1}{L}\abs{Z}^2.
+SS(\theta, \{d_i, i \in D\}) = A - \frac{1}{L}\Re(Z)^2.
 \]
 Substituting~(\ref{eq:hatdfinxtheta}) into this gives the sum of squares function conditioned upon minimisation with respect to $\rho$ and the data sequence $\{d_i, i \in D\}$,
 \[
-SS(\theta) = A - \frac{1}{L}\abs{Z(\theta)}^2
+SS(\theta) = A - \frac{1}{L}\Re(Z(\theta))^2
 \]
 where
 \[
@@ -274,37 +277,37 @@ Z(\theta)  = \sum_{i \in P} y_i e^{-j\theta} p_i^* + \sum_{i \in D} y_i e^{-j\th
 \]
 We have reused $Z$ here, but this should not cause confusion as $Z(\theta)$ and $Z(\theta, \{d_i, i \in D\})$ are easily told apart from there arguments.  %From now on, when we write $Z$ without arguments, we will always be refering to $Z(\theta)$.
 
-We are interested in analysing $\hat{\theta}$ the maximiser of $\abs{Z(\theta)}^2$.
-Under the assumption that the noise $\{w_i\}$ is circularly symetric then
+We are interested in analysing $\hat{\theta}$, the maximiser of $\abs{Z(\theta)}^2$.
+Because the noise $\{w_i\}$ is circularly symetric then
 \[
-y_i = a_0 s_i + w_i = s_i e^{j \theta_0}( \rho_0 + w_i s_i^* e^{-j \theta_0}) = X_i e^{j ( \theta_0 + \angle{s_i}) }
+y_i = a_0 s_i + w_i = s_i e^{j \theta_0}( \rho_0 + w_i s_i^* e^{-j \theta_0}) = R_i e^{j ( \Phi_i + \theta_0 + \angle{s_i}) }
 \] 
-The $\Phi_i$ can be identified as \emph{circular random variables}~\cite{Mardia_directional_statistics,Fisher1993,McKilliam_mean_dir_est_sq_arc_length2010}.  Recalling the definition of $\hat{d}_i(\theta)$ and $\hat{u}_i(\theta)$ from~\eqref{eq:hatdfinxtheta}, we have
+The $\Phi_i$ can be identified as \emph{circular~random~variables}~\cite{Mardia_directional_statistics,Fisher1993,McKilliam_mean_dir_est_sq_arc_length2010}.  Recalling the definition of $\hat{d}_i(\theta)$ and $\hat{u}_i(\theta)$ from~\eqref{eq:hatdfinxtheta}, we have
 \begin{align*}
 \hat{u}_i(\theta) &= \round{\angle{y_i} - \theta} \\
 &= \round{\theta_0 + \Phi_i + \angle{s_i} - \theta} \\
 &\equiv \round{ \fracpart{\theta_0 - \theta} + \Phi_i + \angle{s_i}} \pmod{2\pi} \\
 &= \round{ \lambda + \Phi_i + \angle{s_i} },
 \end{align*}
-where $\lambda = \fracpart{\theta_0 - \theta}$.  When $i \in D$,
+where $\lambda = \fracpart{\theta_0 - \theta}_\pi$.  When $i \in D$,
 \begin{align*}
- y_i e^{-j\theta} \hat{d}_i(\theta)^* &= X_i e^{j(\lambda + \angle{s_i} - \round{\lambda + \Phi_i + \angle{s_i}})} \\
-&= X_i e^{j(\lambda - \round{\lambda + \Phi_i})},
+ y_i e^{-j\theta} \hat{d}_i(\theta)^* &= R_i e^{j(\lambda + \Phi_i + \angle{s_i} - \round{\lambda + \Phi_i + \angle{s_i}})} \\
+&= R_i e^{j(\lambda + \Phi_i - \round{\lambda + \Phi_i})} \\
+&= R_i e^{j\sfracpart{\lambda + \Phi_i}}
 \end{align*}
 since $\round{x + \angle{s_i}} = \round{x} + \angle{s_i}$ as a result of $\angle{s_i}$ being a multiple of $\tfrac{2\pi}{M}$.  When $i \in P$,  
 \[
-y_i e^{-j\theta} p_i^* = X_i e^{j\lambda}
+y_i e^{-j\theta} p_i^* = R_i e^{j(\lambda + \Phi_i)}
 \]
 Now we can write
-\begin{align*}
-Z(\theta) &= \sum_{i \in P} X_i e^{j\lambda} + \sum_{i \in D} X_i e^{j(\lambda - \round{\lambda + \Phi_i})} \\
-&= e^{j\lambda} \left( \sum_{i \in P} X_i + \sum_{i \in D} X_i e^{-j\round{\lambda + \Phi_i}} \right)
-\end{align*}
-Put 
+\begin{align}
+Z(\theta) &= \sum_{i \in P} R_i e^{j(\lambda + \Phi_i)} + \sum_{i \in D} R_i e^{j\sfracpart{\lambda + \Phi_i}}
+\end{align}
+and
 \[
-S_L(\lambda) = \frac{1}{L^2}\abs{Z(\theta)}^2 = \abs{\frac{1}{L}\sum_{i \in P} X_i + \frac{1}{L}\sum_{i \in D} X_i e^{-j\round{\lambda + \Phi_i}}}^2
+\Re(Z(\theta)) = \sum_{i \in P} R_i \cos(\lambda + \Phi_i) + \sum_{i \in D} R_i \cos(\sfracpart{\lambda + \Phi_i})
 \] 
-and put $\lambda_L = \langle\theta_0 - \hat{\theta}\rangle$.  Then $\lambda_L$ is the maximiser of $S_L(\lambda)$.  We will show that $\lambda_L$ converges almost surely to zero as $L \rightarrow \infty$.  From this, the proof of strong consistency follows.
+Let $S_L(\lambda) = \frac{1}{L^2}\Re(Z)^2$ and put $\lambda_L = \langle\theta_0 - \hat{\theta}\rangle$.  Then $\lambda_L$ is the maximiser of $S_L(\lambda)$.  We will show that $\lambda_L$ converges almost surely to zero as $L \rightarrow \infty$.  From this, the proof of strong consistency follows.
 
 BLERG  Show $E S_L$ is maximised uniquely at 0, proof follows.
 
