@@ -229,19 +229,23 @@ where $\operatorname{round}(\cdot)$ takes its argument to the nearest integer.  
 \]
 
 \begin{theorem}
-Let $\{w_i\}$ be a sequence independent and identically distributed, zero mean, circularly symetric complex random variables.  Put $X_i = \rho_0 + w_i e^{-j\theta_0} s_i^*$ and $\Phi_i = \angle{X_i}$ and 
+Let $\{w_i\}$ be a sequence independent and identically distributed, zero mean, circularly symetric complex random variables.  Let $R_i > 0$ and $\Phi_i \in [-\pi,\pi)$ be random variables satisfying
 \[
-h = \prob X_i e^{-j\round{\Phi_i}} = \prob X_1 e^{-j\round{\Phi_1}}.
+R_ie^{j\Phi_i} = 1 + \frac{1}{\rho_0} w_i e^{-j\theta_0} s_i^*.
+\]
+and define the functions
+\[
+h_1(x) = \prob R_1 \cos(x + \Phi_1) \;\;\; \text{and} \;\;\; h_2(x) =  \prob R_1 \cos\sfracpart{ x + \Phi_1}.
 \]
 Given the observed noisy data symbols $\{y_i, i \in P \cup D\}$ from~\eqref{eq:sigmod} let $\hat{a}$ be the least squares estimator of $a_0$.  Let $\hat{a} = \hat{\rho}e^{j\hat{\theta}$ and $a_0 = \rho_0 e^{j\theta_0}$.  Put $L = \abs{P \cup D}$.  If 
 \[
 \frac{\abs{P}}{L} \rightarrow p \qquad \text{and} \qquad \frac{\abs{D}}{L} \rightarrow d
 \] 
-as $L \rightarrow \infty$ and each of $p$ and $d$ and $h$ are positive real numbers, then:
+as $L \rightarrow \infty$ for positive real numbers $p$ and $d$ and if $h_2(x)$ is uniquely maximised at $x = 0$ over the interval $[\tfrac{-\pi}{M},\tfrac{-\pi}{M})$, then:
 \begin{enumerate}
 \item $\sfracpart{\theta_0 - \hat{\theta}}_\pi \rightarrow 0$ almost surely as $L \rightarrow \infty$,
-\item $\hat{\rho} \rightarrow \rho_0 p + d h$ almost surely as $L \rightarrow \infty$,
-\item Put $\lambda_L = \sfracpart{\theta_0 - \hat{\theta}}_\pi$ and $m_L = \hat{\rho} - \rho_0(p + dh)$.  Then the vector $[\sqrt{L}\lambda_L, \sqrt{L}m_L]$ converges to the bivariate normal distribution with zero mean and covariance
+\item $\hat{\rho} \rightarrow \rho_0( p h_1(0) + d h_2(0) )$ almost surely as $L \rightarrow \infty$,
+\item Put $\lambda_L = \sfracpart{\theta_0 - \hat{\theta}}_\pi$ and $m_L = \hat{\rho} - \rho_0(p h_1(0) + d h_2(0) )$.  Then the vector $[\sqrt{L}\lambda_L, \sqrt{L}m_L]$ converges to the bivariate normal distribution with zero mean and covariance
 \[
 C = ?
 \]
@@ -310,45 +314,6 @@ and
 Let $S_L(\lambda) = \frac{1}{L^2}\Re(Z)^2$ and put $\lambda_L = \langle\theta_0 - \hat{\theta}\rangle$.  Then $\lambda_L$ is the maximiser of $S_L(\lambda)$.  We will show that $\lambda_L$ converges almost surely to zero as $L \rightarrow \infty$.  From this, the proof of strong consistency follows.
 
 BLERG  Show $E S_L$ is maximised uniquely at 0, proof follows.
-
-Observe that $Z(\theta) = e^{-j\theta}Y(\{\hat{d}_i(\hat{\theta}), i \in D\})$.  From~\eqref{eq:ahatYhat} we obtain
-\begin{align}\label{eq:hata}
-\hat{a} e^{-j\theta} &= \hat{\rho} e^{j(\hat{\theta} - \theta)} = \hat{\rho} e^{j\lambda_L} \nonumber \\
-&= \frac{1}{L} e^{-j\theta} Y(\{\hat{d}_i(\hat{\theta}), i \in D\}) \nonumber \\
-&= \frac{1}{L}  Z(\hat{\theta}) \nonumber \\
-&= \frac{1}{L} \sum_{i \in P} X_i e^{j\lambda_L} + \frac{1}{L} \sum_{i \in D}X_i e^{j( \lambda_L  - \round{\lambda_L + \Phi_i})} \label{eq:ahatfornorm}
-\end{align}
-and muliplying both sides of this equation by $e^{-j\lambda_L}$,
-\[
-\hat{\rho} =  \frac{1}{L}\sum_{i \in P} X_i + \frac{1}{L} \sum_{i \in D} X_i e^{-j\round{\lambda_L + \Phi_i}}
-\]
-By the strong law of large numbers, and since $\lambda_L \rightarrow 0$ (BLERG needs more care than this, but it's true),
-\begin{align*}
-\frac{1}{L}\sum_{i \in P}X_i \rightarrow p \rho_0 \\
-\frac{1}{L} \sum_{i \in D} X_i e^{-j\round{\lambda_L + \Phi_i}} \rightarrow  d h 
-\end{align*}
-and it immediately follows that $\hat{\rho} \rightarrow \rho_0 p + d h$.  This proves statement 2 of our theorem.
-
-We have
-\begin{align*}
-\sqrt{L} m_L =  A_L + B_L
-\end{align*}
-where
-\[
-A_L = \frac{1}{\sqrt{L}} \sum_{i \in P}w_i,
-\]
-and
-\[
-B_L = \frac{1}{\sqrt{L}} \sum_{i \in D}X_i e^{-j\round{\lambda_L + \Phi_i}} - h.
-\]
-Now $A_L$ converges in distribution to the complex normal with zero mean and variance $p\sigma^2$ and $B_L$ converges in probability to
-\[
-\lambda_L \sqrt{L} \sum_{k=-M}^{M-1} g(\psi_k) e^{j\psi_k}
-\]
-where $\psi_k = \frac{2\pi}{M}k + \frac{\pi}{M}$ and where
-\[
-g(\phi) = \frac{\rho_0}{2\pi} \int_{0}^\infty \frac{r^2f_W(\rho_0^{-1}\sqrt{r^2 - 2r\cos\phi + 1})}{\sqrt{r^2 - 2r\cos\phi + 1}} dr
-\]
 
 
 
