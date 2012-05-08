@@ -228,15 +228,16 @@ where $\operatorname{round}(\cdot)$ takes its argument to the nearest integer.  
 \fracpart{x} = x - \frac{2\pi}{M}\operatorname{round}\left(\frac{Mx}{2\pi}\right).
 \]
 
-\begin{theorem}
+\begin{theorem}\label{thm:consistency}
 Let $\{w_i\}$ be a sequence independent and identically distributed, zero mean, circularly symetric complex random variables.  Let $R_i > 0$ and $\Phi_i \in [-\pi,\pi)$ be random variables satisfying
 \[
 R_ie^{j\Phi_i} = 1 + \frac{1}{\rho_0} w_i e^{-j\theta_0} s_i^*.
 \]
 and define the functions
-\[
-h_1(x) = \prob R_1 \cos(x + \Phi_1) \;\;\; \text{and} \;\;\; h_2(x) =  \prob R_1 \cos\sfracpart{ x + \Phi_1}.
-\]
+\begin{align*}
+h_1(x) &= \prob R_1 \cos(x + \Phi_1) \;\;\; \text{and}, \\
+h_2(x) &=  \prob R_1 \cos\sfracpart{ x + \Phi_1}.
+\end{align*}
 Given the observed noisy data symbols $\{y_i, i \in P \cup D\}$ from~\eqref{eq:sigmod} let $\hat{a}$ be the least squares estimator of $a_0$.  Let $\hat{a} = \hat{\rho}e^{j\hat{\theta}$ and $a_0 = \rho_0 e^{j\theta_0}$.  Put $L = \abs{P \cup D}$.  If 
 \[
 \frac{\abs{P}}{L} \rightarrow p \qquad \text{and} \qquad \frac{\abs{D}}{L} \rightarrow d
@@ -244,16 +245,25 @@ Given the observed noisy data symbols $\{y_i, i \in P \cup D\}$ from~\eqref{eq:s
 as $L \rightarrow \infty$ for positive real numbers $p$ and $d$ and if $h_2(x)$ is uniquely maximised at $x = 0$ over the interval $[\tfrac{-\pi}{M},\tfrac{-\pi}{M})$, then:
 \begin{enumerate}
 \item $\sfracpart{\theta_0 - \hat{\theta}}_\pi \rightarrow 0$ almost surely as $L \rightarrow \infty$,
-\item $\hat{\rho} \rightarrow \rho_0( p h_1(0) + d h_2(0) )$ almost surely as $L \rightarrow \infty$,
-\item Put $\lambda_L = \sfracpart{\theta_0 - \hat{\theta}}_\pi$ and $m_L = \hat{\rho} - \rho_0(p h_1(0) + d h_2(0) )$.  Then the vector $[\sqrt{L}\lambda_L, \sqrt{L}m_L]$ converges to the bivariate normal distribution with zero mean and covariance
+\item $\hat{\rho} \rightarrow \rho_0 \big( p h_1(0) + d h_2(0) \big)$ almost surely as $L \rightarrow \infty$.
+\end{enumerate}
+\end{theorem}
+
+BLERG discuss assumptions.  We have that $h_1$ is uniquely maximised at $0$ over the interval $[-\pi,\pi)$ since $\{w_i\}$ has zero mean.  The requirement that $h_2$ is uniquely maximised at 0 is stronger that we need.  We actually only require that the sum $p h_1(x) + dh_2(x)$ is maximised uniquely at 0 over the interval $[-\pi, \pi)$.  However, we have stated the theorem in this stronger form as it makes the proof in the noncoherent case (i.e. when there are no pilot symbols) follow more transparently.
+
+\begin{theorem}\label{thm:normality}
+Under the same conditions as Theorem~\ref{thm:consistency}, let $f(r,\phi)$ be the joint probability density function of $R_1$ and $\Phi_1$, and let
+\[
+g(\phi) = \int_{0}^{\infty} r f(r,\phi) dr.
+\]
+Put $\lambda_L = \sfracpart{\theta_0 - \hat{\theta}}_\pi$ and $m_L = \hat{\rho} - \rho_0\big(p h_1(0) + d h_2(0) \big)$. If the periodic function $g\fracpart{\phi}_{\pi}$ is continuous at multiples of $\tfrac{\pi}{M}$, then the vector $[\sqrt{L}\lambda_L, \sqrt{L}m_L]$ converges to the bivariate normal distribution with zero mean and covariance
 \[
 C = ?
 \]
 as $L \rightarrow \infty$.
-\end{enumerate}
 \end{theorem}
 
-BLERG $\hat{a}$ is a biased estimator, particularly when the SNR is low, we show firs that $\hat{\theta}$ is strongly consistent, we are then able to analyse the behaviour of $\hat{a}$.
+%BLERG $\hat{a}$ is a biased estimator, particularly when the SNR is low, we show firs that $\hat{\theta}$ is strongly consistent, we are then able to analyse the behaviour of $\hat{a}$.
 
 Again let $a = \rho e^{j\theta}$ and write the sum of squares function  
 \[
@@ -283,10 +293,13 @@ We have reused $Z$ here, but this should not cause confusion as $Z(\theta)$ and 
 
 We are interested in analysing $\hat{\theta}$, the maximiser of $\abs{Z(\theta)}^2$.
 Because the noise $\{w_i\}$ is circularly symetric then
-\[
-y_i = a_0 s_i + w_i = s_i e^{j \theta_0}( \rho_0 + w_i s_i^* e^{-j \theta_0}) = R_i e^{j ( \Phi_i + \theta_0 + \angle{s_i}) }
-\] 
-The $\Phi_i$ can be identified as \emph{circular~random~variables}~\cite{Mardia_directional_statistics,Fisher1993,McKilliam_mean_dir_est_sq_arc_length2010}.  Recalling the definition of $\hat{d}_i(\theta)$ and $\hat{u}_i(\theta)$ from~\eqref{eq:hatdfinxtheta}, we have
+\begin{align*}
+y_i &= a_0 s_i + w_i \\
+&= \rho_0 s_i e^{j \theta_0}\left( 1 + \frac{1}{\rho_0} w_i s_i^* e^{-j \theta_0} \right) \\
+&= \rho_0 R_i e^{j ( \Phi_i + \theta_0 + \angle{s_i}) }.
+\end{align*}
+%The $\Phi_i$ can be identified as \emph{circular~random~variables}~\cite{Mardia_directional_statistics,Fisher1993,McKilliam_mean_dir_est_sq_arc_length2010}.  
+Recalling the definition of $\hat{d}_i(\theta)$ and $\hat{u}_i(\theta)$ from~\eqref{eq:hatdfinxtheta}, we have
 \begin{align*}
 \hat{u}_i(\theta) &= \round{\angle{y_i} - \theta} \\
 &= \round{\theta_0 + \Phi_i + \angle{s_i} - \theta} \\
@@ -295,26 +308,58 @@ The $\Phi_i$ can be identified as \emph{circular~random~variables}~\cite{Mardia_
 \end{align*}
 where $\lambda = \fracpart{\theta_0 - \theta}_\pi$.  When $i \in D$,
 \begin{align*}
- y_i e^{-j\theta} \hat{d}_i(\theta)^* &= R_i e^{j(\lambda + \Phi_i + \angle{s_i} - \round{\lambda + \Phi_i + \angle{s_i}})} \\
-&= R_i e^{j(\lambda + \Phi_i - \round{\lambda + \Phi_i})} \\
-&= R_i e^{j\sfracpart{\lambda + \Phi_i}}
+ y_i e^{-j\theta} \hat{d}_i(\theta)^* &= \rho_0 R_i e^{j(\lambda + \Phi_i + \angle{s_i} - \round{\lambda + \Phi_i + \angle{s_i}})} \\
+&= \rho_0 R_i e^{j(\lambda + \Phi_i - \round{\lambda + \Phi_i})} \\
+&= \rho_0 R_i e^{j\sfracpart{\lambda + \Phi_i}}
 \end{align*}
 since $\round{x + \angle{s_i}} = \round{x} + \angle{s_i}$ as a result of $\angle{s_i}$ being a multiple of $\tfrac{2\pi}{M}$.  When $i \in P$,  
 \[
-y_i e^{-j\theta} p_i^* = R_i e^{j(\lambda + \Phi_i)}
+y_i e^{-j\theta} p_i^* = \rho_0 R_i e^{j(\lambda + \Phi_i)}.
 \]
 Now we can write
-\begin{align}
-Z(\theta) &= \sum_{i \in P} R_i e^{j(\lambda + \Phi_i)} + \sum_{i \in D} R_i e^{j\sfracpart{\lambda + \Phi_i}}
-\end{align}
+\[
+Z(\theta) &= \rho_0 \sum_{i \in P} R_i e^{j(\lambda + \Phi_i)} + \rho_0  \sum_{i \in D} R_i e^{j\sfracpart{\lambda + \Phi_i}}
+\]
 and
 \[
-\Re(Z(\theta)) = \sum_{i \in P} R_i \cos(\lambda + \Phi_i) + \sum_{i \in D} R_i \cos(\sfracpart{\lambda + \Phi_i})
+\Re(Z(\theta)) = \rho_0 \sum_{i \in P} R_i \cos(\lambda + \Phi_i) + \rho_0 \sum_{i \in D} R_i \cos\sfracpart{\lambda + \Phi_i}.
 \] 
-Let $S_L(\lambda) = \frac{1}{L^2}\Re(Z)^2$ and put $\lambda_L = \langle\theta_0 - \hat{\theta}\rangle$.  Then $\lambda_L$ is the maximiser of $S_L(\lambda)$.  We will show that $\lambda_L$ converges almost surely to zero as $L \rightarrow \infty$.  From this, the proof of strong consistency follows.
+Let $S_L(\lambda) = L^{-2}\rho_0^{-2}\Re(Z(\theta))^2$ and put $\lambda_L = \langle\theta_0 - \hat{\theta}\rangle$.  Then $\lambda_L$ is the maximiser of $S_L(\lambda)$.  We will show that $\lambda_L$ converges almost surely to zero as $L \rightarrow \infty$.  From this, the proof of strong consistency follows.
 
-BLERG  Show $E S_L$ is maximised uniquely at 0, proof follows.
+Put $G_L(\lambda) = \Re(Z(\theta))$ and put
+\[
+G(\theta) = \lim_{L \rightarrow\infty} \prob G_L(\lambda) = p h_1(\lambda)   +  d h_2(\lambda).
+\]
+Lemma~\ref{lem:Zconunif} shows that,
+\[
+\sup_{\lambda \in [-\pi, \pi)}\abs{G_L(\lambda) - \prob G_L(\lambda)} \rightarrow 0
+\]
+as $N\rightarrow 0$.  As a result of the theorem statement that $G(\lambda)$ is uniquely maximised at $0$ and therefore 
+\[
+0 \leq G(\lambda_L) - G(0).
+\]
+Since $\lambda_L$ is the maximiser of $G_L$ then
+\[
+0 \leq G_L(0) - G_L(\lambda_L).
+\]
+Adding both inequalities and taking appropriate absolute values gives
+\begin{align*}
+0 &\leq G(\lambda_L) - G(0) \\ 
+& \leq G(\lambda_L) - G(0) + G_L(0) - G_L(\lambda_L) \\
+& \leq |G(\lambda_L) - G_L(\lambda_L)| + |G_L(0) - G(0)|,
+\end{align*}
+and because of~\eqref{eq:supELNLN} the last line converges almost surely to zero as $L \rightarrow \infty$ and therefore $G(\lambda_L) \rightarrow G(0)$ almost surely. To complete the proof of strong consistency we use the device of Jenrich~\cite{Jenrich_asymp_nonlin_ulln_1969}. We use the
+subscript $N$ to emphasise that $\hat{\lambda}$ depends on $N.$ Suppose that the sequence
+$\left\{ \hat{\lambda}_{N}\right\} $ does not converge almost surely to $0$ as $N\rightarrow\infty,$ and let $A$ be the subset of the sample space on which $\left\{  \hat{\lambda}_{N}\right\}  $ does not converge to 0 as $N\rightarrow\infty$. Then $P\left(  A\right)  >0$.  For any point in $A$, there is an infinite subsequence $\left\{  \hat{\lambda}_{N_{j}}\right\}$ which converges to some $\lambda^{\prime}\neq0$ in the compact interval $[-\nicefrac{1}{2}, \nicefrac{1}{2}]$.  Thus $Q\left(\hat{\lambda}_{N_{j}}\right)$ converges to $Q\left(\lambda^{\prime}\right)$, since $Q$ is continuous in $\lambda$.  However, $Q\left(\lambda^{\prime}\right) > Q\left(  0\right)$, contradicting the fact that $Q\left( \hat{\lambda}_{N_{j}}\right)  $ converges to $Q(0)$.  It follows that $\left\{\hat{\lambda}_{N}\right\}$ converges almost
+surely to $0$ as $N\rightarrow\infty$.
 
+\begin{lemma}\label{lem:Zconunif}
+Let $G_L(\lambda) = \re(Z(\theta)$.  Then
+\[
+\sup_{\lambda \in [-\pi, \pi)}\abs{G_L(\lambda) - G(\lambda)} \rightarrow 0
+\]
+as $L\rightarrow 0$.
+\end{lemma}
 
 
 % \section{A linear-time algorithm}\label{sec:line-time-algor}
