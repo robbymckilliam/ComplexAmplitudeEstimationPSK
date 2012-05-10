@@ -64,8 +64,8 @@ draw circle shifted 1/2[(sx,sh + ls*ups),(1cm,sh + ls*ups)];
 legend := currentpicture; currentpicture := ORIGINAL_PICTURE;
 
 
-plotheight = 16cm;
-plotwidth = 11cm;
+plotheight = 13cm;
+plotwidth = 10cm;
 
 legendx = 0.1cm;
 legendy = 0.1cm;
@@ -77,7 +77,7 @@ legendy = 0.1cm;
 beginfig(1);
 draw begingraph(plotwidth, plotheight);
  setcoords(linear,log);
- glabel.bot(btex SNR (dB) etex, OUT) shifted (30cm,1.3cm);
+ glabel.bot(btex SNR (dB) etex, OUT) shifted (0cm,1.3cm);
   glabel.lft(btex MSE amplitude etex, OUT) rotated 90 shifted (1.5cm,1cm);
   
   %setrange(whatever,"1.1e-6", whatever,90);
@@ -103,7 +103,7 @@ draw legend shifted(legendx,legendy);
 
 endgraph;
 
-clip currentpicture to (-10cm,-10cm)--(-10cm,plotheight)--(plotwidth+5cm,plotheight)--(plotwidth+5cm,-10cm)--cycle
+%clip currentpicture to (-10cm,-10cm)--(-10cm,plotheight)--(plotwidth+5cm,plotheight)--(plotwidth+5cm,-10cm)--cycle
 
 endfig;
 
@@ -139,7 +139,7 @@ draw legend shifted(legendx,legendy);
 
 endgraph;
 
-clip currentpicture to (-10cm,-10cm)--(-10cm,plotheight)--(plotwidth+5cm,plotheight)--(plotwidth+5cm,-10cm)--cycle
+%clip currentpicture to (-10cm,-10cm)--(-10cm,plotheight)--(plotwidth+5cm,plotheight)--(plotwidth+5cm,-10cm)--cycle
 
 endfig;
 
@@ -175,7 +175,7 @@ draw legend shifted(legendx,legendy);
 
 endgraph;
 
-clip currentpicture to (-10cm,-10cm)--(-10cm,plotheight)--(plotwidth+5cm,plotheight)--(plotwidth+5cm,-10cm)--cycle
+%clip currentpicture to (-10cm,-10cm)--(-10cm,plotheight)--(plotwidth+5cm,plotheight)--(plotwidth+5cm,-10cm)--cycle
 
 endfig;
 

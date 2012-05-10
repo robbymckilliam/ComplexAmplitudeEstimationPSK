@@ -64,8 +64,8 @@ draw circle shifted 1/2[(sx,sh + ls*ups),(1cm,sh + ls*ups)];
 legend := currentpicture; currentpicture := ORIGINAL_PICTURE;
 
 
-plotheight = 16cm;
-plotwidth = 11cm;
+plotheight = 13cm;
+plotwidth = 10cm;
 
 legendx = 0.1cm;
 legendy = 0.1cm;
@@ -79,7 +79,7 @@ ymax = (3.3/M)*(3.3/M);
 beginfig(1);
 draw begingraph(plotwidth, plotheight);
  setcoords(linear,log);
- glabel.bot(btex SNR (dB) etex, OUT) shifted (30cm,1.3cm);
+ glabel.bot(btex SNR (dB) etex, OUT) shifted (1cm,1.3cm);
   glabel.lft(btex MSE amplitude etex, OUT) rotated 90 shifted (1.5cm,1cm);
   
   %setrange(whatever,"1.1e-6", whatever,90);
@@ -118,7 +118,7 @@ endfig;
 beginfig(2);
 draw begingraph(plotwidth, plotheight);
  setcoords(linear,log);
- glabel.bot(btex SNR (dB) etex, OUT) shifted (0cm,1.3cm);
+ glabel.bot(btex SNR (dB) etex, OUT) shifted (1cm,1.3cm);
   glabel.lft(btex MSE phase etex, OUT) rotated 90 shifted (1.5cm,1cm);
   
   setrange(whatever,whatever, whatever,ymax);
@@ -156,7 +156,7 @@ endfig;
 beginfig(3);
 draw begingraph(plotwidth, plotheight);
  setcoords(linear,log);
- glabel.bot(btex SNR (dB) etex, OUT) shifted (0cm,1.3cm);
+ glabel.bot(btex SNR (dB) etex, OUT) shifted (1cm,1.3cm);
   glabel.lft(btex MSE complex gain etex, OUT) rotated 90 shifted (1.5cm,1cm);
   
   %setrange(whatever,"1.1e-6", whatever,90);

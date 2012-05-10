@@ -194,7 +194,7 @@ Psuedocode is given in Algorithm~\ref{alg:loglinear}.  Line~\ref{alg_sortindices
 \KwIn{$\{y_i, i \in P \cup D \}$}
 \For{$i \in D$ \nllabel{alg_loop_setup}}{
 $\phi = \angle{y_i}$ \;
-$u = \frac{2\pi}{M}\round{\frac{M}{2\pi}\phi} $ \;
+$u = \round{\phi} $ \;
 $z_i = \phi -  u $ \;
 $g_i = y_i e^{-j u}$ \;
 }
@@ -202,9 +202,10 @@ $\sigma = \operatorname{sortindicies}(z)$ \nllabel{alg_sortindices} \;
 $Y = \sum_{i \in P} y_i p_i^* + \sum_{i \in D} g_i $ \nllabel{alg_Y}\;
 $\hat{a} = \frac{1}{L} Y$ \;
 $\hat{Q} = \frac{1}{L}\abs{Y}^2$ \nllabel{alg_Q} \;
+$\eta = e^{j2\pi/M} - 1$ \;
 \For{$k= 0$ \emph{\textbf{to}} $(M+1)\abs{D}-1$ \nllabel{alg_loop_search}}{
-$Y = Y + (e^{j2\pi/M} - 1) g_{\sigma(k)}$ \;
-$g_{\sigma(k)} = g_{\sigma(k)} e^{j2\pi/M} $\;
+$Y = Y + \eta g_{\sigma(k)}$ \;
+$g_{\sigma(k)} = (\eta + 1) g_{\sigma(k)} $\;
 $Q = \frac{1}{L}\abs{Y}^2$\;
 \If{$Q > \hat{Q}$}{
  	$\hat{Q} = Q$ \;
@@ -375,7 +376,7 @@ BLERG
 \end{IEEEproof}
 
 \begin{lemma}\label{lem:Zconunif}
-Let $G_L(\lambda) = \re(Z(\theta)$.  Then
+Let $G_L(\lambda) = \re(Z(\theta))$.  Then
 \[
 \prob\{\abs{G_L(\lambda) - G(\lambda)} > \epsilon \} = O(e^{-\epsilon^2 L}).
 \]
@@ -384,9 +385,9 @@ Let $G_L(\lambda) = \re(Z(\theta)$.  Then
 \end{IEEEproof}
  
 \begin{IEEEproof} (Theorem~\ref{thm:normality})
-The proof is complicated by the fact that $G_L$ is not differentiable everywhere due to the function $\fracpart{\cdot}$ not being differentiable at half integers.  This precludes the use of ``standard approaches'' to proving normality that are based on the mean value theorem~\cite{vonMises_diff_stats_1947,vanDerVart1971_asymptotic_stats,Pollard_new_ways_clts_1986,Pollard_conv_stat_proc_1984,Pollard_asymp_empi_proc_1989}.  However, we show in Lemma~\ref{lem:diffatlambdaL} that the derivative does exist, and is equal to zero, at the minimiser $\lambda}_L$. So
+The proof is complicated by the fact that $G_L$ is not differentiable everywhere due to the function $\fracpart{\cdot}$ not being differentiable at half integers.  This precludes the use of ``standard approaches'' to proving normality that are based on the mean value theorem~\cite{vonMises_diff_stats_1947,vanDerVart1971_asymptotic_stats,Pollard_new_ways_clts_1986,Pollard_conv_stat_proc_1984,Pollard_asymp_empi_proc_1989}.  However, we show in Lemma~\ref{lem:diffatlambdaL} that the derivative does exist, and is equal to zero, at the minimiser $\lambda_L$. So
 \[
-G_L^\prime(\lambda_L) = 0 = \sum_{i \in P} R_i \sin(\lambda + \Phi_i) + \sum_{i \in D} R_i \sin\sfracpart{\lambda + \Phi_i}.
+G_L^\prime(\lambda_L) = 0 = \frac{1}{L} \sum_{i \in P} R_i \sin(\lambda + \Phi_i) + \frac{1}{L} \sum_{i \in D} R_i \sin\sfracpart{\lambda + \Phi_i}.
 \]
 Write
 \[
@@ -394,16 +395,77 @@ Write
 \]
 where
 \[
-\prob G^\prime_L = \sum_{i \in P}
+\prob G^\prime_L(\lambda) = \frac{\abs{P}}{L} k_1(\lambda) + \frac{\abs{D}}{L} k_2(\lambda),
+\]
+and where,
+\begin{align*}
+k_1(x) &= \prob R_1 \sin(x + \Phi_1) \;\;\; \text{and}, \\
+k_2(x) &=  \prob R_1 \sin\sfracpart{x + \Phi_1}.
+\end{align*}
+Lemma~\ref{lem:GprimeLlambdaLconv} shows that
+\[
+\sqrt{L} \prob G^\prime_L(\lambda_L) = \sqrt{L} \lambda_L( G(0)  + o_P(1) )
+\]
+and Lemma~\ref{lem:empiricprocc} shows that
+\[ 
+\sqrt{L} \left( G_L^\prime(\lambda_L) - \prob G_L^\prime(\lambda_L) \right) = \sqrt{L} G_L'(0) + \sqrt{L}\lambda_L( ? +  o_P(1) )
+\]
+It follows that
+\[
+\sqrt{\lambda_L} = o_P(1) + \frac{\sqrt{L}G_L'(0)}{G(0)  + o_P(1)}.
+\]
+Observe that 
+\[
+\sqrt{L} G_L'(0) = \frac{1}{\sqrt{L}} \sum_{i \in P} R_i \sin(\lambda + \Phi_i) + \frac{1}{\sqrt{L}} \sum_{i \in D} R_i \sin\sfracpart{\lambda + \Phi_i}.
+\]
+It follows from the standard central limit that the distribution of
+\[
+\frac{1}{\sqrt{L}} \sum_{i \in P} R_i \sin(\lambda + \Phi_i) = \sqrt{\frac{\abs{P}}{L}} \frac{1}{\sqrt{\abs{P}}} \sum_{i \in P} R_i \sin(\Phi_i) 
+\]
+converges to the normal with mean $k_1(0) = 0$ and variance 
+\[
+p \prob R_1^2 \sin^2(\Phi_1).
+\]
+Similarly, the distribution of 
+\[
+\frac{1}{\sqrt{L}} \sum_{i \in D} R_i \sin(\lambda + \Phi_i) = \sqrt{\frac{\abs{D}}{L}} \frac{1}{\sqrt{\abs{D}}} \sum_{i \in D} R_i \sin\fracpart{\Phi_i} 
+\]
+converges to the normal with mean $k_2(0) = 0$ and variance
+\[
+d \prob R_1^2 \sin^2\fracpart{\Phi_1}.
+\]
+It follows that the distribution of $\sqrt{L}\lambda_L$ converges to the normal with mean zero and variance
+\[
+\frac{p \prob R_1^2 \sin^2(\Phi_1) + d \prob R_1^2 \sin^2\fracpart{\Phi_1}}{G(0)^2}.
 \]
 \end{IEEEproof}
 
 \begin{lemma}~\label{lem:diffatlambdaL}
-The derivative of $G_L$ existsm, and is equal to zero, at $\lambda_L$.  That is,
+The derivative of $G_L$ exists, and is equal to zero, at $\lambda_L$.  That is,
 \[
 G_L^\prime(\lambda_L) = \frac{d G_L}{d \lambda}(\lambda_L) = 0.
 \]
 \end{lemma}
+
+\begin{lemma}\label{lem:GprimeLlambdaLconv}
+\[
+\prob G^\prime_L(\lambda_L) = \lambda_L( G(0)  + o_P(1) )
+\]
+\end{lemma}
+\begin{IEEEproof}
+We have (BLERG) that $k_1$ and $k_2$ are continuous and differentiable and that $k_1(0) = k_2(0) = 0$, so by a first order Taylor expansion
+\[
+\prob G^\prime_L(\lambda_L) = \prob G^\prime_L(0) + \lambda_L( \prob G^\prime_L(\lambda_L)  + o_P(1) )
+\]
+\end{IEEEproof}
+
+\begin{lemma}\label{lem:empiricprocc} BLERG
+\[ 
+\sqrt{L} \left( G_L^\prime(\lambda_L) - \prob G_L^\prime(\lambda_L) \right) = \sqrt{L} G_L'(0) + \sqrt{L}\lambda_L( ? +  o_P(1) )
+\]
+\end{lemma}
+\begin{IEEEproof}
+\end{IEEEproof}
 
 % \section{A linear-time algorithm}\label{sec:line-time-algor}
 
@@ -456,20 +518,20 @@ G_L^\prime(\lambda_L) = \frac{d G_L}{d \lambda}(\lambda_L) = 0.
 Our first set of simulations considers the case where there are a number of pilot symbols.
 
 %BPSK plots
-\begin{figure*}[tp]
+\begin{figure}[tp]
 	\centering
-		\includegraphics{code/data/plotM2-1.mps}
+		\includegraphics[width=\linewidth]{code/data/plotM2-1.mps}
 		\caption{Amplitude error for BPSK}
 		\label{fig:plotamp}
-\end{figure*}
+\end{figure}
 
 
-\begin{figure*}[tp]
+\begin{figure}[tp]
 	\centering
-		\includegraphics{code/data/plotM2-2.mps}
+		\includegraphics[width=\linewidth]{code/data/plotM2-2.mps}
 		\caption{Phase error for BPSK}
 		\label{fig:plotphase}
-\end{figure*}
+\end{figure}
 
 % \begin{figure*}[tp]
 % 	\centering
@@ -479,121 +541,121 @@ Our first set of simulations considers the case where there are a number of pilo
 % \end{figure*}
 
 %QPSK plots
-\begin{figure*}[tp]
+\begin{figure}[tp]
 	\centering
-		\includegraphics{code/data/plotM4-1.mps}
+		\includegraphics[width=\linewidth]{code/data/plotM4-1.mps}
 		\caption{Amplitude error for QPSK}
 		\label{fig:plotamp}
-\end{figure*}
+\end{figure}
 
 
-\begin{figure*}[tp]
+\begin{figure}[tp]
 	\centering
-		\includegraphics{code/data/plotM4-2.mps}
+		\includegraphics[width=\linewidth]{code/data/plotM4-2.mps}
 		\caption{Phase error for QPSK}
 		\label{fig:plotphase}
-\end{figure*}
+\end{figure}
 
-% \begin{figure*}[tp]
+% \begin{figure}[tp]
 % 	\centering
 %         \includegraphics{code/data/plotM4-3.mps}
 % 		\caption{Complex gain error for QPSK}
 % 		\label{fig:plotcamp}
-% \end{figure*}
+% \end{figure}
 
 %8PSK plots
-\begin{figure*}[tp]
+\begin{figure}[tp]
 	\centering
-		\includegraphics{code/data/plotM8-1.mps}
+		\includegraphics[width=\linewidth]{code/data/plotM8-1.mps}
 		\caption{Amplitude error for 8PSK}
 		\label{fig:plotamp}
-\end{figure*}
+\end{figure}
 
 
-\begin{figure*}[tp]
+\begin{figure}[tp]
 	\centering
-		\includegraphics{code/data/plotM8-2.mps}
+		\includegraphics[width=\linewidth]{code/data/plotM8-2.mps}
 		\caption{Phase error for 8PSK}
 		\label{fig:plotphase}
-\end{figure*}
+\end{figure}
 
-% \begin{figure*}[tp]
+% \begin{figure}[tp]
 % 	\centering
 %         \includegraphics{code/data/plotM8-3.mps}
 % 		\caption{Complex gain error for 8PSK}
 % 		\label{fig:plotcamp}
-% \end{figure*}
+% \end{figure}
 
 %\subsection{The noncoherent setting}
 
 %BPSK plots
- \begin{figure*}[tp]
+ \begin{figure}[tp]
  	\centering
- 		\includegraphics{code/data/plotM2-1.mps}
+ 		\includegraphics[width=\linewidth]{code/data/plotM2-1.mps}
  		\caption{Amplitude error for BPSK}
  		\label{fig:plotamp}
- \end{figure*}
+ \end{figure}
 
 
-\begin{figure*}[tp]
+\begin{figure}[tp]
 	\centering
-		\includegraphics{code/data/plotncM2-2.mps}
+		\includegraphics[width=\linewidth]{code/data/plotncM2-2.mps}
 		\caption{Phase error for BPSK}
 		\label{fig:plotphase}
-\end{figure*}
+\end{figure}
 
-% \begin{figure*}[tp]
+% \begin{figure}[tp]
 % 	\centering
 %         \includegraphics{code/data/plotM2-3.mps}
 % 		\caption{Complex gain error for BPSK}
 % 		\label{fig:plotcamp}
-% \end{figure*}
+% \end{figure}
 
 %QPSK plots
- \begin{figure*}[tp]
+ \begin{figure}[tp]
  	\centering
- 		\includegraphics{code/data/plotM4-1.mps}
+ 		\includegraphics[width=\linewidth]{code/data/plotM4-1.mps}
  		\caption{Amplitude error for QPSK}
  		\label{fig:plotamp}
- \end{figure*}
+ \end{figure}
 
 
-\begin{figure*}[tp]
+\begin{figure}[tp]
 	\centering
-		\includegraphics{code/data/plotncM4-2.mps}
+		\includegraphics[width=\linewidth]{code/data/plotncM4-2.mps}
 		\caption{Phase error for QPSK}
 		\label{fig:plotphase}
-\end{figure*}
+\end{figure}
 
- % \begin{figure*}[tp]
+ % \begin{figure}[tp]
  % 	\centering
  %         \includegraphics{code/data/plotM4-3.mps}
  % 		\caption{Complex gain error for QPSK}
  % 		\label{fig:plotcamp}
- % \end{figure*}
+ % \end{figure}
 
 %8PSK plots
- \begin{figure*}[tp]
+ \begin{figure}[tp]
  	\centering
- 		\includegraphics{code/data/plotM8-1.mps}
+ 		\includegraphics[width=\linewidth]{code/data/plotM8-1.mps}
  		\caption{Amplitude error for 8PSK}
  		\label{fig:plotamp}
- \end{figure*}
+ \end{figure}
 
 
-\begin{figure*}[tp]
+\begin{figure}[tp]
 	\centering
-		\includegraphics{code/data/plotncM8-2.mps}
+		\includegraphics[width=\linewidth]{code/data/plotncM8-2.mps}
 		\caption{Phase error for 8PSK}
 		\label{fig:plotphase}
-\end{figure*}
+\end{figure}
 
-% \begin{figure*}[tp]
+% \begin{figure}[tp]
 % 	\centering
 %         \includegraphics{code/data/plotM8-3.mps}
 % 		\caption{Complex gain error for 8PSK}
 % 		\label{fig:plotcamp}
-% \end{figure*}
+% \end{figure}
 
 
 
