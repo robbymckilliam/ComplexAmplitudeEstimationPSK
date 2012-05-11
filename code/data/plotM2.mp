@@ -64,8 +64,8 @@ draw circle shifted 1/2[(sx,sh + ls*ups),(1cm,sh + ls*ups)];
 legend := currentpicture; currentpicture := ORIGINAL_PICTURE;
 
 
-plotheight = 16cm;
-plotwidth = 11cm;
+plotheight = 13cm;
+plotwidth = 10cm;
 
 legendx = 0.1cm;
 legendy = 0.1cm;
@@ -77,10 +77,10 @@ legendy = 0.1cm;
 beginfig(1);
 draw begingraph(plotwidth, plotheight);
  setcoords(linear,log);
- glabel.bot(btex SNR (dB) etex, OUT) shifted (30cm,1.3cm);
+ glabel.bot(btex SNR (dB) etex, OUT) shifted (0cm,1.3cm);
   glabel.lft(btex MSE amplitude etex, OUT) rotated 90 shifted (1.5cm,1cm);
   
-  %setrange(whatever,"1.1e-6", whatever,90);
+  %setrange(whatever,whatever, whatever,100);
   %setrange(4.9,"1e-13", 22,2);
 
 %  gdraw (0, "1e-13")--(0, 2) dashed evenly; %glabel.bot(btex AWGN channel capacity etex, 0) rotated 90;
@@ -153,7 +153,6 @@ draw begingraph(plotwidth, plotheight);
  glabel.bot(btex SNR (dB) etex, OUT) shifted (0cm,1.3cm);
   glabel.lft(btex MSE complex gain etex, OUT) rotated 90 shifted (1.5cm,1cm);
   
-  %setrange(whatever,"1.1e-6", whatever,90);
   %setrange(4.9,"1e-13", 22,2);
 
 %  gdraw (0, "1e-13")--(0, 2) dashed evenly; %glabel.bot(btex AWGN channel capacity etex, 0) rotated 90;
