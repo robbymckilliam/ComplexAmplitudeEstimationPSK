@@ -518,7 +518,7 @@ R &\geq  \frac{2}{L^2}\abs{\hat{Y} y_k}\Re\left(\eta e^{j(\phi_i - \hat{\theta})
 
 \begin{lemma}\label{lem:Qconv}
 \[
-\sqrt{L} Q(\hat{\lambda}_L) = \sqrt{L} \hat{\lambda}_L\big( ph_1(0) + ?  + o_P(1) \big)
+\sqrt{L} Q(\hat{\lambda}_L) = \sqrt{L} \hat{\lambda}_L\big( p + ?  + o_P(1) \big)
 \]
 \end{lemma}
 \begin{IEEEproof}
@@ -531,21 +531,40 @@ where
 k_1(\lambda) &= \prob R_1\big( \sin(\lambda + \Phi_1) - \sin(\Phi_1) \big), \;\;\; \text{and} \\
 k_2(\lambda) &= \prob R_1\big( \sin\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} \big).
 \end{align*}
-Since
+Since,
 \[
-\sin(\lambda + \phi) - \sin(\phi) = \lambda \big( \cos(\phi) + \zeta(\lambda) \big)
+\sin(\lambda + \phi) - \sin(\phi) = \lambda \big( \cos(\phi) + \zeta(\lambda) \big),
 \]
 where $\zeta(\lambda)$ is a function that goes to zero as $\lambda$ goes to zero, then
 \begin{align*}
 k_1(\lambda) &= \prob R_1\lambda(\cos(\Phi_1) \; + \; \zeta(\lambda)) \\
 &= \lambda \big( \prob R_1\cos(\Phi_1) \; + \; \zeta(\lambda) \prob R_1 \big) \\
-&= \lambda \big( h_1(0) \; + \; \zeta(\lambda) K \big),
+&= \lambda \big( 1 \; + \; \zeta(\lambda) K \big),
 \end{align*}
-where we put $K = \prob R_1$, a finite constant.  Because $\hat{\lambda}_L$ converges almost surely to zero as $L \rightarrow\infty$, then $\zeta(\hat{\lambda}_L)$ converges almost surely (and therefore also in probability) to zero as $L \rightarrow\infty$, i.e. $\zeta(\hat{\lambda}_L) = o_P(1)$.  So, 
+since $h_1(0) = \prob R_1\cos(\Phi_1) = 1$ and where we put $K = \prob R_1$, a finite constant.  Because $\hat{\lambda}_L$ converges almost surely to zero as $L \rightarrow\infty$, then $\zeta(\hat{\lambda}_L)$ converges almost surely (and therefore also in probability) to zero as $L \rightarrow\infty$, i.e. $\zeta(\hat{\lambda}_L) = o_P(1)$.  So, 
+\[
+k_1(\hat{\lambda}_L) = \hat{\lambda}_L \big( 1 \; + \; \zeta(\hat{\lambda}_L) K \big) = \hat{\lambda}_L \big( 1  + o_P(1)\big).
+\]
+Recalling that $f(r,\phi)$ is the joint probability density function of $R_1$ and $\Phi_1$,
 \begin{align*}
-k_1(\hat{\lambda}_L) &= \hat{\lambda}_L \big( h_1(0) \; + \; \zeta(\hat{\lambda}_L) K \big) \\
-&= \hat{\lambda}_L \big( h_1(0)  + o_P(1)\big).
+k_2(\lambda) &= \int_0^{2\pi}\int_{0}^\infty r \big( \sin\fracpart{\lambda + \phi} - \sin\fracpart{\phi} \big) f(r,\phi) dr d\phi \\
+&= \int_0^{2\pi} \big( \sin\fracpart{\lambda + \phi} - \sin\fracpart{\phi} \big) g(\phi) d\phi.
 \end{align*}
+Now, if $0 \leq \lambda < \tfrac{\pi}{M}$, then for each integer $k$,
+\begin{align*}
+\sin\fracpart{\lambda + \phi} - \sin\fracpart{\phi} &= \sin(\lambda + \phi - \tfrac{2\pi k}{M}) - \sin(\phi - \tfrac{2\pi k}{M}) \\
+&= \lambda\big(\cos(\phi - \tfrac{2\pi k}{M}) + \zeta_k(\lambda)\big)
+\end{align*}
+when $\phi \in [\tfrac{ (2k-1)\pi}{M}, \tfrac{2k\pi}{M} - \lambda )$ and 
+\begin{align*}
+\sin&\fracpart{\lambda + \phi} - \sin\fracpart{\phi} \\
+&= \sin(\lambda + \phi - \tfrac{2\pi k}{M}) - \sin(\phi - \tfrac{2\pi (k-1)}{M}) \\
+&=  v_k(\phi) + \lambda\big(\cos(\phi - \tfrac{2\pi k}{M}) + \zeta_k(\lambda)\big) 
+\end{align*}
+when $\phi \in [ \tfrac{2k\pi}{M} - \lambda,\tfrac{2k\pi}{M} )$, and where
+\[
+v_k(\phi) = \sin(\phi - \tfrac{2\pi k}{M}) - \sin(\phi - \tfrac{2\pi (k-1)}{M}).
+\]
 \end{IEEEproof}
 
 \begin{lemma}\label{lem:empiricprocc} BLERG
@@ -554,6 +573,7 @@ k_1(\hat{\lambda}_L) &= \hat{\lambda}_L \big( h_1(0) \; + \; \zeta(\hat{\lambda}
 \]
 \end{lemma}
 \begin{IEEEproof}
+
 \end{IEEEproof}
 
 \begin{lemma}\label{lem:convdistGLdash}
@@ -610,12 +630,14 @@ The distribution of $X_L$ converges to the normal with zero mean and covariance
 as $L \rightarrow\infty$.
 \end{lemma}
 \begin{IEEEproof}
+
 \end{IEEEproof}
 
 \begin{lemma}\label{lem:XLcovlambdaL} 
 The covariance between $X_L$ and $\sqrt{L}\hat{\lambda}_L$ converges to zero as $L\rightarrow\infty$.
 \end{lemma}
 \begin{IEEEproof}
+
 \end{IEEEproof}
 
 
