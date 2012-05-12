@@ -237,7 +237,7 @@ where $\operatorname{round}(\cdot)$ takes its argument to the nearest integer.  
 The next two theorems decribe the asymptotic properties of the least squares estimator.
 
 \begin{theorem}\label{thm:consistency} (Almost sure convergence)
-Let $\{w_i\}$ be a sequence of independent and identically distributed, zero mean, circularly symetric complex random variables and let $\{y_i, i \in P \cup D\}$ be observed noisy symbols given by the signal model~\eqref{eq:sigmod}.   Let $\hat{a}$ be the least squares estimator of $a_0$ and put $\hat{a} = \hat{\rho}e^{j\hat{\theta}}$ where $\hat{\rho}$ is a positive real number.  Put $L = \abs{P \cup D}$ and define real numbers $p$ and $d$ as the limits
+Let $\{w_i\}$ be a sequence of independent and identically distributed, zero mean, circularly symetric complex random variables with $\prob \abs{w_1}$ finite, and let $\{y_i, i \in P \cup D\}$ be observed noisy symbols given by the signal model~\eqref{eq:sigmod}.   Let $\hat{a} = \hat{\rho}e^{j\hat{\theta}}$ be the least squares estimator of $a_0 = \rho_0e^{j\theta_0}$ where both $\hat{\rho}$ and $\rho_0$ are positive real numbers.  Put $L = \abs{P \cup D}$ and define real numbers $p$ and $d$ as the limits
 \[
 \frac{\abs{P}}{L} \rightarrow p \qquad \text{and} \qquad \frac{\abs{D}}{L} \rightarrow d \qquad \text{as $L \rightarrow \infty$.}
 \] 
@@ -250,10 +250,9 @@ and define the continuous function
 G(x) = p h_1(x) + d h_2(x)
 \]
 where
-\begin{align*}
-h_1(x) &= \prob R_1 \cos(x + \Phi_1) \;\;\; \text{and}, \\
-h_2(x) &=  \prob R_1 \cos\sfracpart{ x + \Phi_1}.
-\end{align*}
+\[
+h_1(x) = \prob R_1 \cos(x + \Phi_1), \;\;\; h_2(x) =  \prob R_1 \cos\sfracpart{ x + \Phi_1}.
+\]
 If $p > 0$ and if $\abs{G(x)}$ is uniquely maximised at $x = 0$ over the interval $[-\pi,-\pi)$, then:
 \begin{enumerate}
 \item $\sfracpart{\theta_0 - \hat{\theta}}_\pi \rightarrow 0$ almost surely as $L \rightarrow \infty$,
@@ -410,18 +409,18 @@ The proof is complicated by the fact that $G_L$ is not differentiable everywhere
 G_L^\prime(\hat{\lambda}_L) &= 0 \\
 &= \frac{1}{L} \sum_{i \in P} R_i \sin(\lambda + \Phi_i) + \frac{1}{L} \sum_{i \in D} R_i \sin\sfracpart{\lambda + \Phi_i}.
 \end{align*}
-Define the function $Q(\lambda) = \prob G_L^\prime(\lambda)$ and write
+Define the function $Q(\lambda) = \prob G_L^\prime(\lambda) - \prob G_L^\prime(0)$ and write
 \begin{align*}
 0 &= G_L^\prime(\hat{\lambda}_L) - Q(\hat{\lambda}_L) + Q(\hat{\lambda}_L) \\
 &= \sqrt{L}\big( G_L^\prime(\hat{\lambda}_L) - Q(\hat{\lambda}_L) \big) + \sqrt{L}Q(\hat{\lambda}_L).
 \end{align*}
 Lemma~\ref{lem:Qconv} shows that
 \[
-\sqrt{L} Q(\hat{\lambda}_L) = \sqrt{L} Q(0) + \sqrt{L} \hat{\lambda}_L\big( ?  + o_P(1) \big)
+\sqrt{L} Q(\hat{\lambda}_L) = \sqrt{L} \hat{\lambda}_L\big( ?  + o_P(1) \big)
 \]
 where $o_P(1)$ denotes a number converging in probablity to zero as $L \rightarrow \infty$.  Lemma~\ref{lem:empiricprocc} shows that
 \[
-\sqrt{L}\big( G_L^\prime(\hat{\lambda}_L) - Q(\hat{\lambda}_L) \big) = o_P(1) + \sqrt{L} \big( G_L^\prime(0) - Q(0) \big).
+\sqrt{L}\big( G_L^\prime(\hat{\lambda}_L) - Q(\hat{\lambda}_L) \big) = o_P(1) + \sqrt{L} G_L^\prime(0).
 \]
 It follows that
 \[
@@ -479,18 +478,79 @@ G_L^\prime(\hat{\lambda}_L) = \frac{d G_L}{d \lambda}(\hat{\lambda}_L) = 0.
 \]
 \end{lemma}
 
+\begin{lemma}
+\[
+\sabs{\sfracpart{\hat{\lambda}_L + \Phi_i}} \leq \frac{1}{2M} - \frac{1}{2LM ?}
+\]
+for all $i \in D$.
+\end{lemma}
+\begin{proof}
+Recall that $\hat{d}_i = \hat{d}_i(\hat{\theta})$ are the minimsers of $SS$.  The proof now proceeds by contradiction.  Assume that $\sfracpart{\hat{\lambda}_L + \Phi_i} \leq \frac{1}{2M} - \frac{1}{2LM ?}$ for some $k$.  Put $r_i = \hat{d}_i e_k$, then
+\begin{align*}
+Y(\{ r_i, i \in D\}) = \frac{1}{L}\left( B + \sum_{i \in D} y_i\hat{r}_i^* \right) = \hat{Y} + \frac{1}{L}\eta y_k\hat{d}_k^*.
+\end{align*}
+where we put $\hat{Y} = Y(\{ \hat{d}_i, i \in D\})$.  Now,
+\begin{align*}
+SS&(\{r_i, i \in D\}) \\
+&= A - \frac{1}{L} \abs{ Y(\{ r_i, i \in D\}) }^2 \\
+&= A - \frac{1}{L} \abs{ \hat{Y} + \frac{1}{L} \eta y_k\hat{d}_k^* }^2 \\
+&= A - \frac{1}{L}\abs{\hat{Y}}^2 - \frac{2}{L^2}\Re\left(\eta \hat{Y}^* y_k \hat{d}_k^* \right) -  \frac{1}{L^3}\abs{ \eta y_k \hat{d}_k^* }^2\\
+&= SS(\{\hat{d}_i, i \in D\}) - R
+\end{align*}
+where 
+\[
+R = \frac{2}{L^2}\Re\left(\eta \hat{Y}^* y_k \hat{d}_k^* \right) +  \frac{1}{L^3}\abs{ \eta y_k \hat{d}_k^* }^2.
+\]
+We will show that $R$ is positive, from which is will follow that $SS(\{r_i, i \in D\}) < SS(\{\hat{d}_i, i \in D\})$, violating the fact that $\{\hat{d}_i, i \in D\}$ are minimisers of $SS$.
+
+To see that $R$ is positive write
+ \begin{align*}
+R &\geq  \frac{2}{L^2}\abs{\hat{Y} y_k}\Re\left(\eta e^{j(\phi_i - \hat{\theta})}\hat{d}_k^* \right) +  \frac{1}{L^3}\abs{ \eta}^2 \abs{ y_k }^2 \\
+ &= \frac{1}{L^2}\abs{y_k} \left( 2\abs{\hat{Y}}\Re\left(\eta e^{j(\phi_i - \hat{\theta})} \hat{d}_k^* \right) + \frac{1}{L}\abs{ \eta}^2 \abs{ y_k }  \right) 
+ \end{align*}
+ so it is sufficient to show that
+ \[
+ \Re\left(\eta e^{j(\phi_i - \hat{\theta})} \hat{d}_k^* \right) > - \frac{\abs{ \eta}^2 \abs{ y_k }}{2 L \abs{\hat{Y}}}.
+ \]
+ Unfinished, but this proof will work
+\end{proof}
+
+
 \begin{lemma}\label{lem:Qconv}
 \[
-\sqrt{L} Q(\hat{\lambda}_L) = \sqrt{L} Q(0) + \sqrt{L} \hat{\lambda}_L\big( ?  + o_P(1) \big)
+\sqrt{L} Q(\hat{\lambda}_L) = \sqrt{L} \hat{\lambda}_L\big( ph_1(0) + ?  + o_P(1) \big)
 \]
 \end{lemma}
 \begin{IEEEproof}
-
+Write
+\[
+Q(\lambda) = \prob G_L^\prime(\lambda) - \prob G_L^\prime(0) = \frac{\abs{P}}{L} k_1(\lambda) + \frac{\abs{D}}{L} k_2(\lambda)
+\]
+where
+\begin{align*}
+k_1(\lambda) &= \prob R_1\big( \sin(\lambda + \Phi_1) - \sin(\Phi_1) \big), \;\;\; \text{and} \\
+k_2(\lambda) &= \prob R_1\big( \sin\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} \big).
+\end{align*}
+Since
+\[
+\sin(\lambda + \phi) - \sin(\phi) = \lambda \big( \cos(\phi) + \zeta(\lambda) \big)
+\]
+where $\zeta(\lambda)$ is a function that goes to zero as $\lambda$ goes to zero, then
+\begin{align*}
+k_1(\lambda) &= \prob R_1\lambda(\cos(\Phi_1) \; + \; \zeta(\lambda)) \\
+&= \lambda \big( \prob R_1\cos(\Phi_1) \; + \; \zeta(\lambda) \prob R_1 \big) \\
+&= \lambda \big( h_1(0) \; + \; \zeta(\lambda) K \big),
+\end{align*}
+where we put $K = \prob R_1$, a finite constant.  Because $\hat{\lambda}_L$ converges almost surely to zero as $L \rightarrow\infty$, then $\zeta(\hat{\lambda}_L)$ converges almost surely (and therefore also in probability) to zero as $L \rightarrow\infty$, i.e. $\zeta(\hat{\lambda}_L) = o_P(1)$.  So, 
+\begin{align*}
+k_1(\hat{\lambda}_L) &= \hat{\lambda}_L \big( h_1(0) \; + \; \zeta(\hat{\lambda}_L) K \big) \\
+&= \hat{\lambda}_L \big( h_1(0)  + o_P(1)\big).
+\end{align*}
 \end{IEEEproof}
 
 \begin{lemma}\label{lem:empiricprocc} BLERG
 \[
-\sqrt{L}\big( G_L^\prime(\hat{\lambda}_L) - Q(\hat{\lambda}_L) \big) = o_P(1) + \sqrt{L} \big( G_L^\prime(0) - Q(0) \big).
+\sqrt{L}\big( G_L^\prime(\hat{\lambda}_L) - Q(\hat{\lambda}_L) \big) = o_P(1) + \sqrt{L} G_L^\prime(0).
 \]
 \end{lemma}
 \begin{IEEEproof}
@@ -502,7 +562,7 @@ The distribution of $\sqrt{L}G_L'(0)$ converges to the normal with zero mean and
 p \prob R_1^2 \sin^2(\Phi_1) + d \prob R_1^2 \sin^2\fracpart{\Phi_1}.
 \]
 \end{lemma}
-\begin{proof}
+\begin{IEEEproof}
 Observe that 
 \[
 \sqrt{L} G_L^\prime(0) = \frac{1}{\sqrt{L}} \sum_{i \in P} R_i \sin(\Phi_i) + \frac{1}{\sqrt{L}} \sum_{i \in D} R_i \sin\sfracpart{\Phi_i}.
@@ -523,7 +583,7 @@ converges to the normal with mean $k_2(0) = 0$ and variance
 \[
 d \prob R_1^2 \sin^2\fracpart{\Phi_1}.
 \]
-\end{proof}
+\end{IEEEproof}
 
 
 \begin{lemma}\label{lem:empiricprocforrho} BLERG
@@ -558,50 +618,6 @@ The covariance between $X_L$ and $\sqrt{L}\hat{\lambda}_L$ converges to zero as 
 \begin{IEEEproof}
 \end{IEEEproof}
 
-
-% \section{A linear-time algorithm}\label{sec:line-time-algor}
-
-% \begin{lemma}
-% Let $\hat{a} = \hat{\rho}e^{j\hat{\theta}}$ so that $\hat{\theta}$ is the least squares estimator of the carrier phase and $\hat{\rho}$ is the least squares estimator of the amplitude.  Let 
-% \[
-% \lambda_i = \phi_i - \hat{\theta} - \frac{2\pi}{M}\round{\frac{M}{2\pi}(\phi_i - \hat{\theta})}.
-% \]
-% Then 
-% \[
-% \abs{\lambda_i} \leq \frac{1}{2M} - \frac{1}{2LM BLERG}
-% \]
-% for all $i \in P \cup D$.
-% \end{lemma}
-% \begin{proof}
-% Recall that $\hat{d}_i = \hat{d}_i(\hat{\theta})$ are the minimsers of $SS$.  The proof now proceeds by contradiction.  Assume that $\lambda_i > \frac{1}{2M} - \frac{1}{2LM BLERG}$ for some $k$.  Put $r_i = \hat{d}_i e_k$, then
-% \begin{align*}
-% Y(\{ r_i, i \in D\}) &= \frac{1}{L}\left( B + \sum_{i \in D} y_i\hat{r}_i^* \right) \\
-% &= \hat{Y} + \frac{1}{L}\eta y_k\hat{d}_k^*.
-% \end{align*}
-% where we put $\hat{Y} = Y(\{ \hat{d}_i, i \in D\})$.  Now,
-% \begin{align*}
-% SS(\{r_i, i \in D\}) &= A - \frac{1}{L} \abs{ Y(\{ r_i, i \in D\}) }^2 \\
-% &= A - \frac{1}{L} \abs{ \hat{Y} + \frac{1}{L} \eta y_k\hat{d}_k^* }^2 \\
-% &= A - \frac{1}{L}\abs{\hat{Y}}^2 - \frac{2}{L^2}\Re\left(\eta \hat{Y}^* y_k \hat{d}_k^* \right) -  \frac{1}{L^3}\abs{ \eta y_k \hat{d}_k^* }^2\\
-% &= SS(\{\hat{d}_i, i \in D\}) - R
-% \end{align*}
-% where 
-% \[
-% R = \frac{2}{L^2}\Re\left(\eta \hat{Y}^* y_k \hat{d}_k^* \right) +  \frac{1}{L^3}\abs{ \eta y_k \hat{d}_k^* }^2.
-% \]
-% We will show that $R$ is positive, from which is will follow that $SS(\{r_i, i \in D\}) < SS(\{\hat{d}_i, i \in D\})$, violating the fact that $\{\hat{d}_i, i \in D\}$ are minimisers of $SS$.
-
-% To see that $R$ is positive write
-% \begin{align*}
-% R &\geq  \frac{2}{L^2}\abs{\hat{Y} y_k}\Re\left(\eta e^{j(\phi_i - \hat{\theta})}\hat{d}_k^* \right) +  \frac{1}{L^3}\abs{ \eta}^2 \abs{ y_k }^2 \\
-% &= \frac{1}{L^2}\abs{y_k} \left( 2\abs{\hat{Y}}\Re\left(\eta e^{j(\phi_i - \hat{\theta})} \hat{d}_k^* \right) + \frac{1}{L}\abs{ \eta}^2 \abs{ y_k }  \right) 
-% \end{align*}
-% so it is sufficient to show that
-% \[
-% \Re\left(\eta e^{j(\phi_i - \hat{\theta})} \hat{d}_k^* \right) > - \frac{\abs{ \eta}^2 \abs{ y_k }}{2 L \abs{\hat{Y}}}.
-% \]
-% Unfinished.  This proof will work, but the problem is that $\abs{y_k}$ can be really small.  The would appear to neccesitate a very large number of buckets.  In some sense, this is no problem, but you have to be able to allocate memory for all of these?  Atleast you need a way of ordering them, up to a certain resolution, without sorting.  I'm not convinced this will ever be possible.
-% \end{proof}
 
 \section{Simulations}\label{sec:simulations}
 
