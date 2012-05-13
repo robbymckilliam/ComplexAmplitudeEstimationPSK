@@ -440,17 +440,12 @@ and rearranging gives,
 \[
 \sqrt{L} \hat{\lambda}_L = o_P(1) + \frac{\sqrt{L}G_L'(0)}{p + Hd  + o_P(1)}.
 \]
-Lemma~\ref{lem:convdistGLdash} shows that the distribution of $\sqrt{L}G_L'(0)$ converges to the normal with zero mean and variance
+Lemma~\ref{lem:convdistGLdash} shows that the distribution of $\sqrt{L}G_L'(0)$ converges to the normal with zero mean and variance $A_1 + A_2$ and it follows that the distribution of $\sqrt{L}\hat{\lambda}_L$ converges to the normal with zero mean and variance
 \[
-p \prob R_1^2 \sin^2(\Phi_1) + d \prob R_1^2 \sin^2\fracpart{\Phi_1}
+\frac{A_1 + A_2}{(p + Hd)^2}.
 \]
-and it follows that the distribution of $\sqrt{L}\hat{\lambda}_L$ converges to the normal with zero mean and variance
-\[
-\frac{p \prob R_1^2 \sin^2(\Phi_1) + d \prob R_1^2 \sin^2\fracpart{\Phi_1}}{?}
-\]
-as required.  
-
-Define the function $H_L(\lambda) = \prob G_L(\lambda)$.  Using~\eqref{eq:rhoGLZ} we have
+ 
+We now analyse the asymptotic distribution of $\sqrt{L} m_L$.  Define the function $H_L(\lambda) = \prob G_L(\lambda)$.  Using~\eqref{eq:rhoGLZ} we have
 \begin{align*}
 \sqrt{L} m_L &= \sqrt{L} \rho_0 \big( G_L(\hat{\lambda}_L) - G(0) \big) \\
 &= \sqrt{L} \rho_0 \big( G_L(\hat{\lambda}_L) - H_L(\hat{\lambda}_L) + H_L(\hat{\lambda}_L) - G(0) \big)
@@ -559,41 +554,25 @@ since $h_1(0) = \prob R_1\cos(\Phi_1) = 1$ and where we put $K = \prob R_1$, a f
 \[
 k_1(\hat{\lambda}_L) = \hat{\lambda}_L \big( 1 \; + \; \zeta(\hat{\lambda}_L) K \big) = \hat{\lambda}_L \big( 1  + o_P(1)\big).
 \]
-Lemma~\ref{lem:k2} shows that
-\[
-k_2(\hat{\lambda}_L) = \hat{\lambda}_L \big( ? \; + \; o_P(1) \big).
-\]
-\end{IEEEproof}
 
-\begin{lemma}\label{lem:k2}
-With the function $k_2(\lambda)$ defined as in~\eqref{eq:k2def}, then
-\[
-k_2(\hat{\lambda}_L) = \hat{\lambda}_L \big( H \; + \; o_P(1) \big).
-\]
-where
-\[
-H = 2 \sin(\tfrac{\pi}{M}) \sum_{k = 0}^M g(\tfrac{(2k+1)\pi}{M})
-\]
-\end{lemma}
-\begin{IEEEproof}
-Now, if $0 \leq \lambda < \tfrac{\pi}{M}$, then for each integer $k$,
+We now analyse the behaviour of $k_2(\lambda)$.  Firsty consider when, $0 \leq \lambda < \tfrac{\pi}{M}$, then for each integer $k$ and when $\phi \in [\tfrac{ (2k-1)\pi}{M}, \tfrac{(2k+1)\pi}{M} - \lambda )$,
 \begin{align*}
 \sin\fracpart{\lambda + \phi} - \sin\fracpart{\phi} &= \sin(\lambda + \phi - \tfrac{2\pi k}{M}) - \sin(\phi - \tfrac{2\pi k}{M}) \\
 &= \lambda\big(\cos(\phi - \tfrac{2\pi k}{M}) + \zeta_k(\lambda)\big) \\
-&= \lambda\big(\cos\fracpart{\phi} + \zeta_k(\lambda)\big)
+&= \lambda\big(\cos\fracpart{\phi} + \zeta_k(\lambda)\big).
 \end{align*}
-when $\phi \in [\tfrac{ (2k-1)\pi}{M}, \tfrac{(2k+1)\pi}{M} - \lambda )$ and 
+where $\zeta_l(\lambda)$ is a function that goes to zero as $\lambda$ goes to zero.  Alternatively when $\phi \in [ \tfrac{(2k+1)\pi}{M} - \lambda,\tfrac{(2k+1)\pi}{M} )$,
 \begin{align*}
 \sin&\fracpart{\lambda + \phi} - \sin\fracpart{\phi} \\
 &= \sin(\lambda + \phi - \tfrac{2\pi k}{M}) - \sin(\phi - \tfrac{2\pi (k-1)}{M}) \\
 &=  v_k(\phi) + \lambda\big(\cos(\phi - \tfrac{2\pi k}{M}) + \zeta_k(\lambda)\big) \\
 &= v_k(\phi) + \lambda\big(\cos\fracpart{\phi} + \zeta_k(\lambda)\big)
 \end{align*}
-when $\phi \in [ \tfrac{(2k+1)\pi}{M} - \lambda,\tfrac{(2k+1)\pi}{M} )$, and where
+where
 \[
 v_k(\phi) = \sin(\phi - \tfrac{2\pi k}{M}) - \sin(\phi - \tfrac{2\pi (k-1)}{M}).
 \]
-Observe that $v_k(\tfrac{(2k+1)\pi}{M}) = 2\sin(\tfrac{\pi}{M})$.  We can now write
+Observe that $v_k(\tfrac{(2k+1)\pi}{M}) = 2\sin(\tfrac{\pi}{M})$.  Now, for all $\phi \in \reals$ we have
 \[
 \sin\fracpart{\lambda + \phi} - \sin\fracpart{\phi} = v(\lambda, \phi) + \lambda\cos\fracpart{\phi}
 \]
@@ -620,7 +599,7 @@ Since $v(\lambda, \phi) = \sum_{k\in\ints} v_k(\lambda, \phi)$,
 \[
 k_2(\lambda) = \sum_{k \in \ints} \int_0^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi
 \]
-and since $v_k(\lambda,\phi) = 0$ for $\phi \in [0,2\pi)$ when $k \notin \{0,1,\dots,M-1\}$ the infinite sum above can be truncated so that
+and since $v_k(\lambda,\phi) = 0$ for $\phi$ in the interval $[0,2\pi)$ when $k \notin \{0,1,\dots,M-1\}$ the infinite sum above can be truncated so that
 \[
 k_2(\lambda) = \sum_{k = 0}^{M-1} \int_0^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi
 \]
