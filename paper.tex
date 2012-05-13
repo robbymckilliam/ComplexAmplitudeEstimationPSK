@@ -265,11 +265,21 @@ Under the same conditions as Theorem~\ref{thm:consistency}, let $f(r,\phi)$ be t
 \[
 g(\phi) = \int_{0}^{\infty} r f(r,\phi) dr.
 \]
-Put $\lambda_L = \sfracpart{\theta_0 - \hat{\theta}}_\pi$ and $m_L = \hat{\rho} - \rho_0 G(0)$. If the periodic function $g\fracpart{\phi}_{\pi}$ is continuous at multiples of $\tfrac{\pi}{M}$, then the distribution of $(\sqrt{L}\lambda_L, \sqrt{L}m_L)$ converges to the bivariate normal with zero mean and covariance
+Put $\lambda_L = \sfracpart{\theta_0 - \hat{\theta}}_\pi$ and $m_L = \hat{\rho} - \rho_0 G(0)$. If the periodic function $g\fracpart{\phi}_{\pi}$ is continuous at $\phi = (2k+1)\tfrac{\pi}{M}$ for every integer $k$, then the distribution of $(\sqrt{L}\lambda_L, \sqrt{L}m_L)$ converges to the bivariate normal with zero mean and covariance
 \[
-C = ?
+C = \frac{1}{(p + H d)^2} \left( \begin{array}{cc} 
+A_1 + A_2 & ? \\
+? & ?
+\end{array} \right)
 \]
-as $L \rightarrow \infty$.
+as $L \rightarrow \infty$, where
+\[
+H = 2 \sin(\tfrac{\pi}{M}) \sum_{k = 0}^M g(\tfrac{(2k+1)\pi}{M})
+\]
+and
+\[
+A_1 = \prob R_1^2\sin^2(\Phi_1), \qquad A_2 = \prob R_1^2\sin^2\fracpart{\Phi_1}.
+\]
 \end{theorem}
 
 %BLERG discuss assumptions.  We have that $h_1$ is uniquely maximised at $0$ over the interval $[-\pi,\pi)$ since $\{w_i\}$ has zero mean.  The requirement that $h_2$ is uniquely maximised at 0 is stronger that we need.  We actually only require that the sum $p h_1(x) + dh_2(x)$ is maximised uniquely at 0 over the interval $[-\pi, \pi)$.  However, we have stated the theorem in this stronger form as it makes the proof in the noncoherent case (i.e. when there are no pilot symbols) follow more transparently.
@@ -416,7 +426,7 @@ Define the function $Q(\lambda) = \prob G_L^\prime(\lambda) - \prob G_L^\prime(0
 \end{align*}
 Lemma~\ref{lem:Qconv} shows that
 \[
-\sqrt{L} Q(\hat{\lambda}_L) = \sqrt{L} \hat{\lambda}_L\big( ?  + o_P(1) \big)
+\sqrt{L} Q(\hat{\lambda}_L) = \sqrt{L} \hat{\lambda}_L\big( p + Hd  + o_P(1) \big)
 \]
 where $o_P(1)$ denotes a number converging in probablity to zero as $L \rightarrow \infty$.  Lemma~\ref{lem:empiricprocc} shows that
 \[
@@ -424,11 +434,11 @@ where $o_P(1)$ denotes a number converging in probablity to zero as $L \rightarr
 \]
 It follows that
 \[
-0 = o_P(1) + \sqrt{L}G_L^\prime(0) + \sqrt{L} \hat{\lambda}_L \big( ?  + o_P(1) \big)
+0 = o_P(1) + \sqrt{L}G_L^\prime(0) + \sqrt{L} \hat{\lambda}_L \big( p + Hd  + o_P(1) \big)
 \]
 and rearranging gives,
 \[
-\sqrt{L} \hat{\lambda}_L = o_P(1) + \frac{\sqrt{L}G_L'(0)}{?  + o_P(1)}.
+\sqrt{L} \hat{\lambda}_L = o_P(1) + \frac{\sqrt{L}G_L'(0)}{p + Hd  + o_P(1)}.
 \]
 Lemma~\ref{lem:convdistGLdash} shows that the distribution of $\sqrt{L}G_L'(0)$ converges to the normal with zero mean and variance
 \[
@@ -484,7 +494,7 @@ G_L^\prime(\hat{\lambda}_L) = \frac{d G_L}{d \lambda}(\hat{\lambda}_L) = 0.
 \]
 for all $i \in D$.
 \end{lemma}
-\begin{proof}
+\begin{IEEEproof}
 Recall that $\hat{d}_i = \hat{d}_i(\hat{\theta})$ are the minimsers of $SS$.  The proof now proceeds by contradiction.  Assume that $\sfracpart{\hat{\lambda}_L + \Phi_i} \leq \frac{1}{2M} - \frac{1}{2LM ?}$ for some $k$.  Put $r_i = \hat{d}_i e_k$, then
 \begin{align*}
 Y(\{ r_i, i \in D\}) = \frac{1}{L}\left( B + \sum_{i \in D} y_i\hat{r}_i^* \right) = \hat{Y} + \frac{1}{L}\eta y_k\hat{d}_k^*.
@@ -513,12 +523,16 @@ R &\geq  \frac{2}{L^2}\abs{\hat{Y} y_k}\Re\left(\eta e^{j(\phi_i - \hat{\theta})
  \Re\left(\eta e^{j(\phi_i - \hat{\theta})} \hat{d}_k^* \right) > - \frac{\abs{ \eta}^2 \abs{ y_k }}{2 L \abs{\hat{Y}}}.
  \]
  Unfinished, but this proof will work
-\end{proof}
+\end{IEEEproof}
 
 
 \begin{lemma}\label{lem:Qconv}
 \[
-\sqrt{L} Q(\hat{\lambda}_L) = \sqrt{L} \hat{\lambda}_L\big( p + ?  + o_P(1) \big)
+\sqrt{L} Q(\hat{\lambda}_L) = \sqrt{L} \hat{\lambda}_L\big( p + Hd  + o_P(1) \big)
+\]
+where 
+\[
+H = 2 \sin(\tfrac{\pi}{M}) \sum_{k = 0}^M g(\tfrac{(2k+1)\pi}{M})
 \]
 \end{lemma}
 \begin{IEEEproof}
@@ -527,10 +541,10 @@ Write
 Q(\lambda) = \prob G_L^\prime(\lambda) - \prob G_L^\prime(0) = \frac{\abs{P}}{L} k_1(\lambda) + \frac{\abs{D}}{L} k_2(\lambda)
 \]
 where
-\begin{align*}
-k_1(\lambda) &= \prob R_1\big( \sin(\lambda + \Phi_1) - \sin(\Phi_1) \big), \;\;\; \text{and} \\
-k_2(\lambda) &= \prob R_1\big( \sin\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} \big).
-\end{align*}
+\begin{align}
+k_1(\lambda) &= \prob R_1\big( \sin(\lambda + \Phi_1) - \sin(\Phi_1) \big), \;\;\; \text{and} \nonumber\\
+k_2(\lambda) &= \prob R_1\big( \sin\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} \big). \label{eq:k2def}
+\end{align}
 Since,
 \[
 \sin(\lambda + \phi) - \sin(\phi) = \lambda \big( \cos(\phi) + \zeta(\lambda) \big),
@@ -545,26 +559,96 @@ since $h_1(0) = \prob R_1\cos(\Phi_1) = 1$ and where we put $K = \prob R_1$, a f
 \[
 k_1(\hat{\lambda}_L) = \hat{\lambda}_L \big( 1 \; + \; \zeta(\hat{\lambda}_L) K \big) = \hat{\lambda}_L \big( 1  + o_P(1)\big).
 \]
-Recalling that $f(r,\phi)$ is the joint probability density function of $R_1$ and $\Phi_1$,
-\begin{align*}
-k_2(\lambda) &= \int_0^{2\pi}\int_{0}^\infty r \big( \sin\fracpart{\lambda + \phi} - \sin\fracpart{\phi} \big) f(r,\phi) dr d\phi \\
-&= \int_0^{2\pi} \big( \sin\fracpart{\lambda + \phi} - \sin\fracpart{\phi} \big) g(\phi) d\phi.
-\end{align*}
+Lemma~\ref{lem:k2} shows that
+\[
+k_2(\hat{\lambda}_L) = \hat{\lambda}_L \big( ? \; + \; o_P(1) \big).
+\]
+\end{IEEEproof}
+
+\begin{lemma}\label{lem:k2}
+With the function $k_2(\lambda)$ defined as in~\eqref{eq:k2def}, then
+\[
+k_2(\hat{\lambda}_L) = \hat{\lambda}_L \big( H \; + \; o_P(1) \big).
+\]
+where
+\[
+H = 2 \sin(\tfrac{\pi}{M}) \sum_{k = 0}^M g(\tfrac{(2k+1)\pi}{M})
+\]
+\end{lemma}
+\begin{IEEEproof}
 Now, if $0 \leq \lambda < \tfrac{\pi}{M}$, then for each integer $k$,
 \begin{align*}
 \sin\fracpart{\lambda + \phi} - \sin\fracpart{\phi} &= \sin(\lambda + \phi - \tfrac{2\pi k}{M}) - \sin(\phi - \tfrac{2\pi k}{M}) \\
-&= \lambda\big(\cos(\phi - \tfrac{2\pi k}{M}) + \zeta_k(\lambda)\big)
+&= \lambda\big(\cos(\phi - \tfrac{2\pi k}{M}) + \zeta_k(\lambda)\big) \\
+&= \lambda\big(\cos\fracpart{\phi} + \zeta_k(\lambda)\big)
 \end{align*}
-when $\phi \in [\tfrac{ (2k-1)\pi}{M}, \tfrac{2k\pi}{M} - \lambda )$ and 
+when $\phi \in [\tfrac{ (2k-1)\pi}{M}, \tfrac{(2k+1)\pi}{M} - \lambda )$ and 
 \begin{align*}
 \sin&\fracpart{\lambda + \phi} - \sin\fracpart{\phi} \\
 &= \sin(\lambda + \phi - \tfrac{2\pi k}{M}) - \sin(\phi - \tfrac{2\pi (k-1)}{M}) \\
-&=  v_k(\phi) + \lambda\big(\cos(\phi - \tfrac{2\pi k}{M}) + \zeta_k(\lambda)\big) 
+&=  v_k(\phi) + \lambda\big(\cos(\phi - \tfrac{2\pi k}{M}) + \zeta_k(\lambda)\big) \\
+&= v_k(\phi) + \lambda\big(\cos\fracpart{\phi} + \zeta_k(\lambda)\big)
 \end{align*}
-when $\phi \in [ \tfrac{2k\pi}{M} - \lambda,\tfrac{2k\pi}{M} )$, and where
+when $\phi \in [ \tfrac{(2k+1)\pi}{M} - \lambda,\tfrac{(2k+1)\pi}{M} )$, and where
 \[
 v_k(\phi) = \sin(\phi - \tfrac{2\pi k}{M}) - \sin(\phi - \tfrac{2\pi (k-1)}{M}).
 \]
+Observe that $v_k(\tfrac{(2k+1)\pi}{M}) = 2\sin(\tfrac{\pi}{M})$.  We can now write
+\[
+\sin\fracpart{\lambda + \phi} - \sin\fracpart{\phi} = v(\lambda, \phi) + \lambda\cos\fracpart{\phi}
+\]
+where $v(\lambda, \phi) = \sum_{k\in\ints} v_k(\lambda, \phi)$ and where
+\[
+v_k(\lambda,\phi) = \begin{cases}
+v_k(\phi) + \lambda\zeta_k(\lambda) &  \phi \in [ \tfrac{(2k+1)\pi}{M} - \lambda,\tfrac{(2k+1)\pi}{M} ) \\
+\lambda\zeta_k(\lambda) & \phi \in [\tfrac{ (2k-1)\pi}{M}, \tfrac{(2k+1)\pi}{M} - \lambda ) \\
+0 & \text{otherwise}.
+\end{cases}
+\]
+Now
+\begin{align*}
+k_2(\lambda) &=  \prob R_1\big( \sin\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} \big) \\
+&= \prob R_1\big( v(\lambda, \Phi_1) + \lambda\cos\fracpart{\Phi_1} \big) \\
+&= \prob R_1 v(\lambda, \Phi_1) + \lambda h_2(0).
+\end{align*}
+It remains to evaluate $\prob R_1 v(\lambda, \Phi_1)$.  Recalling that $f(r,\phi)$ is the joint probability density function of $R_1$ and $\Phi_1$,
+\begin{align*}
+k_2(\lambda) &= \int_0^{2\pi}\int_{0}^\infty r v(\lambda, \phi) f(r,\phi) dr d\phi \\
+&= \int_0^{2\pi} v(\lambda, \phi) g(\phi) d\phi.
+\end{align*}
+Since $v(\lambda, \phi) = \sum_{k\in\ints} v_k(\lambda, \phi)$,
+\[
+k_2(\lambda) = \sum_{k \in \ints} \int_0^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi
+\]
+and since $v_k(\lambda,\phi) = 0$ for $\phi \in [0,2\pi)$ when $k \notin \{0,1,\dots,M\}$ the infinite sum above can be truncated so that
+\[
+k_2(\lambda) = \sum_{k = 0}^M \int_0^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi
+\]
+Now
+\begin{align*}
+\int_0^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi = &\int_{\tfrac{(2k+1)\pi}{M} - \lambda}^{\tfrac{(2k+1)\pi}{M}}v_k(\phi)g(\phi)d\phi \\
+&\hspace{0.5cm}+ \lambda\zeta_k(\lambda) \int_{\tfrac{(2k-1)\pi}{M}}^{\tfrac{(2k+1)\pi}{M}}g(\phi)d\phi.
+\end{align*}
+Now, since $g\fracpart{\phi}_\pi$ is continuous at $(2k+1)\tfrac{\pi}{M}$ for each integer $k$, and $v_k(\phi)$ is continuous and $v_k(\tfrac{(2k+1)\pi}{M}) =  2\sin(\tfrac{\pi}{M})$,
+\begin{align*}
+\int_{\tfrac{(2k+1)\pi}{M} - \lambda}^{\tfrac{(2k+1)\pi}{M}}v_k(\phi)g(\phi)d\phi &= \lambda( v_k(\tfrac{(2k+1)\pi}{M}) + \nu_k(\lambda) ) \\
+&= \lambda( 2\sin(\tfrac{\pi}{M})g(\tfrac{(2k+1)\pi}{M}) + \nu_k(\lambda) )
+\end{align*}
+where $\nu_k(\lambda)$ is function that goes to zero as $\lambda$ goes to zero.  To keep the notation clean put $A_k = \int_{\tfrac{(2k-1)\pi}{M}}^{\tfrac{(2k+1)\pi}{M}}g(\phi)d\phi$.  For each $k\in\ints$, $A_k$ is a nonnegative finite constant less than one.  Now
+\begin{align*}
+\int_0^{2\pi} v_k(\lambda, \phi) &g(\phi) d\phi \\
+&= \lambda( 2\sin(\tfrac{\pi}{M})g(\tfrac{(2k+1)\pi}{M}) + \nu_k(\lambda) + \zeta_k(\lambda) A_k )
+\end{align*}
+and
+\begin{align*}
+k_2(\lambda) &= \sum_{k = 0}^M \lambda( 2\sin(\tfrac{\pi}{M})g(\tfrac{(2k+1)\pi}{M}) + \nu_k(\lambda) + \zeta_k(\lambda) A_k ) \\
+ &= \epsilon(\lambda) + 2 \lambda \sin(\tfrac{\pi}{M}) \sum_{k = 0}^M g(\tfrac{(2k+1)\pi}{M})
+\end{align*}
+where $\epsilon(\lambda) = \sum_{k=0}^M\big( \nu_k(\lambda) + \zeta_k(\lambda) A_k \big)$ is a function that goes to zero as $\lambda$ goes to zero.  Because $\hat{\lambda}_L$ converges almost surely to zero as $L \rightarrow\infty$, then $\epsilon(\hat{\lambda}_L)$ converges almost surely (and therefore also in probability) to zero as $L \rightarrow\infty$, i.e. $\epsilon(\hat{\lambda}_L) = o_P(1)$.  So
+\[
+k_2(\hat{\lambda}_L) = o_P(1) + 2 \hat{\lambda}_L \sin(\tfrac{\pi}{M}) \sum_{k = 0}^M g(\tfrac{(2k+1)\pi}{M})
+\]
+as required.
 \end{IEEEproof}
 
 \begin{lemma}\label{lem:empiricprocc} BLERG
@@ -577,10 +661,7 @@ v_k(\phi) = \sin(\phi - \tfrac{2\pi k}{M}) - \sin(\phi - \tfrac{2\pi (k-1)}{M}).
 \end{IEEEproof}
 
 \begin{lemma}\label{lem:convdistGLdash}
-The distribution of $\sqrt{L}G_L'(0)$ converges to the normal with zero mean and variance
-\[
-p \prob R_1^2 \sin^2(\Phi_1) + d \prob R_1^2 \sin^2\fracpart{\Phi_1}.
-\]
+The distribution of $\sqrt{L}G_L'(0)$ converges to the normal with zero mean and variance $A_1 + A_2$.
 \end{lemma}
 \begin{IEEEproof}
 Observe that 
@@ -639,6 +720,29 @@ The covariance between $X_L$ and $\sqrt{L}\hat{\lambda}_L$ converges to zero as 
 \begin{IEEEproof}
 
 \end{IEEEproof}
+
+
+\section{The Gaussian noise case}
+
+Let the noise sequence $\{w_i\}$ be complex Gaussian with independent real and imaginary parts having zero mean and variance $\sigma^2$.  The joint density function of the real and imaginary parts is then
+\[
+p(x,y) = \frac{1}{2\pi\sigma^2}e^{-(x^2 + y^2)/\sigma^2}
+\]
+Theorem~\ref{thm:consistency}~and~\ref{thm:normality} hold and, since the distribution of $w_1$ is circularly symetric, the distribution of $R_1e^{j\Phi_1}$ is identical to the distribution of $1 + \frac{1}{\rho_0} w_1$.
+%and the joint density function of the real and imaginary parts of $Z$ is
+%\[
+%p_Z(x,y) = \rho_0^2 p( \rho_0 (x - 1), \rho_0 y ) = \frac{\kappa^2}{2\pi}e^{-\kappa^2(x ^2 - 2x + 1 + y^2) }
+%\] 
+%where $\kappa = \tfrac{\rho_0}{\sigma}$.  
+It can be shown that
+\[
+g(\phi) = \frac{\cos^2(\phi)}{4\sqrt{\pi}}\left( \frac{e^{-\kappa^2} }{\sqrt{\pi}} + \kappa \Psi(\phi)  e^{-\kappa^2\sin^2(\phi)}\cos(\phi) \right)
+\]
+where
+\[
+\Psi(\phi) = 1 + \erf(\kappa \cos(\phi)) = 1 + \frac{2}{\sqrt{\pi}}\int_0^{\kappa \cos(\phi)} e^{-t^2} dt .
+\]
+The value of $A_1$ and $A_2$ can be computed by numerical integration.
 
 
 \section{Simulations}\label{sec:simulations}
