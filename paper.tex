@@ -237,7 +237,7 @@ where $\operatorname{round}(\cdot)$ takes its argument to the nearest integer.  
 The next two theorems decribe the asymptotic properties of the least squares estimator.
 
 \begin{theorem}\label{thm:consistency} (Almost sure convergence)
-Let $\{w_i\}$ be a sequence of independent and identically distributed, zero mean, circularly symetric complex random variables with $\prob \abs{w_1}$ finite, and let $\{y_i, i \in P \cup D\}$ be observed noisy symbols given by the signal model~\eqref{eq:sigmod}.   Let $\hat{a} = \hat{\rho}e^{j\hat{\theta}}$ be the least squares estimator of $a_0 = \rho_0e^{j\theta_0}$ where both $\hat{\rho}$ and $\rho_0$ are positive real numbers.  Put $L = \abs{P \cup D}$ and define real numbers $p$ and $d$ as the limits
+Let $\{w_i\}$ be a sequence of independent and identically distributed, zero mean, circularly symetric complex random variables with $\prob \abs{w_1}$ finite, and let $\{y_i, i \in P \cup D\}$ be noisy symbols given by the signal model~\eqref{eq:sigmod}.   Let $\hat{a} = \hat{\rho}e^{j\hat{\theta}}$ be the least squares estimator of $a_0 = \rho_0e^{j\theta_0}$ where both $\hat{\rho}$ and $\rho_0$ are positive real numbers.  Put $L = \abs{P \cup D}$ and define real numbers $p$ and $d$ as the limits
 \[
 \frac{\abs{P}}{L} \rightarrow p \qquad \text{and} \qquad \frac{\abs{D}}{L} \rightarrow d \qquad \text{as $L \rightarrow \infty$.}
 \] 
@@ -265,7 +265,7 @@ Under the same conditions as Theorem~\ref{thm:consistency}, let $f(r,\phi)$ be t
 \[
 g(\phi) = \int_{0}^{\infty} r f(r,\phi) dr.
 \]
-Put $\lambda_L = \sfracpart{\theta_0 - \hat{\theta}}_\pi$ and $m_L = \hat{\rho} - \rho_0 G(0)$. If the periodic function $g\fracpart{\phi}_{\pi}$ is continuous at $\phi = (2k+1)\tfrac{\pi}{M}$ for every integer $k$, then the distribution of $(\sqrt{L}\lambda_L, \sqrt{L}m_L)$ converges to the bivariate normal with zero mean and covariance
+Put $\lambda_L = \sfracpart{\theta_0 - \hat{\theta}}_\pi$ and $m_L = \hat{\rho} - \rho_0 G(0)$. If $g(\phi)$ is continuous at $\phi = (2k+1)\tfrac{\pi}{M}$ for every integer $k$, then the distribution of $(\sqrt{L}\lambda_L, \sqrt{L}m_L)$ converges to the bivariate normal with zero mean and covariance
 \[
 C = \frac{1}{(p + H d)^2} \left( \begin{array}{cc} 
 A_1 + A_2 & ? \\
@@ -274,7 +274,7 @@ A_1 + A_2 & ? \\
 \]
 as $L \rightarrow \infty$, where
 \[
-H = 2 \sin(\tfrac{\pi}{M}) \sum_{k = 0}^M g(\tfrac{(2k+1)\pi}{M})
+H = 2 \sin(\tfrac{\pi}{M}) \sum_{k = 0}^{M-1} g(\tfrac{(2k+1)\pi}{M})
 \]
 and
 \[
@@ -305,7 +305,7 @@ where $\Re(\cdot)$ denotes the real part.  Substituting this expression into $SS
 SS(\theta) = A - \frac{1}{L}\Re(Z(\theta))^2.
 \]
 
-We are interested in analysing $\hat{\theta}$, the maximiser of $\Re(Z(\theta))^2$ or equivalently, the maximiser of $\abs{\Re(Z(\theta))}$.  Recalling the definition of $R_i$ and $\Phi_i$ from~\eqref{eq:RiandPhii},
+We are interested in analysing $\hat{\theta}$, the minimiser of $SS(\theta)$ or equivalently, the maximiser of $\abs{\Re(Z(\theta))}$.  Recalling the definition of $R_i$ and $\Phi_i$ from~\eqref{eq:RiandPhii},
 \begin{align*}
 y_i &= a_0 s_i + w_i \\
 &= \rho_0 s_i e^{j \theta_0}\left( 1 + \frac{1}{\rho_0} w_i s_i^* e^{-j \theta_0} \right) \\
@@ -341,7 +341,7 @@ Let
 \[
 G_L(\lambda) = \frac{1}{\rho_0 L} \Re(Z(\theta))
 \]
-and put $\hat{\lambda}_L = \langle\theta_0 - \hat{\theta}\rangle$.  Then $\hat{\lambda}_L$ is the maximiser of $G_L(\lambda)^2$ and equivalently the maximiser of $\abs{G_L(\lambda)}$.  We will show that $\hat{\lambda}_L$ converges almost surely to zero as $L \rightarrow \infty$.  From this, the proof of strong consistency follows.
+and put $\hat{\lambda}_L = \langle\theta_0 - \hat{\theta}\rangle$.  Since $\hat{\theta}$ is the maximiser of $\abs{\Re(Z(\theta))}$ then  $\hat{\lambda}_L$ is the maximiser of $\abs{G_L(\lambda)}$.  We will show that $\hat{\lambda}_L$ converges almost surely to zero as $L \rightarrow \infty$.  The proof of part 1 of the theorem follows from this.
 
 Observe that
 \[
@@ -620,16 +620,17 @@ Since $v(\lambda, \phi) = \sum_{k\in\ints} v_k(\lambda, \phi)$,
 \[
 k_2(\lambda) = \sum_{k \in \ints} \int_0^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi
 \]
-and since $v_k(\lambda,\phi) = 0$ for $\phi \in [0,2\pi)$ when $k \notin \{0,1,\dots,M\}$ the infinite sum above can be truncated so that
+and since $v_k(\lambda,\phi) = 0$ for $\phi \in [0,2\pi)$ when $k \notin \{0,1,\dots,M-1\}$ the infinite sum above can be truncated so that
 \[
-k_2(\lambda) = \sum_{k = 0}^M \int_0^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi
+k_2(\lambda) = \sum_{k = 0}^{M-1} \int_0^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi
 \]
+(BLERG this needs modification, more care)
 Now
 \begin{align*}
 \int_0^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi = &\int_{\tfrac{(2k+1)\pi}{M} - \lambda}^{\tfrac{(2k+1)\pi}{M}}v_k(\phi)g(\phi)d\phi \\
 &\hspace{0.5cm}+ \lambda\zeta_k(\lambda) \int_{\tfrac{(2k-1)\pi}{M}}^{\tfrac{(2k+1)\pi}{M}}g(\phi)d\phi.
 \end{align*}
-Now, since $g\fracpart{\phi}_\pi$ is continuous at $(2k+1)\tfrac{\pi}{M}$ for each integer $k$, and $v_k(\phi)$ is continuous and $v_k(\tfrac{(2k+1)\pi}{M}) =  2\sin(\tfrac{\pi}{M})$,
+Now, since $g(\phi)$ is continuous at $(2k+1)\tfrac{\pi}{M}$ for each integer $k$, and $v_k(\phi)$ is continuous and $v_k(\tfrac{(2k+1)\pi}{M}) =  2\sin(\tfrac{\pi}{M})$,
 \begin{align*}
 \int_{\tfrac{(2k+1)\pi}{M} - \lambda}^{\tfrac{(2k+1)\pi}{M}}v_k(\phi)g(\phi)d\phi &= \lambda( v_k(\tfrac{(2k+1)\pi}{M}) + \nu_k(\lambda) ) \\
 &= \lambda( 2\sin(\tfrac{\pi}{M})g(\tfrac{(2k+1)\pi}{M}) + \nu_k(\lambda) )
@@ -641,12 +642,12 @@ where $\nu_k(\lambda)$ is function that goes to zero as $\lambda$ goes to zero. 
 \end{align*}
 and
 \begin{align*}
-k_2(\lambda) &= \sum_{k = 0}^M \lambda( 2\sin(\tfrac{\pi}{M})g(\tfrac{(2k+1)\pi}{M}) + \nu_k(\lambda) + \zeta_k(\lambda) A_k ) \\
+k_2(\lambda) &= \sum_{k = 0}^{M-1} \lambda( 2\sin(\tfrac{\pi}{M})g(\tfrac{(2k+1)\pi}{M}) + \nu_k(\lambda) + \zeta_k(\lambda) A_k ) \\
  &= \epsilon(\lambda) + 2 \lambda \sin(\tfrac{\pi}{M}) \sum_{k = 0}^M g(\tfrac{(2k+1)\pi}{M})
 \end{align*}
 where $\epsilon(\lambda) = \sum_{k=0}^M\big( \nu_k(\lambda) + \zeta_k(\lambda) A_k \big)$ is a function that goes to zero as $\lambda$ goes to zero.  Because $\hat{\lambda}_L$ converges almost surely to zero as $L \rightarrow\infty$, then $\epsilon(\hat{\lambda}_L)$ converges almost surely (and therefore also in probability) to zero as $L \rightarrow\infty$, i.e. $\epsilon(\hat{\lambda}_L) = o_P(1)$.  So
 \[
-k_2(\hat{\lambda}_L) = o_P(1) + 2 \hat{\lambda}_L \sin(\tfrac{\pi}{M}) \sum_{k = 0}^M g(\tfrac{(2k+1)\pi}{M})
+k_2(\hat{\lambda}_L) = o_P(1) + 2 \hat{\lambda}_L \sin(\tfrac{\pi}{M}) \sum_{k = 0}^{M-1} g(\tfrac{(2k+1)\pi}{M})
 \]
 as required.
 \end{IEEEproof}
