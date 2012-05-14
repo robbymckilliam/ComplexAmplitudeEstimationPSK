@@ -27,7 +27,8 @@ object ComplexAmplitudeEstimator {
 abstract class CoherentComplexAmplitudeEstimator extends ComplexAmplitudeEstimator {
   
   /** 
-  * Returns the square error in amplitude and phase between two complex numbers
+  * Returns the square error in amplitude and phase between two complex numbers.
+  * Phase error is computed modulo 2pi.
   */ 
  final def error(ahat :Complex, a0 : Complex) : (Double, Double) = {
    val tpi = 2*scala.math.Pi
@@ -46,7 +47,8 @@ abstract class CoherentComplexAmplitudeEstimator extends ComplexAmplitudeEstimat
 abstract class NonCoherentComplexAmplitudeEstimator(M : Int) extends ComplexAmplitudeEstimator {
   
   /** 
-  * Returns the square error in amplitude and phase between two complex numbers
+  * Returns the square error in amplitude and phase between two complex numbers.
+  * Phase error is computed modulo 2pi/M.
   */ 
  final def error(ahat :Complex, a0 : Complex) : (Double, Double) = {
    val tpi = 2*scala.math.Pi/M

@@ -1,7 +1,7 @@
 /**
  * Mackenthun.scala
- * File implement various versions of Mackenthun's carrier phase and amplitude estimator
- * for phase-shift keyed signals.
+ * Implements various versions of Mackenthun's least squares carrier phase 
+ * and amplitude estimator for phase-shift keyed signals.
  * @author Robby McKilliam
  */
 package cam.psk

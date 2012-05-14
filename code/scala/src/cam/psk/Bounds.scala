@@ -1,5 +1,8 @@
 /*
- * Classes for computing estimator bounds for noncoherent PSK carrier phase estimation
+ * Classes for computing estimator bounds for noncoherent PSK carrier phase
+ * estimation
+ * 
+ * @author Robby McKilliam
  */
 
 package cam.psk
