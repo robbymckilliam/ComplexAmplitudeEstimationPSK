@@ -223,7 +223,32 @@ $Q = \frac{1}{L}\abs{Y}^2$\;
 \end{algorithm}
 
 
-\section{Statistical properties}
+\section{Circularly symmetric complex random variables}
+
+Before describing the statistical properties of the least squares estimator, we first require some properties of complex valued random variables.  A complex random variable $X$ is called \emph{circularly symmetric} if the distribution of its phase $\angle{X}$ is uniform on $[0,2\pi)$ and is independent of the distribution of its magnitude $\abs{X}$.  That is, if we define real random variables $Z > 0$ and $\Theta \in [0,2\pi)$ such that $Ze^{j\Theta} = X$, then $\Theta$ is uniformly distributed on $[0,2\pi)$ and is indepedent of $Z$.  If the probability density function of $Z$ is $f_Z(z)$, then the joint density function of $\Theta$ and $Z$ is 
+\[
+f_{Z,\Theta}(z,\theta) = \frac{1}{2\pi}f_Z(z).
+\]  
+Observe that for any real number $\phi$, the distribution of $X$ and $e^{j\phi}X$ are the same, that is, the distribution is invariate to phase rotation.  If $\expect\abs{X} = \expect Z$ is finite, then $X$ has zero mean since
+\begin{align*}
+\expect X &= \int_{0}^{2\pi} \int_{0}^\infty z e^{j\theta} f_{Z,\Theta}(z,\theta) dz d\theta \\
+&= \frac{1}{2\pi} \int_{0}^{2\pi} e^{j\theta} \int_{0}^\infty z f_Z(z) dz d\theta \\
+&= \frac{1}{2\pi}\expect Z \int_{0}^{2\pi} e^{j\theta} d\theta = 0.
+\end{align*}
+
+We will have particular use of complex random variables of the form $1 + X$ where $X$ is circularly symmetric.  Let $R \geq 0$ and $\Phi \in [0,2\pi)$ be real random variables satisfying, 
+\[
+R e^{j\Phi} = 1 + X.
+\]
+The joint distribution of $R$ and $\Phi$ can be show to be
+\[
+f(r,\phi) = \frac{r f_Z(\sqrt{r^2 - 2r\cos\phi + 1})}{\sqrt{r^2 - 2r\cos\phi + 1}}
+\]
+The mean of $R e^{j\Phi}$ is equal to one because the mean of $X$ is zero.
+
+
+
+\section{Statistical properties of the least square estimator}
 
 We use $\sfracpart{x}_\pi$ to denote $x$ taken `modulo $2\pi$' into the interval $[-\pi, \pi)$, that is
 \[
