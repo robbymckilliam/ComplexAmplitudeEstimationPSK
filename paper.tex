@@ -57,18 +57,17 @@ where $\abs{x}$ denotes the magnitude of the complex number $x$.  The least squa
 
 The existing literature mostly considers what is called \emph{noncoherent detection} where no pilots symbols exist ($P = \emptyset$ where $\emptyset$ is the empty set).  In the nocoherent setting \emph{differential encoding} is often used, and for this reason the estimation problem has been called \emph{multiple symbol differential detection}.  An important paper is by Mackenthun~\cite{Mackenthun1994} who described an algorithm to compute the least squares estimator requiring only $O(L \log L)$ arithmetic operations, where $L = \abs{P \cup D}$ is the total number of symbols transmitted.  Sweldens~\cite{Sweldens2001} rediscovered Mackenthun's algorithm in 2001.  Here, we consider a slightly more general model than is usual, one that allows the utilisation of pilot symbols, i.e., \emph{coherent detection}.  Our model includes the noncoherent case by setting the number of pilot symbols to zero, that is, putting $P = \emptyset$.  We show in Section~\ref{sec:least-squar-estim}~that only a minor modification of Mackenthun's algorithm is required to include pilot symbols.
 
-In the literature it has been common to assume that the data symbols $\{d_i, i \in D\}$ are of primary interest and the complex amplitude $a_0$ is a nuisance parameter.  The metric of performance is correspondingly \emph{symbol error rate}, or \emph{bit error rate}.  Whilst estimating the symbols (or more precisely the transmitted bits) is ultimately the goal, we take the opposite approach here.  Our aim is to estimate $a_0$, and we treat the unknown data symbols as nuisance parameters.  This is motivated by the fact that in our intended application (narrowband satellite communications) and in many modern communication systems the data symbols are \emph{coded}.  For this reason raw symbol error rate is not of specific interest at this stage.  Instead, we desire an accurate estimator $\hat{a}$ of $a_0$, so that the compensated recieved symbols $\hat{a}^{-1}y_i$ can be accurately modelled using an additive noise channel.  The additive noise channel is a common assumption for subsequent reciever operations, such as decoding.  Consequently, our metric of performance will not be symbol or bit error rate, it will be mean square error (MSE) between complex amplitude $a_0$ and its estimator $\hat{a}$, that is, our metric is $\prob\abs{a_0 - \hat{a}}^2$ where $\prob$ is the expected value operator. It will actually be informative to consider the carrier phase and amplitude estimators separately, that is, if $\hat{a} = \hat{\rho}e^{j\hat{\theta}}$ where $\hat{\rho}$ is a positive real number, then we consider $\prob\vert\langle\theta_0 - \hat{\theta}\rangle_\pi\vert^2$ and $\prob\abs{\rho_0 - \hat{\rho}}^2$.  The function $\fracpart{\cdot}_\pi$ denotes its argument taken `modulo $2\pi$' into the interval $[-\pi, \pi)$.  It will become apparent why $\prob\vert\langle\theta_0 - \hat{\theta}\rangle_\pi\vert^2$ rather than $\prob\vert\theta_0 - \hat{\theta}\vert^2$ is the appropriate measure of error for the phase parameter.
+In the literature it has been common to assume that the data symbols $\{d_i, i \in D\}$ are of primary interest and the complex amplitude $a_0$ is a nuisance parameter.  The metric of performance is correspondingly \emph{symbol error rate}, or \emph{bit error rate}.  Whilst estimating the symbols (or more precisely the transmitted bits) is ultimately the goal, we take the opposite approach here.  Our aim is to estimate $a_0$, and we treat the unknown data symbols as nuisance parameters.  This is motivated by the fact that in our intended application (narrowband satellite communications) and in many modern communication systems the data symbols are \emph{coded}.  For this reason raw symbol error rate is not of specific interest at this stage.  Instead, we desire an accurate estimator $\hat{a}$ of $a_0$, so that the compensated recieved symbols $\hat{a}^{-1}y_i$ can be accurately modelled using an additive noise channel.  The additive noise channel is a common assumption for subsequent reciever operations, such as decoding.  Consequently, our metric of performance will not be symbol or bit error rate, it will be mean square error (MSE) between complex amplitude $a_0$ and its estimator $\hat{a}$, that is, our metric is $\expect\abs{a_0 - \hat{a}}^2$ where $\expect$ is the expected value operator. It will actually be informative to consider the carrier phase and amplitude estimators separately, that is, if $\hat{a} = \hat{\rho}e^{j\hat{\theta}}$ where $\hat{\rho}$ is a positive real number, then we consider $\expect\langle\theta_0 - \hat{\theta}\rangle_\pi^2$ and $\expect(\rho_0 - \hat{\rho})^2$.  The function $\fracpart{\cdot}_\pi$ denotes its argument taken `modulo $2\pi$' into the interval $[-\pi, \pi)$.  It will become apparent why $\expect\langle\theta_0 - \hat{\theta}\rangle_\pi^2$ rather than $\expect(\theta_0 - \hat{\theta})^2$ is the appropriate measure of error for the phase parameter.
 
-%\subsection{Notation}
-It is worth commenting on our use of $\prob$ rather than the more usual $\expect$ or $E$ for the expected value operator.  The notation comes from Pollard~\cite[Ch 1]{Pollard_users_guide_prob_2002}.  The notation is good because it removes unecessary distinction between `probability' and expectation.  Given a random variable $X$ with cumulative density function $F$, the probability of an event, say $X \in S$, where $S$ is some subset of the range of $X$, is 
-\[
-\prob \indicator \{X \in S\} = \int \indicator \{X \in S\}(x) dF(x) = \int_{S} dF(x)
-\]
-where $\indicator \{X \in S\}$ is the indicator function of the set $S$, i.e $\indicator \{X \in S\}(x) = 1$ when the argument $x \in S$ and zero otherwise.  We will usually drop the $\onebf$ and simply write $\prob \{ X \in S \}$ to mean $\prob \onebf\{ X \in S \}$.  To illustrate the utility of this notation, Markov's inequality becomes 
-\[
-\prob \{ \abs{X} > \delta \}  \leq \prob \frac{\abs{X}}{\delta}\onebf\{ \abs{X} > \delta \} \leq \frac{1}{\delta}\prob\abs{X},
-\]
-where $\frac{\abs{X}}{\delta}\onebf\{ \abs{X} > \delta \}(x)$ is the function equal to $\abs{x}/\delta$ when the argument $x > \delta$ and zero otherwise.
+%It is worth commenting on our use of $\prob$ rather than the more usual $\expect$ or $E$ for the expected value operator.  The notation comes from Pollard~\cite[Ch 1]{Pollard_users_guide_prob_2002}.  The notation is good because it removes unecessary distinction between `probability' and expectation.  Given a random variable $X$ with cumulative density function $F$, the probability of an event, say $X \in S$, where $S$ is some subset of the range of $X$, is 
+%\[
+%\prob \indicator \{X \in S\} = \int \indicator \{X \in S\}(x) dF(x) = \int_{S} dF(x)
+%\]
+%where $\indicator \{X \in S\}$ is the indicator function of the set $S$, i.e $\indicator \{X \in S\}(x) = 1$ when the argument $x \in S$ and zero otherwise.  We will usually drop the $\onebf$ and simply write $\prob \{ X \in S \}$ to mean $\prob \onebf\{ X \in S \}$.  To illustrate the utility of this notation, Markov's inequality becomes 
+%\[
+%\prob \{ \abs{X} > \delta \}  \leq \prob \frac{\abs{X}}{\delta}\onebf\{ \abs{X} > \delta \} \leq \frac{1}{\delta}\prob\abs{X},
+%\]
+%where $\frac{\abs{X}}{\delta}\onebf\{ \abs{X} > \delta \}(x)$ is the function equal to $\abs{x}/\delta$ when the argument $x > \delta$ and zero otherwise.
 
 \section{Mackentun's algorithm}\label{sec:least-squar-estim}
 
@@ -194,7 +193,7 @@ So, each $Y_k$ can be computed from it predecessor $Y_{k-1}$ in a constant numbe
 \end{equation}
 Psuedocode is given in Algorithm~\ref{alg:loglinear}.  Line~\ref{alg_sortindices} contains the function $\operatorname{sortindicies}$ that, given the sequence $z = \{z_i, i \in D\}$, returns the permutation $\sigma$ of the indices in $D$ as described in~\eqref{eq:sigmasortind}.  Computing the $\operatorname{sortindicies}$ function requires sorting $\abs{D}$ elements.  This requires $O(L \log L)$ operations.  The $\operatorname{sortindicies}$ function is the primary bottleneck in this algorithm when $L$ is large.  The loops on lines~\ref{alg_loop_setup} and~\ref{alg_loop_search} and the operations on lines~\ref{alg_Y} to lines~\ref{alg_Q} all require $O(L)$ or less operations.  %In the next sections we will show how to the sortinces function can be avoided.  This leads to an algorithm that requires only $O(L)$ operations.
 
-\begin{algorithm} \label{alg:loglinear}
+\begin{algorithm}[t] \label{alg:loglinear}
 \SetAlCapFnt{\small}
 \SetAlTitleFnt{}
 \caption{Mackenthun's algorithm with pilot symbols}
@@ -555,7 +554,7 @@ since $h_1(0) = \prob R_1\cos(\Phi_1) = 1$ and where we put $K = \prob R_1$, a f
 k_1(\hat{\lambda}_L) = \hat{\lambda}_L \big( 1 \; + \; \zeta(\hat{\lambda}_L) K \big) = \hat{\lambda}_L \big( 1  + o_P(1)\big).
 \]
 
-We now analyse the behaviour of $k_2(\lambda)$.  Firsty consider when, $0 \leq \lambda < \tfrac{\pi}{M}$, then for each integer $k$ and when $\phi \in [\tfrac{ (2k-1)\pi}{M}, \tfrac{(2k+1)\pi}{M} - \lambda )$,
+We now analyse the behaviour of $k_2(\lambda)$.  Firstly consider when, $0 \leq \lambda < \tfrac{\pi}{M}$, then for each integer $k$ and when $\phi \in [\tfrac{ (2k-1)\pi}{M}, \tfrac{(2k+1)\pi}{M} - \lambda )$,
 \begin{align*}
 \sin\fracpart{\lambda + \phi} - \sin\fracpart{\phi} &= \sin(\lambda + \phi - \tfrac{2\pi k}{M}) - \sin(\phi - \tfrac{2\pi k}{M}) \\
 &= \lambda\big(\cos(\phi - \tfrac{2\pi k}{M}) + \zeta_k(\lambda)\big) \\
@@ -611,7 +610,8 @@ Now
 \end{align*}
 Now, since $g(\phi)$ is continuous at $(2k+1)\tfrac{\pi}{M}$ for each integer $k$, and $v_k(\phi)$ is continuous and $v_k(\tfrac{(2k+1)\pi}{M}) =  2\sin(\tfrac{\pi}{M})$,
 \begin{align*}
-\int_{\tfrac{(2k+1)\pi}{M} - \lambda}^{\tfrac{(2k+1)\pi}{M}}v_k(\phi)g(\phi)d\phi &= \lambda( v_k(\tfrac{(2k+1)\pi}{M}) + \nu_k(\lambda) ) \\
+\int_{\tfrac{(2k+1)\pi}{M} - \lambda}^{\tfrac{(2k+1)\pi}{M}}&v_k(\phi)g(\phi)d\phi \\
+&= \lambda( v_k(\tfrac{(2k+1)\pi}{M})g(\tfrac{(2k+1)\pi}{M}) + \nu_k(\lambda) ) \\
 &= \lambda( 2\sin(\tfrac{\pi}{M})g(\tfrac{(2k+1)\pi}{M}) + \nu_k(\lambda) )
 \end{align*}
 where $\nu_k(\lambda)$ is function that goes to zero as $\lambda$ goes to zero.  To keep the notation clean put $A_k = \int_{\tfrac{(2k-1)\pi}{M}}^{\tfrac{(2k+1)\pi}{M}}g(\phi)d\phi$.  For each $k\in\ints$, $A_k$ is a nonnegative finite constant less than one.  Now
