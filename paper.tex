@@ -236,19 +236,26 @@ Observe that for any real number $\phi$, the distribution of $X$ and $e^{j\phi}X
 &= \frac{1}{2\pi}\expect Z \int_{0}^{2\pi} e^{j\theta} d\theta = 0.
 \end{align*}
 
-We will have particular use of complex random variables of the form $1 + X$ where $X$ is circularly symmetric.  Let $R \geq 0$ and $\Phi \in [0,2\pi)$ be real random variables satisfying, 
+We will have particular use of complex random variables of the form $1 + X$.  Let $R \geq 0$ and $\Phi \in [0,2\pi)$ be real random variables satisfying, 
 \[
 R e^{j\Phi} = 1 + X.
 \]
 The joint distribution of $R$ and $\Phi$ can be show to be
 \[
-f(r,\phi) = \frac{r f_Z(\sqrt{r^2 - 2r\cos\phi + 1})}{\sqrt{r^2 - 2r\cos\phi + 1}}
+f(r,\phi) = \frac{r f_Z(\sqrt{r^2 - 2r\cos\phi + 1})}{\sqrt{r^2 - 2r\cos\phi + 1}}.
 \]
-The mean of $R e^{j\Phi}$ is equal to one because the mean of $X$ is zero.
+The mean of $R e^{j\Phi}$ is equal to one because the mean of $X$ is zero.  So,
+\[
+\expect \Re(R e^{j\Phi}) = \expect R \cos(\Phi) = 1,
+\]
+where $\Re(\cdot)$ denotes the real part, and
+\[
+\expect \Im(R e^{j\Phi}) = \expect R \sin(\Phi) = 0,
+\]
+where $\Im(\cdot)$ denotes the imaginary part.
 
 
-
-\section{Statistical properties of the least square estimator}
+\section{Statistical properties of the least squares estimator}
 
 We use $\sfracpart{x}_\pi$ to denote $x$ taken `modulo $2\pi$' into the interval $[-\pi, \pi)$, that is
 \[
@@ -261,7 +268,7 @@ where $\operatorname{round}(\cdot)$ takes its argument to the nearest integer.  
 The next two theorems decribe the asymptotic properties of the least squares estimator.
 
 \begin{theorem}\label{thm:consistency} (Almost sure convergence)
-Let $\{w_i\}$ be a sequence of independent and identically distributed, zero mean, circularly symetric complex random variables with $\prob \abs{w_1}$ finite, and let $\{y_i, i \in P \cup D\}$ be noisy symbols given by the signal model~\eqref{eq:sigmod}.   Let $\hat{a} = \hat{\rho}e^{j\hat{\theta}}$ be the least squares estimator of $a_0 = \rho_0e^{j\theta_0}$ where both $\hat{\rho}$ and $\rho_0$ are positive real numbers.  Put $L = \abs{P \cup D}$ and define real numbers $p$ and $d$ as the limits
+Let $\{w_i\}$ be a sequence of independent and identically distributed, zero mean, circularly symmetric complex random variables with $\expect \abs{w_1}$ finite, and let $\{y_i, i \in P \cup D\}$ be noisy symbols given by the signal model~\eqref{eq:sigmod}.   Let $\hat{a} = \hat{\rho}e^{j\hat{\theta}}$ be the least squares estimator of $a_0 = \rho_0e^{j\theta_0}$ where both $\hat{\rho}$ and $\rho_0$ are positive real numbers.  Put $L = \abs{P \cup D}$ and define real numbers $p$ and $d$ as the limits
 \[
 \frac{\abs{P}}{L} \rightarrow p \qquad \text{and} \qquad \frac{\abs{D}}{L} \rightarrow d \qquad \text{as $L \rightarrow \infty$.}
 \] 
@@ -271,11 +278,10 @@ R_ie^{j\Phi_i} = 1 + \frac{1}{\rho_0} w_i e^{-j\theta_0} s_i^*,
 \end{equation}
 and define the continuous function
 \[
-G(x) = p h_1(x) + d h_2(x)
+G(x) = p h_1(x) + d h_2(x) \qquad \text{where,}
 \]
-where
 \[
-h_1(x) = \prob R_1 \cos(x + \Phi_1), \;\;\; h_2(x) =  \prob R_1 \cos\sfracpart{ x + \Phi_1}.
+h_1(x) = \expect R_1 \cos(x + \Phi_1), \;\;\; h_2(x) =  \expect R_1 \cos\sfracpart{ x + \Phi_1}.
 \]
 If $p > 0$ and if $\abs{G(x)}$ is uniquely maximised at $x = 0$ over the interval $[-\pi,-\pi)$, then:
 \begin{enumerate}
@@ -289,7 +295,7 @@ Under the same conditions as Theorem~\ref{thm:consistency}, let $f(r,\phi)$ be t
 \[
 g(\phi) = \int_{0}^{\infty} r f(r,\phi) dr.
 \]
-Put $\lambda_L = \sfracpart{\theta_0 - \hat{\theta}}_\pi$ and $m_L = \hat{\rho} - \rho_0 G(0)$. If $g(\phi)$ is continuous at $\phi = (2k+1)\tfrac{\pi}{M}$ for every integer $k$, then the distribution of $(\sqrt{L}\lambda_L, \sqrt{L}m_L)$ converges to the bivariate normal with zero mean and covariance
+Put $\lambda_L = \sfracpart{\theta_0 - \hat{\theta}}_\pi$ and $m_L = \hat{\rho} - \rho_0 G(0)$. If $g(\phi)$ is continuous at $\phi = (2k+1)\tfrac{\pi}{M}$ for each $k = 0, 1, \dots M-1$, then the distribution of $(\sqrt{L}\lambda_L, \sqrt{L}m_L)$ converges to the bivariate normal with zero mean and covariance
 \[
 C = \frac{1}{(p + H d)^2} \left( \begin{array}{cc} 
 A_1 + A_2 & ? \\
@@ -298,11 +304,10 @@ A_1 + A_2 & ? \\
 \]
 as $L \rightarrow \infty$, where
 \[
-H = 2 \sin(\tfrac{\pi}{M}) \sum_{k = 0}^{M-1} g(\tfrac{(2k+1)\pi}{M})
+H = 2 \sin(\tfrac{\pi}{M}) \sum_{k = 0}^{M-1} g(\tfrac{(2k+1)\pi}{M}),
 \]
-and
 \[
-A_1 = \prob R_1^2\sin^2(\Phi_1), \qquad A_2 = \prob R_1^2\sin^2\fracpart{\Phi_1}.
+A_1 = \expect R_1^2\sin^2(\Phi_1), \qquad A_2 = \expect R_1^2\sin^2\fracpart{\Phi_1}.
 \]
 \end{theorem}
 
@@ -310,7 +315,18 @@ A_1 = \prob R_1^2\sin^2(\Phi_1), \qquad A_2 = \prob R_1^2\sin^2\fracpart{\Phi_1}
 
 %BLERG $\hat{a}$ is a biased estimator, particularly when the SNR is low, we show firs that $\hat{\theta}$ is strongly consistent, we are then able to analyse the behaviour of $\hat{a}$.
 
-\begin{IEEEproof} (Theorem~\ref{thm:consistency})
+Proofs of these theorems are given in the follows subsections~\ref{sec:proof-almost-sure}~and~\ref{sec:proof-asympt-norm}.  We first discussion the assumptions made by these theorems. 
+
+\begin{lemma}
+Let $X = Z e^{j\Theta}$ be a circularly symmetric complex random variable with pdf $\tfrac{1}{2\pi}f_Z(z)$ such that $z^{-1} f_Z(z)$ is nonincreasing with $z$.  Let $R > 0$ and $\Phi \in [0, 2\pi)$ be random variables satisfying $R e^{j\Phi} = 1 + X$.  Let $h_2$ and $k_2$ be functions 
+\[
+h_2(x) = \expect R \cos\sfracpart{x + \Phi}, \;\;\; k_2(x) =  \expect R \sin\sfracpart{ x + \Phi}.
+\]
+Then $h_2(x)$ is uniquely maximised at $x=0$ other the interval $[-\tfrac{\pi}{M},\tfrac{\pi}{M})$ and $k_2(0) = 0$.
+\end{lemma}
+
+\subsection{Proof of almost sure convergence (Theorem~\ref{thm:consistency}) } \label{sec:proof-almost-sure}
+
 Substituting $\{ \hat{d}_i(\theta), i \in D \}$ from~\eqref{eq:hatdfinxtheta} into~\eqref{eq:SSallparams} we obtain the sum of squares function conditioned on minimisation with respect the the data symbols,
  \begin{align*}
 SS(\rho, \theta) &=\sum_{i \in P} \abs{ y_i - \rho e^{j\theta} p_i }^2 + \sum_{i \in D} \abs{ y_i - \rho e^{j\theta} \hat{d_i}(\theta) }^2 \\
@@ -320,7 +336,7 @@ where
 \[
 Z(\theta)  = \sum_{i \in P} y_i e^{-j\theta} p_i^* + \sum_{i \in D} y_i e^{-j\theta} \hat{d}_i^*(\theta),
 \]
-and $Z^*(\theta)$ is the conjugate of $Z(\theta)$.  Differentiating with respect to $\rho$ and setting the resulting expression to zero gives 
+and $Z^*(\theta)$ is the conjugate of $Z(\theta)$.  Differentiating with respect to $\rho$ and setting the resulting expression to zero gives the least squares estimator of the amplitude as a function of $\theta$, 
 \begin{equation}\label{eq:hatrhoZ}
 \hat{\rho} = \frac{Z(\theta) + Z(\theta)^*}{2L} = \frac{1}{L}\Re(Z(\theta))
 \end{equation}
@@ -340,7 +356,7 @@ Recalling the definition of $\hat{d}_i(\theta)$ and $\hat{u}_i(\theta)$ from~\eq
 \begin{align*}
 \hat{u}_i(\theta) &= \round{\angle{y_i} - \theta} \\
 &= \round{\theta_0 + \Phi_i + \angle{s_i} - \theta} \\
-&\equiv \round{ \fracpart{\theta_0 - \theta} + \Phi_i + \angle{s_i}} \pmod{2\pi} \\
+&\equiv \round{ \fracpart{\theta_0 - \theta}_{\pi} + \Phi_i + \angle{s_i}} \pmod{2\pi} \\
 &= \round{ \lambda + \Phi_i + \angle{s_i} },
 \end{align*}
 where we put $\lambda = \fracpart{\theta_0 - \theta}_\pi$.  Because $\hat{d}_i^*(\theta) = e^{-j\hat{u}_i(\theta)}$, then, when $i \in D$,
@@ -369,17 +385,17 @@ and put $\hat{\lambda}_L = \langle\theta_0 - \hat{\theta}\rangle$.  Since $\hat{
 
 Observe that
 \[
-\prob G_L(\lambda) = \frac{\abs{P}}{L} h_1(\lambda) + \frac{\abs{D}}{L} h_2(\lambda)
+\expect G_L(\lambda) = \frac{\abs{P}}{L} h_1(\lambda) + \frac{\abs{D}}{L} h_2(\lambda)
 \]
 and since $\frac{\abs{P}}{L} \rightarrow p$ and $\frac{\abs{D}}{L} \rightarrow d$ as $L \rightarrow \infty$, then
 \[
-G(\theta) = \lim_{L \rightarrow\infty} \prob G_L(\lambda) = p h_1(\lambda)   +  d h_2(\lambda).
+G(\lambda) = \lim_{L \rightarrow\infty} \expect G_L(\lambda) = p h_1(\lambda)   +  d h_2(\lambda).
 \]
 Lemma~\ref{lem:convtoexpGlamL} shows that,
 \[
 \prob\{ \sabs{G(\hat{\lambda}_L) - G(0)} > \epsilon \} = O(e^{-\epsilon^2 L})
 \]
-Since $G(\lambda)$ is continuous and is uniquely maximised at $0$, then for any $\delta > 0$ there is a $\epsilon > 0$ such that 
+where $\prob$ denotes probability.  Since $G(\lambda)$ is continuous and is uniquely maximised at $0$, then for any $\delta > 0$ there is a $\epsilon > 0$ such that 
 \[
 \sabs{\hat{\lambda}_L} > \delta \;\; \Rightarrow \;\; \sabs{G(\hat{\lambda}_L) - G(0)} > \epsilon
 \]
@@ -393,12 +409,11 @@ Now the sum
 \]
 converges and consequently $\hat{\lambda}_L$ converges almost surely to zero by the Borel-Cantelli lemma.
 
-It remains to prove part two of this theorem regarding the convergence of the amplitude estimator $\hat{\rho}$.  From~\eqref{eq:hatrhoZ} the amplitude estimator satisfies 
+It remains to prove part two of this theorem regarding the convergence of the amplitude estimator $\hat{\rho}$.  From~\eqref{eq:hatrhoZ},
 \begin{equation}\label{eq:rhoGLZ}
-\hat{\rho} = \frac{1}{L}\Re(Z(\theta)) = \rho_0 G_L(\hat{\lambda}_L).
+\hat{\rho} = \frac{1}{L}\Re(Z(\hat{\theta})) = \rho_0 G_L(\hat{\lambda}_L).
 \end{equation}  
 Lemma~\ref{lem:GLtoG0} shows that $G_L(\hat{\lambda}_L)$ converges almost surely to $G(0)$ as $L\rightarrow\infty$, and $\hat{\rho}$ consequently converges almost surely to $\rho_0 G(0)$ as required.
-\end{IEEEproof}
 
 \begin{lemma}\label{lem:convtoexpGlamL}
 \[
@@ -437,13 +452,15 @@ $G_L(\hat{\lambda}_L) \rightarrow G(0)$ almost surely as $L \rightarrow \infty$.
 \begin{IEEEproof}
 \end{IEEEproof}
  
-\begin{IEEEproof} (Theorem~\ref{thm:normality})
+
+\subsection{Proof of asymptotic normality (Theorem~\ref{thm:normality}) } \label{sec:proof-asympt-norm}
+
 The proof is complicated by the fact that $G_L$ is not differentiable everywhere due to the function $\fracpart{\cdot}$ not being differentiable at half integers.  This precludes the use of ``standard approaches'' to proving normality that are based on the mean value theorem~\cite{vonMises_diff_stats_1947,vanDerVart1971_asymptotic_stats,Pollard_new_ways_clts_1986,Pollard_conv_stat_proc_1984,Pollard_asymp_empi_proc_1989}.  However, we show in Lemma~\ref{lem:diffatlambdaL} that the derivative does exist, and is equal to zero, at the maximiser $\hat{\lambda}_L$, so
 \begin{align*}
 G_L^\prime(\hat{\lambda}_L) &= 0 \\
-&= \frac{1}{L} \sum_{i \in P} R_i \sin(\lambda + \Phi_i) + \frac{1}{L} \sum_{i \in D} R_i \sin\sfracpart{\lambda + \Phi_i}.
+&= \frac{1}{L} \sum_{i \in P} R_i \sin(\hat{\lambda}_L + \Phi_i) + \frac{1}{L} \sum_{i \in D} R_i \sin\sfracpart{\hat{\lambda}_L + \Phi_i}.
 \end{align*}
-Define the function $Q(\lambda) = \prob G_L^\prime(\lambda) - \prob G_L^\prime(0)$ and write
+Define the function $Q(\lambda) = \expect G_L^\prime(\lambda) - \expect G_L^\prime(0)$ and write
 \begin{align*}
 0 &= G_L^\prime(\hat{\lambda}_L) - Q(\hat{\lambda}_L) + Q(\hat{\lambda}_L) \\
 &= \sqrt{L}\big( G_L^\prime(\hat{\lambda}_L) - Q(\hat{\lambda}_L) \big) + \sqrt{L}Q(\hat{\lambda}_L).
@@ -469,7 +486,7 @@ Lemma~\ref{lem:convdistGLdash} shows that the distribution of $\sqrt{L}G_L'(0)$ 
 \frac{A_1 + A_2}{(p + Hd)^2}.
 \]
  
-We now analyse the asymptotic distribution of $\sqrt{L} m_L$.  Define the function $H_L(\lambda) = \prob G_L(\lambda)$.  Using~\eqref{eq:rhoGLZ} we have
+We now analyse the asymptotic distribution of $m_L = \hat{\rho} - \rho_0 G(0)$.  Define the function $H_L(\lambda) = \expect G_L(\lambda)$.  Using~\eqref{eq:rhoGLZ} we have
 \begin{align*}
 \sqrt{L} m_L &= \sqrt{L} \rho_0 \big( G_L(\hat{\lambda}_L) - G(0) \big) \\
 &= \sqrt{L} \rho_0 \big( G_L(\hat{\lambda}_L) - H_L(\hat{\lambda}_L) + H_L(\hat{\lambda}_L) - G(0) \big)
@@ -480,13 +497,13 @@ Lemma~\ref{lem:empiricprocforrho} shows that
 \]
 where $X_L = \sqrt{L}\big( G_L(0) - H_L(0)  \big)$.  Lemma~\ref{lem:HLtoG} shows that
 \[
-\sqrt{L}\big( H_L(\hat{\lambda}_L) - G(0) \big) = \hat{\lambda}_L \big( ? + o_P(1) \big).
+\sqrt{L}\big( H_L(\hat{\lambda}_L) - G(0) \big) = \sqrt{L} \hat{\lambda}_L \big( ? + o_P(1) \big).
 \]
 It follows that
 \[
 \sqrt{L} m_L = o_P(1) + X_L  + \hat{\lambda}_L \big( ? + o_P(1) \big).
 \]
-Lemma~\ref{lem:XL} shows that the distrubtion of $X_L$ converges to the normal with zero mean and covariance
+Lemma~\ref{lem:XL} shows that the distrubtion of $X_L$ converges to the normal with zero mean and variance
 \[
 ?
 \]
@@ -498,7 +515,6 @@ The covariance between $\sqrt{L}m_L$ and $\sqrt{L}\hat{\lambda}_L$ is correspond
 \[
 ?
 \]
-\end{IEEEproof}
 
 \begin{lemma}~\label{lem:diffatlambdaL}
 The derivative of $G_L$ exists, and is equal to zero, at $\hat{\lambda}_L$.  That is,
@@ -557,12 +573,12 @@ H = 2 \sin(\tfrac{\pi}{M}) \sum_{k = 0}^M g(\tfrac{(2k+1)\pi}{M})
 \begin{IEEEproof}
 Write
 \[
-Q(\lambda) = \prob G_L^\prime(\lambda) - \prob G_L^\prime(0) = \frac{\abs{P}}{L} k_1(\lambda) + \frac{\abs{D}}{L} k_2(\lambda)
+Q(\lambda) = \expect G_L^\prime(\lambda) - \expect G_L^\prime(0) = \frac{\abs{P}}{L} k_1(\lambda) + \frac{\abs{D}}{L} k_2(\lambda)
 \]
 where
 \begin{align}
-k_1(\lambda) &= \prob R_1\big( \sin(\lambda + \Phi_1) - \sin(\Phi_1) \big), \;\;\; \text{and} \nonumber\\
-k_2(\lambda) &= \prob R_1\big( \sin\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} \big). \label{eq:k2def}
+k_1(\lambda) &= \expect R_1\big( \sin(\lambda + \Phi_1) - \sin(\Phi_1) \big), \;\;\; \text{and} \nonumber\\
+k_2(\lambda) &= \expect R_1\big( \sin\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} \big). \label{eq:k2def}
 \end{align}
 Since,
 \[
@@ -570,11 +586,11 @@ Since,
 \]
 where $\zeta(\lambda)$ is a function that goes to zero as $\lambda$ goes to zero, then
 \begin{align*}
-k_1(\lambda) &= \prob R_1\lambda(\cos(\Phi_1) \; + \; \zeta(\lambda)) \\
-&= \lambda \big( \prob R_1\cos(\Phi_1) \; + \; \zeta(\lambda) \prob R_1 \big) \\
+k_1(\lambda) &= \expect R_1\lambda(\cos(\Phi_1) \; + \; \zeta(\lambda)) \\
+&= \lambda \big( \expect R_1\cos(\Phi_1) \; + \; \zeta(\lambda) \expect R_1 \big) \\
 &= \lambda \big( 1 \; + \; \zeta(\lambda) K \big),
 \end{align*}
-since $h_1(0) = \prob R_1\cos(\Phi_1) = 1$ and where we put $K = \prob R_1$, a finite constant.  Because $\hat{\lambda}_L$ converges almost surely to zero as $L \rightarrow\infty$, then $\zeta(\hat{\lambda}_L)$ converges almost surely (and therefore also in probability) to zero as $L \rightarrow\infty$, i.e. $\zeta(\hat{\lambda}_L) = o_P(1)$.  So, 
+since $h_1(0) = \expect R_1\cos(\Phi_1) = 1$, and where we put $K = \expect R_1$ is a finite constant.  Because $\hat{\lambda}_L$ converges almost surely to zero as $L \rightarrow\infty$, then $\zeta(\hat{\lambda}_L)$ converges almost surely (and therefore also in probability) to zero as $L \rightarrow\infty$, i.e. $\zeta(\hat{\lambda}_L) = o_P(1)$.  So, 
 \[
 k_1(\hat{\lambda}_L) = \hat{\lambda}_L \big( 1 \; + \; \zeta(\hat{\lambda}_L) K \big) = \hat{\lambda}_L \big( 1  + o_P(1)\big).
 \]
@@ -610,11 +626,11 @@ v_k(\phi) + \lambda\zeta_k(\lambda) &  \phi \in [ \tfrac{(2k+1)\pi}{M} - \lambda
 \]
 Now
 \begin{align*}
-k_2(\lambda) &=  \prob R_1\big( \sin\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} \big) \\
-&= \prob R_1\big( v(\lambda, \Phi_1) + \lambda\cos\fracpart{\Phi_1} \big) \\
-&= \prob R_1 v(\lambda, \Phi_1) + \lambda h_2(0).
+k_2(\lambda) &=  \expect R_1\big( \sin\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} \big) \\
+&= \expect R_1\big( v(\lambda, \Phi_1) + \lambda\cos\fracpart{\Phi_1} \big) \\
+&= \expect R_1 v(\lambda, \Phi_1) + \lambda h_2(0).
 \end{align*}
-It remains to evaluate $\prob R_1 v(\lambda, \Phi_1)$.  Recalling that $f(r,\phi)$ is the joint probability density function of $R_1$ and $\Phi_1$,
+It remains to evaluate $\expect R_1 v(\lambda, \Phi_1)$.  Recalling that $f(r,\phi)$ is the joint probability density function of $R_1$ and $\Phi_1$,
 \begin{align*}
 k_2(\lambda) &= \int_0^{2\pi}\int_{0}^\infty r v(\lambda, \phi) f(r,\phi) dr d\phi \\
 &= \int_0^{2\pi} v(\lambda, \phi) g(\phi) d\phi.
@@ -679,7 +695,7 @@ It follows from the standard central limit that the distribution of
 \]
 converges to the normal with mean $k_1(0) = 0$ and variance 
 \[
-p \prob R_1^2 \sin^2(\Phi_1).
+p \expect R_1^2 \sin^2(\Phi_1).
 \]
 Similarly, the distribution of 
 \[
@@ -687,7 +703,7 @@ Similarly, the distribution of
 \]
 converges to the normal with mean $k_2(0) = 0$ and variance
 \[
-d \prob R_1^2 \sin^2\fracpart{\Phi_1}.
+d \expect R_1^2 \sin^2\fracpart{\Phi_1}.
 \]
 \end{IEEEproof}
 
