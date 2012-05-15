@@ -40,19 +40,19 @@ class CoherentCLT(M : Int, X : ComplexRandomVariable, p : Double) extends Abstra
  
   val Z = X.magnitudeMarginal
   
-  protected def fZ(z : Double) = Z.pdf(z)
+  def fZ(z : Double) = Z.pdf(z)
   
-  protected def f(r : Double, phi : Double) : Double = {
+  def f(r : Double, phi : Double) : Double = {
     val z = sqrt(r*r - 2*r*cos(phi) + 1)
-    return r*fZ(z)/z
+    return r*fZ(z)/z/2/pi
   }
   
-  protected def g(phi : Double) = RealIntegral.trapezoidal( r => f(r,phi), 0, 20*Z.getVariance, 1000) 
+  def g(phi : Double) = RealIntegral.trapezoidal( r => r*f(r,phi), 0, 200*Z.getVariance, 10000) 
   
-  protected def fracpart(x : Double) = x - 2*pi/M*scala.math.round(M*x/2/pi)
+  def fracpart(x : Double) = x - 2*pi/M*scala.math.round(M*x/2/pi)
   
-  val A1 = RealIntegral.trapezoidal( x => sqr(sin(x))*g(x), 0, 2*pi, 1000)
-  val A2 = RealIntegral.trapezoidal( x => sqr(sin(fracpart(x)))*g(x), 0, 2*pi, 1000)
+  val A1 = RealIntegral.trapezoidal( x => sqr(sin(x))*g(x), -pi, pi, 1000)
+  val A2 = RealIntegral.trapezoidal( x => sqr(sin(fracpart(x)))*g(x), -pi, pi, 1000)
   val H =  2*sin(pi/M) * (0 to M-1).map(k => g((2*k+1)*pi/M)).foldLeft(0.0){ (s : Double ,v : Double) => s + v }
   val d = 1 - p
   
