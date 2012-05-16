@@ -122,14 +122,14 @@ draw begingraph(plotwidth, plotheight);
 
 %  gdraw (0, "1e-13")--(0, 2) dashed evenly; %glabel.bot(btex AWGN channel capacity etex, 0) rotated 90;
 
-  gdraw "MackenthunCoherentM4L1000absP100p"; gdraw "MackenthunCoherentM4L1000absP100p" plot(dot); glabel.llft(btex $L = 1000$ etex, 1000);
-  gdraw "MackenthunCoherentM4L100absP10p"; gdraw "MackenthunCoherentM4L100absP10p" plot(dot); glabel.llft(btex $L = 100$ etex, 1000);
-  gdraw "MackenthunCoherentM4L10absP1p"; gdraw "MackenthunCoherentM4L10absP1p" plot(dot); glabel.llft(btex $L = 10$ etex, 1000);
+  gdraw "cltM4L1000absP100p"; gdraw "MackenthunCoherentM4L1000absP100p" plot(dot); glabel.llft(btex $L = 1000$ etex, 1000);
+  gdraw "cltM4L100absP10p"; gdraw "MackenthunCoherentM4L100absP10p" plot(dot); glabel.llft(btex $L = 100$ etex, 1000);
+  gdraw "cltM4L10absP1p"; gdraw "MackenthunCoherentM4L10absP1p" plot(dot); glabel.llft(btex $L = 10$ etex, 1000);
   %gdraw "MackenthunCoherentM4L10000absP1000p"; gdraw "MackenthunCoherentM4L10000absP1000p" plot(dot); glabel.llft(btex $L = 10000$ etex, 1000);
 
-  gdraw "MackenthunCoherentM4L1000absP5p"; gdraw "MackenthunCoherentM4L1000absP5p" plot(circle); 
-  gdraw "MackenthunCoherentM4L100absP5p"; gdraw "MackenthunCoherentM4L100absP5p" plot(circle); 
-  gdraw "MackenthunCoherentM4L10absP5p"; gdraw "MackenthunCoherentM4L10absP5p" plot(circle);
+  gdraw "cltM4L1000absP5p"; gdraw "MackenthunCoherentM4L1000absP5p" plot(circle); 
+  gdraw "cltM4L100absP5p"; gdraw "MackenthunCoherentM4L100absP5p" plot(circle); 
+  gdraw "cltM4L10absP5p"; gdraw "MackenthunCoherentM4L10absP5p" plot(circle);
 
   gdraw "MackenthunCoherentM4L1000absP1000p"; 
   gdraw "MackenthunCoherentM4L100absP100p"; 

@@ -3,21 +3,22 @@
 */
 import cam.psk.MackenthunCoherent
 import cam.psk.ComplexAmplitudeEstimator
+import cam.noise.ComplexGaussian
 import numbers.finite.RectComplex
 import numbers.finite.Complex
 import numbers.finite.PolarComplex
-import pubsim.distributions.GaussianNoise
+import pubsim.distributions.complex.ComplexRandomVariable
 import pubsim.Util
 
 val Ms = List(2,4,8) //BPSK, QPSK, 8-PSK
 val Ls = List(10, 100, 1000)
 val a0 = new PolarComplex(1,2*scala.math.Pi*(new scala.util.Random).nextDouble)
-val iters = 20000
+val iters = 10000
 
 //construct an array of noise distributions with a logarithmic scale
 val SNRdBs = -20 to 20 by 1
 val SNRs = SNRdBs.map(db => scala.math.pow(10.0, db/10.0))
-val noises = SNRs.map( snr => new GaussianNoise(0.0, a0.mag2/snr/2) ) //variance for real and imaginay parts (divide by 2)
+val noises = SNRs.map( snr => new ComplexGaussian(a0.mag2/snr/2) ) //variance for real and imaginay parts (divide by 2)
 
 val starttime = (new java.util.Date).getTime
 for( L <- Ls; M <- Ms ) {
@@ -28,7 +29,7 @@ for( L <- Ls; M <- Ms ) {
     val P = 0 until numpilots //pilots at the front
     val D = numpilots until L //data at the back
 
-    //factory me
+    //factory method to enable parallelism
     def estfactory = List(
       (p : Seq[Complex]) => new MackenthunCoherent(M,P,D,p)
     )
@@ -49,7 +50,7 @@ for( L <- Ls; M <- Ms ) {
 	var msec = 0.0; var msea = 0.0; var msep = 0.0;
 	for( itr <- 1 to iters ) {
 	  //generate a recieved signal
-	  val y = s.map(si => a0*si + new RectComplex(noise.getNoise, noise.getNoise) )
+	  val y = s.map(si => a0*si + noise.noise )
 	  val ahat = est.estimate(y) //run the estimator 
 	  val (ae, pe) = est.error(ahat, a0) //compute the error
 	  msep += pe
@@ -59,7 +60,7 @@ for( L <- Ls; M <- Ms ) {
 	print(".")		      
 	(msea/iters, msep/iters, msec/iters) //last thing is what gets returned
       }.toList
-      
+
       val estruntime = (new java.util.Date).getTime - eststarttime
       println(" finished in " + (estruntime/1000.0) + " seconds.")
       
@@ -75,12 +76,12 @@ for( L <- Ls; M <- Ms ) {
       filea.close; filep.close; filec.close //close all the files we wrote to 
 
     }
+
   }
 
 }
 
 val runtime = (new java.util.Date).getTime - starttime
-
 println("Finished in " + (runtime/1000.0) + " seconds.\n") 
 
 
