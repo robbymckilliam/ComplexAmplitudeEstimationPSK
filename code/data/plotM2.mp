@@ -19,8 +19,12 @@ draw unitsquare shifted(-0.5,-0.5) scaled 0.17cm rotated 45;
 diamond := currentpicture; currentpicture := ORIGINAL_PICTURE;
 
 picture square;
-draw unitsquare shifted(-0.5,-0.5) scaled 0.17cm;
+draw unitsquare shifted(-0.5,-0.5) scaled 0.15cm;
 square := currentpicture; currentpicture := ORIGINAL_PICTURE;
+
+picture filledsquare;
+fill unitsquare shifted(-0.5,-0.5) scaled 0.12cm;
+filledsquare := currentpicture; currentpicture := ORIGINAL_PICTURE;
 
 picture circle; 
 draw fullcircle scaled 0.19cm;
@@ -54,7 +58,7 @@ draw dot shifted 1/2[(sx,sh + ls*ups),(1cm,sh + ls*ups)];
 ls:=1;
 label.rt(btex $|P|=L$ etex, (1cm,sh + ls*ups));
 %draw (sx,sh + ls*ups)--(1cm,sh + ls*ups);
-draw cross shifted 1/2[(sx,sh + ls*ups),(1cm,sh + ls*ups)];
+draw square shifted 1/2[(sx,sh + ls*ups),(1cm,sh + ls*ups)];
 
 ls:=2;
 label.rt(btex $|P|=L/8$ etex, (1cm,sh + ls*ups));
@@ -129,17 +133,17 @@ draw begingraph(plotwidth, plotheight);
 %  gdraw (0, "1e-13")--(0, 2) dashed evenly; %glabel.bot(btex AWGN channel capacity etex, 0) rotated 90;
 
   gdraw "cltM2L2048absP512p"; gdraw "MackenthunCoherentM2L2048absP512p" plot(dot); glabel.llft(btex $L = 2048$ etex, 1000);
-  gdraw "cltM2L256absP64p"; gdraw "MackenthunCoherentM2L256absP64p" plot(dot); glabel.llft(btex $L = 256$ etex, 1000);
+  %gdraw "cltM2L256absP64p"; gdraw "MackenthunCoherentM2L256absP64p" plot(dot); glabel.llft(btex $L = 256$ etex, 1000);
   gdraw "cltM2L32absP8p"; gdraw "MackenthunCoherentM2L32absP8p" plot(dot); glabel.llft(btex $L = 32$ etex, 1000);
   %gdraw "MackenthunCoherentM2L2560absP1000p"; gdraw "MackenthunCoherentM2L2560absP1000p" plot(dot); glabel.llft(btex $L = 10000$ etex, 1000);
 
   gdraw "cltM2L2048absP128p"; gdraw "MackenthunCoherentM2L2048absP128p" plot(circle); 
-  gdraw "cltM2L256absP16p"; gdraw "MackenthunCoherentM2L256absP16p" plot(circle); 
+  %gdraw "cltM2L256absP16p"; gdraw "MackenthunCoherentM2L256absP16p" plot(circle); 
   gdraw "cltM2L32absP2p"; gdraw "MackenthunCoherentM2L32absP2p" plot(circle);
 
-  gdraw "cltM2L2048absP2048p"; gdraw "MackenthunCoherentM2L2048absP2048p" plot(cross); 
-  gdraw "cltM2L256absP256p"; gdraw "MackenthunCoherentM2L256absP256p" plot(cross); 
-  gdraw "cltM2L32absP32p"; gdraw "MackenthunCoherentM2L32absP32p" plot(cross); 
+  gdraw "cltM2L2048absP2048p"; gdraw "MackenthunCoherentM2L2048absP2048p" plot(square); 
+  %gdraw "cltM2L256absP256p"; gdraw "MackenthunCoherentM2L256absP256p" plot(square); 
+  gdraw "cltM2L32absP32p"; gdraw "MackenthunCoherentM2L32absP32p" plot(square); 
 
 draw legend shifted(legendx,legendy);
 

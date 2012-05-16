@@ -19,7 +19,7 @@ draw unitsquare shifted(-0.5,-0.5) scaled 0.17cm rotated 45;
 diamond := currentpicture; currentpicture := ORIGINAL_PICTURE;
 
 picture square;
-draw unitsquare shifted(-0.5,-0.5) scaled 0.17cm;
+draw unitsquare shifted(-0.5,-0.5) scaled 0.15cm;
 square := currentpicture; currentpicture := ORIGINAL_PICTURE;
 
 picture circle; 
@@ -47,19 +47,24 @@ sh = 0.2cm;
 ups = 0.35cm;
 
 ls:=0;
-label.rt(btex $|P|=L/10$ etex, (1cm,sh + ls*ups));
-draw (sx,sh + ls*ups)--(1cm,sh + ls*ups);
+label.rt(btex $|P|=L/16$ etex, (1cm,sh + ls*ups));
+%draw (sx,sh + ls*ups)--(1cm,sh + ls*ups);
 draw dot shifted 1/2[(sx,sh + ls*ups),(1cm,sh + ls*ups)];
 
 ls:=1;
 label.rt(btex $|P|=L$ etex, (1cm,sh + ls*ups));
-draw (sx,sh + ls*ups)--(1cm,sh + ls*ups);
-%draw cross shifted 1/2[(sx,sh + ls*ups),(1cm,sh + ls*ups)];
+%draw (sx,sh + ls*ups)--(1cm,sh + ls*ups);
+draw square shifted 1/2[(sx,sh + ls*ups),(1cm,sh + ls*ups)];
 
 ls:=2;
-label.rt(btex $|P|=5$ etex, (1cm,sh + ls*ups));
-draw (sx,sh + ls*ups)--(1cm,sh + ls*ups);
+label.rt(btex $|P|=L/4$ etex, (1cm,sh + ls*ups));
+%draw (sx,sh + ls*ups)--(1cm,sh + ls*ups);
 draw circle shifted 1/2[(sx,sh + ls*ups),(1cm,sh + ls*ups)];
+
+ls:=3;
+label.rt(btex Theory etex, (1cm,sh + ls*ups));
+draw (sx,sh + ls*ups)--(1cm,sh + ls*ups);
+%draw circle shifted 1/2[(sx,sh + ls*ups),(1cm,sh + ls*ups)];
 
 legend := currentpicture; currentpicture := ORIGINAL_PICTURE;
 
@@ -123,17 +128,17 @@ draw begingraph(plotwidth, plotheight);
 %  gdraw (0, "1e-13")--(0, 2) dashed evenly; %glabel.bot(btex AWGN channel capacity etex, 0) rotated 90;
 
   gdraw "cltM4L2048absP512p"; gdraw "MackenthunCoherentM4L2048absP512p" plot(dot); glabel.llft(btex $L = 2048$ etex, 1000);
-  gdraw "cltM4L256absP64p"; gdraw "MackenthunCoherentM4L256absP64p" plot(dot); glabel.llft(btex $L = 256$ etex, 1000);
+  %gdraw "cltM4L256absP64p"; gdraw "MackenthunCoherentM4L256absP64p" plot(dot); glabel.llft(btex $L = 256$ etex, 1000);
   gdraw "cltM4L32absP8p"; gdraw "MackenthunCoherentM4L32absP8p" plot(dot); glabel.llft(btex $L = 32$ etex, 1000);
   %gdraw "MackenthunCoherentM4L10000absP1000p"; gdraw "MackenthunCoherentM4L10000absP1000p" plot(dot); glabel.llft(btex $L = 10000$ etex, 1000);
 
   gdraw "cltM4L2048absP128p"; gdraw "MackenthunCoherentM4L2048absP128p" plot(circle); 
-  gdraw "cltM4L256absP16p"; gdraw "MackenthunCoherentM4L256absP16p" plot(circle); 
+  %gdraw "cltM4L256absP16p"; gdraw "MackenthunCoherentM4L256absP16p" plot(circle); 
   gdraw "cltM4L32absP2p"; gdraw "MackenthunCoherentM4L32absP2p" plot(circle);
 
-  gdraw "MackenthunCoherentM4L2048absP2048p"; 
-  gdraw "MackenthunCoherentM4L256absP256p"; 
-  gdraw "MackenthunCoherentM4L32absP32p";
+  gdraw "cltM4L2048absP2048p"; gdraw "MackenthunCoherentM4L2048absP2048p" plot(square); 
+  %gdraw "cltM4L256absP256p"; gdraw "MackenthunCoherentM4L256absP256p" plot(square);
+  gdraw "cltM4L32absP32p";   gdraw "MackenthunCoherentM4L32absP32p" plot(square);
 
 draw legend shifted(legendx,legendy);
 
