@@ -55,7 +55,7 @@ abstract class AbstractCLTComputer(M : Int, p : Double) extends CLTComputer {
   override def G(x : Double) = p*h1(x) + d*h2(x)
   
   override def variance : (Double, Double, Double) = {
-    ((p*A1+d*A2)/sqr(p + H*d), 0.0, 0.0)
+    ((p*A1+d*A2)/sqr(p + (h2(0) - H)*d), 0.0, 0.0)
   }
   
 }
