@@ -51,11 +51,11 @@ abstract class AbstractCLTComputer(M : Int, p : Double) extends CLTComputer {
   override lazy val A2 = RealIntegral.trapezoidal( x => sqr(sin(fracpart(x)))*g2(x), -pi, pi, 1000)
   override def h2(x : Double) = RealIntegral.trapezoidal( phi => cos(fracpart(x + phi))*g(phi), -pi, pi, 1000)
   override def h1(x : Double) = RealIntegral.trapezoidal( phi => cos(x + phi)*g(phi), -pi, pi, 1000)
-  override lazy val H =  2*sin(pi/M) * (0 to M-1).map(k => g((2*k+1)*pi/M)).foldLeft(0.0){ (s : Double ,v : Double) => s + v }
+  override lazy val H =  h2(0) - 2*sin(pi/M) * (0 to M-1).map(k => g((2*k+1)*pi/M)).foldLeft(0.0){ (s : Double ,v : Double) => s + v }
   override def G(x : Double) = p*h1(x) + d*h2(x)
   
   override def variance : (Double, Double, Double) = {
-    ((p*A1+d*A2)/sqr(p + (h2(0) - H)*d), 0.0, 0.0)
+    ((p*A1+d*A2)/sqr(p + H*d), 0.0, 0.0)
   }
   
 }
