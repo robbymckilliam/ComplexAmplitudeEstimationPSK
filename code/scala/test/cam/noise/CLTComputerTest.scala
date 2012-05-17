@@ -25,7 +25,7 @@ class CLTComputerTest {
   }
   
   @Test
-  def testNoise= {
+  def testGaussianCLT = {
     val M = 4
     val p = 0.1
     val rho0 = 1.0
@@ -33,14 +33,14 @@ class CLTComputerTest {
     val snr = rho0*rho0/2/sigma/sigma
     val kappa = rho0/sigma
     val X = new SymmetricComplexNormal(sigma*sigma)
-    val noise = new GeneralCLTComputer(M,p,X)
-    println("H " + noise.H)
-    println("A1 " + noise.A1)
-    println("A2 " + noise.A2)
-    println("g")
-    for( x <- 0.0 to 2.0*scala.math.Pi by 0.2 ) println(noise.g(x))
-    //println("G")
-    //for( x <- 0.0 to 2.0*scala.math.Pi by 2.0 ) println(noise.G(x))
+    val noise1 = new GeneralCLTComputer(M,p,X)
+    val noise2 = new GaussianCLT(M,p,sigma)
+    assertEquals(noise1.fZ(0.1), noise2.fZ(0.1), 0.001)
+    assertEquals(noise1.g(0.1), noise2.g(0.1), 0.001)
+    assertEquals(noise1.g2(0.1), noise2.g2(0.1), 0.001)
+    assertEquals(noise1.H, noise2.H, 0.001)
+    assertEquals(noise1.A1, noise2.A1, 0.001)
+    assertEquals(noise1.A2, noise2.A2, 0.001)
   }
   
 }

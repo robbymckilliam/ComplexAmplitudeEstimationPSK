@@ -8,7 +8,7 @@ package cam.noise
 
 import numbers.finite.integration.RealIntegral
 import pubsim.distributions.complex.ComplexRandomVariable
-
+import pubsim.distributions.Chi
 
 /** Function names come directly from the paper */
 trait CLTComputer {
@@ -63,11 +63,37 @@ abstract class AbstractCLTComputer(M : Int, p : Double) extends CLTComputer {
 /** 
  * Takes a ComplexRandomVariable and computes all the necessary 
  * values by numerical integration.  Might not be numerically accurate and is fairly slow.
+ * THIS CURRENTLY ASSUMES THAT the true amplitude rho0 = 1
  */
 class GeneralCLTComputer(M : Int, p : Double, X : ComplexRandomVariable) extends AbstractCLTComputer(M,p) {
   
   //get the class representing the marginal magnitude random variable of X
   protected val Z = X.magnitudeMarginal
+  
+  override def fZ(z : Double) = Z.pdf(z)
+  
+  //Compute g by numerical integration
+  override def g(phi : Double) = RealIntegral.trapezoidal( r => r*f(r,phi), 0, 30*sqrt(Z.getVariance), 1000) 
+  
+  //Compute g by numerical integration
+  override def g2(phi : Double) = RealIntegral.trapezoidal( r => r*r*f(r,phi), 0, 30*sqrt(Z.getVariance), 1000) 
+  
+  /** The marginal pdf of the phase */
+  def f(phi : Double) : Double = RealIntegral.trapezoidal( r => f(r,phi), 0, 30*sqrt(Z.getVariance), 1000) 
+  
+}
+
+/** 
+ *CLT for circularly symmetric complex Gaussian noise.  Makes use of specific formula for
+ *this case.  This is fast and should be numerically accurate.
+*/
+class GaussianCLT(M : Int, p : Double, sigma : Double, rho0 : Double) extends AbstractCLTComputer(M,p) {
+  
+  /** Signal amplitude defaults to 1 */
+  def this(M : Int, p: Double, sigma : Double) = this(M,p,sigma,1.0)
+  
+  protected val k = rho0/sigma
+  protected val Z = new Chi.Chi2(1/k/k)   //marginal distribution of the magnitude
   
   override def fZ(z : Double) = Z.pdf(z)
   
