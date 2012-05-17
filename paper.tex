@@ -37,25 +37,30 @@ s_i = e^{j u_i},
 where $j = \sqrt{-1}$ and $u_i$ is from the set $\{0, \tfrac{2\pi}{M}, \dots, \tfrac{2\pi(M-1)}{M}\}$ and $M$ is the size of the constellation.  We assume that some of the transmitted symbols are \emph{pilot symbols} known to the receiver and the remainder are information carrying \emph{data symbols} with phase that is unknown to the receiver.  So,
 \[
 s_i = \begin{cases}
-p_i & i \in P, \\
-d_i & i \in D, \\
-0 & otherwise,
+p_i & i \in P \\
+d_i & i \in D,
 \end{cases}
 \]
-where $P$ is the set of indices describing the position of the pilot symbols $p_i$, and $D$ is a set of indices describing the position of the data symbols $d_i$.  The sets $P$ and $D$ are disjoint, i.e. $P \cap D = \emptyset$.
+where $P$ is the set of indices describing the position of the pilot symbols $p_i$, and $D$ is a set of indices describing the position of the data symbols $d_i$.  The sets $P$ and $D$ are disjoint, i.e. $P \cap D = \emptyset$, and $L = \abs{P \cup D}$ is the total number of symbols transmitted.
 
 We assume that time offset estimation (symbol timing) and matched filtering have already been performed.  The recieved symbols are then given by,
 \begin{equation}\label{eq:sigmod}
 y_i = a_0 s_i + w_i, \qquad i \in P \cup D,
 \end{equation}
-where $w_i$ is noise and $a_0 = \rho_0 e^{j\theta_0}$ is a complex number representing both carrier phase $\theta_0$ and amplitude $\rho_0$ (by definition $\rho_0$ is a positive real number).  Our aim is to estimate $a_0$ from the noisy symbols $\{ y_i, i \in P \cup D \}$.  Complicating matters is that the data symbols $d_i$ are not known to the reciever and must also be estimated.  Estimation problems of this type have undergone extensive prior study~\cite{Wilson1989,Makrakis1990,Liu1991,Mackenthun1994,Sweldens2001}.  A practical approach is the least squares estimator, that is, the minimisers of the sum of squares function
+where $w_i$ is noise and $a_0 = \rho_0 e^{j\theta_0}$ is a complex number representing both carrier phase $\theta_0$ and amplitude $\rho_0$ (by definition $\rho_0$ is a positive real number).  Our aim is to estimate $a_0$ from the noisy symbols $\{ y_i, i \in P \cup D \}$.  Complicating matters is that the data symbols $d_i$ are not known to the reciever and must also be estimated.  Estimation problems of this type have undergone extensive prior study~\cite{ViterbiViterbi_phase_est_1983,Cowley_ref_sym_carr_1998,Wilson1989,Makrakis1990,Liu1991,Mackenthun1994,Sweldens2001}.  A practical approach is the least squares estimator, that is, the minimisers of the sum of squares function
 \begin{align*}
 SS(a, &\{d_i, i \in D\}) = \sum_{i \in P \cup D} \abs{ y_i - a s_i }^2 \\
 &= \sum_{i \in P} \abs{ y_i - a s_i }^2 + \sum_{i \in P \cup D} \abs{ y_i - a d_i }^2,
 \end{align*}
 where $\abs{x}$ denotes the magnitude of the complex number $x$.  The least squares estimator is also the maximum likelihood estimator under the assumption that the noise sequence $\{w_i, i \in \ints\}$ is additive white and Gaussian.  However, as we will show, the estimator works well under less stringent assumptions.  %It is the least squares estimator that we primarily study in this paper.
 
-The existing literature mostly considers what is called \emph{noncoherent detection} where no pilots symbols exist ($P = \emptyset$ where $\emptyset$ is the empty set).  In the nocoherent setting \emph{differential encoding} is often used, and for this reason the estimation problem has been called \emph{multiple symbol differential detection}.  An important paper is by Mackenthun~\cite{Mackenthun1994} who described an algorithm to compute the least squares estimator requiring only $O(L \log L)$ arithmetic operations, where $L = \abs{P \cup D}$ is the total number of symbols transmitted.  Sweldens~\cite{Sweldens2001} rediscovered Mackenthun's algorithm in 2001.  Here, we consider a slightly more general model than is usual, one that allows the utilisation of pilot symbols, i.e., \emph{coherent detection}.  Our model includes the noncoherent case by setting the number of pilot symbols to zero, that is, putting $P = \emptyset$.  We show in Section~\ref{sec:least-squar-estim}~that only a minor modification of Mackenthun's algorithm is required to include pilot symbols.
+The existing literature mostly considers what is called \emph{noncoherent detection} where no pilots symbols exist ($P = \emptyset$ where $\emptyset$ is the empty set).  In the nocoherent setting \emph{differential encoding} is often used, and for this reason the estimation problem has been called \emph{multiple symbol differential detection}.  A popular approach is the so called \emph{non-data aided}, sometimes also called \emph{non-decision directed}, estimator based on the paper of Viterbi and Viterbi~\cite{ViterbiViterbi_phase_est_1983}.  The idea is the `strip' the modulation from the recieved signal by taking $y_i / \abs{y_i}$ to the power of $M$.  A function $F$, mapping $\reals$ to $\reals$, is chosen and the estimator of the carrier phase $\theta_0$ is taken to be $\tfrac{1}{M}\angle{A}$ where $\angle$ denotes the complex argument and $A$ is the average
+\[
+A = \frac{1}{L}\sum_{i \in P \cup D} F(\abs{y_i}) \big(\tfrac{y_i}{\abs{y_i}}\big)^M.
+\]
+Various choices for $F$ are suggested in~\cite{ViterbiViterbi_phase_est_1983} and a statistical analysis is presented.  A caveat of this estimator is that it is not entirely obvious how pilot symbols should be included, so as to made the estimator coherent. Techniques are available but they are somewhat adhoc~\cite{Cowley_ref_sym_carr_1998}.  This problem does not occur with the least square estimator.  
+
+An important paper is by Mackenthun~\cite{Mackenthun1994} who described an algorithm to compute the least squares estimator requiring only $O(L \log L)$ arithmetic operations.  Sweldens~\cite{Sweldens2001} rediscovered Mackenthun's algorithm in 2001.  Both Mackenthun and Swelden's considered the noncoherent setting, but we show in Section~\ref{sec:least-squar-estim}~that only a minor modification of Mackenthun's algorithm is required to include pilot symbols. Our model includes the noncoherent case by setting the number of pilot symbols to zero, that is, putting $P = \emptyset$.  
 
 In the literature it has been common to assume that the data symbols $\{d_i, i \in D\}$ are of primary interest and the complex amplitude $a_0$ is a nuisance parameter.  The metric of performance is correspondingly \emph{symbol error rate}, or \emph{bit error rate}.  Whilst estimating the symbols (or more precisely the transmitted bits) is ultimately the goal, we take the opposite approach here.  Our aim is to estimate $a_0$, and we treat the unknown data symbols as nuisance parameters.  This is motivated by the fact that in our intended application (narrowband satellite communications) and in many modern communication systems the data symbols are \emph{coded}.  For this reason raw symbol error rate is not of specific interest at this stage.  Instead, we desire an accurate estimator $\hat{a}$ of $a_0$, so that the compensated recieved symbols $\hat{a}^{-1}y_i$ can be accurately modelled using an additive noise channel.  The additive noise channel is a common assumption for subsequent reciever operations, such as decoding.  Consequently, our metric of performance will not be symbol or bit error rate, it will be mean square error (MSE) between complex amplitude $a_0$ and its estimator $\hat{a}$, that is, our metric is $\expect\abs{a_0 - \hat{a}}^2$ where $\expect$ is the expected value operator. It will actually be informative to consider the carrier phase and amplitude estimators separately, that is, if $\hat{a} = \hat{\rho}e^{j\hat{\theta}}$ where $\hat{\rho}$ is a positive real number, then we consider $\expect\langle\theta_0 - \hat{\theta}\rangle_\pi^2$ and $\expect(\rho_0 - \hat{\rho})^2$.  The function $\fracpart{\cdot}_\pi$ denotes its argument taken `modulo $2\pi$' into the interval $[-\pi, \pi)$.  It will become apparent why $\expect\langle\theta_0 - \hat{\theta}\rangle_\pi^2$ rather than $\expect(\theta_0 - \hat{\theta})^2$ is the appropriate measure of error for the phase parameter.
 
@@ -76,9 +81,9 @@ In this section we derive Mackentun's algorithm to compute the least squares est
 Define the sum of squares function
 \begin{align}
 SS(a, &\{d_i, i \in D\}) = \sum_{i \in P \cup D} \abs{ y_i - a s_i }^2 \nonumber \\
-&= \sum_{i \in P \cup D} \abs{y_i}^2 - a s_i y_i^* - a^* s_i^* y_i + aa^*. \label{eq:SS}
+&= \sum_{i \in P \cup D} \abs{y_i}^2 - a s_i y_i^* - a^* s_i^* y_i + aa^*, \label{eq:SS}
 \end{align}
-Fixing the data symbols $\{d_i, i \in D\}$, differentiating with respect to $a^*$, and setting the resulting equation to zero we find that the least squares estimator of $a_0$, satisfies
+where $*$ denote the complex congugate.  Fixing the data symbols $\{d_i, i \in D\}$, differentiating with respect to $a^*$, and setting the resulting equation to zero we find that the least squares estimator of $a_0$, satisfies
 \begin{equation}\label{eq:hata}
 \hat{a} = \frac{1}{L} \sum_{i \in P \cup D} y_i s_i^* = \frac{1}{L} Y
 \end{equation}
@@ -101,11 +106,11 @@ For given $\theta$, the least squares estimator of the $i$th data symbol $d_i$ i
 \begin{equation}\label{eq:hatdfinxtheta}
 \hat{d}_i(\theta) = e^{j\hat{u}_i(\theta)} \qquad \text{where} \qquad \hat{u}_i(\theta) = \round{\angle( e^{-j\theta}y_i)},
 \end{equation}
-and where $\angle(\cdot)$ denotes the complex argument (or phase), and $\round{\cdot}$ rounds its argument to the nearest multiple of $\frac{2\pi}{M}$.  A word of caution, it is often the case that $\round{\cdot}$ denotes rounding to the nearest \emph{integer}.  This is not the case here.  If the function $\operatorname{round}(\cdot)$ takes its argument to the nearest integer then,
+and where $\angle(\cdot)$ denotes the complex argument (or phase), and $\round{\cdot}$ rounds its argument to the nearest multiple of $\frac{2\pi}{M}$.  A word of caution, the notation $\round{\cdot}$ is often used to denote rounding to the nearest \emph{integer}.  This is not the case here.  If the function $\operatorname{round}(\cdot)$ takes its argument to the nearest integer then,
 \[
 \round{x} = \tfrac{2\pi}{M}\operatorname{round}\left(\tfrac{M}{2\pi}x\right).
 \] 
-Note that $\hat{d}_i(\theta)$ does not depend on the amplitude $\rho$.  As defined, $\hat{u}_i(\theta)$ is not strictly inside the set $\{0, \tfrac{2\pi}{M}, \dots, \tfrac{2\pi(M-1)}{M}\}$, but this is not of consequence, as we intend its value to be considered equivalent modulo $2\pi$.  With this in mind,
+Note that $\hat{d}_i(\theta)$ does not depend on $\rho$.  As defined, $\hat{u}_i(\theta)$ is not strictly inside the set $\{0, \tfrac{2\pi}{M}, \dots, \tfrac{2\pi(M-1)}{M}\}$, but this is not of consequence, as we intend its value to be considered equivalent modulo $2\pi$.  With this in mind,
 \[
 \hat{u}_i(\theta) = \round{\angle{y_i} - \theta }
 \]
@@ -130,11 +135,11 @@ b_i e^{-j2\pi}, &  z_i + \frac{\pi(2M - 1)}{M} \leq \theta < 2\pi. \\
 
 Let $f(\theta)$ be the sequence $\{ \hat{d}_i(\theta), i \in D \}$. So, $f(\theta)$ is a function mapping the interval $[0, 2\pi)$ to a sequence of $M$-PSK symbols indexed by the elements of $D$.  Observe that $f(\theta)$ is piecewise continuous.  The subintervals of $[0, 2\pi)$ over which $f(\theta)$ remains contant are determined by the values of $\{z_i, i \in D\}$.
 
-Let $S$ be the set of all $f(\theta)$ as $\theta$ varies from $0$ to $2\pi$, that is,
+Let $S$ be the set of all sequences $f(\theta)$ as $\theta$ varies from $0$ to $2\pi$, that is,
 \[
 S = \{ f(\theta) \mid \theta \in [0, 2 \pi) \}.
 \]
-If $\hat{\theta}$ is the least squares estimator the phase, then it is clear from~\eqref{eq:hatdfinxtheta}, that $S$ contains the sequence $\{ \hat{d}_i(\hat{\theta}), i \in D \}$ corresponding to the least squares estimator of the data symbols, i.e., $S$ contains the minimiser of~\eqref{eq:SSdatasymbols}.  Observe from~\eqref{eq:uicombos} that there are atmost $(M+1)\abs{D}$ sequences in $S$, because there are $M+1$ sequences for each $i \in D$.
+If $\hat{\theta}$ is the least squares estimator the phase, then it follows from~\eqref{eq:hatdfinxtheta}, that $S$ contains the sequence $\{ \hat{d}_i(\hat{\theta}), i \in D \}$ corresponding to the least squares estimator of the data symbols, i.e., $S$ contains the minimiser of~\eqref{eq:SSdatasymbols}.  Observe from~\eqref{eq:uicombos} that there are atmost $(M+1)\abs{D}$ sequences in $S$, because there are $M+1$ sequences for each $i \in D$.
 
 The sequences in $S$ can be enumerated as follows.  Let $\sigma$ denote the permutation of the indicies in $D$ such that $z_{\sigma(i)}$ are in ascending order, that is,
 \begin{equation}\label{eq:sigmasortind}
@@ -169,7 +174,7 @@ where,
 Y_k = Y( f_k ) &= \sum_{i \in P} y_i p_i^*  + \sum_{i \in D} y_i f_{ki}^* \\
 &= B + \sum_{i \in D}g_{ki},
 \end{align*}
-where $B = \sum_{i \in P} y_i p_i^*$ is a constant, independent of the data symbols, and $f_{ki}$ denotes the $i$th symbol in the sequence $f_k$, and for convenience, we put $g_{ki}  = y_i f_{ki}^*$.  Letting $g_{k}$ be the sequence $\{ y_i f_{ki}^*, i \in D\}$ we have, from~\eqref{eq:fkrec}, that $g_k$ satisfies the recursive equation
+where $B = \sum_{i \in P} y_i p_i^*$ is a constant, independent of the data symbols, and $f_{ki}$ denotes the $i$th symbol in the sequence $f_k$, and for convenience, we put $g_{ki}  = y_i f_{ki}^*$.  Letting $g_{k}$ be the sequence $\{g_{ik}, i \in D\}$ we have, from~\eqref{eq:fkrec}, that $g_k$ satisfies the recursive equation
 \[
 g_{k+1} = g_{k} e_{\sigma(k)}^*,
 \]
@@ -191,7 +196,7 @@ So, each $Y_k$ can be computed from it predecessor $Y_{k-1}$ in a constant numbe
 \begin{equation}\label{eq:ahatYhat}
 \hat{a} = \frac{1}{L} Y_{\hat{k}}.
 \end{equation}
-Psuedocode is given in Algorithm~\ref{alg:loglinear}.  Line~\ref{alg_sortindices} contains the function $\operatorname{sortindicies}$ that, given the sequence $z = \{z_i, i \in D\}$, returns the permutation $\sigma$ of the indices in $D$ as described in~\eqref{eq:sigmasortind}.  Computing the $\operatorname{sortindicies}$ function requires sorting $\abs{D}$ elements.  This requires $O(L \log L)$ operations.  The $\operatorname{sortindicies}$ function is the primary bottleneck in this algorithm when $L$ is large.  The loops on lines~\ref{alg_loop_setup} and~\ref{alg_loop_search} and the operations on lines~\ref{alg_Y} to lines~\ref{alg_Q} all require $O(L)$ or less operations.  %In the next sections we will show how to the sortinces function can be avoided.  This leads to an algorithm that requires only $O(L)$ operations.
+Psuedocode is given in Algorithm~\ref{alg:loglinear}.  Line~\ref{alg_sortindices} contains the function $\operatorname{sortindicies}$ that, given the sequence $z = \{z_i, i \in D\}$, returns the permutation $\sigma$ of the indices in $D$ as described in~\eqref{eq:sigmasortind}.  The $\operatorname{sortindicies}$ function requires sorting $\abs{D}$ elements.  This requires $O(L \log L)$ operations.  The $\operatorname{sortindicies}$ function is the primary bottleneck in this algorithm when $L$ is large.  The loops on lines~\ref{alg_loop_setup} and~\ref{alg_loop_search} and the operations on lines~\ref{alg_Y} to lines~\ref{alg_Q} all require $O(L)$ or less operations.  %In the next sections we will show how to the sortinces function can be avoided.  This leads to an algorithm that requires only $O(L)$ operations.
 
 \begin{algorithm}[t] \label{alg:loglinear}
 \SetAlCapFnt{\small}
@@ -223,13 +228,13 @@ $Q = \frac{1}{L}\abs{Y}^2$\;
 \end{algorithm}
 
 
-\section{Circularly symmetric complex random variables}
+\section{Circularly symmetric complex random variables}\label{sec:circ-symm-compl}
 
-Before describing the statistical properties of the least squares estimator, we first require some properties of complex valued random variables.  A complex random variable $X$ is called \emph{circularly symmetric} if the distribution of its phase $\angle{X}$ is uniform on $[0,2\pi)$ and is independent of the distribution of its magnitude $\abs{X}$.  That is, if we define real random variables $Z > 0$ and $\Theta \in [0,2\pi)$ such that $Ze^{j\Theta} = X$, then $\Theta$ is uniformly distributed on $[0,2\pi)$ and is indepedent of $Z$.  If the probability density function of $Z$ is $f_Z(z)$, then the joint density function of $\Theta$ and $Z$ is 
+Before describing the statistical properties of the least squares estimator, we first require some properties of complex valued random variables.  A complex random variable $X$ is said to be \emph{circularly symmetric} if the distribution of its phase $\angle{X}$ is uniform on $[0,2\pi)$ and is independent of the distribution of its magnitude $\abs{X}$.  That is, if we define real random variables $Z > 0$ and $\Theta \in [0,2\pi)$ such that $Ze^{j\Theta} = X$, then $\Theta$ is uniformly distributed on $[0,2\pi)$ and is indepedent of $Z$.  If the probability density function of $Z$ is $f_Z(z)$, then the joint density function of $\Theta$ and $Z$ is 
 \[
 f_{Z,\Theta}(z,\theta) = \frac{1}{2\pi}f_Z(z).
 \]  
-Observe that for any real number $\phi$, the distribution of $X$ and $e^{j\phi}X$ are the same, that is, the distribution is invariate to phase rotation.  If $\expect\abs{X} = \expect Z$ is finite, then $X$ has zero mean since
+Observe that for any real number $\phi$, the distribution of $X$ and $e^{j\phi}X$ are the same, that is, the distribution is invariant to phase rotation.  If $\expect\abs{X} = \expect Z$ is finite, then $X$ has zero mean since
 \begin{align*}
 \expect X &= \int_{0}^{2\pi} \int_{0}^\infty z e^{j\theta} f_{Z,\Theta}(z,\theta) dz d\theta \\
 &= \frac{1}{2\pi} \int_{0}^{2\pi} e^{j\theta} \int_{0}^\infty z f_Z(z) dz d\theta \\
@@ -240,7 +245,7 @@ We will have particular use of complex random variables of the form $1 + X$.  Le
 \[
 R e^{j\Phi} = 1 + X.
 \]
-The joint distribution of $R$ and $\Phi$ can be show to be
+The joint distribution of $R$ and $\Phi$ can be shown to be
 \[
 f(r,\phi) = \frac{r f_Z(\sqrt{r^2 - 2r\cos\phi + 1})}{\sqrt{r^2 - 2r\cos\phi + 1}}.
 \]
@@ -252,8 +257,18 @@ where $\Re(\cdot)$ denotes the real part, and
 \[
 \expect \Im(R e^{j\Phi}) = \expect R \sin(\Phi) = 0,
 \]
-where $\Im(\cdot)$ denotes the imaginary part.
+where $\Im(\cdot)$ denotes the imaginary part.  The next lemma will be useful for the analysis of the least squares estimator.
 
+\begin{lemma}\label{lem:h1minedcircsym}
+Let $X = Z e^{j\Theta}$ be a circularly symmetric complex random variable with pdf $\tfrac{1}{2\pi}f_Z(z)$ such that $z^{-1} f_Z(z)$ is nonincreasing with $z$.  Let $R > 0$ and $\Phi \in [0, 2\pi)$ be random variables satisfying $R e^{j\Phi} = 1 + X$.  Let $h_1(x)$ be the function
+\[
+h_1(x) = \expect R \cos(x + \Phi).
+\]
+Then $h_1(x)$ is uniquley maximised as $0$ over the interval $[-\pi,\pi)$.
+\end{lemma}
+\begin{IEEEproof}
+BLERG
+\end{IEEEproof}
 
 \section{Statistical properties of the least squares estimator}
 
@@ -295,7 +310,7 @@ Under the same conditions as Theorem~\ref{thm:consistency}, let $f(r,\phi)$ be t
 \[
 g(\phi) = \int_{0}^{\infty} r f(r,\phi) dr.
 \]
-Put $\lambda_L = \sfracpart{\theta_0 - \hat{\theta}}_\pi$ and $m_L = \hat{\rho} - \rho_0 G(0)$. If $g(\phi)$ is continuous at $\phi = (2k+1)\tfrac{\pi}{M}$ for each $k = 0, 1, \dots M-1$, then the distribution of $(\sqrt{L}\lambda_L, \sqrt{L}m_L)$ converges to the bivariate normal with zero mean and covariance
+Put $\hat{\lambda}_L = \sfracpart{\theta_0 - \hat{\theta}}_\pi$ and $\hat{m}_L = \hat{\rho} - \rho_0 G(0)$. If $g(\phi)$ is continuous at $\phi = (2k+1)\tfrac{\pi}{M}$ for each $k = 0, 1, \dots M-1$, then the distribution of $(\sqrt{L}\lambda_L, \sqrt{L}m_L)$ converges to the bivariate normal with zero mean and covariance
 \[
 C = \frac{1}{(p + H d)^2} \left( \begin{array}{cc} 
 pA_1 + dA_2 & ? \\
@@ -304,7 +319,7 @@ pA_1 + dA_2 & ? \\
 \]
 as $L \rightarrow \infty$, where
 \[
-H = 2 \sin(\tfrac{\pi}{M}) \sum_{k = 0}^{M-1} g(\tfrac{(2k+1)\pi}{M}),
+H = h_2(0) -  2 \sin(\tfrac{\pi}{M}) \sum_{k = 0}^{M-1} g(\tfrac{(2k+1)\pi}{M}),
 \]
 \[
 A_1 = \expect R_1^2\sin^2(\Phi_1), \qquad A_2 = \expect R_1^2\sin^2\fracpart{\Phi_1}.
@@ -315,10 +330,10 @@ A_1 = \expect R_1^2\sin^2(\Phi_1), \qquad A_2 = \expect R_1^2\sin^2\fracpart{\Ph
 
 %BLERG $\hat{a}$ is a biased estimator, particularly when the SNR is low, we show firs that $\hat{\theta}$ is strongly consistent, we are then able to analyse the behaviour of $\hat{a}$.
 
-Proofs of these theorems are given in the follows subsections~\ref{sec:proof-almost-sure}~and~\ref{sec:proof-asympt-norm}.  We first discussion the assumptions made by these theorems. 
+Proofs of these theorems are given in subsections~\ref{sec:proof-almost-sure}~and~\ref{sec:proof-asympt-norm}.  We first discuss the assumptions made by these theorems. 
 
 \begin{lemma}
-Let $X = Z e^{j\Theta}$ be a circularly symmetric complex random variable with pdf $\tfrac{1}{2\pi}f_Z(z)$ such that $z^{-1} f_Z(z)$ is nonincreasing with $z$.  Let $R > 0$ and $\Phi \in [0, 2\pi)$ be random variables satisfying $R e^{j\Phi} = 1 + X$.  Let $h_2$ and $k_2$ be functions 
+Under the same conditions as Lemma~\ref{lem:h1minedcircsym}, define the functions $h_2$ and $k_2$, 
 \[
 h_2(x) = \expect R \cos\sfracpart{x + \Phi}, \;\;\; k_2(x) =  \expect R \sin\sfracpart{ x + \Phi}.
 \]
@@ -381,7 +396,7 @@ Let
 \[
 G_L(\lambda) = \frac{1}{\rho_0 L} \Re(Z(\theta))
 \]
-and put $\hat{\lambda}_L = \langle\theta_0 - \hat{\theta}\rangle$.  Since $\hat{\theta}$ is the maximiser of $\abs{\Re(Z(\theta))}$ then  $\hat{\lambda}_L$ is the maximiser of $\abs{G_L(\lambda)}$.  We will show that $\hat{\lambda}_L$ converges almost surely to zero as $L \rightarrow \infty$.  The proof of part 1 of the theorem follows from this.
+and put $\hat{\lambda}_L = \langle\theta_0 - \hat{\theta}\rangle$.  Since $\hat{\theta}$ is the maximiser of $\abs{\Re(Z(\theta))}$ then  $\hat{\lambda}_L$ is the maximiser of $\abs{G_L(\lambda)}$.  We will show that $\hat{\lambda}_L$ converges almost surely to zero as $L \rightarrow \infty$.  The proof of part 1 of the Theorem~\ref{thm:consistency} follows from this.
 
 Observe that
 \[
@@ -389,9 +404,9 @@ Observe that
 \]
 and since $\frac{\abs{P}}{L} \rightarrow p$ and $\frac{\abs{D}}{L} \rightarrow d$ as $L \rightarrow \infty$, then
 \[
-G(\lambda) = \lim_{L \rightarrow\infty} \expect G_L(\lambda) = p h_1(\lambda)   +  d h_2(\lambda).
+\lim_{L \rightarrow\infty} \expect G_L(\lambda) = G(\lambda) = p h_1(\lambda)   +  d h_2(\lambda).
 \]
-Lemma~\ref{lem:convtoexpGlamL} shows that,
+where the function $G$, $h_1$ and $h_2$ are defined in the statement of Theorem~\ref{thm:consistency}.  Lemma~\ref{lem:convtoexpGlamL} shows that,
 \[
 \prob\{ \sabs{G(\hat{\lambda}_L) - G(0)} > \epsilon \} = O(e^{-\epsilon^2 L})
 \]
@@ -415,47 +430,48 @@ It remains to prove part two of this theorem regarding the convergence of the am
 \end{equation}  
 Lemma~\ref{lem:GLtoG0} shows that $G_L(\hat{\lambda}_L)$ converges almost surely to $G(0)$ as $L\rightarrow\infty$, and $\hat{\rho}$ consequently converges almost surely to $\rho_0 G(0)$ as required.
 
-\begin{lemma}\label{lem:convtoexpGlamL}
+\begin{lemma}\label{lem:convtoexpGlamL} For any $\epsilon > 0$,
 \[
 \prob\{ \sabs{G(\hat{\lambda}_L) - G(0)} > \epsilon \} = O(e^{-\epsilon^2 L})
 \]
 \end{lemma}
 \begin{IEEEproof}
-Lemma~\ref{lem:Zconunif} shows BLERG that 
-\[
-0 \leq G(\hat{\lambda}_L) - G(0),
-\]
-and since $\hat{\lambda}_L$ is the maximiser of $G_L$ then
-\[ 
-0 \leq G_L(0) - G_L(\hat{\lambda}_L).
-\]
-Adding both inequalities and taking appropriate absolute values gives
-\begin{align*}
-0 &\leq G(\hat{\lambda}_L) - G(0) \\ 
-& \leq G(\hat{\lambda}_L) - G(0) + G_L(0) - G_L(\hat{\lambda}_L) \\
-& \leq |G(\hat{\lambda}_L) - G_L(\hat{\lambda}_L)| + |G_L(0) - G(0)|,
-\end{align*}
 BLERG
+% Lemma~\ref{lem:Zconunif} shows BLERG that 
+% \[
+% 0 \leq G(\hat{\lambda}_L) - G(0),
+% \]
+% and since $\hat{\lambda}_L$ is the maximiser of $G_L$ then
+% \[ 
+% 0 \leq G_L(0) - G_L(\hat{\lambda}_L).
+% \]
+% Adding both inequalities and taking appropriate absolute values gives
+% \begin{align*}
+% 0 &\leq G(\hat{\lambda}_L) - G(0) \\ 
+% & \leq G(\hat{\lambda}_L) - G(0) + G_L(0) - G_L(\hat{\lambda}_L) \\
+% & \leq |G(\hat{\lambda}_L) - G_L(\hat{\lambda}_L)| + |G_L(0) - G(0)|,
+% \end{align*}
 \end{IEEEproof}
 
-\begin{lemma}\label{lem:Zconunif}
-\[
-\prob\left\{\sup_{\lambda \in [-\pi, \pi)}\abs{G_L(\lambda) - G(\lambda)} > \epsilon \right\} = O(e^{-\epsilon^2 L}).
-\]
-\end{lemma}
-\begin{IEEEproof}
-\end{IEEEproof}
+% \begin{lemma}\label{lem:Zconunif}
+% \[
+% \prob\left\{\sup_{\lambda \in [-\pi, \pi)}\abs{G_L(\lambda) - G(\lambda)} > \epsilon \right\} = O(e^{-\epsilon^2 L}).
+% \]
+% \end{lemma}
+% \begin{IEEEproof}
+% \end{IEEEproof}
 
 \begin{lemma}\label{lem:GLtoG0}
 $G_L(\hat{\lambda}_L) \rightarrow G(0)$ almost surely as $L \rightarrow \infty$.
 \end{lemma}
 \begin{IEEEproof}
+BLERG
 \end{IEEEproof}
  
 
 \subsection{Proof of asymptotic normality (Theorem~\ref{thm:normality}) } \label{sec:proof-asympt-norm}
 
-The proof is complicated by the fact that $G_L$ is not differentiable everywhere due to the function $\fracpart{\cdot}$ not being differentiable at half integers.  This precludes the use of ``standard approaches'' to proving normality that are based on the mean value theorem~\cite{vonMises_diff_stats_1947,vanDerVart1971_asymptotic_stats,Pollard_new_ways_clts_1986,Pollard_conv_stat_proc_1984,Pollard_asymp_empi_proc_1989}.  However, we show in Lemma~\ref{lem:diffatlambdaL} that the derivative does exist, and is equal to zero, at the maximiser $\hat{\lambda}_L$, so
+The proof is complicated by the fact that $G_L$ is not differentiable everywhere due to the function $\fracpart{\cdot}$ not being differentiable at multiples of $\tfrac{\pi}{M}$.  This precludes the use of ``standard approaches'' to proving normality that are based on the mean value theorem~\cite{vonMises_diff_stats_1947,vanDerVart1971_asymptotic_stats,Pollard_new_ways_clts_1986,Pollard_conv_stat_proc_1984,Pollard_asymp_empi_proc_1989}.  However, we show in Lemma~\ref{lem:diffatlambdaL} that the derivative does exist, and is equal to zero, at the maximiser $\hat{\lambda}_L$, so
 \begin{align*}
 G_L^\prime(\hat{\lambda}_L) &= 0 \\
 &= \frac{1}{L} \sum_{i \in P} R_i \sin(\hat{\lambda}_L + \Phi_i) + \frac{1}{L} \sum_{i \in D} R_i \sin\sfracpart{\hat{\lambda}_L + \Phi_i}.
@@ -481,9 +497,9 @@ and rearranging gives,
 \[
 \sqrt{L} \hat{\lambda}_L = o_P(1) + \frac{\sqrt{L}G_L'(0)}{p + Hd  + o_P(1)}.
 \]
-Lemma~\ref{lem:convdistGLdash} shows that the distribution of $\sqrt{L}G_L'(0)$ converges to the normal with zero mean and variance $A_1 + A_2$ and it follows that the distribution of $\sqrt{L}\hat{\lambda}_L$ converges to the normal with zero mean and variance
+Lemma~\ref{lem:convdistGLdash} shows that the distribution of $\sqrt{L}G_L'(0)$ converges to the normal with zero mean and variance $pA_1 + dA_2$ and it follows that the distribution of $\sqrt{L}\hat{\lambda}_L$ converges to the normal with zero mean and variance
 \[
-\frac{A_1 + A_2}{(p + Hd)^2}.
+\frac{pA_1 + dA_2}{(p + Hd)^2}.
 \]
  
 We now analyse the asymptotic distribution of $m_L = \hat{\rho} - \rho_0 G(0)$.  Define the function $H_L(\lambda) = \expect G_L(\lambda)$.  Using~\eqref{eq:rhoGLZ} we have
@@ -522,43 +538,45 @@ The derivative of $G_L$ exists, and is equal to zero, at $\hat{\lambda}_L$.  Tha
 G_L^\prime(\hat{\lambda}_L) = \frac{d G_L}{d \lambda}(\hat{\lambda}_L) = 0.
 \]
 \end{lemma}
-
-\begin{lemma}
-\[
-\sabs{\sfracpart{\hat{\lambda}_L + \Phi_i}} \leq \frac{1}{2M} - \frac{1}{2LM ?}
-\]
-for all $i \in D$.
-\end{lemma}
 \begin{IEEEproof}
-Recall that $\hat{d}_i = \hat{d}_i(\hat{\theta})$ are the minimsers of $SS$.  The proof now proceeds by contradiction.  Assume that $\sfracpart{\hat{\lambda}_L + \Phi_i} \leq \frac{1}{2M} - \frac{1}{2LM ?}$ for some $k$.  Put $r_i = \hat{d}_i e_k$, then
-\begin{align*}
-Y(\{ r_i, i \in D\}) = \frac{1}{L}\left( B + \sum_{i \in D} y_i\hat{r}_i^* \right) = \hat{Y} + \frac{1}{L}\eta y_k\hat{d}_k^*.
-\end{align*}
-where we put $\hat{Y} = Y(\{ \hat{d}_i, i \in D\})$.  Now,
-\begin{align*}
-SS&(\{r_i, i \in D\}) \\
-&= A - \frac{1}{L} \abs{ Y(\{ r_i, i \in D\}) }^2 \\
-&= A - \frac{1}{L} \abs{ \hat{Y} + \frac{1}{L} \eta y_k\hat{d}_k^* }^2 \\
-&= A - \frac{1}{L}\abs{\hat{Y}}^2 - \frac{2}{L^2}\Re\left(\eta \hat{Y}^* y_k \hat{d}_k^* \right) -  \frac{1}{L^3}\abs{ \eta y_k \hat{d}_k^* }^2\\
-&= SS(\{\hat{d}_i, i \in D\}) - R
-\end{align*}
-where 
-\[
-R = \frac{2}{L^2}\Re\left(\eta \hat{Y}^* y_k \hat{d}_k^* \right) +  \frac{1}{L^3}\abs{ \eta y_k \hat{d}_k^* }^2.
-\]
-We will show that $R$ is positive, from which is will follow that $SS(\{r_i, i \in D\}) < SS(\{\hat{d}_i, i \in D\})$, violating the fact that $\{\hat{d}_i, i \in D\}$ are minimisers of $SS$.
-
-To see that $R$ is positive write
- \begin{align*}
-R &\geq  \frac{2}{L^2}\abs{\hat{Y} y_k}\Re\left(\eta e^{j(\phi_i - \hat{\theta})}\hat{d}_k^* \right) +  \frac{1}{L^3}\abs{ \eta}^2 \abs{ y_k }^2 \\
- &= \frac{1}{L^2}\abs{y_k} \left( 2\abs{\hat{Y}}\Re\left(\eta e^{j(\phi_i - \hat{\theta})} \hat{d}_k^* \right) + \frac{1}{L}\abs{ \eta}^2 \abs{ y_k }  \right) 
- \end{align*}
- so it is sufficient to show that
- \[
- \Re\left(\eta e^{j(\phi_i - \hat{\theta})} \hat{d}_k^* \right) > - \frac{\abs{ \eta}^2 \abs{ y_k }}{2 L \abs{\hat{Y}}}.
- \]
- Unfinished, but this proof will work
 \end{IEEEproof}
+
+% \begin{lemma}
+% \[
+% \sabs{\sfracpart{\hat{\lambda}_L + \Phi_i}} \leq \frac{1}{2M} - \frac{1}{2LM ?}
+% \]
+% for all $i \in D$.
+% \end{lemma}
+% \begin{IEEEproof}
+% Recall that $\hat{d}_i = \hat{d}_i(\hat{\theta})$ are the minimsers of $SS$.  The proof now proceeds by contradiction.  Assume that $\sfracpart{\hat{\lambda}_L + \Phi_i} \leq \frac{1}{2M} - \frac{1}{2LM ?}$ for some $k$.  Put $r_i = \hat{d}_i e_k$, then
+% \begin{align*}
+% Y(\{ r_i, i \in D\}) = \frac{1}{L}\left( B + \sum_{i \in D} y_i\hat{r}_i^* \right) = \hat{Y} + \frac{1}{L}\eta y_k\hat{d}_k^*.
+% \end{align*}
+% where we put $\hat{Y} = Y(\{ \hat{d}_i, i \in D\})$.  Now,
+% \begin{align*}
+% SS&(\{r_i, i \in D\}) \\
+% &= A - \frac{1}{L} \abs{ Y(\{ r_i, i \in D\}) }^2 \\
+% &= A - \frac{1}{L} \abs{ \hat{Y} + \frac{1}{L} \eta y_k\hat{d}_k^* }^2 \\
+% &= A - \frac{1}{L}\abs{\hat{Y}}^2 - \frac{2}{L^2}\Re\left(\eta \hat{Y}^* y_k \hat{d}_k^* \right) -  \frac{1}{L^3}\abs{ \eta y_k \hat{d}_k^* }^2\\
+% &= SS(\{\hat{d}_i, i \in D\}) - R
+% \end{align*}
+% where 
+% \[
+% R = \frac{2}{L^2}\Re\left(\eta \hat{Y}^* y_k \hat{d}_k^* \right) +  \frac{1}{L^3}\abs{ \eta y_k \hat{d}_k^* }^2.
+% \]
+% We will show that $R$ is positive, from which is will follow that $SS(\{r_i, i \in D\}) < SS(\{\hat{d}_i, i \in D\})$, violating the fact that $\{\hat{d}_i, i \in D\}$ are minimisers of $SS$.
+
+% To see that $R$ is positive write
+%  \begin{align*}
+% R &\geq  \frac{2}{L^2}\abs{\hat{Y} y_k}\Re\left(\eta e^{j(\phi_i - \hat{\theta})}\hat{d}_k^* \right) +  \frac{1}{L^3}\abs{ \eta}^2 \abs{ y_k }^2 \\
+%  &= \frac{1}{L^2}\abs{y_k} \left( 2\abs{\hat{Y}}\Re\left(\eta e^{j(\phi_i - \hat{\theta})} \hat{d}_k^* \right) + \frac{1}{L}\abs{ \eta}^2 \abs{ y_k }  \right) 
+%  \end{align*}
+%  so it is sufficient to show that
+%  \[
+%  \Re\left(\eta e^{j(\phi_i - \hat{\theta})} \hat{d}_k^* \right) > - \frac{\abs{ \eta}^2 \abs{ y_k }}{2 L \abs{\hat{Y}}}.
+%  \]
+%  Unfinished, but this proof will work
+% \end{IEEEproof}
 
 
 \begin{lemma}\label{lem:Qconv}
@@ -567,7 +585,7 @@ R &\geq  \frac{2}{L^2}\abs{\hat{Y} y_k}\Re\left(\eta e^{j(\phi_i - \hat{\theta})
 \]
 where 
 \[
-H = 2 \sin(\tfrac{\pi}{M}) \sum_{k = 0}^M g(\tfrac{(2k+1)\pi}{M})
+H = h_2(0) - 2 \sin(\tfrac{\pi}{M}) \sum_{k = 0}^M g(\tfrac{(2k+1)\pi}{M})
 \]
 \end{lemma}
 \begin{IEEEproof}
@@ -580,39 +598,67 @@ where
 k_1(\lambda) &= \expect R_1\big( \sin(\lambda + \Phi_1) - \sin(\Phi_1) \big), \;\;\; \text{and} \nonumber\\
 k_2(\lambda) &= \expect R_1\big( \sin\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} \big). \label{eq:k2def}
 \end{align}
-Since,
+By a Taylor expansion of $\sin(\lambda + \phi)$ about $\phi$ we obtain
 \[
 \sin(\lambda + \phi) - \sin(\phi) = \lambda \big( \cos(\phi) + \zeta(\lambda) \big),
 \]
-where $\zeta(\lambda)$ is a function that goes to zero as $\lambda$ goes to zero, then
+where $\zeta(\lambda)$ is a function that goes to zero as $\lambda$ goes to zero.  Then,
 \begin{align*}
 k_1(\lambda) &= \expect R_1\lambda(\cos(\Phi_1) \; + \; \zeta(\lambda)) \\
 &= \lambda \big( \expect R_1\cos(\Phi_1) \; + \; \zeta(\lambda) \expect R_1 \big) \\
 &= \lambda \big( 1 \; + \; \zeta(\lambda) K \big),
 \end{align*}
-since $h_1(0) = \expect R_1\cos(\Phi_1) = 1$, and where we put $K = \expect R_1$ is a finite constant.  Because $\hat{\lambda}_L$ converges almost surely to zero as $L \rightarrow\infty$, then $\zeta(\hat{\lambda}_L)$ converges almost surely (and therefore also in probability) to zero as $L \rightarrow\infty$, i.e. $\zeta(\hat{\lambda}_L) = o_P(1)$.  So, 
+since $h_1(0) = \expect R_1\cos(\Phi_1) = 1$, and $K = \expect R_1$ is a finite constant.  Because $\hat{\lambda}_L$ converges almost surely to zero as $L \rightarrow\infty$, then $\zeta(\hat{\lambda}_L)$ converges almost surely (and therefore also in probability) to zero as $L \rightarrow\infty$, i.e. $\zeta(\hat{\lambda}_L) = o_P(1)$.  So, 
 \[
 k_1(\hat{\lambda}_L) = \hat{\lambda}_L \big( 1 \; + \; \zeta(\hat{\lambda}_L) K \big) = \hat{\lambda}_L \big( 1  + o_P(1)\big).
 \]
 
-We now analyse the behaviour of $k_2(\lambda)$.  Firstly consider when, $0 \leq \lambda < \tfrac{\pi}{M}$, then for each integer $k$ and when $\phi \in [\tfrac{ (2k-1)\pi}{M}, \tfrac{(2k+1)\pi}{M} - \lambda )$,
+We now analyse the behaviour of $k_2(\lambda)$.  Firstly consider when, $0 \leq \lambda < \tfrac{\pi}{M}$.  For each integer $k$, if $\phi \in [\tfrac{ (2k-1)\pi}{M}, \tfrac{(2k+1)\pi}{M})$, then
+\[
+\fracpart{\phi} = \phi - \tfrac{2\pi k}{M}.
+\]
+Similarly if $\phi \in  [\tfrac{ (2k-1)\pi}{M}, \tfrac{(2k+1)\pi}{M} - \lambda)$ then
+\[
+\fracpart{\phi + \lambda} = \phi + \lambda - \tfrac{2\pi k}{M},
+\]
+whilst if $\phi \in [\tfrac{ (2k+1)\pi}{M} - \lambda, \tfrac{(2k+1)\pi}{M})$ then
+\[
+\fracpart{\phi + \lambda} = \phi + \lambda - \tfrac{2\pi (k+1)}{M}.
+\]
+So, when $\phi \in [\tfrac{ (2k-1)\pi}{M}, \tfrac{(2k+1)\pi}{M} - \lambda )$,
+\[
+\sin\fracpart{\lambda + \phi} - \sin\fracpart{\phi} = \sin(\lambda + \phi - \tfrac{2\pi k}{M}) - \sin(\phi - \tfrac{2\pi k}{M}),
+\]
+and by a Taylor expansion of $\sin(\lambda + \phi - \tfrac{2\pi k}{M})$ about $\phi - \tfrac{2\pi k}{M}$ we obtain 
 \begin{align*}
-\sin\fracpart{\lambda + \phi} - \sin\fracpart{\phi} &= \sin(\lambda + \phi - \tfrac{2\pi k}{M}) - \sin(\phi - \tfrac{2\pi k}{M}) \\
-&= \lambda\big(\cos(\phi - \tfrac{2\pi k}{M}) + \zeta_k(\lambda)\big) \\
+\sin\fracpart{\lambda + \phi} - \sin\fracpart{\phi} &= \lambda\big(\cos(\phi - \tfrac{2\pi k}{M}) + \zeta_k(\lambda)\big) \\
 &= \lambda\big(\cos\fracpart{\phi} + \zeta_k(\lambda)\big).
 \end{align*}
-where $\zeta_l(\lambda)$ is a function that goes to zero as $\lambda$ goes to zero.  Alternatively when $\phi \in [ \tfrac{(2k+1)\pi}{M} - \lambda,\tfrac{(2k+1)\pi}{M} )$,
-\begin{align*}
-\sin&\fracpart{\lambda + \phi} - \sin\fracpart{\phi} \\
-&= \sin(\lambda + \phi - \tfrac{2\pi k}{M}) - \sin(\phi - \tfrac{2\pi (k-1)}{M}) \\
-&=  v_k(\phi) + \lambda\big(\cos(\phi - \tfrac{2\pi k}{M}) + \zeta_k(\lambda)\big) \\
-&= v_k(\phi) + \lambda\big(\cos\fracpart{\phi} + \zeta_k(\lambda)\big)
-\end{align*}
+where $\zeta_k(\lambda)$ is a function that goes to zero as $\lambda$ goes to zero.  Alternatively, when $\phi \in [ \tfrac{(2k+1)\pi}{M} - \lambda,\tfrac{(2k+1)\pi}{M})$,
+\[
+\sin\fracpart{\lambda + \phi} - \sin\fracpart{\phi} = \sin(\lambda + \phi - \tfrac{2\pi(k+1)}{M}) - \sin(\phi - \tfrac{2\pi k}{M})
+\]
+and by a Taylor expansion of $\sin(\lambda + \phi - \tfrac{2\pi(k+1)}{M})$ about $\phi - \tfrac{2\pi(k+1)}{M}$,
+\[
+\sin\fracpart{\lambda + \phi} - \sin\fracpart{\phi} =  s_k(\phi) + \lambda\big(\cos(\phi - \tfrac{2\pi(k+1)}{M}) + \zeta_{k+1}(\lambda)\big) 
+\] 
 where
 \[
-v_k(\phi) = \sin(\phi - \tfrac{2\pi k}{M}) - \sin(\phi - \tfrac{2\pi (k-1)}{M}).
+s_k(\phi) = \sin(\phi - \tfrac{2\pi(k+1)}{M}) - \sin(\phi - \tfrac{2\pi k}{M}).
 \]
-Observe that $v_k(\tfrac{(2k+1)\pi}{M}) = 2\sin(\tfrac{\pi}{M})$.  Now, for all $\phi \in \reals$ we have
+Putting
+\[
+c_k(\phi) = \cos(\phi - \tfrac{2\pi(k+1)}{M}) - \cos(\phi - \tfrac{2\pi k}{M})
+\]
+we obtain
+\begin{align*}
+\sin&\fracpart{\lambda + \phi} - \sin\fracpart{\phi} \\
+&= v_k(\phi) + \lambda\big(\cos(\phi - \tfrac{2\pi k}{M}) + c_k(\phi) + \zeta_{k+1}(\lambda)\big) \\
+&= s_k(\phi) + \lambda\big(\cos\fracpart{\phi} + c_k(\phi) + \zeta_{k+1}(\lambda)\big).
+\end{align*}
+
+
+Observe that both $s_k$ and $c_k$ are continuous functions and that $s_k(\tfrac{(2k+1)\pi}{M}) = -2\sin(\tfrac{\pi}{M})$ and $c_k(\tfrac{(2k+1)\pi}{M}) = 0$.  Now, for all $\phi \in \reals$ we have
 \[
 \sin\fracpart{\lambda + \phi} - \sin\fracpart{\phi} = v(\lambda, \phi) + \lambda\cos\fracpart{\phi}
 \]

@@ -137,9 +137,9 @@ draw begingraph(plotwidth, plotheight);
   gdraw "cltM2L32absP8p"; gdraw "MackenthunCoherentM2L32absP8p" plot(dot); glabel.llft(btex $L = 32$ etex, 1000);
   %gdraw "MackenthunCoherentM2L2560absP1000p"; gdraw "MackenthunCoherentM2L2560absP1000p" plot(dot); glabel.llft(btex $L = 10000$ etex, 1000);
 
-  gdraw "cltM2L2048absP128p"; gdraw "MackenthunCoherentM2L2048absP128p" plot(circle); 
+  gdraw "cltM2L2048absP256p"; gdraw "MackenthunCoherentM2L2048absP256p" plot(circle); 
   %gdraw "cltM2L256absP16p"; gdraw "MackenthunCoherentM2L256absP16p" plot(circle); 
-  gdraw "cltM2L32absP2p"; gdraw "MackenthunCoherentM2L32absP2p" plot(circle);
+  gdraw "cltM2L32absP4p"; gdraw "MackenthunCoherentM2L32absP4p" plot(circle);
 
   gdraw "cltM2L2048absP2048p"; gdraw "MackenthunCoherentM2L2048absP2048p" plot(square); 
   %gdraw "cltM2L256absP256p"; gdraw "MackenthunCoherentM2L256absP256p" plot(square); 
