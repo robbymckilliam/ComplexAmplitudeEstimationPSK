@@ -26,7 +26,11 @@ trait ComplexNoise extends pubsim.distributions.complex.ComplexRandomVariable {
 
 class ComplexGaussian(variance : Double) 
   extends pubsim.distributions.complex.SymmetricComplexNormal(variance) with ComplexNoise {
-  
-  override def clt(M : Int, p : Double) : CLTComputer = new GeneralCLTComputer(M,p,this)
+    
+  /** Assumes signal amplitude rho0 is 1 */
+  override def clt(M : Int, p : Double) : CLTComputer = {
+    val sigma = scala.math.sqrt(variance)
+    return new GaussianCLT(M,p,sigma)
+  }
   
 }

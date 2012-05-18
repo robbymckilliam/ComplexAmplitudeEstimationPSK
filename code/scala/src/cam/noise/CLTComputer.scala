@@ -35,10 +35,13 @@ trait CLTComputer {
   def variance : (Double, Double, Double)
   
   // Some convenience functions are defined here
-  def sin(x : Double) = scala.math.sin(x)
-  def cos(x : Double) = scala.math.cos(x)
-  def sqr(x : Double) = x*x
-  def sqrt(x : Double) = scala.math.sqrt(x)
+  final def sin(x : Double) = scala.math.sin(x)
+  final def cos(x : Double) = scala.math.cos(x)
+  final def sqr(x : Double) = x*x
+  final def cub(x : Double) = x*x*x
+  final def sqrt(x : Double) = scala.math.sqrt(x)
+  final def exp(x : Double) = scala.math.exp(x)
+  final def erf(x : Double) = pubsim.Util.erf(x)
   val pi = scala.math.Pi
   
 }
@@ -98,12 +101,37 @@ class GaussianCLT(M : Int, p : Double, sigma : Double, rho0 : Double) extends Ab
   override def fZ(z : Double) = Z.pdf(z)
   
   //Compute g by numerical integration
-  override def g(phi : Double) = RealIntegral.trapezoidal( r => r*f(r,phi), 0, 30*sqrt(Z.getVariance), 1000) 
+  override def g(phi : Double) : Double = {
+    val a = cos(phi)
+    val mult = exp(-k*k/2)/(2*k)
+    val s1 = 2*a*k
+    val s2 = exp(sqr(a*k)/2)*sqrt(2*pi)*(1+sqr(a*k))*(1 + erf(a*k/sqrt(2)))
+    return mult*(s1+s2)/2/pi
+  }
   
   //Compute g by numerical integration
-  override def g2(phi : Double) = RealIntegral.trapezoidal( r => r*r*f(r,phi), 0, 30*sqrt(Z.getVariance), 1000) 
+  override def g2(phi : Double) : Double = {
+    val a = cos(phi)
+    val mult = exp(-k*k/2)/(2*k*k)
+    val s1 = 4 + 2*sqr(a*k)
+    val s2 = a*k*exp(sqr(a*k)/2)*sqrt(2*pi)*(3+sqr(a*k))*(1 + erf(a*k/sqrt(2)))
+    return mult*(s1+s2)/2/pi
+  }
   
   /** The marginal pdf of the phase */
-  def f(phi : Double) : Double = RealIntegral.trapezoidal( r => f(r,phi), 0, 30*sqrt(Z.getVariance), 1000) 
+  def f(phi : Double) : Double = {
+    val a = cos(phi)
+    val mult = exp(-k*k/2)/(2)
+    val s1 = 2
+    val s2 = a*k*exp(sqr(a*k)/2)*sqrt(2*pi)*(1 + erf(a*k/sqrt(2)))
+    return mult*(s1+s2)/2/pi
+  }
   
+  //boost the accuracy of these integrals
+  override lazy val A1 = RealIntegral.trapezoidal( x => sqr(sin(x))*g2(x), -pi, pi, 50000)
+  override lazy val A2 = RealIntegral.trapezoidal( x => sqr(sin(fracpart(x)))*g2(x), -pi, pi, 50000)
+  override def h2(x : Double) = RealIntegral.trapezoidal( phi => cos(fracpart(x + phi))*g(phi), -pi, pi, 50000)
+  override def h1(x : Double) = RealIntegral.trapezoidal( phi => cos(x + phi)*g(phi), -pi, pi, 50000)
+  
+
 }
