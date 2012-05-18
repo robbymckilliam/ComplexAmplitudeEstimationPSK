@@ -127,7 +127,7 @@ draw begingraph(plotwidth, plotheight);
  glabel.bot(btex SNR (dB) etex, OUT) shifted (1cm,1.3cm);
   glabel.lft(btex MSE phase etex, OUT) rotated 90 shifted (1.5cm,1cm);
   
-  setrange(whatever,whatever, whatever,ymax);
+  setrange(whatever,"2e-6", whatever,ymax);
   %setrange(4.9,"1e-13", 22,2);
 
 %  gdraw (0, "1e-13")--(0, 2) dashed evenly; %glabel.bot(btex AWGN channel capacity etex, 0) rotated 90;

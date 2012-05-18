@@ -24,7 +24,7 @@ val starttime = (new java.util.Date).getTime
 for( L <- Ls; M <- Ms ) {
 
   //for a range of different numbers of pilots
-  for( numpilots <- List( L/8 ).removeDuplicates ) {
+  for( numpilots <- List( L/8, L/4, L ).removeDuplicates ) {
 
     val P = 0 until numpilots //pilots at the front
     val D = numpilots until L //data at the back
