@@ -483,7 +483,7 @@ BLERG
 
 \subsection{Proof of asymptotic normality (Theorem~\ref{thm:normality}) } \label{sec:proof-asympt-norm}
 
-We first prove the asymptotic normality of $\sqrt{L} \hat{\lambda}_L$.  Recall that $\hat{\lambda}_L$ is the maximiser of the function $G_L$ defined in~\eqref{eq:GLdefn}.  The proof is complicated by the fact that $G_L$ is not differentiable everywhere due to the function $\fracpart{\cdot}$ not being differentiable at multiples of $\tfrac{\pi}{M}$.  This precludes the use of ``standard approaches'' to proving normality that are based on the mean value theorem~\cite{vonMises_diff_stats_1947,vanDerVart1971_asymptotic_stats,Pollard_new_ways_clts_1986,Pollard_conv_stat_proc_1984,Pollard_asymp_empi_proc_1989}.  However, we show in Lemma~\ref{lem:diffatlambdaL} that the derivative does exist, and is equal to zero, at the maximiser $\hat{\lambda}_L$, so
+We first prove the asymptotic normality of $\sqrt{L} \hat{\lambda}_L$.  Once this is done we will be able to prove the normality of $\sqrt{L} m_L$.  Recall that $\hat{\lambda}_L$ is the maximiser of the function $G_L$ defined in~\eqref{eq:GLdefn}.  The proof is complicated by the fact that $G_L$ is not differentiable everywhere due to the function $\fracpart{\cdot}$ not being differentiable at multiples of $\tfrac{\pi}{M}$.  This prevents the use of ``standard approaches'' to proving normality that are based on the mean value theorem~\cite{vonMises_diff_stats_1947,vanDerVart1971_asymptotic_stats,Pollard_new_ways_clts_1986,Pollard_conv_stat_proc_1984,Pollard_asymp_empi_proc_1989}.  However, we show in Lemma~\ref{lem:diffatlambdaL} that the derivative $G_L^\prime$ does exist, and is equal to zero, at the maximiser $\hat{\lambda}_L$, so
 \begin{align*}
 G_L^\prime(\hat{\lambda}_L) &= 0 \\
 &= \frac{1}{L} \sum_{i \in P} R_i \sin(\hat{\lambda}_L + \Phi_i) + \frac{1}{L} \sum_{i \in D} R_i \sin\sfracpart{\hat{\lambda}_L + \Phi_i}.
@@ -497,7 +497,7 @@ Lemma~\ref{lem:Qconv} shows that
 \[
 \sqrt{L} Q(\hat{\lambda}_L) = \sqrt{L} \hat{\lambda}_L\big( p + Hd  + o_P(1) \big)
 \]
-where $o_P(1)$ denotes a number converging in probablity to zero as $L \rightarrow \infty$ and where the constant real number $p,d$ and $H$ are defined in the statement of Theorems~\ref{thm:consistency}~and~\ref{thm:normality}.  Lemma~\ref{lem:empiricprocc} shows that
+where $o_P(1)$ denotes a number converging in probablity to zero as $L \rightarrow \infty$.  The constant real numbers $p,d$ and $H$ are defined in the statement of Theorems~\ref{thm:consistency}~and~\ref{thm:normality}.  Lemma~\ref{lem:empiricprocc} shows that
 \[
 \sqrt{L}\big( G_L^\prime(\hat{\lambda}_L) - Q(\hat{\lambda}_L) \big) = o_P(1) + \sqrt{L} G_L^\prime(0).
 \]
@@ -509,19 +509,19 @@ and rearranging gives,
 \[
 \sqrt{L} \hat{\lambda}_L = o_P(1) + \frac{\sqrt{L}G_L'(0)}{p + Hd  + o_P(1)}.
 \]
-Lemma~\ref{lem:convdistGLdash} shows that the distribution of $\sqrt{L}G_L'(0)$ converges to the normal with zero mean and variance $pA_1 + dA_2$ where $A_1$ and $A_2$ are real constant defined in the statement of Thereom~\ref{thm:normality}.  It follows that the distribution of $\sqrt{L}\hat{\lambda}_L$ converges to the normal with zero mean and variance
+Lemma~\ref{lem:convdistGLdash} shows that the distribution of $\sqrt{L}G_L'(0)$ converges to the normal with zero mean and variance $pA_1 + dA_2$ where $A_1$ and $A_2$ are real constants defined in the statement of Thereom~\ref{thm:normality}.  It follows that the distribution of $\sqrt{L}\hat{\lambda}_L$ converges to the normal with zero mean and variance
 \[
 \frac{pA_1 + dA_2}{(p + Hd)^2}.
 \]
  
-We now analyse the asymptotic distribution of $m_L = \hat{\rho} - \rho_0 G(0)$.  Define the function $T(\lambda) = \expect G_L(\lambda)$.  Using~\eqref{eq:rhoGLZ} we have
+We now analyse the asymptotic distribution of $\sqrt{L} m_L$.  Define the function $T(\lambda) = \expect G_L(\lambda)$.  Using~\eqref{eq:rhoGLZ},
 \begin{align*}
 \sqrt{L} m_L &= \sqrt{L} \rho_0 \big( G_L(\hat{\lambda}_L) - G(0) \big) \\
-&= \sqrt{L} \rho_0 \big( G_L(\hat{\lambda}_L) - T(\hat{\lambda}_L) + T(\hat{\lambda}_L) - G(0) \big)
+&= \sqrt{L} \rho_0 \big( G_L(\hat{\lambda}_L) - T(\hat{\lambda}_L) + T(\hat{\lambda}_L) - G(0) \big).
 \end{align*}
 Lemma~\ref{lem:empiricprocforrho} shows that 
 \[
-\sqrt{L}\big( G_L(\hat{\lambda}_L) - T(\hat{\lambda}_L)  \big) = o_P(1) + X_L 
+\sqrt{L}\big( G_L(\hat{\lambda}_L) - T(\hat{\lambda}_L)  \big) = o_P(1) + X_L,
 \]
 where $X_L = \sqrt{L}\big( G_L(0) - T(0)  \big)$.  Lemma~\ref{lem:HLtoG} shows that
 \[
@@ -543,6 +543,7 @@ The covariance between $\sqrt{L}m_L$ and $\sqrt{L}\hat{\lambda}_L$ is correspond
 \[
 ?
 \]
+It remains to prove the lemmas that we have used.
 
 \begin{lemma}~\label{lem:diffatlambdaL}
 The derivative of $G_L$ exists, and is equal to zero, at $\hat{\lambda}_L$.  That is,
@@ -619,13 +620,9 @@ since $h_1(0) = \expect R_1\cos(\Phi_1) = 1$ because $w_1$ is circularly symmetr
 \[
 k_1(\hat{\lambda}_L) = \hat{\lambda}_L \big( 1 \; + \; \zeta(\hat{\lambda}_L) K \big) = \hat{\lambda}_L \big( 1  + o_P(1)\big).
 \]
-Lemma~\ref{lem:k2conv} shows that
-\[
-k_2(\hat{\lambda}_L) = \hat{\lambda}_L ( H + o_P(1) ).
-\]
-So,
+Lemma~\ref{lem:k2conv} shows that $k_2(\hat{\lambda}_L) = \hat{\lambda}_L ( H + o_P(1) )$.  So,
 \begin{align*}
-Q(\hat{\lambda}_L) &=  \tfrac{\abs{P}}{L} \hat{\lambda}_L \big( 1  + o_P(1)\big)  + \tfrac{\abs{D}}{L} \hat{\lambda}_L ( h_2(0) + H + o_P(1) ) \\
+Q(\hat{\lambda}_L) &=  \tfrac{\abs{P}}{L} \hat{\lambda}_L \big( 1  + o_P(1)\big)  + \tfrac{\abs{D}}{L} \hat{\lambda}_L ( H + o_P(1) ) \\
 &= \hat{\lambda}_L \left( \tfrac{\abs{P}}{L}  + \tfrac{\abs{D}}{L} H + o_P(1) \right).
 \end{align*}
 The proof follows since $\frac{\abs{P}}{L} \rightarrow p$ and $\frac{\abs{D}}{L} \rightarrow d$ as $L \rightarrow \infty$.
@@ -635,51 +632,49 @@ The proof follows since $\frac{\abs{P}}{L} \rightarrow p$ and $\frac{\abs{D}}{L}
 $k_2(\hat{\lambda}_L) = \hat{\lambda}_L ( H + o_P(1) ).$
 \end{lemma}
 \begin{IEEEproof}
-Since $\hat{\lambda}_L \in [-\tfrac{\pi}{M}, \tfrac{\pi}{M})$ it is only the behaviour of the function $k_2(\lambda)$ for $\lambda\in [-\tfrac{\pi}{M}, \tfrac{\pi}{M})$ that is relevant.  We will analyse $k_2(\lambda)$ for non negative $\lambda$, i.e., when $0 \leq \lambda < \tfrac{\pi}{M}$.  An analagous argument follows when $\lambda$ is negative, i.e., $-\tfrac{\pi}{M} \leq \lambda < 0$.  
-
-To keep our notation clean put
+Since $\hat{\lambda}_L \in [-\tfrac{\pi}{M}, \tfrac{\pi}{M})$ it is only the behaviour of the function $k_2(\lambda)$ for $\lambda\in [-\tfrac{\pi}{M}, \tfrac{\pi}{M})$ that is relevant.  We will analyse $k_2(\lambda)$ for non negative $\lambda$, i.e., when $0 \leq \lambda < \tfrac{\pi}{M}$.  An analagous argument follows when $-\tfrac{\pi}{M} \leq \lambda < 0$.  To keep our notation clean put
 \[
-\psi_k = (2k+1)\tfrac{\pi}{M}.
+\psi_k = \tfrac{2\pi}{M}k + \tfrac{\pi}{M}.
 \]
 For each integer $k$, if $\Phi_1 \in [\psi_{k-1}, \psi_k)$, then
 \[
-\fracpart{\Phi_1} = \Phi_1 - \tfrac{2\pi k}{M}.
+\fracpart{\Phi_1} = \Phi_1 - \round{\Phi_1} = \Phi_1 - \tfrac{2\pi}{M}k.
 \]
-Similarly if $\Phi_1 \in  [\psi_{k-1}, \psi_{k} - \lambda)$ then
+Similarly, if $\Phi_1 \in  [\psi_{k-1}, \psi_{k} - \lambda)$, then
 \[
-\fracpart{\Phi_1 + \lambda} = \Phi_1 + \lambda - \tfrac{2\pi k}{M},
+\fracpart{\Phi_1 + \lambda} = \Phi_1 + \lambda - \tfrac{2\pi}{M}k,
 \]
-whilst if $\Phi_1 \in [\psi_{k} - \lambda, \psi_{k})$ then
+whilst, if $\Phi_1 \in [\psi_{k} - \lambda, \psi_{k})$, then
 \[
-\fracpart{\Phi_1 + \lambda} = \Phi_1 + \lambda - \tfrac{2\pi (k+1)}{M}.
+\fracpart{\Phi_1 + \lambda} = \Phi_1 + \lambda - \tfrac{2\pi}{M}k - \tfrac{2\pi}{M}.
 \]
 So, when $\Phi_1 \in [\psi_{k-1}, \psi_{k} - \lambda )$,
 \begin{align*}
 \sin\fracpart{\lambda + \Phi_1} - &\sin\fracpart{\Phi_1} \\
-&= \sin(\lambda + \Phi_1 - \tfrac{2\pi k}{M}) - \sin(\Phi_1 - \tfrac{2\pi k}{M}),
+&= \sin(\lambda + \Phi_1 - \tfrac{2\pi}{M}k) - \sin(\Phi_1 - \tfrac{2\pi}{M}k),
 \end{align*}
-and by a Taylor expansion of $\sin(\lambda + \Phi_1 - \tfrac{2\pi k}{M})$ about $\Phi_1 - \tfrac{2\pi k}{M}$ we obtain 
+and by a Taylor expansion of $\sin(\lambda + \Phi_1 - \tfrac{2\pi}{M}k)$ about $\Phi_1 - \tfrac{2\pi}{M}k$ we obtain 
 \begin{align*}
-\sin\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} &= \lambda\big(\cos(\Phi_1 - \tfrac{2\pi k}{M}) + \zeta_k(\lambda)\big) \\
+\sin\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} &= \lambda\big(\cos(\Phi_1 - \tfrac{2\pi}{M}k) + \zeta_k(\lambda)\big) \\
 &= \lambda\big(\cos\fracpart{\Phi_1} + \zeta_k(\lambda)\big).
 \end{align*}
 where $\zeta_k(\lambda)$ is a function that goes to zero as $\lambda$ goes to zero.  Alternatively, when $\Phi_1 \in [ \psi_{k} - \lambda,\psi_{k})$,
 \begin{align*}
-\sin\fracpart{\lambda + \Phi_1} - &\sin\fracpart{\Phi_1} \\
-&= \sin(\lambda + \Phi_1 - \tfrac{2\pi(k+1)}{M}) - \sin(\Phi_1 - \tfrac{2\pi k}{M})
+\sin\fracpart{\lambda + \Phi_1} &- \sin\fracpart{\Phi_1} \\
+&= \sin(\lambda + \Phi_1 - \tfrac{2\pi}{M}k - \tfrac{2\pi}{M}) - \sin(\Phi_1 - \tfrac{2\pi}{M}k)
 \end{align*}
-and by a Taylor expansion of $\sin(\lambda + \Phi_1 - \tfrac{2\pi(k+1)}{M})$ about $\Phi_1 - \tfrac{2\pi(k+1)}{M}$,
+and by a Taylor expansion of $\sin(\lambda + \Phi_1 - \tfrac{2\pi}{M}k - \tfrac{2\pi}{M})$ about $\Phi_1 - \tfrac{2\pi}{M}k - \tfrac{2\pi}{M}$,
 \begin{align*}
 \sin&\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} \\
-&=  s_k(\Phi_1) + \lambda\big(\cos(\Phi_1 - \tfrac{2\pi(k+1)}{M}) + \zeta_{k+1}(\lambda)\big) 
+&=  s_k(\Phi_1) + \lambda\big(\cos(\Phi_1 - \tfrac{2\pi}{M}k - \tfrac{2\pi}{M}) + \zeta_{k+1}(\lambda)\big) 
 \end{align*}
 where
 \[
-s_k(\Phi_1) = \sin(\Phi_1 - \tfrac{2\pi(k+1)}{M}) - \sin(\Phi_1 - \tfrac{2\pi k}{M}).
+s_k(\Phi_1) = \sin(\Phi_1 - \tfrac{2\pi}{M}k - \tfrac{2\pi}{M}) - \sin(\Phi_1 - \tfrac{2\pi}{M}k).
 \]
-Putting
+Putting,
 \[
-c_k(\Phi_1) = \cos(\Phi_1 - \tfrac{2\pi(k+1)}{M}) - \cos(\Phi_1 - \tfrac{2\pi k}{M})
+c_k(\Phi_1) = \cos(\Phi_1 - \tfrac{2\pi}{M}k - \tfrac{2\pi}{M}) - \cos(\Phi_1 - \tfrac{2\pi k}{M})
 \]
 we can write
 \begin{align*}
@@ -687,64 +682,86 @@ we can write
 &= s_k(\Phi_1) + \lambda\big(\cos(\Phi_1 - \tfrac{2\pi k}{M}) + c_k(\Phi_1) + \zeta_{k+1}(\lambda)\big) \\
 &= s_k(\Phi_1) + \lambda\big(\cos\fracpart{\Phi_1} + \eta_k(\lambda, \Phi_1) \big).
 \end{align*}
-where, for convenience we put $\eta_k(\lambda, \Phi_1) = c_k(\Phi_1) + \zeta_{k+1}(\lambda)$.  Observe that both $s_k$ and $c_k$ are continuous functions and that $s_k(\psi_{k}) = -2\sin(\tfrac{\pi}{M})$ and $c_k(\psi_{k}) = 0$.  
+where, for convenience, we put $\eta_k(\lambda, \Phi_1) = c_k(\Phi_1) + \zeta_{k+1}(\lambda)$.  Observe that both $s_k$ and $c_k$ are continuous functions and that $s_k(\psi_{k}) = -2\sin(\tfrac{\pi}{M})$ and $c_k(\psi_{k}) = 0$.  
 
 Let us now collate what we have.  For each integer $k$, if $\Phi_1 \in [\psi_{k-1}, \psi_{k} - \lambda )$, then
 \[
 \sin\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} = \lambda\cos\fracpart{\Phi_1} + \lambda\zeta_k(\lambda),
 \]
-whilst if $\Phi_1 \in [ \psi_{k} - \lambda,\psi_{k})$, then
+whilst, if $\Phi_1 \in [ \psi_{k} - \lambda,\psi_{k})$, then
 \[
 \sin\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} = \lambda \cos\fracpart{\Phi_1} + s_k(\Phi_1) + \lambda\eta_k(\lambda, \Phi_1).
 \]
-Since the intervals $[\psi_{k-1}, \psi_{k})$ partion the real line, that is $\reals = \cup_{k\in\ints}[\psi_{k-1}, \psi_{k})$ then, for $\Phi_1 \in \reals$ we can write
+Since the intervals $[\psi_{k-1}, \psi_{k})$ partion the real line, that is $\reals = \cup_{k\in\ints}[\psi_{k-1}, \psi_{k})$, then, for all $\Phi_1 \in \reals$,
 \[
-\sin\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} = v(\lambda, \Phi_1) + \lambda\cos\fracpart{\Phi_1}
+\sin\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} = \lambda\cos\fracpart{\Phi_1} +  v(\lambda, \Phi_1) 
 \]
-where $v(\lambda, \Phi_1) = \sum_{k\in\ints} v_k(\lambda, \Phi_1)$ and where
-\[
+where $v(\lambda, \Phi_1) = \sum_{k\in\ints} v_k(\lambda, \Phi_1)$ and
+\begin{equation}\label{eq:vk}
 v_k(\lambda,\Phi_1) = \begin{cases}
-v_k(\Phi_1) + \lambda\eta_k(\lambda, \Phi_1) &  \Phi_1 \in [ \psi_{k} - \lambda,\psi_{k} ) \\
+s_k(\Phi_1) + \lambda\eta_k(\lambda, \Phi_1) &  \Phi_1 \in [ \psi_{k} - \lambda,\psi_{k} ) \\
 \lambda\zeta_k(\lambda) & \Phi_1 \in [\psi_{k-1}, \psi_{k} - \lambda ) \\
 0 & \text{otherwise}.
 \end{cases}
-\]
+\end{equation}
 Now
 \begin{align*}
 k_2(\lambda) &=  \expect R_1\big( \sin\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} \big) \\
-&= \expect R_1\big( v(\lambda, \Phi_1) + \lambda\cos\fracpart{\Phi_1} \big) \\
-&= \expect R_1 v(\lambda, \Phi_1) + \lambda h_2(0).
+&= \expect R_1\big( \lambda\cos\fracpart{\Phi_1} + v(\lambda, \Phi_1)  \big) \\
+&= \lambda h_2(0) + \expect R_1 v(\lambda, \Phi_1).
 \end{align*}
-Define the function $W(\lambda) = \expect R_1 v(\lambda, \Phi_1)$ so that $k_2(\lambda) = \lambda h_2(0) + W(\lambda).$  Lemma~\ref{lem:expRvlamphi} shows that $W(\lambda) =  \lambda(H_1 + \gamma(\lambda))$ where 
+Define the function $W(\lambda) = \expect R_1 v(\lambda, \Phi_1)$ so that $k_2(\lambda) = \lambda h_2(0) + W(\lambda).$  Lemma~\ref{lem:expRvlamphi} shows that $W(\lambda) =  \lambda(H_1 + \gamma(\lambda))$ where $\gamma(\lambda)$ is a function that goes to zero as $\lambda$ goes to zero, and
 \[
-H_1 = - 2 \sin(\tfrac{\pi}{M}) \sum_{k = 0}^{M-1} g\big((2k+1)\tfrac{\pi}{M}\big),
+H_1 = - 2 \sin(\tfrac{\pi}{M}) \sum_{k = 0}^{M-1} g(\psi_k) = H - h_2(0).
 \]
-and where $\gamma(\lambda)$ is a function that goes to zero as $\lambda$ goes to zero.  Because $\hat{\lambda}_L$ converges almost surely to zero as $L \rightarrow\infty$, then $\gamma(\hat{\lambda}_L)$ converges almost surely (and therefore also in probability) to zero as $L \rightarrow\infty$, i.e. $\gamma(\hat{\lambda}_L) = o_P(1)$ and therefore 
+Because $\hat{\lambda}_L$ converges almost surely to zero as $L \rightarrow\infty$, then $\gamma(\hat{\lambda}_L)$ converges almost surely (and therefore also in probability) to zero as $L \rightarrow\infty$, i.e. $\gamma(\hat{\lambda}_L) = o_P(1)$, and therefore 
 \[
 k_2(\hat{\lambda}_L) = \hat{\lambda}_L ( h_2(0) + H_1 + o_P(1) ) = \hat{\lambda}_L ( H + o_P(1) )
 \]
-as required
+as required.  It remains to prove Lemma~\ref{lem:expRvlamphi}.
 \end{IEEEproof}
 
 \begin{lemma}\label{lem:expRvlamphi}
-$W(\hat{\lambda}_L) =  \hat{\lambda}_L(H + o_P(1))$
+$W(\lambda) =  \lambda(H_1 + \gamma(\lambda))$ where $\gamma(\lambda)$ is a function that goes to zero as $\lambda$ goes to zero.
 \end{lemma}
 \begin{IEEEproof}
-Recalling that $f(r,\phi)$ is the joint probability density function of $R_1$ and $\Phi_1$,
+In this lemma, as Lemma~\ref{lem:k2conv}, we are working under the assumption that that $0 \leq \lambda < \frac{\pi}{M}$.  An analgous argument follows when $-\tfrac{\pi}{M} \leq \lambda < 0$.  Recalling that $f(r,\phi)$ is the joint probability density function of $R_1$ and $\Phi_1$, then,
 \begin{align*}
-k_2(\lambda) &= \int_0^{2\pi}\int_{0}^\infty r v(\lambda, \phi) f(r,\phi) dr d\phi \\
-&= \int_0^{2\pi} v(\lambda, \phi) g(\phi) d\phi.
+W(\lambda) &= \expect R_1 v(\lambda, \Phi_1) = \int_0^{2\pi}\int_{0}^\infty r v(\lambda, \phi) f(r,\phi) dr d\phi \\
+&= \int_0^{2\pi} v(\lambda, \phi) g(\phi) d\phi,
 \end{align*}
-Since $v(\lambda, \phi) = \sum_{k\in\ints} v_k(\lambda, \phi)$,
+and, since $v(\lambda, \phi) = \sum_{k\in\ints} v_k(\lambda, \phi)$,
+\begin{equation}\label{eq:Winfsum}
+W(\lambda) = \sum_{k \in \ints} \int_0^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi.
+\end{equation}
+Now, when $0 < k < M$, we have $0 < \psi_{k-1} < \psi_k < 2\pi$, so, using~\eqref{eq:vk},
+\begin{align*}
+\int_0^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi &= \int_{\psi_{k-1}}^{\psi_{k}} v_k(\lambda, \phi) g(\phi) d\phi \\
+&= \int_{\psi_{k} - \lambda}^{\psi_{k}} (s_k(\phi) + \lambda\eta_k(\lambda, \phi)) g(\phi) d\phi \\
+&\hspace{1cm} +  \int_{\psi_{k-1}}^{\psi_{k} - \lambda}\lambda\zeta_k(\lambda)g(\phi) d\phi.
+\end{align*}
+When $k = 0$, we have $\psi_{k-1} < 0 < \psi_k - \lambda < \psi_k < 2\pi$, so that
+\begin{align*}
+\int_0^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi &= \int_{0}^{\psi_{k}} v_k(\lambda, \phi) g(\phi) d\phi \\
+&= \int_{\psi_{k} - \lambda}^{\psi_{k}} (s_k(\phi) + \lambda\eta_k(\lambda, \phi)) g(\phi) d\phi \\
+&\hspace{1cm} +  \int_{0}^{\psi_{k} - \lambda}\lambda\zeta_k(\lambda)g(\phi) d\phi ,
+\end{align*}
+and when $k = M-1$, we have $0 < \psi_{k-1} < 2\pi < \psi_k - \lambda$, so that
+\begin{align*}
+\int_0^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi &= \int_{\psi_{k-1}}^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi \\
+&= \int_{\psi_{k-1}}^{2\pi}\lambda\zeta_k(\lambda)g(\phi) d\phi.
+\end{align*}
+Otherwise, when $k < 0$ or $k > M$, 
 \[
-k_2(\lambda) = \sum_{k \in \ints} \int_0^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi
+\int_0^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi = 0
 \]
-and since $v_k(\lambda,\phi) = 0$ for $\phi$ in the interval $[0,2\pi)$ when $k \notin \{0,1,\dots,M-1\}$ the infinite sum above can be truncated so that
-\[
-k_2(\lambda) = \sum_{k = 0}^{M-1} \int_0^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi
-\]
-(BLERG this needs modification, more care)
-Now
+So the infinite sum in~\eqref{eq:Winfsum} is actually a finite sum,
+\begin{align*}
+W(\lambda) &= \sum_{k=0}^{M} v_k(\lambda, \phi) g(\phi) d\phi \\
+&= \sum_{k=0}^{M-1}\int_{\psi_{k} - \lambda}^{\psi_{k}} (s_k(\phi) + \lambda\eta_k(\lambda, \phi)) g(\phi) d\phi \\
+&\hspace{0.5cm} + \sum_{k=0}^{M-1} \int_{\psi_{k-1}}^{\psi_{k} - \lambda}\lambda\zeta_k(\lambda)g(\phi) d\phi \\
+&\hspace{0.5cm} +  \int_{0}^{\psi_{k} - \lambda}\lambda\zeta_k(\lambda)g(\phi) d\phi + \int_{\psi_{k-1}}^{2\pi}\lambda\zeta_k(\lambda)g(\phi) d\phi + 
+\end{align*}
 \begin{align*}
 \int_0^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi = &\int_{\tfrac{(2k+1)\pi}{M} - \lambda}^{\tfrac{(2k+1)\pi}{M}}v_k(\phi)g(\phi)d\phi \\
 &\hspace{0.5cm}+ \lambda\zeta_k(\lambda) \int_{\tfrac{(2k-1)\pi}{M}}^{\tfrac{(2k+1)\pi}{M}}g(\phi)d\phi.
