@@ -736,29 +736,44 @@ W(\lambda) = \sum_{k \in \ints} \int_0^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi.
 \end{equation}
 Now, when $0 < k < M$, we have $0 < \psi_{k-1} < \psi_k < 2\pi$, so, using~\eqref{eq:vk},
 \begin{align*}
-\int_0^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi &= \int_{\psi_{k-1}}^{\psi_{k}} v_k(\lambda, \phi) g(\phi) d\phi \\
-&= \int_{\psi_{k} - \lambda}^{\psi_{k}} (s_k(\phi) + \lambda\eta_k(\lambda, \phi)) g(\phi) d\phi \\
-&\hspace{1cm} +  \int_{\psi_{k-1}}^{\psi_{k} - \lambda}\lambda\zeta_k(\lambda)g(\phi) d\phi.
+\int_0^{2\pi} v_k(\lambda, \phi) &g(\phi) d\phi = \int_{\psi_{k-1}}^{\psi_{k}} v_k(\lambda, \phi) g(\phi) d\phi \\
+&= \lambda a_k(\lambda) + \lambda b_k(\lambda) + \int_{\psi_{k} - \lambda}^{\psi_{k}} s_k(\phi) g(\phi) d\phi,
 \end{align*}
-When $k = 0$, we have $\psi_{k-1} < 0 < \psi_k - \lambda < \psi_k < 2\pi$, so that
+where, for each integer $k = 1, \dots, M-1$, the functions $a_k$ and $b_k$ are
+\begin{equation}\label{eq:ak}
+a_k(\lambda) = \int_{\psi_k-\lambda}^{\psi_k}\eta_k(\lambda, \phi) g(\phi) d\phi,
+\end{equation}
+and 
+\[
+b_k(\lambda) = \zeta_k(\lambda) \int_{\psi_{k-1}}^{\psi_k -\lambda}g(\phi) d\phi.
+\]
+Observe that $a_k(\lambda)$ and $b_k(\lambda)$ are functions that go to zero as $\lambda$ goes to zero.
+Now, when $k = 0$, we have $\psi_{-1} < 0 < \psi_0 - \lambda < \psi_0 < 2\pi$, so that
 \begin{align*}
-\int_0^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi &= \int_{0}^{\psi_{k}} v_k(\lambda, \phi) g(\phi) d\phi \\
-&= \int_{\psi_{k} - \lambda}^{\psi_{k}} (s_k(\phi) + \lambda\eta_k(\lambda, \phi)) g(\phi) d\phi \\
-&\hspace{1cm} +  \int_{0}^{\psi_{k} - \lambda}\lambda\zeta_k(\lambda)g(\phi) d\phi ,
+\int_0^{2\pi} v_0(\lambda, \phi) &g(\phi) d\phi = \int_{0}^{\psi_{k}} v_0(\lambda, \phi) g(\phi) d\phi \\
+&= \lambda a_0(\lambda) + \lambda b_0(\lambda) + \int_{\psi_{0} - \lambda}^{\psi_{0}} s_0(\phi) g(\phi) d\phi,
 \end{align*}
-and when $k = M-1$, we have $0 < \psi_{k-1} < 2\pi < \psi_k - \lambda$, so that
+where $a_0(\lambda)$ is defined as in~\eqref{eq:ak} and 
+\[
+b_0(\lambda) = \zeta_0(\lambda) \int_{0}^{\psi_k-\lambda} g(\phi) d\phi.
+\]
+When $k = M$, we have $0 < \psi_{M-1} < 2\pi < \psi_{M} - \lambda$, so that
 \begin{align*}
-\int_0^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi &= \int_{\psi_{k-1}}^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi \\
-&= \int_{\psi_{k-1}}^{2\pi}\lambda\zeta_k(\lambda)g(\phi) d\phi.
+\int_0^{2\pi} v_{M}(\lambda, \phi) g(\phi) d\phi &= \int_{\psi_{M-1}}^{2\pi} v_{M}(\lambda, \phi) g(\phi) d\phi \\
+&= \lambda b_{M}(\lambda)
 \end{align*}
+where 
+\[
+b_{M}(\lambda) = \zeta_{M}(\lambda) \int_{\psi_{M-1}}^{2\pi}g(\phi) d\phi.
+\]
 Otherwise, when $k < 0$ or $k > M$, 
 \[
-\int_0^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi = 0
+\int_0^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi = 0.
 \]
-So the infinite sum in~\eqref{eq:Winfsum} is actually a finite sum,
+So the infinite sum in~\eqref{eq:Winfsum} can be written as the finite sum,
 \begin{align*}
-W(\lambda) &= \sum_{k=0}^{M} v_k(\lambda, \phi) g(\phi) d\phi \\
-&= \sum_{k=0}^{M-1}\int_{\psi_{k} - \lambda}^{\psi_{k}} (s_k(\phi) + \lambda\eta_k(\lambda, \phi)) g(\phi) d\phi \\
+W(\lambda) &= \sum_{k=0}^{M} \int_{0}^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi \\
+&= \sum_{k=0}^{M-1}\int_{\psi_{k} - \lambda}^{\psi_{k}} s_k(\phi)g(\phi)d\phi + \sum_{k=0}^{M-1} \lambda a_k(\lambda) + \sum_{k=0}^{M} \lambda b_k(\lambda) \\
 &\hspace{0.5cm} + \sum_{k=0}^{M-1} \int_{\psi_{k-1}}^{\psi_{k} - \lambda}\lambda\zeta_k(\lambda)g(\phi) d\phi \\
 &\hspace{0.5cm} +  \int_{0}^{\psi_{k} - \lambda}\lambda\zeta_k(\lambda)g(\phi) d\phi + \int_{\psi_{k-1}}^{2\pi}\lambda\zeta_k(\lambda)g(\phi) d\phi + 
 \end{align*}
