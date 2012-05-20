@@ -328,7 +328,7 @@ pA_1 + dA_2 & ? \\
 \]
 as $L \rightarrow \infty$, where
 \[
-H = h_2(0) -  2 \sin(\tfrac{\pi}{M}) \sum_{k = 0}^{M-1} g(\tfrac{(2k+1)\pi}{M}),
+H = h_2(0) -  2 \sin(\tfrac{\pi}{M}) \sum_{k = 0}^{M-1} g(\tfrac{2\pi}{M}k + \tfrac{\pi}{M}),
 \]
 \[
 A_1 = \expect R_1^2\sin^2(\Phi_1), \qquad A_2 = \expect R_1^2\sin^2\fracpart{\Phi_1}.
@@ -737,31 +737,35 @@ W(\lambda) = \sum_{k \in \ints} \int_0^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi.
 Now, when $0 < k < M$, we have $0 < \psi_{k-1} < \psi_k < 2\pi$, so, using~\eqref{eq:vk},
 \begin{align*}
 \int_0^{2\pi} v_k(\lambda, \phi) &g(\phi) d\phi = \int_{\psi_{k-1}}^{\psi_{k}} v_k(\lambda, \phi) g(\phi) d\phi \\
-&= \lambda a_k(\lambda) + \lambda b_k(\lambda) + \int_{\psi_{k} - \lambda}^{\psi_{k}} s_k(\phi) g(\phi) d\phi,
+&= \lambda a_k(\lambda) + \lambda b_k(\lambda) + \lambda c_k(\lambda),
 \end{align*}
 where, for each integer $k = 1, \dots, M-1$, the functions $a_k$ and $b_k$ are
 \begin{equation}\label{eq:ak}
 a_k(\lambda) = \int_{\psi_k-\lambda}^{\psi_k}\eta_k(\lambda, \phi) g(\phi) d\phi,
 \end{equation}
-and 
 \[
-b_k(\lambda) = \zeta_k(\lambda) \int_{\psi_{k-1}}^{\psi_k -\lambda}g(\phi) d\phi.
+b_k(\lambda) = \zeta_k(\lambda) \int_{\psi_{k-1}}^{\psi_k -\lambda}g(\phi) d\phi,
 \]
-Observe that $a_k(\lambda)$ and $b_k(\lambda)$ are functions that go to zero as $\lambda$ goes to zero.
+and
+\begin{equation}\label{eq:ck}
+c_k(\lambda) = \frac{1}{\lambda} \int_{\psi_{k} - \lambda}^{\psi_{k}} s_k(\phi) g(\phi) d\phi.
+\end{equation}
+Observe that $a_k(\lambda)$ and $b_k(\lambda)$ are functions that converge to zero as $\lambda$ goes to zero, whilst $c_k(\lambda)$ converges to 
+\[
+s_k(\psi_k)g(\psi_k) = -2\sin(\tfrac{\pi}{M}) g(\tfrac{2\pi}{M}k + \tfrac{\pi}{M})
+\]
 Now, when $k = 0$, we have $\psi_{-1} < 0 < \psi_0 - \lambda < \psi_0 < 2\pi$, so that
-\begin{align*}
-\int_0^{2\pi} v_0(\lambda, \phi) &g(\phi) d\phi = \int_{0}^{\psi_{k}} v_0(\lambda, \phi) g(\phi) d\phi \\
-&= \lambda a_0(\lambda) + \lambda b_0(\lambda) + \int_{\psi_{0} - \lambda}^{\psi_{0}} s_0(\phi) g(\phi) d\phi,
-\end{align*}
-where $a_0(\lambda)$ is defined as in~\eqref{eq:ak} and 
+\[
+\int_0^{2\pi} v_0(\lambda, \phi) g(\phi) d\phi = \lambda a_0(\lambda) + \lambda b_0(\lambda) +  \lambda c_0(\lambda),
+\]
+where $a_0(\lambda)$ and $c_0(\lambda)$ are defined as in~\eqref{eq:ak}~and~\eqref{eq:ck}, and
 \[
 b_0(\lambda) = \zeta_0(\lambda) \int_{0}^{\psi_k-\lambda} g(\phi) d\phi.
 \]
 When $k = M$, we have $0 < \psi_{M-1} < 2\pi < \psi_{M} - \lambda$, so that
-\begin{align*}
-\int_0^{2\pi} v_{M}(\lambda, \phi) g(\phi) d\phi &= \int_{\psi_{M-1}}^{2\pi} v_{M}(\lambda, \phi) g(\phi) d\phi \\
-&= \lambda b_{M}(\lambda)
-\end{align*}
+\[
+\int_0^{2\pi} v_{M}(\lambda, \phi) g(\phi) d\phi = \lambda b_{M}(\lambda)
+\]
 where 
 \[
 b_{M}(\lambda) = \zeta_{M}(\lambda) \int_{\psi_{M-1}}^{2\pi}g(\phi) d\phi.
@@ -773,35 +777,21 @@ Otherwise, when $k < 0$ or $k > M$,
 So the infinite sum in~\eqref{eq:Winfsum} can be written as the finite sum,
 \begin{align*}
 W(\lambda) &= \sum_{k=0}^{M} \int_{0}^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi \\
-&= \sum_{k=0}^{M-1}\int_{\psi_{k} - \lambda}^{\psi_{k}} s_k(\phi)g(\phi)d\phi + \sum_{k=0}^{M-1} \lambda a_k(\lambda) + \sum_{k=0}^{M} \lambda b_k(\lambda) \\
-&\hspace{0.5cm} + \sum_{k=0}^{M-1} \int_{\psi_{k-1}}^{\psi_{k} - \lambda}\lambda\zeta_k(\lambda)g(\phi) d\phi \\
-&\hspace{0.5cm} +  \int_{0}^{\psi_{k} - \lambda}\lambda\zeta_k(\lambda)g(\phi) d\phi + \int_{\psi_{k-1}}^{2\pi}\lambda\zeta_k(\lambda)g(\phi) d\phi + 
+&= \sum_{k=0}^{M-1} \lambda c_k(\lambda) + \sum_{k=0}^{M-1} \lambda a_k(\lambda) + \sum_{k=0}^{M} \lambda b_k(\lambda) \\
+&= \lambda \left( C_k(\lambda)  + A_k(\lambda) + B_k(\lambda) \right).
 \end{align*}
-\begin{align*}
-\int_0^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi = &\int_{\tfrac{(2k+1)\pi}{M} - \lambda}^{\tfrac{(2k+1)\pi}{M}}v_k(\phi)g(\phi)d\phi \\
-&\hspace{0.5cm}+ \lambda\zeta_k(\lambda) \int_{\tfrac{(2k-1)\pi}{M}}^{\tfrac{(2k+1)\pi}{M}}g(\phi)d\phi.
-\end{align*}
-Now, since $g(\phi)$ is continuous at $(2k+1)\tfrac{\pi}{M}$ for each integer $k$, and $v_k(\phi)$ is continuous and $v_k(\tfrac{(2k+1)\pi}{M}) =  2\sin(\tfrac{\pi}{M})$,
-\begin{align*}
-\int_{\tfrac{(2k+1)\pi}{M} - \lambda}^{\tfrac{(2k+1)\pi}{M}}&v_k(\phi)g(\phi)d\phi \\
-&= \lambda( v_k(\tfrac{(2k+1)\pi}{M})g(\tfrac{(2k+1)\pi}{M}) + \nu_k(\lambda) ) \\
-&= \lambda( 2\sin(\tfrac{\pi}{M})g(\tfrac{(2k+1)\pi}{M}) + \nu_k(\lambda) )
-\end{align*}
-where $\nu_k(\lambda)$ is function that goes to zero as $\lambda$ goes to zero.  To keep the notation clean put $A_k = \int_{\tfrac{(2k-1)\pi}{M}}^{\tfrac{(2k+1)\pi}{M}}g(\phi)d\phi$.  For each $k\in\ints$, $A_k$ is a nonnegative finite constant less than one.  Now
-\begin{align*}
-\int_0^{2\pi} v_k(\lambda, \phi) &g(\phi) d\phi \\
-&= \lambda( 2\sin(\tfrac{\pi}{M})g(\tfrac{(2k+1)\pi}{M}) + \nu_k(\lambda) + \zeta_k(\lambda) A_k )
-\end{align*}
-and
-\begin{align*}
-k_2(\lambda) &= \sum_{k = 0}^{M-1} \lambda( 2\sin(\tfrac{\pi}{M})g(\tfrac{(2k+1)\pi}{M}) + \nu_k(\lambda) + \zeta_k(\lambda) A_k ) \\
- &= \epsilon(\lambda) + 2 \lambda \sin(\tfrac{\pi}{M}) \sum_{k = 0}^M g(\tfrac{(2k+1)\pi}{M})
-\end{align*}
-where $\epsilon(\lambda) = \sum_{k=0}^M\big( \nu_k(\lambda) + \zeta_k(\lambda) A_k \big)$ is a function that goes to zero as $\lambda$ goes to zero.  Because $\hat{\lambda}_L$ converges almost surely to zero as $L \rightarrow\infty$, then $\epsilon(\hat{\lambda}_L)$ converges almost surely (and therefore also in probability) to zero as $L \rightarrow\infty$, i.e. $\epsilon(\hat{\lambda}_L) = o_P(1)$.  So
+where 
 \[
-k_2(\hat{\lambda}_L) = o_P(1) + 2 \hat{\lambda}_L \sin(\tfrac{\pi}{M}) \sum_{k = 0}^{M-1} g(\tfrac{(2k+1)\pi}{M})
+A_k(\lambda) = \sum_{k=0}^{M-1} a_k(\lambda), \;\;\; B_k(\lambda) = \sum_{k=0}^{M} b_k(\lambda), \;\;\; \text{and},
 \]
-as required.
+\[
+C_k(\lambda) = \sum_{k=0}^{M-1} c_k(\lambda).
+\]
+Observe both $A_k(\lambda)$ and $B_k(\lambda)$ converges to zero as as $\lambda$ goes to zero, and $C_k(\lambda)$ converges to $H_1$ as $\lambda$ converges to zero.  Put
+\[
+\gamma(\lambda) = A_k(\lambda) + B_k(\lambda) + C_k(\lambda) - H_1.
+\]
+Then $\gamma(\lambda)$ converges to zero as $\lambda$ goes to zero and $W(\lambda) = \lambda(H_1 + \gamma(\lambda))$.  The proof follows.
 \end{IEEEproof}
 
 \begin{lemma}\label{lem:empiricprocc} BLERG
