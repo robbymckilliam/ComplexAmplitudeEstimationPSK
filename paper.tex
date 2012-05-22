@@ -319,7 +319,8 @@ Under the same conditions as Theorem~\ref{thm:consistency}, let $f(r,\phi)$ be t
 \[
 g(\phi) = \int_{0}^{\infty} r f(r,\phi) dr.
 \]
-Put $\hat{\lambda}_L = \sfracpart{\theta_0 - \hat{\theta}}_\pi$ and $\hat{m}_L = \hat{\rho} - \rho_0 G(0)$. If $g(\phi)$ is continuous at $\phi = (2k+1)\tfrac{\pi}{M}$ for each $k = 0, 1, \dots M-1$, then the distribution of $(\sqrt{L}\lambda_L, \sqrt{L}m_L)$ converges to the bivariate normal with zero mean and covariance
+Put $\hat{\lambda}_L = \sfracpart{\theta_0 - \hat{\theta}}_\pi$ and $\hat{m}_L = \hat{\rho} - \rho_0 G(0)$. %If $g(\phi)$ is continuous at $\phi = (2k+1)\tfrac{\pi}{M}$ for each $k = 0, 1, \dots M-1$, Then 
+Then the distribution of $(\sqrt{L}\lambda_L, \sqrt{L}m_L)$ converges to the bivariate normal with zero mean and covariance
 \[
 C = \frac{1}{(p + H d)^2} \left( \begin{array}{cc} 
 pA_1 + dA_2 & ? \\
@@ -507,7 +508,7 @@ It follows from the three equations above that,
 \]
 and rearranging gives,
 \[
-\sqrt{L} \hat{\lambda}_L = o_P(1) + \frac{\sqrt{L}G_L'(0)}{p + Hd  + o_P(1)}.
+\sqrt{L} \hat{\lambda}_L = o_P(1) - \frac{\sqrt{L}G_L'(0)}{p + Hd  + o_P(1)}.
 \]
 Lemma~\ref{lem:convdistGLdash} shows that the distribution of $\sqrt{L}G_L'(0)$ converges to the normal with zero mean and variance $pA_1 + dA_2$ where $A_1$ and $A_2$ are real constants defined in the statement of Thereom~\ref{thm:normality}.  It follows that the distribution of $\sqrt{L}\hat{\lambda}_L$ converges to the normal with zero mean and variance
 \[
@@ -537,7 +538,7 @@ Lemma~\ref{lem:XL} shows that the distrubtion of $X_L$ converges to the normal w
 \]
 and Lemma~\ref{lem:XLcovlambdaL} shows that the covariance between $X_L$ and $\sqrt{L}\hat{\lambda}_L$ goes to zero as $L\rightarrow\infty$.  So, the distribution of $\sqrt{L}m_L$ converges to the normal with zero mean and variance
 \[
-\var X_L + \var \sqrt{L} \hat{\lambda}_L ?^2 = BLERG.
+\var X_L + \var \sqrt{L} \hat{\lambda}_L ?^2 = ?.
 \]
 The covariance between $\sqrt{L}m_L$ and $\sqrt{L}\hat{\lambda}_L$ is correspondingly
 \[
@@ -610,13 +611,13 @@ We analyse $k_1(\lambda)$ first.  By a Taylor expansion of $\sin(\lambda + \Phi_
 \[
 \sin(\lambda + \Phi_1) - \sin(\Phi_1) = \lambda \big( \cos(\Phi_1) + \zeta(\lambda) \big),
 \]
-where $\zeta(\lambda)$ is a function that goes to zero as $\lambda$ goes to zero.  Then,
+where $\zeta$ is a continuous function with $\zeta(0) = 0$.  So,
 \begin{align*}
 k_1(\lambda) &= \expect R_1\lambda(\cos(\Phi_1) \; + \; \zeta(\lambda)) \\
 &= \lambda \big( \expect R_1\cos(\Phi_1) \; + \; \zeta(\lambda) \expect R_1 \big) \\
 &= \lambda \big( 1 \; + \; \zeta(\lambda) K \big),
 \end{align*}
-since $h_1(0) = \expect R_1\cos(\Phi_1) = 1$ because $w_1$ is circularly symmetric, and $K = \expect R_1$ is a finite constant because $\expect\abs{w_1}$ is finite (by assumption in Theorem~\ref{thm:consistency}).  Because $\hat{\lambda}_L$ converges almost surely to zero as $L \rightarrow\infty$, then $\zeta(\hat{\lambda}_L)$ converges almost surely (and therefore also in probability) to zero as $L \rightarrow\infty$, i.e. $\zeta(\hat{\lambda}_L) = o_P(1)$.  So, 
+since $h_1(0) = \expect R_1\cos(\Phi_1) = 1$ because $w_1$ is circularly symmetric, and $K = \expect R_1$ is a finite constant because $\expect\abs{w_1}$ is finite (by assumption in Theorem~\ref{thm:consistency}).  Because $\zeta$ with $\zeta(0) = 0$ and because $\hat{\lambda}_L$ converges almost surely to zero as $L \rightarrow\infty$, then $\zeta(\hat{\lambda}_L)$ converges almost surely (and therefore also in probability) to zero as $L \rightarrow\infty$, i.e. $\zeta(\hat{\lambda}_L) = o_P(1)$.  So, 
 \[
 k_1(\hat{\lambda}_L) = \hat{\lambda}_L \big( 1 \; + \; \zeta(\hat{\lambda}_L) K \big) = \hat{\lambda}_L \big( 1  + o_P(1)\big).
 \]
@@ -658,7 +659,7 @@ and by a Taylor expansion of $\sin(\lambda + \Phi_1 - \tfrac{2\pi}{M}k)$ about $
 \sin\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} &= \lambda\big(\cos(\Phi_1 - \tfrac{2\pi}{M}k) + \zeta_k(\lambda)\big) \\
 &= \lambda\big(\cos\fracpart{\Phi_1} + \zeta_k(\lambda)\big).
 \end{align*}
-where $\zeta_k(\lambda)$ is a function that goes to zero as $\lambda$ goes to zero.  Alternatively, when $\Phi_1 \in [ \psi_{k} - \lambda,\psi_{k})$,
+where, for each integer $k$, the function $\zeta_k$ is continuous with $\zeta_k(0) = 0$.  Alternatively, when $\Phi_1 \in [ \psi_{k} - \lambda,\psi_{k})$,
 \begin{align*}
 \sin\fracpart{\lambda + \Phi_1} &- \sin\fracpart{\Phi_1} \\
 &= \sin(\lambda + \Phi_1 - \tfrac{2\pi}{M}k - \tfrac{2\pi}{M}) - \sin(\Phi_1 - \tfrac{2\pi}{M}k)
@@ -682,7 +683,11 @@ we can write
 &= s_k(\Phi_1) + \lambda\big(\cos(\Phi_1 - \tfrac{2\pi k}{M}) + c_k(\Phi_1) + \zeta_{k+1}(\lambda)\big) \\
 &= s_k(\Phi_1) + \lambda\big(\cos\fracpart{\Phi_1} + \eta_k(\lambda, \Phi_1) \big).
 \end{align*}
-where, for convenience, we put $\eta_k(\lambda, \Phi_1) = c_k(\Phi_1) + \zeta_{k+1}(\lambda)$.  Observe that both $s_k$ and $c_k$ are continuous functions and that $s_k(\psi_{k}) = -2\sin(\tfrac{\pi}{M})$ and $c_k(\psi_{k}) = 0$.  
+where, for convenience, we have defined the function, 
+\[
+\eta_k(\lambda, \Phi_1) = c_k(\Phi_1) + \zeta_{k+1}(\lambda).
+\]  
+Observe that both $s_k$ and $c_k$ are continuous functions and that $s_k(\psi_{k}) = -2\sin(\tfrac{\pi}{M})$ and $c_k(\psi_{k}) = 0$.  %It follows, since $\zeta_{k+1}$ is also continuous, that the function $\eta_k(\lambda, \Phi_1)$ is continuous in both $\lambda$ and $\Phi_1$, and $\eta_k(0, \psi_k) = 0$.
 
 Let us now collate what we have.  For each integer $k$, if $\Phi_1 \in [\psi_{k-1}, \psi_{k} - \lambda )$, then
 \[
@@ -704,13 +709,13 @@ s_k(\Phi_1) + \lambda\eta_k(\lambda, \Phi_1) &  \Phi_1 \in [ \psi_{k} - \lambda,
 0 & \text{otherwise}.
 \end{cases}
 \end{equation}
-Now
+Now we can write,
 \begin{align*}
 k_2(\lambda) &=  \expect R_1\big( \sin\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} \big) \\
 &= \expect R_1\big( \lambda\cos\fracpart{\Phi_1} + v(\lambda, \Phi_1)  \big) \\
 &= \lambda h_2(0) + \expect R_1 v(\lambda, \Phi_1).
 \end{align*}
-Define the function $W(\lambda) = \expect R_1 v(\lambda, \Phi_1)$ so that $k_2(\lambda) = \lambda h_2(0) + W(\lambda).$  Lemma~\ref{lem:expRvlamphi} shows that $W(\lambda) =  \lambda(H_1 + \gamma(\lambda))$ where $\gamma(\lambda)$ is a function that goes to zero as $\lambda$ goes to zero, and
+Define the function $W(\lambda) = \expect R_1 v(\lambda, \Phi_1)$ so that $k_2(\lambda) = \lambda h_2(0) + W(\lambda).$  Lemma~\ref{lem:expRvlamphi} shows that $W(\lambda) =  \lambda(H_1 + \gamma(\lambda))$ where $\gamma$ is a continuous function with $\gamma(0) = 0$, and
 \[
 H_1 = - 2 \sin(\tfrac{\pi}{M}) \sum_{k = 0}^{M-1} g(\psi_k) = H - h_2(0).
 \]
@@ -722,38 +727,40 @@ as required.  It remains to prove Lemma~\ref{lem:expRvlamphi}.
 \end{IEEEproof}
 
 \begin{lemma}\label{lem:expRvlamphi}
-$W(\lambda) =  \lambda(H_1 + \gamma(\lambda))$ where $\gamma(\lambda)$ is a function that goes to zero as $\lambda$ goes to zero.
+$W(\lambda) =  \lambda(H_1 + \gamma(\lambda))$ where $\gamma$ is a continuous function with $\gamma(0) = 0$.
 \end{lemma}
 \begin{IEEEproof}
-In this lemma, as Lemma~\ref{lem:k2conv}, we are working under the assumption that that $0 \leq \lambda < \frac{\pi}{M}$.  An analgous argument follows when $-\tfrac{\pi}{M} \leq \lambda < 0$.  Recalling that $f(r,\phi)$ is the joint probability density function of $R_1$ and $\Phi_1$, then,
+In this lemma, as in Lemma~\ref{lem:k2conv}, we are working under the assumption that that $0 \leq \lambda < \frac{\pi}{M}$.  An analgous argument follows when $-\tfrac{\pi}{M} \leq \lambda < 0$.  Recalling that $f(r,\phi)$ is the joint probability density function of $R_1$ and $\Phi_1$, then,
 \begin{align*}
 W(\lambda) &= \expect R_1 v(\lambda, \Phi_1) = \int_0^{2\pi}\int_{0}^\infty r v(\lambda, \phi) f(r,\phi) dr d\phi \\
 &= \int_0^{2\pi} v(\lambda, \phi) g(\phi) d\phi,
 \end{align*}
-and, since $v(\lambda, \phi) = \sum_{k\in\ints} v_k(\lambda, \phi)$,
+and, since $v(\lambda, \phi) = \sum_{k\in\ints} v_k(\lambda, \phi)$, then,
 \begin{equation}\label{eq:Winfsum}
 W(\lambda) = \sum_{k \in \ints} \int_0^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi.
 \end{equation}
 Now, when $0 < k < M$, we have $0 < \psi_{k-1} < \psi_k < 2\pi$, so, using~\eqref{eq:vk},
 \begin{align*}
-\int_0^{2\pi} v_k(\lambda, \phi) &g(\phi) d\phi = \int_{\psi_{k-1}}^{\psi_{k}} v_k(\lambda, \phi) g(\phi) d\phi \\
+\int_0^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi &= \int_{\psi_{k-1}}^{\psi_{k}} v_k(\lambda, \phi) g(\phi) d\phi \\
 &= \lambda a_k(\lambda) + \lambda b_k(\lambda) + \lambda c_k(\lambda),
 \end{align*}
-where, for each integer $k = 1, \dots, M-1$, the functions $a_k$ and $b_k$ are
+where, for each integer $k = 1, \dots, M-1$, the functions $a_k$, $b_k$, and $c_k$ are
 \begin{equation}\label{eq:ak}
 a_k(\lambda) = \int_{\psi_k-\lambda}^{\psi_k}\eta_k(\lambda, \phi) g(\phi) d\phi,
 \end{equation}
 \[
 b_k(\lambda) = \zeta_k(\lambda) \int_{\psi_{k-1}}^{\psi_k -\lambda}g(\phi) d\phi,
 \]
-and
 \begin{equation}\label{eq:ck}
 c_k(\lambda) = \frac{1}{\lambda} \int_{\psi_{k} - \lambda}^{\psi_{k}} s_k(\phi) g(\phi) d\phi.
 \end{equation}
-Observe that $a_k(\lambda)$ and $b_k(\lambda)$ are functions that converge to zero as $\lambda$ goes to zero, whilst $c_k(\lambda)$ converges to 
-\[
+Observe that $a_k(\lambda)$ and $b_k(\lambda)$ are functions that converge to zero as $\lambda$ goes to zero from above.  Since $g$ is continuous at $\psi_k$ then $c_k(\lambda)$ converges to 
+\begin{equation}\label{eq:skconverge}
 s_k(\psi_k)g(\psi_k) = -2\sin(\tfrac{\pi}{M}) g(\tfrac{2\pi}{M}k + \tfrac{\pi}{M})
-\]
+\end{equation}
+as $\lambda$ goes to zero from above~\footnote{We actually only require $g$ to be continuous at $\psi_k = \tfrac{2\pi}{M}k + \tfrac{\pi}{M}$ for each $k = 0, 1, \dots, M-1$, and the requirements of Theorem~\ref{thm:normality} could be weakened in this sense.  Here, the continuity of $g$ is garaunteed by the assumption that the noise $w_1$ is circularly symetric.}.  
+We are only interested in the limits from above because we are working under the assumption that that $0 \leq \lambda < \frac{\pi}{M}$.  The analgous argument when $-\tfrac{\pi}{M} \leq \lambda < 0$ would involve limits as $\lambda$ approaches zero from below.
+
 Now, when $k = 0$, we have $\psi_{-1} < 0 < \psi_0 - \lambda < \psi_0 < 2\pi$, so that
 \[
 \int_0^{2\pi} v_0(\lambda, \phi) g(\phi) d\phi = \lambda a_0(\lambda) + \lambda b_0(\lambda) +  \lambda c_0(\lambda),
@@ -770,7 +777,9 @@ where
 \[
 b_{M}(\lambda) = \zeta_{M}(\lambda) \int_{\psi_{M-1}}^{2\pi}g(\phi) d\phi.
 \]
-Otherwise, when $k < 0$ or $k > M$, 
+Both $b_0(\lambda)$ and $b_M(\lambda)$ are functions that converge to zero as $\lambda$ approaches zero from above.
+ 
+Finally, when $k < 0$ or $k > M$, 
 \[
 \int_0^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi = 0.
 \]
@@ -778,20 +787,24 @@ So the infinite sum in~\eqref{eq:Winfsum} can be written as the finite sum,
 \begin{align*}
 W(\lambda) &= \sum_{k=0}^{M} \int_{0}^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi \\
 &= \sum_{k=0}^{M-1} \lambda c_k(\lambda) + \sum_{k=0}^{M-1} \lambda a_k(\lambda) + \sum_{k=0}^{M} \lambda b_k(\lambda) \\
-&= \lambda \left( C_k(\lambda)  + A_k(\lambda) + B_k(\lambda) \right).
+&= \lambda \left( C(\lambda)  + A(\lambda) + B(\lambda) \right).
 \end{align*}
 where 
 \[
-A_k(\lambda) = \sum_{k=0}^{M-1} a_k(\lambda), \;\;\; B_k(\lambda) = \sum_{k=0}^{M} b_k(\lambda), \;\;\; \text{and},
+A(\lambda) = \sum_{k=0}^{M-1} a_k(\lambda), \;\;\; B(\lambda) = \sum_{k=0}^{M} b_k(\lambda), \;\;\; \text{and},
 \]
 \[
-C_k(\lambda) = \sum_{k=0}^{M-1} c_k(\lambda).
+C(\lambda) = \sum_{k=0}^{M-1} c_k(\lambda).
 \]
-Observe both $A_k(\lambda)$ and $B_k(\lambda)$ converges to zero as as $\lambda$ goes to zero, and $C_k(\lambda)$ converges to $H_1$ as $\lambda$ converges to zero.  Put
+Observe, that the function $A(\lambda)$ and $B(\lambda)$ converge to to zero as as $\lambda$ approaches zero from above, and, using~\eqref{eq:skconverge}, the function $C(\lambda)$ converges to 
 \[
-\gamma(\lambda) = A_k(\lambda) + B_k(\lambda) + C_k(\lambda) - H_1.
+H_1 =  - 2 \sin(\tfrac{\pi}{M}) \sum_{k = 0}^{M-1} g(\tfrac{2\pi}{M}k + \tfrac{\pi}{M})
 \]
-Then $\gamma(\lambda)$ converges to zero as $\lambda$ goes to zero and $W(\lambda) = \lambda(H_1 + \gamma(\lambda))$.  The proof follows.
+as $\lambda$ converges to zero from above.  Put
+\[
+\gamma(\lambda) = A(\lambda) + B(\lambda) + C(\lambda) - H_1.
+\]
+Then $\gamma(\lambda)$ converges to zero as $\lambda$ approaches to zero from above and $W(\lambda) = \lambda(H_1 + \gamma(\lambda))$.  The proof follows.
 \end{IEEEproof}
 
 \begin{lemma}\label{lem:empiricprocc} BLERG
