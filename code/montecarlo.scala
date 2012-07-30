@@ -11,7 +11,7 @@ import pubsim.distributions.complex.ComplexRandomVariable
 import pubsim.Util
 
 val Ms = List(2,4,8) //BPSK, QPSK, 8-PSK
-val Ls = List(32, 256, 2048)
+val Ls = List(2,4,8,16,32,64,128,256,512,1024,2048)
 val a0 = new PolarComplex(1,2*scala.math.Pi*(new scala.util.Random).nextDouble)
 val iters = 5000
 
@@ -24,7 +24,7 @@ val starttime = (new java.util.Date).getTime
 for( L <- Ls; M <- Ms ) {
 
   //for a range of different numbers of pilots
-  for( numpilots <- List( L/8, L/4, L ).removeDuplicates ) {
+  for( numpilots <- List( L/64, L/32, L/16, L/8, L/4, L/2, L ).distinct.filterNot(b => b == 0) ) {
 
     val P = 0 until numpilots //pilots at the front
     val D = numpilots until L //data at the back
