@@ -34,21 +34,19 @@ for( L <- Ls; M <- Ms ) {
     //for all the noise distributions (in parallel threads)
     val cltlist = noises.par.map { noise =>	
 	val p = P.length.toDouble/L  
-	val (varp, vara, covar) : (Double, Double, Double) = noise.clt(M,p).variance	      
+	val (varp, vara) : (Double, Double) = noise.clt(M,p).variance	      
 	print(".")
-	(varp/L, vara/L, covar/L) //last thing is what gets returned
+	(varp/L, vara/L) //last thing is what gets returned
       }.toList
 
      val filep = new java.io.FileWriter("data/" + cltname + "p")
      val filea = new java.io.FileWriter("data/" + cltname + "a")
-     val filec = new java.io.FileWriter("data/" + cltname + "cov")
      (cltlist, SNRdBs).zipped.foreach{ (mse, snr) =>
-	val (vp,va,cov) = mse
+	val (vp,va) = mse
 				       filea.write(snr.toString.replace('E', 'e') + "\t" + va.toString.replace('E', 'e')  + "\n") 
 				       filep.write(snr.toString.replace('E', 'e') + "\t" + vp.toString.replace('E', 'e')  + "\n") 
-				       filec.write(snr.toString.replace('E', 'e') + "\t" + cov.toString.replace('E', 'e')  + "\n") 
 				     }
-     filea.close; filep.close; filec.close //close all the files we wrote to 
+     filea.close; filep.close //close all the files we wrote to 
     println(" finished")
 
   }

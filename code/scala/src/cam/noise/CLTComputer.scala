@@ -31,8 +31,8 @@ trait CLTComputer {
   val A2 : Double
   val H : Double
   
-  /** Triple returns phase variance, amplitude variance and phase amplitude covariance */
-  def variance : (Double, Double, Double)
+  /** Triple returns phase variance and ampltiude variance */
+  def variance : (Double, Double)
   
   // Some convenience functions are defined here
   final def sin(x : Double) = scala.math.sin(x)
@@ -57,8 +57,8 @@ abstract class AbstractCLTComputer(M : Int, p : Double) extends CLTComputer {
   override lazy val H =  h2(0) - 2*sin(pi/M) * (0 to M-1).map(k => g((2*k+1)*pi/M)).foldLeft(0.0){ (s : Double ,v : Double) => s + v }
   override def G(x : Double) = p*h1(x) + d*h2(x)
   
-  override def variance : (Double, Double, Double) = {
-    ((p*A1+d*A2)/sqr(p + H*d), 0.0, 0.0)
+  override def variance : (Double, Double) = {
+    ((p*A1+d*A2)/sqr(p + H*d), 0.0)
   }
   
 }
