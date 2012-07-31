@@ -293,7 +293,7 @@ where $\operatorname{round}(\cdot)$ takes its argument to the nearest integer.  
 The next two theorems decribe the asymptotic properties of the least squares estimator.
 
 \begin{theorem}\label{thm:consistency} (Almost sure convergence)
-Let $\{w_i\}$ be a sequence of independent and identically distributed, circularly symmetric complex random variables with $\expect \abs{w_1}$ finite, and let $\{y_i, i \in P \cup D\}$ be given by the signal model~\eqref{eq:sigmod}.   Let $\hat{a} = \hat{\rho}e^{j\hat{\theta}}$ be the least squares estimator of $a_0 = \rho_0e^{j\theta_0}$ where both $\hat{\rho}$ and $\rho_0$ are positive real numbers.  Put $L = \abs{P \cup D}$ and define real numbers $p$ and $d$ as the limits
+Let $\{w_i\}$ be a sequence of independent and identically distributed, circularly symmetric complex random variables with $\expect \abs{w_1}$ finite, and let $\{y_i, i \in P \cup D\}$ be given by~\eqref{eq:sigmod}.   Let $\hat{a} = \hat{\rho}e^{j\hat{\theta}}$ be the least squares estimator of $a_0 = \rho_0e^{j\theta_0}$ where both $\hat{\rho}$ and $\rho_0$ are positive real numbers.  Put $L = \abs{P \cup D}$ and let $p$ and $d$ be the limits
 \[
 \frac{\abs{P}}{L} \rightarrow p \qquad \text{and} \qquad \frac{\abs{D}}{L} \rightarrow d \qquad \text{as $L \rightarrow \infty$.}
 \] 
@@ -323,9 +323,9 @@ g(\phi) = \int_{0}^{\infty} r f(r,\phi) dr.
 Put $\hat{\lambda}_L = \sfracpart{\theta_0 - \hat{\theta}}_\pi$ and $\hat{m}_L = \hat{\rho} - \rho_0 G(0)$. %If $g(\phi)$ is continuous at $\phi = \tfrac{2\pi}{M}k+\tfrac{\pi}{M}$ for each $k = 0, 1, \dots M-1$, then 
 Then the distribution of $(\sqrt{L}\lambda_L, \sqrt{L}m_L)$ converges to the bivariate normal with zero mean and covariance
 \[
-\frac{1}{(p + H d)^2} \left( \begin{array}{cc} 
-pA_1 + dA_2 & ? \\
-? & ?
+\left( \begin{array}{cc} 
+\frac{pA_1 + dA_2}{(p + H d)^2} & 0 \\
+0 & pB_1 + dB_2
 \end{array} \right)
 \]
 as $L \rightarrow \infty$, where
@@ -333,7 +333,10 @@ as $L \rightarrow \infty$, where
 H = h_2(0) -  2 \sin(\tfrac{\pi}{M}) \sum_{k = 0}^{M-1} g(\tfrac{2\pi}{M}k + \tfrac{\pi}{M}),
 \]
 \[
-A_1 = \expect R_1^2\sin^2(\Phi_1), \qquad A_2 = \expect R_1^2\sin^2\fracpart{\Phi_1}.
+A_1 = \expect R_1^2\sin^2(\Phi_1), \qquad A_2 = \expect R_1^2\sin^2\fracpart{\Phi_1},
+\]
+\[
+B_1 = \expect R_1^2 \cos^2(\Phi_1) - 1, \;\;\; B_2 = \expect R_1^2 \cos^2\fracpart{\Phi_1} - h_2^2(0).
 \]
 \end{theorem}
 
@@ -356,7 +359,7 @@ BLERG
 
 \section{Proof of almost sure convergence (Theorem~\ref{thm:consistency}) } \label{sec:proof-almost-sure}
 
-Substituting $\{ \hat{d}_i(\theta), i \in D \}$ from~\eqref{eq:hatdfinxtheta} into~\eqref{eq:SSallparams} we obtain the sum of squares function $SS$ conditioned on minimisation with respect the the data symbols,
+Substituting $\{ \hat{d}_i(\theta), i \in D \}$ from~\eqref{eq:hatdfinxtheta} into~\eqref{eq:SSallparams} we obtain $SS$ conditioned on minimisation with respect the the data symbols,
  \begin{align*}
 SS(\rho, \theta) &=\sum_{i \in P} \abs{ y_i - \rho e^{j\theta} p_i }^2 + \sum_{i \in D} \abs{ y_i - \rho e^{j\theta} \hat{d_i}(\theta) }^2 \\
 &= A - \rho Z(\theta) - \rho Z^*(\theta) + L \rho^2,
@@ -369,12 +372,12 @@ and $Z^*(\theta)$ is the conjugate of $Z(\theta)$.  Differentiating with respect
 \begin{equation}\label{eq:hatrhoZ}
 \hat{\rho} = \frac{Z(\theta) + Z(\theta)^*}{2L} = \frac{1}{L}\Re(Z(\theta)),
 \end{equation}
-where $\Re(\cdot)$ denotes the real part.  Substituting this expression into $SS(\rho, \theta)$ gives the $SS$ conditioned upon minimisation with respect to $\rho$ and the data symbols,
+where $\Re(\cdot)$ denotes the real part.  Substituting this expression into $SS(\rho, \theta)$ gives $SS$ conditioned upon minimisation with respect to $\rho$ and the data symbols,
 \[
 SS(\theta) = A - \frac{1}{L}\Re(Z(\theta))^2.
 \]
 
-We are interested in analysing $\hat{\theta}$, the minimiser of $SS(\theta)$ or equivalently, the maximiser of $\abs{\Re(Z(\theta))}$.  Recalling the definition of $R_i$ and $\Phi_i$ from~\eqref{eq:RiandPhii},
+We are interested in analysing $\hat{\theta}$, the minimiser of $SS(\theta)$, or equivalently, the maximiser of $\abs{\Re(Z(\theta))}$.  Recalling the definition of $R_i$ and $\Phi_i$ from~\eqref{eq:RiandPhii},
 \begin{align*}
 y_i &= a_0 s_i + w_i \\
 &= \rho_0 s_i e^{j \theta_0}\left( 1 + \frac{1}{\rho_0} w_i s_i^* e^{-j \theta_0} \right) \\
@@ -388,7 +391,7 @@ Recalling the definition of $\hat{d}_i(\theta)$ and $\hat{u}_i(\theta)$ from~\eq
 &\equiv \round{ \fracpart{\theta_0 - \theta}_{\pi} + \Phi_i + \angle{s_i}} \pmod{2\pi} \\
 &= \round{ \lambda + \Phi_i + \angle{s_i} },
 \end{align*}
-where we put $\lambda = \fracpart{\theta_0 - \theta}_\pi$.  Because $\hat{d}_i^*(\theta) = e^{-j\hat{u}_i(\theta)}$, then, when $i \in D$,
+where we put $\lambda = \fracpart{\theta_0 - \theta}_\pi$.  Because $\hat{d}_i^*(\theta) = e^{-j\hat{u}_i(\theta)}$, it follows that when $i \in D$,
 \begin{align*}
  y_i e^{-j\theta} \hat{d}_i^*(\theta) &= \rho_0 R_i e^{j(\lambda + \Phi_i + \angle{s_i} - \round{\lambda + \Phi_i + \angle{s_i}})} \\
 &= \rho_0 R_i e^{j(\lambda + \Phi_i - \round{\lambda + \Phi_i})} \\
@@ -420,9 +423,9 @@ and since $\frac{\abs{P}}{L} \rightarrow p$ and $\frac{\abs{D}}{L} \rightarrow d
 \[
 \lim_{L \rightarrow\infty} \expect G_L(\lambda) = G(\lambda) = p h_1(\lambda)   +  d h_2(\lambda).
 \]
-As is customary, let $(\Omega, \mathcal F, \prob)$ be the probability space over which the random variables $\{w_i\}$ are defined.  Let $A$ be the subset of the sample space $\Omega$ upon which $G(\hat{\lambda}_L) \rightarrow G(0)$ as $L\rightarrow\infty$.  Lemma~\ref{lem:convtoexpGlamL} shows that $\prob\{A\} = 1$.  Let $A'$ be the subset of the sample space upon which $\hat{\lambda}_L \rightarrow 0$ as $L\rightarrow \infty$.  Because $G$ is uniquely maximised at zero, then $A \subseteq A'$ and therefore $\prob\{A'\} \geq \prob\{A\} = 1$.  Part one of Theorem~\ref{thm:consistency} follows.  
+As is customary, let $(\Omega, \mathcal F, \prob)$ be the probability space over which the random variables $\{w_i\}$ are defined.  Let $A$ be the subset of the sample space $\Omega$ upon which $G(\hat{\lambda}_L) \rightarrow G(0)$ as $L\rightarrow\infty$.  Lemma~\ref{lem:convtoexpGlamL} shows that $\prob\{A\} = 1$.  Let $A'$ be the subset of the sample space upon which $\hat{\lambda}_L \rightarrow 0$ as $L\rightarrow \infty$.  Because $G$ is uniquely maximised at zero, it follows that $G(\widehat{\lambda}_L) \rightarrow G(0)$ only if $\widehat{\lambda}_L \rightarrow 0$ as $L \rightarrow\infty$. So $A \subseteq A'$ and therefore $\prob\{A'\} \geq \prob\{A\} = 1$.  Part one of Theorem~\ref{thm:consistency} follows.  
 
-It remains to prove part two of the theorem regarding the convergence of the least squares amplitude estimator $\hat{\rho}$.  From~\eqref{eq:hatrhoZ},
+It remains to prove part two of the theorem regarding the convergence of the amplitude estimator $\hat{\rho}$.  From~\eqref{eq:hatrhoZ},
 \begin{equation}\label{eq:rhoGLZ}
 \hat{\rho} = \frac{1}{L}\Re(Z(\hat{\theta})) = \rho_0 G_L(\hat{\lambda}_L).
 \end{equation}  

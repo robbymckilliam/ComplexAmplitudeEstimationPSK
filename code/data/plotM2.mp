@@ -154,3 +154,39 @@ clip currentpicture to (-10cm,-10cm)--(-10cm,plotheight)--(plotwidth+5cm,plothei
 endfig;
 
 end;
+
+
+%%%%%%%%%%%%
+%%%% Begin plot of amplitude error
+
+beginfig(3);
+draw begingraph(plotwidth, plotheight);
+ setcoords(linear,log);
+ glabel.bot(btex SNR (dB) etex, OUT) shifted (0cm,1.3cm);
+  glabel.lft(btex MSE amplitude etex, OUT) rotated 90 shifted (1.5cm,1cm);
+  
+  %setrange(whatever,whatever, whatever,100);
+  %setrange(4.9,"1e-13", 22,2);
+
+%  gdraw (0, "1e-13")--(0, 2) dashed evenly; %glabel.bot(btex AWGN channel capacity etex, 0) rotated 90;
+
+  gdraw "MackenthunCoherentM2L2048absP512punb"; gdraw "MackenthunCoherentM2L2048absP512punb" plot(dot); glabel.llft(btex $L = 2048$ etex, 1000);
+  gdraw "MackenthunCoherentM2L256absP64punb"; gdraw "MackenthunCoherentM2L256absP64punb" plot(dot); glabel.llft(btex $L = 256$ etex, 1000);
+  gdraw "MackenthunCoherentM2L32absP8punb"; gdraw "MackenthunCoherentM2L32absP8punb" plot(dot); glabel.llft(btex $L = 32$ etex, 1000);
+  %gdraw "MackenthunCoherentM2L10000absP1000punb"; gdraw "MackenthunCoherentM2L10000absP1000punb" plot(dot); glabel.llft(btex $L = 10000$ etex, 1000);
+
+  gdraw "MackenthunCoherentM2L2048absP128punb"; gdraw "MackenthunCoherentM2L2048absP128punb" plot(circle); 
+  gdraw "MackenthunCoherentM2L256absP16punb"; gdraw "MackenthunCoherentM2L256absP16punb" plot(circle); 
+  gdraw "MackenthunCoherentM2L32absP2punb"; gdraw "MackenthunCoherentM2L32absP2punb" plot(circle);
+
+  gdraw "MackenthunCoherentM2L2048absP2048punb"; 
+  gdraw "MackenthunCoherentM2L256absP256punb"; 
+  gdraw "MackenthunCoherentM2L32absP32punb"; 
+
+draw legend shifted(legendx,legendy);
+
+endgraph;
+
+clip currentpicture to (-10cm,-10cm)--(-10cm,plotheight)--(plotwidth+5cm,plotheight)--(plotwidth+5cm,-10cm)--cycle
+
+endfig;
