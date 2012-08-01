@@ -153,11 +153,9 @@ clip currentpicture to (-10cm,-10cm)--(-10cm,plotheight)--(plotwidth+5cm,plothei
 
 endfig;
 
-end;
-
 
 %%%%%%%%%%%%
-%%%% Begin plot of amplitude error
+%%%% Begin plot of unbiased amplitude error
 
 beginfig(3);
 draw begingraph(plotwidth, plotheight);
@@ -170,18 +168,21 @@ draw begingraph(plotwidth, plotheight);
 
 %  gdraw (0, "1e-13")--(0, 2) dashed evenly; %glabel.bot(btex AWGN channel capacity etex, 0) rotated 90;
 
-  gdraw "MackenthunCoherentM2L2048absP512punb"; gdraw "MackenthunCoherentM2L2048absP512punb" plot(dot); glabel.llft(btex $L = 2048$ etex, 1000);
-  gdraw "MackenthunCoherentM2L256absP64punb"; gdraw "MackenthunCoherentM2L256absP64punb" plot(dot); glabel.llft(btex $L = 256$ etex, 1000);
-  gdraw "MackenthunCoherentM2L32absP8punb"; gdraw "MackenthunCoherentM2L32absP8punb" plot(dot); glabel.llft(btex $L = 32$ etex, 1000);
-  %gdraw "MackenthunCoherentM2L10000absP1000punb"; gdraw "MackenthunCoherentM2L10000absP1000punb" plot(dot); glabel.llft(btex $L = 10000$ etex, 1000);
+  %gdraw "MackenthunCoherentM2L2048absP512aunb"; gdraw "MackenthunCoherentM2L2048absP512aunb" plot(dot); glabel.llft(btex $L = 2048$ etex, 1000);
+  gdraw "cltM2L1024absP256a"; gdraw "MackenthunCoherentM2L1024absP256aunb" plot(dot); glabel.llft(btex $L = 2048$ etex, 1000);
+  gdraw "cltM2L256absP64a"; gdraw "MackenthunCoherentM2L256absP64aunb" plot(dot); glabel.llft(btex $L = 256$ etex, 1000);
+  gdraw "cltM2L32absP8a"; gdraw "MackenthunCoherentM2L32absP8aunb" plot(dot); glabel.llft(btex $L = 32$ etex, 1000);
+  %gdraw "MackenthunCoherentM2L10000absP1000aunb"; gdraw "MackenthunCoherentM2L10000absP1000aunb" plot(dot); glabel.llft(btex $L = 10000$ etex, 1000);
 
-  gdraw "MackenthunCoherentM2L2048absP128punb"; gdraw "MackenthunCoherentM2L2048absP128punb" plot(circle); 
-  gdraw "MackenthunCoherentM2L256absP16punb"; gdraw "MackenthunCoherentM2L256absP16punb" plot(circle); 
-  gdraw "MackenthunCoherentM2L32absP2punb"; gdraw "MackenthunCoherentM2L32absP2punb" plot(circle);
+  %gdraw "MackenthunCoherentM2L2048absP128aunb"; gdraw "MackenthunCoherentM2L2048absP128aunb" plot(circle);
+  gdraw "cltM2L1024absP64a"; gdraw "MackenthunCoherentM2L1024absP64aunb" plot(circle); 
+  gdraw "cltM2L256absP16a"; gdraw "MackenthunCoherentM2L256absP16aunb" plot(circle); 
+  gdraw "cltM2L32absP2a"; gdraw "MackenthunCoherentM2L32absP2aunb" plot(circle);
 
-  gdraw "MackenthunCoherentM2L2048absP2048punb"; 
-  gdraw "MackenthunCoherentM2L256absP256punb"; 
-  gdraw "MackenthunCoherentM2L32absP32punb"; 
+  %gdraw "MackenthunCoherentM2L2048absP2048aunb";
+  gdraw "cltM2L1024absP1024a"; gdraw "MackenthunCoherentM2L1024absP1024aunb" plot(square) ; 
+  gdraw "cltM2L256absP256a"; gdraw "MackenthunCoherentM2L256absP256aunb" plot(square); 
+  gdraw "cltM2L32absP32a"; gdraw "MackenthunCoherentM2L32absP32aunb" plot(square); 
 
 draw legend shifted(legendx,legendy);
 
@@ -190,3 +191,6 @@ endgraph;
 clip currentpicture to (-10cm,-10cm)--(-10cm,plotheight)--(plotwidth+5cm,plotheight)--(plotwidth+5cm,-10cm)--cycle
 
 endfig;
+
+
+end;

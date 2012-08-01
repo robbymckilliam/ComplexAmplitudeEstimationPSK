@@ -44,7 +44,7 @@ for( L <- Ls; M <- Ms ) {
 	val s = (1 to L).map(m => new PolarComplex(1, 2*scala.math.Pi*rand.nextInt(M)/M)) 
 	val est = estf() //construct an estimator	  
 
-	var msec = 0.0; var msea = 0.0; var msep = 0.0;
+	var msec = 0.0; var msea = 0.0; var msep = 0.0; var mseaunb = 0.0;
 	for( itr <- 1 to iters ) {
 	  //generate a recieved signal
 	  val y = s.map(si => a0*si + noise.noise )
@@ -53,6 +53,7 @@ for( L <- Ls; M <- Ms ) {
 	  msep += pe
 	  msea += ae
 	  msec += (ahat - a0).mag2 //compute the mean square error 
+	  mseaunb += (ahat.magnitude - G0)*(ahat.magnitude - G0) //rho0 is assumed equal to 1
 	}
 	print(".")		      
 	(msea/iters, msep/iters, msec/iters) //last thing is what gets returned
@@ -64,13 +65,15 @@ for( L <- Ls; M <- Ms ) {
       val filea = new java.io.FileWriter("data/" + estname + "a")
       val filep = new java.io.FileWriter("data/" + estname + "p")
       val filec = new java.io.FileWriter("data/" + estname + "c")
+      val fileaunb = new java.io.FileWriter("data/" + estname + "aunb")
       (mselist, SNRdBs).zipped.foreach{ (mse, snr) =>
 	val (ma,mp,mc) = mse
 				       filea.write(snr.toString.replace('E', 'e') + "\t" + ma.toString.replace('E', 'e')  + "\n") 
 				       filep.write(snr.toString.replace('E', 'e') + "\t" + mp.toString.replace('E', 'e')  + "\n") 
 				       filec.write(snr.toString.replace('E', 'e') + "\t" + mc.toString.replace('E', 'e')  + "\n") 
+				       fileaunb.write(snr.toString.replace('E', 'e') + "\t" + mu.toString.replace('E', 'e')  + "\n") 
 				     }
-      filea.close; filep.close; filec.close //close all the files we wrote to 
+      filea.close; filep.close; filec.close; fileaunb.close //close all the files we wrote to 
 
     }
 }

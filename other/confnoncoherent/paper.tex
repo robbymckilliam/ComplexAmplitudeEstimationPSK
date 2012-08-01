@@ -160,20 +160,23 @@ g(\phi) = \int_{0}^{\infty} r f(r,\phi) dr.
 Put $\hat{\lambda}_L = \sfracpart{\theta_0 - \hat{\theta}}_\pi$ and $\hat{m}_L = \hat{\rho} - \rho_0 G(0)$. %If $g(\phi)$ is continuous at $\phi = \tfrac{2\pi}{M}k+\tfrac{\pi}{M}$ for each $k = 0, 1, \dots M-1$, then 
 Then the distribution of $(\sqrt{L}\lambda_L, \sqrt{L}m_L)$ converges to the bivariate normal with zero mean and covariance
 \[
-\frac{1}{H^2} \left( \begin{array}{cc} 
-A & ? \\
-? & ?
+\left( \begin{array}{cc} 
+A H^{-2} & 0 \\
+0 & B
 \end{array} \right)
 \]
 as $L \rightarrow \infty$, where
 \[
 H = G(0) -  2 \sin(\tfrac{\pi}{M}) \sum_{k = 0}^{M-1} g(\tfrac{2\pi}{M}k + \tfrac{\pi}{M}),
 \]
-and
 \[
-A = \expect R_1^2\sin^2\fracpart{\Phi_1}.
+A = \expect R_1^2\sin^2\fracpart{\Phi_1}, \;\;\; B = \expect R_1^2 \cos^2\fracpart{\Phi_1}. 
 \]
 \end{theorem}
+
+\begin{corollary}
+The mean square error of the amplitude estimator $\hat{\rho}$ is $\expect (\rho_0 - \hat{\rho})^2 = B + \rho_0^2(1 - G(0))^2$.
+\end{corollary}
 
 %BLERG discuss assumptions.  We have that $h_1$ is uniquely maximised at $0$ over the interval $[-\pi,\pi)$ since $\{w_i\}$ has zero mean.  The requirement that $h_2$ is uniquely maximised at 0 is stronger that we need.  We actually only require that the sum $p h_1(x) + dh_2(x)$ is maximised uniquely at 0 over the interval $[-\pi, \pi)$.  However, we have stated the theorem in this stronger form as it makes the proof in the noncoherent case (i.e. when there are no pilot symbols) follow more transparently.
 
@@ -233,12 +236,12 @@ The value of $A$ can be computed by numerical integration.
 		\label{fig:plotphase}
 \end{figure}
 
-\begin{figure}[tp]
-	\centering
-		\includegraphics[width=\linewidth]{code/data/plotncM8-2.mps}
-		\caption{Phase error for 8PSK}
-		\label{fig:plotphase}
-\end{figure}
+%\begin{figure}[tp]
+%	\centering
+%		\includegraphics[width=\linewidth]{code/data/plotncM8-2.mps}
+%		\caption{Phase error for 8PSK}
+%		\label{fig:plotphase}
+%\end{figure}
 
 
 \small
