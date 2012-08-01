@@ -423,7 +423,7 @@ and since $\frac{\abs{P}}{L} \rightarrow p$ and $\frac{\abs{D}}{L} \rightarrow d
 \[
 \lim_{L \rightarrow\infty} \expect G_L(\lambda) = G(\lambda) = p h_1(\lambda)   +  d h_2(\lambda).
 \]
-As is customary, let $(\Omega, \mathcal F, \prob)$ be the probability space over which the random variables $\{w_i\}$ are defined.  Let $A$ be the subset of the sample space $\Omega$ upon which $G(\hat{\lambda}_L) \rightarrow G(0)$ as $L\rightarrow\infty$.  Lemma~\ref{lem:convtoexpGlamL} shows that $\prob\{A\} = 1$.  Let $A'$ be the subset of the sample space upon which $\hat{\lambda}_L \rightarrow 0$ as $L\rightarrow \infty$.  Because $G$ is uniquely maximised at zero, it follows that $G(\widehat{\lambda}_L) \rightarrow G(0)$ only if $\widehat{\lambda}_L \rightarrow 0$ as $L \rightarrow\infty$. So $A \subseteq A'$ and therefore $\prob\{A'\} \geq \prob\{A\} = 1$.  Part one of Theorem~\ref{thm:consistency} follows.  
+As is customary, let $(\Omega, \mathcal F, \prob)$ be the probability space over which the random variables $\{w_i\}$ are defined.  Let $A$ be the subset of the sample space $\Omega$ upon which $G(\hat{\lambda}_L) \rightarrow G(0)$ as $L\rightarrow\infty$.  Lemma~\ref{lem:convtoexpGlamL} shows that $\prob\{A\} = 1$.  Let $A'$ be the subset of the sample space upon which $\hat{\lambda}_L \rightarrow 0$ as $L\rightarrow \infty$.  Because $G$ is uniquely maximised at zero, it follows that $G(\hat{\lambda}_L) \rightarrow G(0)$ only if $\hat{\lambda}_L \rightarrow 0$ as $L \rightarrow\infty$. So $A \subseteq A'$ and therefore $\prob\{A'\} \geq \prob\{A\} = 1$.  Part one of Theorem~\ref{thm:consistency} follows.  
 
 It remains to prove part two of the theorem regarding the convergence of the amplitude estimator $\hat{\rho}$.  From~\eqref{eq:hatrhoZ},
 \begin{equation}\label{eq:rhoGLZ}
@@ -475,7 +475,7 @@ We first prove the asymptotic normality of $\sqrt{L} \hat{\lambda}_L$.  Once thi
 G_L^\prime(\hat{\lambda}_L) &= 0 \\
 &= \frac{1}{L} \sum_{i \in P} R_i \sin(\hat{\lambda}_L + \Phi_i) + \frac{1}{L} \sum_{i \in D} R_i \sin\sfracpart{\hat{\lambda}_L + \Phi_i}.
 \end{align*}
-Define the function $Q(\lambda) = \expect G_L^\prime(\lambda) - \expect G_L^\prime(0)$ and write
+Let $Q(\lambda) = \expect G_L^\prime(\lambda) - \expect G_L^\prime(0)$ and write
 \begin{align*}
 0 &= G_L^\prime(\hat{\lambda}_L) - Q(\hat{\lambda}_L) + Q(\hat{\lambda}_L) \\
 &= \sqrt{L}\big( G_L^\prime(\hat{\lambda}_L) - Q(\hat{\lambda}_L) \big) + \sqrt{L}Q(\hat{\lambda}_L).
@@ -512,29 +512,24 @@ Lemma~\ref{lem:empiricprocforrho} shows that
 \]
 where $X_L = \sqrt{L}\big( G_L(0) - T(0)  \big)$.  Lemma~\ref{lem:HLtoG} shows that
 \[
-\sqrt{L}\big( T(\hat{\lambda}_L) - G(0) \big) = \sqrt{L} \hat{\lambda}_L \big( ? + o_P(1) \big).
+%\sqrt{L}\big( T(\hat{\lambda}_L) - G(0) \big) = \sqrt{L} \hat{\lambda}_L \big( ? + o_P(1) \big).
+\sqrt{L}\big( T(\hat{\lambda}_L) - G(0) \big) = o_P(1).
 \]
 It follows that
 \[
-\sqrt{L} m_L = o_P(1) + X_L  + \hat{\lambda}_L \big( ? + o_P(1) \big).
+%\sqrt{L} m_L = o_P(1) + X_L  + \hat{\lambda}_L \big( ? + o_P(1) \big).
+\sqrt{L} m_L =  X_L + o_P(1). 
 \]
 Lemma~\ref{lem:XL} shows that the distrubtion of $X_L$ converges to the normal with zero mean and variance
 \[
  p B_1 + d B_2 
 \]
-where
+where $B_1$ and $B_2$ are defined in the statement of Theorem~\ref{thm:normality}.  As $X_L$ does not depend on $\hat{\lambda}_L$, it follows that $\covar(X_L, \sqrt{L}\hat{\lambda}_L) = 0$.  Thus,
 \[
-B_1 = \expect R_1^2 \cos^2(\Phi_1) - 1, \;\;\; B_2 = \expect R_1^2 \cos^2\fracpart{\Phi_1} - h_2^2(0)
+\covar(\sqrt{L}\hat{m}_L, \sqrt{L}\hat{\lambda}_L) = \covar(X_L + o_P(1), \sqrt{L}\hat{\lambda}_L) \rightarrow 0
 \]
-and Lemma~\ref{lem:XLcovlambdaL} shows that the covariance between $X_L$ and $\sqrt{L}\hat{\lambda}_L$ goes to zero as $L\rightarrow\infty$.  So, the distribution of $\sqrt{L}m_L$ converges to the normal with zero mean and variance
-\[
-\var X_L + \var \sqrt{L} \hat{\lambda}_L ?^2 = ?.
-\]
-The covariance between $\sqrt{L}m_L$ and $\sqrt{L}\hat{\lambda}_L$ is correspondingly
-\[
-?
-\]
-It remains to prove the lemmas that we have used.
+as $L \rightarrow \infty$.  It remains to prove the lemmas that we have used.
+
 
 \begin{lemma}~\label{lem:diffatlambdaL}
 The derivative of $G_L$ exists, and is equal to zero, at $\hat{\lambda}_L$.  That is,
@@ -597,7 +592,7 @@ where
 k_1(\lambda) &= \expect R_1\big( \sin(\lambda + \Phi_1) - \sin(\Phi_1) \big), \;\;\; \text{and} \nonumber\\
 k_2(\lambda) &= \expect R_1\big( \sin\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} \big). \label{eq:k2def}
 \end{align}
-We analyse $k_1(\lambda)$ first.  By a Taylor expansion of $\sin(\lambda + \Phi_1)$ about $\Phi_1$,
+We analyse $k_1(\lambda)$ first.  By a Taylor expansion of $\sin(\lambda + \Phi_1)$ about $\lambda = 0$,
 \[
 \sin(\lambda + \Phi_1) - \sin(\Phi_1) = \lambda \big( \cos(\Phi_1) + \zeta(\lambda) \big),
 \]
@@ -607,7 +602,7 @@ k_1(\lambda) &= \expect R_1\lambda(\cos(\Phi_1) \; + \; \zeta(\lambda)) \\
 &= \lambda \big( \expect R_1\cos(\Phi_1) \; + \; \zeta(\lambda) \expect R_1 \big) \\
 &= \lambda \big( 1 \; + \; \zeta(\lambda) K \big),
 \end{align*}
-since $h_1(0) = \expect R_1\cos(\Phi_1) = 1$ because $\expect w_1$, and $K = \expect R_1$ is a finite constant because $\expect\abs{w_1}$ is finite by assumption in Theorem~\ref{thm:consistency}.  Because $\hat{\lambda}_L$ converges almost surely to zero as $L \rightarrow\infty$, then $\zeta(\hat{\lambda}_L)$ converges almost surely (and therefore also in probability) to zero as $L \rightarrow\infty$, i.e. $\zeta(\hat{\lambda}_L) = o_P(1)$.  So, 
+since $h_1(0) = \expect R_1\cos(\Phi_1) = 1$ because $w_1$ has zero mean, and $K = \expect R_1$ is a finite constant because $\expect\abs{w_1}$ is finite by assumption in Theorem~\ref{thm:consistency}.  Because $\hat{\lambda}_L$ converges almost surely to zero as $L \rightarrow\infty$, then $\zeta(\hat{\lambda}_L)$ converges almost surely (and therefore also in probability) to zero as $L \rightarrow\infty$, i.e. $\zeta(\hat{\lambda}_L) = o_P(1)$.  So, 
 \[
 k_1(\hat{\lambda}_L) = \hat{\lambda}_L \big( 1 \; + \; \zeta(\hat{\lambda}_L) K \big) = \hat{\lambda}_L \big( 1  + o_P(1)\big).
 \]
@@ -624,7 +619,7 @@ since $\frac{\abs{P}}{L} \rightarrow p$ and $\frac{\abs{D}}{L} \rightarrow d$ as
 $k_2(\hat{\lambda}_L) = \hat{\lambda}_L ( H + o_P(1) ).$
 \end{lemma}
 \begin{IEEEproof}
-Since $\hat{\lambda}_L \in [-\pi, \pi)$ it is only the behaviour of the function $k_2(\lambda)$ for $\lambda\in [-\pi, \pi)$ that is relevant.  We will analyse $k_2(\lambda)$ for $0 \leq \lambda < \tfrac{\pi}{M}$.  An analagous argument follows when $-\tfrac{\pi}{M} \leq \lambda < 0$.  To keep our notation clean put
+As $\hat{\lambda}_L \in [-\pi, \pi)$ it is only the behaviour of the function $k_2(\lambda)$ for $\lambda\in [-\pi, \pi)$ that is relevant.  We will analyse $k_2(\lambda)$ for $0 \leq \lambda < \tfrac{\pi}{M}$.  An analagous argument follows when $-\tfrac{\pi}{M} \leq \lambda < 0$.  To keep our notation clean put
 \[
 \psi_k = \tfrac{2\pi}{M}k + \tfrac{\pi}{M}.
 \]
