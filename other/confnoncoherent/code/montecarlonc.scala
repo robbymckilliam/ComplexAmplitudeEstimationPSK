@@ -17,7 +17,7 @@ val a0 = new PolarComplex(1,2*scala.math.Pi*(new scala.util.Random).nextDouble)
 val iters = 5000
 
 //construct an array of noise distributions with a logarithmic scale
-val SNRdBs = -15 to 20 by 1
+val SNRdBs = -20 to 20 by 1
 val SNRs = SNRdBs.map(db => scala.math.pow(10.0, db/10.0))
 val noises = SNRs.map( snr => new ComplexGaussian(a0.mag2/snr/2) ) //variance for real and imaginay parts (divide by 2)
 
