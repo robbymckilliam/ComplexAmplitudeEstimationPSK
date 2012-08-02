@@ -15,14 +15,18 @@
 
 %opening
 \title{Noncoherent least squares estimators of carrier phase and amplitude}
-\author{Robby McKilliam, Andre Pollok, Bill Cowley}
+\author{Robby McKilliam$^{1}$, Andre Pollok$^{1}$, Bill Cowley$^{1}$, Vaughan Clarkson$^{2}$ and Barry Quinn$^{3}$ \vspace{0.2cm} \\
+\small $^{1}$Institute for Telecommunications Research, University of South Australia, SA, \textsc{Australia} \vspace{0.1cm} \\
+\small $^{2}$School of Information Technology \& Electrical Engineering, The University of Queensland, QLD 4067, \textsc{Australia} \vspace{0.1cm} \\
+\small $^{3}$Department of Statistics, Macquarie University, Sydney, \textsc{Australia} \\}
+
 
 \begin{document}
 
 \maketitle
 
 \begin{abstract}
-We consider least squares estimators of carrier phase and amplitude from a noisy communications signal.  We focus on signaling constellations that have symbols evenly distributed on the complex unit circle, such as binary phase shift keying (BPSK), quaternary phase shift keying (QPSK), and $M$-PSK.  Under reasonably mild conditions on the distribution of the noise, the least squares estimator of carrier phase is strongly consistent and asymptotically normaly distributed.  However, the amplitude estimator is not consistent, and we show that it converges to a positive real number that is a function of the true carrier amplitude, the noise distribution, and the size of the constellation.  The results of Monte Carlo simulations are provided and these corroborate the theoretical results.
+We consider least squares estimators of carrier phase and amplitude from a noisy communications signal.  We focus on signaling constellations that have symbols evenly distributed on the complex unit circle, such as binary phase shift keying (BPSK), quaternary phase shift keying (QPSK), and $M$-PSK.  We show, under reasonably mild conditions on the distribution of the noise, that the least squares estimator of carrier phase is strongly consistent and asymptotically normaly distributed.  However, the amplitude estimator is not consistent, and we show that it converges to a positive real number that is a function of the true carrier amplitude, the noise distribution, and the size of the constellation.  The results of Monte Carlo simulations are provided and these corroborate the theoretical results.
 \end{abstract}
 \begin{IEEEkeywords}
 BLERG
@@ -30,23 +34,21 @@ BLERG
 
 \section{Introduction}
 
-
-
-With $M$-ary phase shift keying ($M$-PSK), the transmitted symbols take the form,
+In passband communications systems the transmitted signal typically undergoes time offset (delay), phase shift and attenuation.  These effects must be compensated for at the reciever. In this paper we assume that the time offset has been previously handled, and we focus on estimating the phase shift and attenuation.  We consider signalling constellations that have symbols evenly distributed on the complex unit circle, commonly refered to as $M$-ary phase shift keying ($M$-PSK).  In this case, the transmitted symbols take the form,
 \[
 s_i = e^{j u_i},
 \]
 where $j = \sqrt{-1}$ and $u_i$ is from the set $\{0, \tfrac{2\pi}{M}, \dots, \tfrac{2\pi(M-1)}{M}\}$ and $M$ is the size of the constellation.
 
-We assume that time offset estimation (symbol timing) and matched filtering have already been performed at the reciever.  The recieved symbols take the form,
+We assume that time offset estimation and matched filtering have already been performed at the reciever.  The recieved symbols then take the form,
 \begin{equation}\label{eq:sigmod}
 y_i = a_0 s_i + w_i, \qquad i = 1, \dots, L,
 \end{equation}
-where $w_i$ is noise and $a_0 = \rho_0 e^{j\theta_0}$ is a complex number representing both carrier phase $\theta_0$ and amplitude $\rho_0$ (by definition $\rho_0$ is a positive real number).  Our aim is to estimate $a_0$ from the noisy symbols $y_1, \dots, y_L$.  Complicating matters is that the transmitted symbols $s_i$ are not known to the reciever and must also be estimated.  Estimation problems of this type have undergone extensive prior study~\cite{ViterbiViterbi_phase_est_1983,Cowley_ref_sym_carr_1998,Wilson1989,Makrakis1990,Liu1991,Mackenthun1994,Sweldens2001}.  A practical approach is the least squares estimator, that is, the minimisers of the sum of squares function
+where $w_i$ is noise and $a_0 = \rho_0 e^{j\theta_0}$ is a complex number representing both carrier phase $\theta_0$ and amplitude $\rho_0$ (by definition $\rho_0$ is a positive real number).  Our aim is to estimate $a_0$ from $y_1, \dots, y_L$.  Complicating matters is that the transmitted symbols $s_i$ are not known to the reciever and must also be estimated.  Estimation problems of this type have undergone extensive prior study~\cite{ViterbiViterbi_phase_est_1983,Cowley_ref_sym_carr_1998,Wilson1989,Makrakis1990,Liu1991,Mackenthun1994,Sweldens2001}.  A practical approach is the least squares estimator, that is, the minimisers of the sum of squares function
 \[
-SS(a, \{s_i, i \in D\}) = \sum_{i \in P \cup D} \abs{ y_i - a s_i }^2 
+SS(a, \{s_i, i \in D\}) = \sum_{i = 1}^L \abs{ y_i - a s_i }^2 
 \]
-where $\abs{x}$ denotes the magnitude of the complex number $x$.  The least squares estimator is also the maximum likelihood estimator under the assumption that the noise sequence $\{w_i, i \in \ints\}$ is additive white and Gaussian.  However, as we will show, the estimator works well under less stringent assumptions.  Mackenthun~\cite{Mackenthun1994} described an algorithm to compute the least squares estimator that requires only $O(L \log L)$ arithmetic operations.  Sweldens~\cite{Sweldens2001} rediscovered Mackenthun's algorithm in 2001.
+where $\abs{x}$ denotes the magnitude of the complex number $x$.  The least squares estimator is also the maximum likelihood estimator under the assumption that the noise sequence $\{w_i, i \in \ints\}$ is additive white and Gaussian.  As we will show, the estimator works well under less stringent assumptions.  Mackenthun~\cite{Mackenthun1994} described an algorithm to compute the least squares estimator that requires only $O(L \log L)$ arithmetic operations.  Sweldens~\cite{Sweldens2001} rediscovered Mackenthun's algorithm in 2001.
 
 % An alternative approach is the so called \emph{non-data aided}, sometimes also called \emph{non-decision directed}, estimator based on the paper of Viterbi and Viterbi~\cite{ViterbiViterbi_phase_est_1983}.  The idea is the `strip' the modulation from the recieved signal by taking $y_i / \abs{y_i}$ to the power of $M$.  A function $F$, mapping $\reals$ to $\reals$, is chosen and the estimator of the carrier phase $\theta_0$ is taken to be $\tfrac{1}{M}\angle{A}$ where $\angle$ denotes the complex argument and $A$ is the average
 % \[
@@ -54,7 +56,7 @@ where $\abs{x}$ denotes the magnitude of the complex number $x$.  The least squa
 % \]
 % Various choices for $F$ are suggested in~\cite{ViterbiViterbi_phase_est_1983} and a statistical analysis is presented.
 
-In the literature it has been common to assume that the symbols $\{s_i, i \in D\}$ are of primary interest and the complex amplitude $a_0$ is a nuisance parameter.  The metric of performance is correspondingly \emph{symbol error rate}, or \emph{bit error rate}.  Whilst estimating the symbols (or more precisely the transmitted bits) is ultimately the goal, we take the opposite approach here.  Our aim is to estimate $a_0$, and we treat the unknown symbols as nuisance parameters.  This is motivated by the fact that in our motivating application (narrowband satellite communications) and in many modern communication systems the data symbols are \emph{coded}.  For this reason raw symbol error rate is not of specific interest at this stage.  Instead, we desire an accurate estimator $\hat{a}$ of $a_0$, so that the compensated recieved symbols $\hat{a}^{-1}y_i$ can be accurately modelled using an additive noise channel.  The additive noise channel is a common assumption for subsequent reciever operations, such as decoding.  Consequently, our metric of performance will not be symbol or bit error rate, it will be mean square error (MSE) between complex amplitude $a_0$ and its estimator $\hat{a}$, that is, our metric is $\expect\abs{a_0 - \hat{a}}^2$ where $\expect$ denotes the expected value. It will actually be informative to consider the carrier phase and amplitude estimators separately, that is, if $\hat{a} = \hat{\rho}e^{j\hat{\theta}}$ where $\hat{\rho}$ is a positive real number, then we consider $\expect\langle\theta_0 - \hat{\theta}\rangle^2$ and $\expect(\rho_0 - \hat{\rho})^2$.  The function $\fracpart{\cdot}$ denotes its argument taken `modulo $\tfrac{2\pi}{M}$' into the interval $[-\tfrac{\pi}{M}, \tfrac{\pi}{M})$.  It will become apparent why $\expect\langle\theta_0 - \hat{\theta}\rangle^2$ rather than $\expect(\theta_0 - \hat{\theta})^2$ is the appropriate measure of error for the phase parameter.
+In the literature it has been common to assume that the symbols $\{s_i, i \in D\}$ are of primary interest and the complex amplitude $a_0$ is a nuisance parameter.  The metric of performance is correspondingly \emph{symbol error rate}, or \emph{bit error rate}.  Whilst estimating the symbols (or more precisely the transmitted bits) is ultimately the goal, we take the opposite approach here.  Our aim is to estimate $a_0$, and we treat the unknown symbols as nuisance parameters.  This is motivated by the fact that in many modern communication systems the data symbols are \emph{coded}.  For this reason raw symbol error rate is not of specific interest at this stage.  Instead, we desire an accurate estimator $\hat{a}$ of $a_0$, so that the compensated recieved symbols $\hat{a}^{-1}y_i$ can be accurately modelled using an additive noise channel.  The additive noise channel is a common assumption for subsequent reciever operations, such as decoding.  Consequently, our metric of performance will not be symbol or bit error rate, it will be mean square error (MSE) between complex amplitude $a_0$ and its estimator $\hat{a}$, that is, our metric is $\expect\abs{a_0 - \hat{a}}^2$ where $\expect$ denotes the expected value. It will actually be informative to consider the carrier phase and amplitude estimators separately, that is, if $\hat{a} = \hat{\rho}e^{j\hat{\theta}}$ where $\hat{\rho}$ is a positive real number, then we consider $\expect\langle\theta_0 - \hat{\theta}\rangle^2$ and $\expect(\rho_0 - \hat{\rho})^2$.  The function $\fracpart{\cdot}$ denotes its argument taken `modulo $\tfrac{2\pi}{M}$' into the interval $[-\tfrac{\pi}{M}, \tfrac{\pi}{M})$.  It will become apparent why $\expect\langle\theta_0 - \hat{\theta}\rangle^2$ rather than $\expect(\theta_0 - \hat{\theta})^2$ is the appropriate measure of error for the phase parameter.
 
 %It is worth commenting on our use of $\prob$ rather than the more usual $\expect$ or $E$ for the expected value operator.  The notation comes from Pollard~\cite[Ch 1]{Pollard_users_guide_prob_2002}.  The notation is good because it removes unecessary distinction between `probability' and expectation.  Given a random variable $X$ with cumulative density function $F$, the probability of an event, say $X \in S$, where $S$ is some subset of the range of $X$, is 
 %\[
@@ -67,16 +69,17 @@ In the literature it has been common to assume that the symbols $\{s_i, i \in D\
 %where $\frac{\abs{X}}{\delta}\onebf\{ \abs{X} > \delta \}(x)$ is the function equal to $\abs{x}/\delta$ when the argument $x > \delta$ and zero otherwise.
 
 
+\section{The least squares estimator}\label{sec:least-squar-estim}
 
-
-% \section{The least squares estimator}\label{sec:least-squar-estim}
-
-% Define the sum of squares function
-% \begin{align}
-% SS(a, &\{d_i, i \in D\}) = \sum_{i \in P \cup D} \abs{ y_i - a s_i }^2 \nonumber \\
-% &= \sum_{i \in P \cup D} \abs{y_i}^2 - a s_i y_i^* - a^* s_i^* y_i + aa^*, \label{eq:SS}
-% \end{align}
-% where $*$ denotes the complex congugate.  
+As discussed, the least squares estimator is given by the minimiser of $SS(a, \{s_i, i \in D\})$ over all $a \in \complex$ and $s_1, \dots, s_L$ in the $M$-PSK constellation.  For fixed $a$ the least squares estimators of $s_1, \dots, s_L$, as functions $a = \rho e^{j \theta}$, are
+\[
+\hat{s}_i(a) = e^{j\hat{u}_i(\theta)} \qquad \text{where} \qquad \hat{u}_i(\theta) = \round{\angle( e^{-j\theta}y_i)},
+\]
+where $\angle(\cdot)$ denotes the complex argument (or phase), and $\round{\cdot}$ rounds its argument to the nearest multiple of $\frac{2\pi}{M}$.  Substituting $\hat{s}_i(a)$ into $SS(a, \{s_i, i \in D\})$, give the sum of squares, conditioned on minimisation with respect to the transmitted symbols,
+\[
+SS(a) = \sum_{i = 1}^L \abs{ y_i - a \hat{s}_i(a) }^2.
+\]
+The least squares estimator of the carrier phase $\hat{\theta}$ and amplitude $\hat{\rho}$ then satisfy $\hat{a} = \hat{\rho}e^{j\hat{\theta}}$ where $\hat{a} = \arg\min_{a \in \complex} SS(a)$.  Mackenthun~\cite{Mackenthun1994} described an algorithm that computes $\hat{a}$ using $O(L\log L)$ operations. 
 
 
 
@@ -86,12 +89,12 @@ Before describing the statistical properties of the least squares estimator, we 
 \[
 f_{Z,\Theta}(z,\theta) = \frac{1}{2\pi}f_Z(z).
 \]  
-Observe that for any real number $\phi$, the distribution of $X$ and $e^{j\phi}X$ are the same, that is, the distribution is invariant to phase rotation.  If $\expect\abs{X} = \expect Z$ is finite, then $X$ has zero mean because
-\begin{align*}
-\expect X &= \int_{0}^{2\pi} \int_{0}^\infty z e^{j\theta} f_{Z,\Theta}(z,\theta) dz d\theta \\
-&= \frac{1}{2\pi} \int_{0}^{2\pi} e^{j\theta} \int_{0}^\infty z f_Z(z) dz d\theta \\
-&= \frac{1}{2\pi}\expect Z \int_{0}^{2\pi} e^{j\theta} d\theta = 0.
-\end{align*}
+Observe that for any real number $\phi$, the distribution of $X$ is that same as that of $e^{j\phi}X$.  %If $\expect\abs{X} = \expect Z$ is finite, then $X$ has zero mean because
+% \begin{align*}
+% \expect X &= \int_{0}^{2\pi} \int_{0}^\infty z e^{j\theta} f_{Z,\Theta}(z,\theta) dz d\theta \\
+% &= \frac{1}{2\pi} \int_{0}^{2\pi} e^{j\theta} \int_{0}^\infty z f_Z(z) dz d\theta \\
+% &= \frac{1}{2\pi}\expect Z \int_{0}^{2\pi} e^{j\theta} d\theta = 0.
+% \end{align*}
 
 We will have particular use of complex random variables of the form $1 + X$ where $X$ is circularly symmetric.  Let $R \geq 0$ and $\Phi \in [0,2\pi)$ be real random variables satisfying, 
 \[
@@ -101,15 +104,15 @@ The joint distribution of $R$ and $\Phi$ can be shown to be
 \[
 f(r,\phi) = \frac{r f_Z(\sqrt{r^2 - 2r\cos\phi + 1})}{\sqrt{r^2 - 2r\cos\phi + 1}}.
 \]
-The mean of $R e^{j\Phi}$ is equal to one because the mean of $X$ is zero.  So,
-\[
-\expect \Re(R e^{j\Phi}) = \expect R \cos(\Phi) = 1,
-\]
-where $\Re(\cdot)$ denotes the real part, and
-\[
-\expect \Im(R e^{j\Phi}) = \expect R \sin(\Phi) = 0,
-\]
-where $\Im(\cdot)$ denotes the imaginary part.  %The next lemma will be useful for the analysis of the least squares estimator.
+% The mean of $R e^{j\Phi}$ is equal to one because the mean of $X$ is zero.  So,
+% \[
+% \expect \Re(R e^{j\Phi}) = \expect R \cos(\Phi) = 1,
+% \]
+% where $\Re(\cdot)$ denotes the real part, and
+% \[
+% \expect \Im(R e^{j\Phi}) = \expect R \sin(\Phi) = 0,
+% \]
+% where $\Im(\cdot)$ denotes the imaginary part.  %The next lemma will be useful for the analysis of the least squares estimator.
 
 % \begin{lemma}\label{lem:h1minedcircsym}
 % Let $X = Z e^{j\Theta}$ be a circularly symmetric complex random variable with pdf $\tfrac{1}{2\pi}f_Z(z)$.  Let $R > 0$ and $\Phi \in [0, 2\pi)$ be random variables satisfying $R e^{j\Phi} = 1 + X$.  Let
@@ -134,10 +137,10 @@ where $\Im(\cdot)$ denotes the imaginary part.  %The next lemma will be useful f
 
 \section{Statistical properties of the least squares estimator}\label{sec:stat-prop-least}
 
-The next two theorems decribe the asymptotic properties of the least squares estimator.  We ommit the proofs due to space constraints.  Full proofs will be provided in an upcomming paper.
+The next two theorems decribe the asymptotic properties of the least squares estimator.  We ommit the proofs due to space constraints.  Proofs will be provided in an upcomming paper.
 
 \begin{theorem}\label{thm:consistency} (Almost sure convergence)
-Let $\{w_i\}$ be a sequence of independent and identically distributed, circularly symmetric complex random variables with $\expect \abs{w_1}$ finite, and let $y_1,\dots, y_L$ be given by~\eqref{eq:sigmod}.   Let $\hat{a} = \hat{\rho}e^{j\hat{\theta}}$ be the least squares estimator of $a_0 = \rho_0e^{j\theta_0}$ where both $\hat{\rho}$ and $\rho_0$ are positive real numbers.  Let $R_i \geq 0$ and $\Phi_i \in [0,2\pi)$ be real random variables satisfying
+Let $\{w_i\}$ be a sequence of independent and identically distributed, circularly symmetric complex random variables with $\expect \abs{w_1}$ finite, and let $y_1,\dots, y_L$ be given by~\eqref{eq:sigmod}.   Let $\hat{a} = \hat{\rho}e^{j\hat{\theta}}$ be the least squares estimator of $a_0 = \rho_0e^{j\theta_0}$.  Let $R_i \geq 0$ and $\Phi_i \in [0,2\pi)$ be real random variables satisfying
 \begin{equation}\label{eq:RiandPhii}
 R_ie^{j\Phi_i} = 1 + \frac{1}{\rho_0} w_i e^{-j\theta_0} s_i^*,
 \end{equation}
@@ -222,28 +225,28 @@ The value of $A$ can be computed by numerical integration.
 \section{Simulations}\label{sec:simulations}
 
 
-\begin{figure}[tp]
+\begin{figure}[p]
 	\centering
 		\includegraphics[width=\linewidth]{code/data/plotncM2-2.mps}
 		\caption{Phase error for BPSK}
 		\label{fig:plotphase}
 \end{figure}
 
-\begin{figure}[tp]
+\begin{figure}[p]
 	\centering
 		\includegraphics[width=\linewidth]{code/data/plotncM4-2.mps}
 		\caption{Phase error for QPSK}
 		\label{fig:plotphase}
 \end{figure}
 
-\begin{figure}[tp]
+\begin{figure}[p]
 	\centering
 		\includegraphics[width=\linewidth]{code/data/plotncM2-1.mps}
 		\caption{Amplitude error for BPSK}
 		\label{fig:plotphase}
 \end{figure}
 
-\begin{figure}[tp]
+\begin{figure}[p]
 	\centering
 		\includegraphics[width=\linewidth]{code/data/plotncM4-1.mps}
 		\caption{Amplitude error for QPSK}

@@ -47,7 +47,7 @@ sh = 0.2cm;
 ups = 0.35cm;
 
 ls:=0;
-label.rt(btex Mackenthun etex, (1cm,sh + ls*ups));
+label.rt(btex Simulation etex, (1cm,sh + ls*ups));
 %draw (sx,sh + ls*ups)--(1cm,sh + ls*ups);
 draw dot shifted 1/2[(sx,sh + ls*ups),(1cm,sh + ls*ups)];
 

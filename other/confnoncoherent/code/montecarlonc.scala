@@ -31,7 +31,7 @@ for( L <- Ls; M <- Ms ) {
     //factory me
     def estfactory = List(
       () => new MackenthunNonCoherent(M,D)
-      () => new ViterbiViterbi( M, D, (d : Double) => 1.0 )
+      //() => new ViterbiViterbi( M, D, (d : Double) => 1.0 )
     )
 
     for( estf <- estfactory ) {
