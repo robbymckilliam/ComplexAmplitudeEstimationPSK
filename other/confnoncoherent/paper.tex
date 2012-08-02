@@ -207,7 +207,7 @@ and the corollary holds since $\expect \hat{m}_L^2 = B/L + o(1)$ and $\expect\ha
 
 We now discuss the assumptions made by these theorems.  The assumption that the $w_1, \dots w_L$ are circularly symmetric can be relaxed, but this comes at the expense of making the theorem statement more complicated.  Primarily this is because if $w_i$ are not circularly symmetric then the distribution of the random variables $R_i$ and $\Phi_i$ may depend on $a_0$ and also on the transmitted symbols $s_1, \dots, s_L$.  The result of this is that the asymptotic variance described in Theorem~\ref{thm:normality} is more complicated, and depends on $a_0$ and $s_1, \dots, s_L$.  The circularly symmetric assumption may not always hold in practice, but it does lead to simple, and useful expressions for the asymptotic variance.
 
-A key assumption in Theorem~\ref{thm:consistency} is that the function $\abs{G(x)}$ is uniquely maximised at $x = 0$.
+A key assumption in Theorem~\ref{thm:consistency} is that the function $\abs{G(x)}$ is uniquely maximised at $x = 0$.  The next Lemma describes a class of circularly symmetric distributions that satisfy this property.
 
 \begin{lemma}
 Let $X = Z e^{j\Theta}$ be a circularly symmetric complex random variable with pdf $\tfrac{1}{2\pi}f_Z(z)$ such that $z^{-1} f_Z(z)$ is nonincreasing with $z$.  Let $R > 0$ and $\Phi \in [0, 2\pi)$ be random variables satisfying $R e^{j\Phi} = 1 + X$.  Let,
@@ -220,6 +220,7 @@ Then $G(x)$ is uniquely maximised at $x=0$ over the interval $[-\tfrac{\pi}{M},\
 BLERG
 \end{IEEEproof}
 
+The theorems place conditions on the $\sfracpart{\hat{\theta} - \theta_0}$ rather than directly on $\hat{\theta} - \theta_0$.  This makes practical sense and BLERG.
 
 \section{The Gaussian noise case}
 
