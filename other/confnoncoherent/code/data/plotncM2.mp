@@ -62,7 +62,7 @@ draw (sx,sh + ls*ups)--(1cm,sh + ls*ups) dashed evenly;
 %draw circle shifted 1/2[(sx,sh + ls*ups),(1cm,sh + ls*ups)];
 
 ls:=2;
-label.rt(btex Theory etex, (1cm,sh + ls*ups));
+label.rt(btex Least squares etex, (1cm,sh + ls*ups));
 draw (sx,sh + ls*ups)--(1cm,sh + ls*ups);
 %draw circle shifted 1/2[(sx,sh + ls*ups),(1cm,sh + ls*ups)];
 
@@ -84,10 +84,10 @@ ymax = (3.3/M)*(3.3/M);
 beginfig(1);
 draw begingraph(plotwidth, plotheight);
  setcoords(linear,log);
- glabel.bot(btex SNR (dB) etex, OUT) shifted (1cm,1.3cm);
+ glabel.bot(btex SNR (dB) etex, OUT) shifted (2cm,1.3cm);
   glabel.lft(btex MSE amplitude etex, OUT) rotated 90 shifted (1.5cm,1cm);
   
-  %setrange(-11,whatever, whatever,whatever);
+  setrange(whatever,whatever, whatever,125);
   %setrange(4.9,"1e-13", 22,2);
 
 %  gdraw (0, "1e-13")--(0, 2) dashed evenly; %glabel.bot(btex AWGN channel capacity etex, 0) rotated 90;
@@ -123,7 +123,7 @@ endfig;
 beginfig(2);
 draw begingraph(plotwidth, plotheight);
  setcoords(linear,log);
- glabel.bot(btex SNR (dB) etex, OUT) shifted (1cm,1.3cm);
+ glabel.bot(btex SNR (dB) etex, OUT) shifted (2cm,1.3cm);
   glabel.lft(btex MSE phase etex, OUT) rotated 90 shifted (1.5cm,1cm);
 
   %setrange(-16,whatever, whatever,ymax);
@@ -137,11 +137,11 @@ draw begingraph(plotwidth, plotheight);
   gdraw "cltM2L16absP0p"; gdraw "MackenthunNonCoherentM2L16p" plot(dot); glabel.llft(btex $L = 16$ etex, 1000);
   %gdraw "MackenthunNonCoherentM2L10000p"; gdraw "MackenthunNonCoherentM2L10000p" plot(dot); glabel.llft(btex $L = 10000$ etex, 1000);
 
-%   gdraw "ViterbiViterbiM2L4096p" plot(circle); 
-%  gdraw "ViterbiViterbiM2L256p" plot(circle); 
-%  gdraw "ViterbiViterbiM2L16p" plot(circle);
-  %gdraw "ViterbiViterbiM2L10000p"; gdraw "ViterbiViterbiM2L10000p" plot(circle);
-  %gdraw "ViterbiViterbiM2L100000p"; gdraw "ViterbiViterbiM2L100000p" plot(circle);
+% gdraw "ViterbiViterbiM2L4096p" plot(circle); 
+% gdraw "ViterbiViterbiM2L256p" plot(circle); 
+% gdraw "ViterbiViterbiM2L16p" plot(circle);
+ %gdraw "ViterbiViterbiM2L10000p"; gdraw "ViterbiViterbiM2L10000p" plot(circle);
+ %gdraw "ViterbiViterbiM2L100000p"; gdraw "ViterbiViterbiM2L100000p" plot(circle);
   
   gdraw "MackenthunCoherentM2L4096absP4096p" dashed evenly; 
   gdraw "MackenthunCoherentM2L256absP256p" dashed evenly; 

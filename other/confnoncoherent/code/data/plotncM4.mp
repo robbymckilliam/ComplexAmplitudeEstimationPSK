@@ -85,10 +85,10 @@ ymax = (3.3/M)*(3.3/M);
 beginfig(1);
 draw begingraph(plotwidth, plotheight);
  setcoords(linear,log);
- glabel.bot(btex SNR (dB) etex, OUT) shifted (1cm,1.3cm);
+ glabel.bot(btex SNR (dB) etex, OUT) shifted (2cm,1.3cm);
   glabel.lft(btex MSE amplitude etex, OUT) rotated 90 shifted (1.5cm,1cm);
   
-  %setrange(-11,whatever, whatever,whatever);
+  setrange(whatever,whatever, whatever,125);
   %setrange(4.9,"1e-13", 22,2);
 
 %  gdraw (0, "1e-13")--(0, 2) dashed evenly; %glabel.bot(btex AWGN channel capacity etex, 0) rotated 90;
@@ -124,7 +124,7 @@ endfig;
 beginfig(2);
 draw begingraph(plotwidth, plotheight);
  setcoords(linear,log);
- glabel.bot(btex SNR (dB) etex, OUT) shifted (1cm,1.3cm);
+ glabel.bot(btex SNR (dB) etex, OUT) shifted (2cm,1.3cm);
   glabel.lft(btex MSE phase etex, OUT) rotated 90 shifted (1.5cm,1cm);
 
   setrange(whatever,whatever, whatever,ymax);
