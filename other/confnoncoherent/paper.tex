@@ -155,7 +155,7 @@ The next two theorems describe the asymptotic properties of the least squares es
 \begin{theorem}\label{thm:consistency} (Almost sure convergence)
 Let $\{w_i\}$ be a sequence of independent and identically distributed, circularly symmetric complex random variables with $\expect \abs{w_1}$ finite, and let $y_1,\dots, y_L$ be given by~\eqref{eq:sigmod}.   Let $\hat{a} = \hat{\rho}e^{j\hat{\theta}}$ be the least squares estimator of $a_0 = \rho_0e^{j\theta_0}$.  Let $R_i \geq 0$ and $\Phi_i \in [0,2\pi)$ be real random variables satisfying
 \begin{equation}\label{eq:RiandPhii}
-R_ie^{j\Phi_i} = 1 + \frac{w_i}{a_0 s_i^*},
+R_ie^{j\Phi_i} = 1 + \frac{w_i}{a_0 s_i},
 \end{equation}
 and define the continuous function
 \[
@@ -212,7 +212,7 @@ and the corollary holds since $\expect \hat{m}_L^2 = B/L + o(1)$ and $\expect\ha
 
 We now discuss the assumptions made by these theorems.  The assumption that $w_1, \dots w_L$ are circularly symmetric can be relaxed, but this comes at the expense of making the theorem statements more complicated.  If $w_i$ is not circularly symmetric then the distribution of $R_i$ and $\Phi_i$ may depend on $a_0$ and also on the transmitted symbols $s_1, \dots, s_L$.  In result, the asymptotic variance described in Theorem~\ref{thm:normality} depends on $a_0$ and $s_1, \dots, s_L$, rather than just $\rho_0$.  The circularly symmetric assumption may not always hold in practice, but we feel it provides a sensible trade off between simplicity and generality.
 
-A key assumption in Theorem~\ref{thm:consistency} is that the function $\abs{G(x)}$ is uniquely maximised at $x = 0$.  The next Lemma describes a class of circularly symmetric distributions that satisfy this property.  We omit the proof due to space constraints.
+A key assumption in Theorem~\ref{thm:consistency} is that $\abs{G(x)}$ is uniquely maximised at $x = 0$.  The next Lemma describes a class of circularly symmetric distributions that satisfy this property.  We omit the proof due to space constraints.
 
 \begin{lemma}
 Let $X = Z e^{j\Theta}$ be a circularly symmetric complex random variable with pdf $\tfrac{1}{2\pi}f_Z(z)$ such that $z^{-1} f_Z(z)$ is nonincreasing with $z$.  Let $R > 0$ and $\Phi \in [0, 2\pi)$ be random variables satisfying $R e^{j\Phi} = 1 + X$.  Let,
@@ -248,10 +248,11 @@ It can be shown that
 g(\phi) = \frac{\cos^2(\phi)}{4\sqrt{\pi}}\left( \frac{e^{-\kappa^2} }{\sqrt{\pi}} + \kappa \Psi(\phi)  e^{-\kappa^2\sin^2(\phi)}\cos(\phi) \right)
 \]
 where $\kappa = \rho_0/\sigma$ and
+\vspace{-0.1cm}
 \[
-\Psi(\phi) = 1 + \erf(\kappa \cos(\phi)) = 1 + \frac{2}{\sqrt{\pi}}\int_0^{\kappa \cos(\phi)} e^{-t^2} dt .
+\Psi(\phi) = 1 + \erf(\kappa \cos(\phi)) = 1 + \frac{2}{\sqrt{\pi}}\int_0^{\kappa \cos(\phi)} e^{-t^2} dt.
 \]
-Each of $A$, $B$ and $H$ can be efficiently computed by numerical integration using the above formula for $g(\phi)$.
+Each of $A$, $B$ and $H$ can be computed efficiently by numerical integration using the above formula for $g(\phi)$.
 
 
 \section{Simulations}\label{sec:simulations}

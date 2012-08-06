@@ -30,7 +30,7 @@ Coherent detection, noncoherent detection, phase shift keying, asymptotic statis
 
 \section{Introduction}
 
-In passband communication systems the transmitted signal typically undergoes time offset (delay), phase shift and attenuation.  These effects must be compensated for at the receiver. In this paper we assume that the time offset has been previously handled, and we focus on estimating the phase shift and attenuation.  We consider signalling constellations that have symbols evenly distributed on the complex unit circle such as binary phase shift keying (BPSK), quaternary phase shift keying (QPSK) and $M$-ary phase shift keying ($M$-PSK).  In this case, the transmitted symbols take the form,
+In passband communication systems the transmitted signal typically undergoes time offset (delay), phase shift and attenuation (amplitude change).  These effects must be compensated for at the receiver. In this paper we assume that the time offset has been previously handled, and we focus on estimating the phase shift and attenuation.  We consider signalling constellations that have symbols evenly distributed on the complex unit circle such as binary phase shift keying (BPSK), quaternary phase shift keying (QPSK) and $M$-ary phase shift keying ($M$-PSK).  In this case, the transmitted symbols take the form,
 \[
 s_i = e^{j u_i},
 \]
@@ -54,7 +54,7 @@ SS(a, &\{d_i, i \in D\}) = \sum_{i \in P \cup D} \abs{ y_i - a s_i }^2 \\
 \end{align*}
 where $\abs{x}$ denotes the magnitude of the complex number $x$.  The least squares estimator is also the maximum likelihood estimator under the assumption that the noise sequence $\{w_i, i \in \ints\}$ is additive white and Gaussian.  However, as we will show, the estimator works well under less stringent assumptions.  %It is the least squares estimator that we primarily study in this paper.
 
-The existing literature mostly considers what is called \emph{noncoherent detection} where no pilots symbols exist ($P = \emptyset$ where $\emptyset$ is the empty set).  In the nocoherent setting \emph{differential encoding} is often used, and for this reason the estimation problem has been called \emph{multiple symbol differential detection}.  A popular approach is the so called \emph{non-data aided}, sometimes also called \emph{non-decision directed}, estimator based on the paper of Viterbi and Viterbi~\cite{ViterbiViterbi_phase_est_1983}.  The idea is the `strip' the modulation from the recieved signal by taking $y_i / \abs{y_i}$ to the power of $M$.  A function $F$, mapping $\reals$ to $\reals$, is chosen and the estimator of the carrier phase $\theta_0$ is taken to be $\tfrac{1}{M}\angle{A}$ where $\angle$ denotes the complex argument and $A$ is the average
+The existing literature mostly considers what is called \emph{noncoherent detection} where no pilots symbols exist ($P = \emptyset$ where $\emptyset$ is the empty set).  In the nocoherent setting \emph{differential encoding} is often used, and for this reason the estimation problem has been called \emph{multiple symbol differential detection}.  A popular approach is the so called \emph{non-data aided}, sometimes also called \emph{non-decision directed}, estimator based on the paper of Viterbi and Viterbi~\cite{ViterbiViterbi_phase_est_1983}.  The idea is the `strip' the modulation from the recieved signal by taking $y_i / \abs{y_i}$ to the power of $M$.  A function $F$, mapping $\reals$ to $\reals$, is chosen and the estimator of the carrier phase $\theta_0$ is taken to be $\tfrac{1}{M}\angle{A}$ where $\angle$ denotes the complex argument and
 \[
 A = \frac{1}{L}\sum_{i \in P \cup D} F(\abs{y_i}) \big(\tfrac{y_i}{\abs{y_i}}\big)^M.
 \]
@@ -63,6 +63,8 @@ Various choices for $F$ are suggested in~\cite{ViterbiViterbi_phase_est_1983} an
 An important paper is by Mackenthun~\cite{Mackenthun1994} who described an algorithm to compute the least squares estimator requiring only $O(L \log L)$ arithmetic operations.  Sweldens~\cite{Sweldens2001} rediscovered Mackenthun's algorithm in 2001.  Both Mackenthun and Swelden's considered the noncoherent setting, but we show in Section~\ref{sec:least-squar-estim}~that only a minor modification of Mackenthun's algorithm is required to include pilot symbols. Our model includes the noncoherent case by setting the number of pilot symbols to zero, that is, putting $P = \emptyset$.  
 
 In the literature it has been common to assume that the data symbols $\{d_i, i \in D\}$ are of primary interest and the complex amplitude $a_0$ is a nuisance parameter.  The metric of performance is correspondingly \emph{symbol error rate}, or \emph{bit error rate}.  Whilst estimating the symbols (or more precisely the transmitted bits) is ultimately the goal, we take the opposite approach here.  Our aim is to estimate $a_0$, and we treat the unknown data symbols as nuisance parameters.  This is motivated by the fact that in many modern communication systems the data symbols are \emph{coded}.  For this reason raw symbol error rate is not of specific interest at this stage.  Instead, we desire an accurate estimator $\hat{a}$ of $a_0$, so that the compensated recieved symbols $\hat{a}^{-1}y_i$ can be accurately modelled using an additive noise channel.  The additive noise channel is a common assumption for subsequent reciever operations, such as decoding.  Consequently, our metric of performance will not be symbol or bit error rate, it will be mean square error (MSE) between complex amplitude $a_0$ and its estimator $\hat{a}$, that is, our metric is $\expect\abs{a_0 - \hat{a}}^2$ where $\expect$ denotes the expected value. It will actually be informative to consider the carrier phase and amplitude estimators separately, that is, if $\hat{a} = \hat{\rho}e^{j\hat{\theta}}$ where $\hat{\rho}$ is a positive real number, then we consider $\expect\langle\theta_0 - \hat{\theta}\rangle_\pi^2$ and $\expect(\rho_0 - \hat{\rho})^2$.  The function $\fracpart{\cdot}_\pi$ denotes its argument taken `modulo $2\pi$' into the interval $[-\pi, \pi)$.  It will become apparent why $\expect\langle\theta_0 - \hat{\theta}\rangle_\pi^2$ rather than $\expect(\theta_0 - \hat{\theta})^2$ is the appropriate measure of error for the phase parameter.
+
+The paper is organised as follows BLERG.
 
 %It is worth commenting on our use of $\prob$ rather than the more usual $\expect$ or $E$ for the expected value operator.  The notation comes from Pollard~\cite[Ch 1]{Pollard_users_guide_prob_2002}.  The notation is good because it removes unecessary distinction between `probability' and expectation.  Given a random variable $X$ with cumulative density function $F$, the probability of an event, say $X \in S$, where $S$ is some subset of the range of $X$, is 
 %\[
@@ -232,7 +234,7 @@ $Q = \frac{1}{L}\abs{Y}^2$\;
 
 \section{Circularly symmetric complex random variables}\label{sec:circ-symm-compl}
 
-Before describing the statistical properties of the least squares estimator, we first require some properties of complex valued random variables.  A complex random variable $X$ is said to be \emph{circularly symmetric} if the distribution of its phase $\angle{X}$ is uniform on $[0,2\pi)$ and is independent of the distribution of its magnitude $\abs{X}$.  That is, if $Z \geq 0$ and $\Theta \in [0,2\pi)$ are real random variables such that $Ze^{j\Theta} = X$, then $\Theta$ is uniformly distributed on $[0,2\pi)$ and is indepedent of $Z$.  If the probability density function of $Z$ is $f_Z(z)$, then the joint probability density function (pdf) of $\Theta$ and $Z$ is 
+Before describing the statistical properties of the least squares estimator, we first require some properties of complex valued random variables.  A complex random variable $X$ is said to be \emph{circularly symmetric} if the distribution of its phase $\angle{X}$ is uniform on $[0,2\pi)$ and is independent of the distribution of its magnitude $\abs{X}$.  That is, if $Z \geq 0$ and $\Theta \in [0,2\pi)$ are real random variables such that $Ze^{j\Theta} = X$, then $\Theta$ is uniformly distributed on $[0,2\pi)$ and is indepedent of $Z$.  If the probability density function (pdf) of $Z$ is $f_Z(z)$, then the joint pdf of $\Theta$ and $Z$ is 
 \[
 f_{Z,\Theta}(z,\theta) = \frac{1}{2\pi}f_Z(z).
 \]  
@@ -259,25 +261,25 @@ where $\Re(\cdot)$ denotes the real part, and
 \[
 \expect \Im(R e^{j\Phi}) = \expect R \sin(\Phi) = 0,
 \]
-where $\Im(\cdot)$ denotes the imaginary part.  The next lemma will be useful for the analysis of the least squares estimator.
+where $\Im(\cdot)$ denotes the imaginary part.  %The next lemma will be useful for the analysis of the least squares estimator.
 
-\begin{lemma}\label{lem:h1minedcircsym}
-Let $X = Z e^{j\Theta}$ be a circularly symmetric complex random variable with pdf $\tfrac{1}{2\pi}f_Z(z)$.  Let $R > 0$ and $\Phi \in [0, 2\pi)$ be random variables satisfying $R e^{j\Phi} = 1 + X$.  Let
-\[
-h_1(x) = \expect R \cos(x + \Phi).
-\]
-Then $h_1(x)$ is uniquely maximised at $0$ over the interval $[-\pi,\pi]$.
-\end{lemma}
-% Before we begin the proof note that the requirement for $z^{-1}f_{Z}(z)$ to be non increasing implies that the probability density function of $Z e^{j \Theta}$ decreases as we move away from the origin. That is, the pdf of $Z e^{j \Theta}$ in rectangular coordinates is given by $z^{-1}f_{Z}(z)$, where $z = \sqrt{x^2 + y^2}$ and $x$ and $y$ are the real and imaginary parts of $Z e^{j \Theta}$, and this pdf is non increasing with $z$.  For example, the zero mean complex Gaussian distribution with independent real and imaginary parts satisfies this requirement.
-
-% By the phrase ``$h_1(x)$ is uniquely maximised at $0$ over the interval $[-\pi,\pi]$'' it is meant that for any $\delta > 0$ there exists an $\epsilon > 0$ such that for those $x \in [-\pi, \pi]$, if 
+% \begin{lemma}\label{lem:h1minedcircsym}
+% Let $X = Z e^{j\Theta}$ be a circularly symmetric complex random variable with pdf $\tfrac{1}{2\pi}f_Z(z)$.  Let $R > 0$ and $\Phi \in [0, 2\pi)$ be random variables satisfying $R e^{j\Phi} = 1 + X$.  Let
 % \[
-% \abs{x} > \delta \qquad \text{then} \qquad  h_1(0) - h_2(x) > \epsilon.
+% h_1(x) = \expect R \cos(x + \Phi).
 % \]
-% We will have further use of this definition in Section~\ref{sec:stat-prop-least}.  We are now ready to prove Lemma~\ref{lem:h1minedcircsym}.
-\begin{IEEEproof}
-BLERG
-\end{IEEEproof}
+% Then $h_1(x)$ is uniquely maximised at $0$ over the interval $[-\pi,\pi]$.
+% \end{lemma}
+% % Before we begin the proof note that the requirement for $z^{-1}f_{Z}(z)$ to be non increasing implies that the probability density function of $Z e^{j \Theta}$ decreases as we move away from the origin. That is, the pdf of $Z e^{j \Theta}$ in rectangular coordinates is given by $z^{-1}f_{Z}(z)$, where $z = \sqrt{x^2 + y^2}$ and $x$ and $y$ are the real and imaginary parts of $Z e^{j \Theta}$, and this pdf is non increasing with $z$.  For example, the zero mean complex Gaussian distribution with independent real and imaginary parts satisfies this requirement.
+
+% % By the phrase ``$h_1(x)$ is uniquely maximised at $0$ over the interval $[-\pi,\pi]$'' it is meant that for any $\delta > 0$ there exists an $\epsilon > 0$ such that for those $x \in [-\pi, \pi]$, if 
+% % \[
+% % \abs{x} > \delta \qquad \text{then} \qquad  h_1(0) - h_2(x) > \epsilon.
+% % \]
+% % We will have further use of this definition in Section~\ref{sec:stat-prop-least}.  We are now ready to prove Lemma~\ref{lem:h1minedcircsym}.
+% \begin{IEEEproof}
+% BLERG
+% \end{IEEEproof}
 
 
 \section{Statistical properties of the least squares estimator}\label{sec:stat-prop-least}
@@ -341,16 +343,34 @@ B_1 = \expect R_1^2 \cos^2(\Phi_1) - 1, \;\;\; B_2 = \expect R_1^2 \cos^2\fracpa
 \]
 \end{theorem}
 
+\begin{corollary}\label{cor:ampmse}
+The mean square error of the amplitude estimator $\hat{\rho}$ is 
+\[
+\expect (\rho_0 - \hat{\rho})^2 = \frac{B}{L} + \rho_0^2(1 - G(0))^2 + o(1)
+\] 
+where $o(1)$ goes to zero as $L \rightarrow \infty$.
+\end{corollary}
+\begin{IEEEproof} Write
+\begin{align*}
+\expect (\rho_0 - \hat{\rho})^2 &= \expect \big( \rho_0(1 - G(0)) + G(0)\rho_0 - \hat{\rho} \big)^2 \\
+&= \expect \big( \rho_0(1 - G(0)) - \hat{m}_L \big)^2 \\
+&= \rho_0^2(1 - G(0))^2 + \expect \hat{m}_L^2 - 2\rho_0(1 - G(0))\expect\hat{m}_L,
+\end{align*} 
+and the corollary holds since $\expect \hat{m}_L^2 = B/L + o(1)$ and $\expect\hat{m}_L = o(1)$ from Theorem~\ref{thm:normality}.
+\end{IEEEproof}
+
 The proof of Theorem~\ref{thm:consistency} is in Section~\ref{sec:proof-almost-sure} and the proof of Theorem~\ref{thm:normality} is in Section~\ref{sec:proof-asympt-norm}.  Before giving the proofs we discuss the assumptions made by these theorems.  The assumption that $w_1, \dots w_L$ are circularly symmetric can be relaxed, but this comes at the expense of making the theorem statements more complicated.  If $w_i$ is not circularly symmetric then the distribution of $R_i$ and $\Phi_i$ may depend on $a_0$ and also on the transmitted symbols $s_1, \dots, s_L$.  In result, the asymptotic variance described in Theorem~\ref{thm:normality} depends on $a_0$ and $s_1, \dots, s_L$, rather than just $\rho_0$.  The circularly symmetric assumption may not always hold in practice, but we feel it provides a sensible trade off between simplicity and generality.
 
-A key assumption in Theorem~\ref{thm:consistency} is that the function $\abs{G(x)}$ is uniquely maximised at $x = 0$.  The next Lemma describes a class of circularly symmetric distributions that satisfy this property.
+The theorems place conditions on $\sfracpart{\hat{\theta} - \theta_0}_\pi$ rather than directly on $\hat{\theta} - \theta_0$.  This makes sense because the phases $\theta_0$ and $\theta_0 + 2\pi k$ are equivalent for any integer $k$. So, for example, we expect the phases $0.49\pi$ and $-0.49\pi$ to be \emph{close} together, the difference between them being $\vert\sfracpart{-0.49\pi - 0.49\pi}_\pi\vert = 0.02\pi$, and \emph{not} $\vert -0.49\pi - 0.49\pi\vert = 0.98\pi$.
+
+A key assumption in Theorem~\ref{thm:consistency} is that $\abs{G(x)}$ is uniquely maximised at $x = 0$ for $x \in [-\pi, \pi)$.  This assumption requires that $\abs{G(x)} \leq \abs{G(0)}$ for all $x \in [-\pi, \pi)$ and that if $\{x_i\}$ is a sequence such that $\abs{G(x_i)} \rightarrow G(0)$ as $i \rightarrow \infty$ then $x_i \rightarrow 0$ as $i \rightarrow \infty$.  Although we will not prove it here, this assumption is not only sufficient, but nescessary, for if $\abs{G(x)}$ is uniquely maximised at some point $x \neq 0$ then $\sfracpart{\theta_0 - \hat{\theta}}_\pi \rightarrow x$ almost surely as $L\rightarrow\infty$, while if $\abs{G(x)}$ is not uniquely maximised then $\sfracpart{\theta_0 - \hat{\theta}}_\pi$ will not converge.  The next Lemma describes a class of circularly symmetric distributions for which $\abs{G(x)}$ is uniquely maximised at $x = 0$.
 
 \begin{lemma}
 Let $X = Z e^{j\Theta}$ be a circularly symmetric complex random variable with pdf $\tfrac{1}{2\pi}f_Z(z)$ such that $z^{-1} f_Z(z)$ is nonincreasing with $z$.  Let $R > 0$ and $\Phi \in [0, 2\pi)$ be random variables satisfying $R e^{j\Phi} = 1 + X$.  Let,
 \[
-h_2(x) = \expect R \cos\sfracpart{x + \Phi}, \;\;\; k_2(x) =  \expect R \sin\sfracpart{ x + \Phi}.
+h_1(x) = \expect R \cos(x + \Phi) \;\;\; \text{and} \;\;\; h_2(x) =  \expect R \cos\sfracpart{ x + \Phi}.
 \]
-Then $h_2(x)$ is uniquely maximised at $x=0$ over the interval $[-\tfrac{\pi}{M},\tfrac{\pi}{M})$ and $k_2(0) = 0$.
+Then $\abs{h_1(x)}$ is uniquely maximised at $x=0$ over the interval $[-\pi,\pi]$ and $\abs{h_2(x)}$ is uniquely maximised at $x = 0$ over the interval $[-\tfrac{\pi}{M},\tfrac{\pi}{M}]$.
 \end{lemma}
 \begin{IEEEproof}
 BLERG
@@ -358,12 +378,11 @@ BLERG
 
 The requirement that $z^{-1}f_{Z}(z)$ be non increasing implies that the probability density function of $X$ decreases as we move away from the origin. That is, the pdf of $X$ in rectangular coordinates is $p(x,y) = z^{-1}f_{Z}(z)$, where $z = \sqrt{x^2 + y^2}$, and this is required to be non increasing with $z$.  For example, the zero mean complex Gaussian distribution with independent real and imaginary parts satisfies this requirement.
 
-The theorems place conditions on $\sfracpart{\hat{\theta} - \theta_0}_\pi$ rather than directly on $\hat{\theta} - \theta_0$.  This makes sense because the phases $\theta_0$ and $\theta_0 + 2\pi k$ are equivalent for any integer $k$. So, for example, we expect the phases $0.49\pi$ and $-0.49\pi$ to be \emph{close} together, the difference between them being $\vert\sfracpart{-0.49\pi - 0.49\pi}_\pi\vert = 0.02\pi$, and \emph{not} $\vert -0.49\pi - 0.49\pi\vert = 0.98\pi$.
 
 
 \section{Proof of almost sure convergence (Theorem~\ref{thm:consistency}) } \label{sec:proof-almost-sure}
 
-Substituting $\{ \hat{d}_i(\theta), i \in D \}$ from~\eqref{eq:hatdfinxtheta} into~\eqref{eq:SSallparams} we obtain $SS$ conditioned on minimisation with respect the the data symbols,
+Substituting $\{ \hat{d}_i(\theta), i \in D \}$ from~\eqref{eq:hatdfinxtheta} into~\eqref{eq:SSallparams} we obtain $SS$ conditioned on minimisation with respect to the data symbols,
  \begin{align*}
 SS(\rho, \theta) &=\sum_{i \in P} \abs{ y_i - \rho e^{j\theta} p_i }^2 + \sum_{i \in D} \abs{ y_i - \rho e^{j\theta} \hat{d_i}(\theta) }^2 \\
 &= A - \rho Z(\theta) - \rho Z^*(\theta) + L \rho^2,
@@ -372,7 +391,7 @@ where
 \[
 Z(\theta)  = \sum_{i \in P} y_i e^{-j\theta} p_i^* + \sum_{i \in D} y_i e^{-j\theta} \hat{d}_i^*(\theta),
 \]
-and $Z^*(\theta)$ is the conjugate of $Z(\theta)$.  Differentiating with respect to $\rho$ and setting the resulting expression to zero gives the least squares estimator of the amplitude $\rho_0$ as a function of $\theta$, 
+and $Z^*(\theta)$ is the conjugate of $Z(\theta)$.  Differentiating with respect to $\rho$ and setting the resulting expression to zero gives the least squares estimator of $\rho_0$ as a function of $\theta$, 
 \begin{equation}\label{eq:hatrhoZ}
 \hat{\rho} = \frac{Z(\theta) + Z(\theta)^*}{2L} = \frac{1}{L}\Re(Z(\theta)),
 \end{equation}
