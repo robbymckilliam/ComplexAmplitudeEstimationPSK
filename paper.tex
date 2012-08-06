@@ -446,7 +446,7 @@ and since $\frac{\abs{P}}{L} \rightarrow p$ and $\frac{\abs{D}}{L} \rightarrow d
 \[
 \lim_{L \rightarrow\infty} \expect G_L(\lambda) = G(\lambda) = p h_1(\lambda)   +  d h_2(\lambda).
 \]
-As is customary, let $(\Omega, \mathcal F, \prob)$ be the probability space over which the random variables $\{w_i\}$ are defined.  Let $A$ be the subset of the sample space $\Omega$ upon which $G(\hat{\lambda}_L) \rightarrow G(0)$ as $L\rightarrow\infty$.  Lemma~\ref{lem:convtoexpGlamL} shows that $\prob\{A\} = 1$.  Let $A'$ be the subset of the sample space upon which $\hat{\lambda}_L \rightarrow 0$ as $L\rightarrow \infty$.  Because $G$ is uniquely maximised at zero, it follows that $G(\hat{\lambda}_L) \rightarrow G(0)$ only if $\hat{\lambda}_L \rightarrow 0$ as $L \rightarrow\infty$. So $A \subseteq A'$ and therefore $\prob\{A'\} \geq \prob\{A\} = 1$.  Part one of Theorem~\ref{thm:consistency} follows.  
+As is customary, let $(\Omega, \mathcal F, \prob)$ be the probability space over which the random variables $\{w_i\}$ are defined.  Let $A$ be the subset of the sample space $\Omega$ upon which $\sabs{G(\hat{\lambda}_L)} \rightarrow \sabs{G(0)}$ as $L\rightarrow\infty$.  Lemma~\ref{lem:convtoexpGlamL} shows that $\prob\{A\} = 1$.  Let $A'$ be the subset of the sample space upon which $\hat{\lambda}_L \rightarrow 0$ as $L\rightarrow \infty$.  Because $\sabs{G(x)}$ is uniquely maximised at $x=0$, it follows that $\sabs{G(\hat{\lambda}_L)} \rightarrow \sabs{G(0)}$ only if $\hat{\lambda}_L \rightarrow 0$ as $L \rightarrow\infty$. So $A \subseteq A'$ and therefore $\prob\{A'\} \geq \prob\{A\} = 1$.  Part one of Theorem~\ref{thm:consistency} follows.  
 
 It remains to prove part two of the theorem regarding the convergence of the amplitude estimator $\hat{\rho}$.  From~\eqref{eq:hatrhoZ},
 \begin{equation}\label{eq:rhoGLZ}
@@ -455,24 +455,25 @@ It remains to prove part two of the theorem regarding the convergence of the amp
 Lemma~\ref{lem:GLtoG0} shows that $G_L(\hat{\lambda}_L)$ converges almost surely to $G(0)$ as $L\rightarrow\infty$, and $\hat{\rho}$ consequently converges almost surely to $\rho_0 G(0)$ as required.
 
 \begin{lemma}\label{lem:convtoexpGlamL} 
-$G(\hat{\lambda}_L) \rightarrow G(0)$ almost surely as $L \rightarrow \infty$.
+$\sabs{G(\hat{\lambda}_L)} \rightarrow \sabs{G(0)}$ almost surely as $L \rightarrow \infty$.
 \end{lemma}
 \begin{IEEEproof}
-BLERG
-% Lemma~\ref{lem:Zconunif} shows BLERG that 
-% \[
-% 0 \leq G(\hat{\lambda}_L) - G(0),
-% \]
-% and since $\hat{\lambda}_L$ is the maximiser of $G_L$ then
-% \[ 
-% 0 \leq G_L(0) - G_L(\hat{\lambda}_L).
-% \]
-% Adding both inequalities and taking appropriate absolute values gives
-% \begin{align*}
-% 0 &\leq G(\hat{\lambda}_L) - G(0) \\ 
-% & \leq G(\hat{\lambda}_L) - G(0) + G_L(0) - G_L(\hat{\lambda}_L) \\
-% & \leq |G(\hat{\lambda}_L) - G_L(\hat{\lambda}_L)| + |G_L(0) - G(0)|,
-% \end{align*}
+Since $\sabs{G(x)}$ is uniquely maximised at $x=0$,
+\[
+0 \leq \sabs{G(\hat{\lambda}_L)} - \sabs{G(0)},
+\]
+and since $\hat{\lambda}_L$ is the maximiser of $\abs{G_L(x)}$,
+\[ 
+0 \leq \sabs{G_L(0)} - \sabs{G_L(\hat{\lambda}_L)}.
+\]
+Thus,
+\begin{align*}
+0 &\leq \sabs{G(\hat{\lambda}_L)} - \sabs{G(0)} \\ 
+& \leq \sabs{G(\hat{\lambda}_L)} - \sabs{G(0)} + \sabs{G_L(0)} - \sabs{G_L(\hat{\lambda}_L)} \\
+& \leq |G(\hat{\lambda}_L) - G_L(\hat{\lambda}_L)| + |G_L(0) - G(0)| \\
+&\leq 2\sup_{x \in [-\pi, \pi)} \sabs{G(x) - G_L(x)},
+\end{align*}
+and the last line converges amost surely to zero by Lemma~\ref{lem:uniflawGGL}.
 \end{IEEEproof}
 
 % \begin{lemma}\label{lem:Zconunif}
@@ -487,8 +488,48 @@ BLERG
 $G_L(\hat{\lambda}_L) \rightarrow G(0)$ almost surely as $L \rightarrow \infty$.
 \end{lemma}
 \begin{IEEEproof}
+By the triangle inequality,
+\[
+\sabs{G_L(\hat{\lambda}_L) - G(0)} \leq \sabs{G_L(\hat{\lambda}_L) - G(\hat{\lambda}_L)} + \sabs{G(\hat{\lambda}_L) - G(0)}.
+\]
+Now $\sabs{G_L(\hat{\lambda}_L) - G(\hat{\lambda}_L)} \rightarrow 0$ as $L \rightarrow \infty$ as a result of Lemma~\ref{lem:uniflawGGL}, and $\sabs{G(\hat{\lambda}_L) - G(0)} \rightarrow 0$ almost surely as $L \rightarrow \infty$ because $G$ is continuous and $\hat{\lambda}_L \rightarrow 0$ almost surely as $L \rightarrow \infty$.
+\end{IEEEproof}
+ 
+
+\begin{lemma}\label{lem:uniflawGGL}
+The function $G_L$ converges almost surely and uniformly on $[-\pi, \pi)$ to the function $G$, that is,
+\[
+\sup_{x \in [-\pi, \pi)}\sabs{G_L(x) - G(x)} \rightarrow 0
+\] 
+almost surely as $L \rightarrow \infty$.
+\end{lemma}
+\begin{IEEEproof}
+Put $T(x) = \expect G_L(x)$ and observe that
+\begin{align*}
+T(\lambda) - G(\lambda) &= \big(\tfrac{\abs{P}}{L} - p\big)h_1(\lambda) + \big(\tfrac{\abs{D}}{L} - d\big)h_2(\lambda) \\
+&= o(1) h_1(\lambda) + o(1) h_2(\lambda)
+\end{align*}
+where $o(1)$ denotes a number converging to zero as $L \rightarrow \infty$.  Since $\sabs{h_1(\lambda)} \leq 1$ and $\sabs{h_2(\lambda)} \leq 1$ for all $\lambda \in [-\pi, \pi)$, then $\sup_{\lambda \in [-\pi, \pi)}\sabs{T(\lambda) - G(\lambda)} \rightarrow 0$ as $L\rightarrow \infty$.  Now
+\begin{align*}
+\sup_{\lambda \in [-\pi, \pi)}&\sabs{G_L(\lambda) - G(\lambda)} \\
+&\leq \sup_{\lambda \in [-\pi, \pi)}\sabs{G_L(\lambda) - T(\lambda) + T(\lambda) - G(\lambda)} \\
+&\leq \sup_{\lambda \in [-\pi, \pi)}\sabs{G_L(\lambda) - T(\lambda)} +  \sup_{\lambda \in [-\pi, \pi)}\sabs{T(\lambda) - G(\lambda)}
+\end{align*}
+and Lemma~\ref{lem:uniflawTGL} shows that $\sup_{\lambda \in [-\pi, \pi)}\sabs{G_L(\lambda) - T(\lambda)} \rightarrow 0$ as $L\rightarrow \infty$.
+\end{IEEEproof}
+
+
+\begin{lemma}\label{lem:uniflawTGL} 
+Put $T(x) = \expect G_L(x)$, then
+\[
+\sup_{x \in [-\pi, \pi)}\sabs{G_L(x) - T(x)} \rightarrow 0
+\] 
+almost surely as $L \rightarrow \infty$.
+\end{lemma}
+\begin{IEEEproof}
 BLERG
 \end{IEEEproof}
+
  
 
 \section{Proof of asymptotic normality (Theorem~\ref{thm:normality}) } \label{sec:proof-asympt-norm}
