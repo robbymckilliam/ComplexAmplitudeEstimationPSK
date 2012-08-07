@@ -76,7 +76,7 @@ The paper is organised as follows BLERG.
 %\]
 %where $\frac{\abs{X}}{\delta}\onebf\{ \abs{X} > \delta \}(x)$ is the function equal to $\abs{x}/\delta$ when the argument $x > \delta$ and zero otherwise.
 
-\section{Mackentun's algorithm}\label{sec:least-squar-estim}
+\section{Mackentun's algorithm with pilots}\label{sec:least-squar-estim}
 
 In this section we derive Mackentun's algorithm to compute the least squares estimator of the carrier phase and amplitude~\cite{Mackenthun1994}.  Mackenthun specifically considered the noncoherent setting, but only minor modifications are required to include the pilot symbols.  For the purpose of anaylsing computational complexity, we will assume that the number of data symbols $\abs{D}$ is proportional to the total number of symbols $L$, so that, for example, $O(L) = O(\abs{D})$.  In this case Mackentun's algorithm requires $O(L \log L)$ arithmetic operations.  This complexity arises from the need to sort a list of $\abs{D}$ elements.  %In Section~\ref{sec:line-time-algor} we will show that a full sort is not neccesary, and that the least squares estimator can be implemented in $O(L)$ operations.
 
@@ -295,7 +295,7 @@ where $\operatorname{round}(\cdot)$ takes its argument to the nearest integer.  
 The next two theorems decribe the asymptotic properties of the least squares estimator.
 
 \begin{theorem}\label{thm:consistency} (Almost sure convergence)
-Let $\{w_i\}$ be a sequence of independent and identically distributed, circularly symmetric complex random variables with $\expect \abs{w_1}$ finite, and let $\{y_i, i \in P \cup D\}$ be given by~\eqref{eq:sigmod}.   Let $\hat{a} = \hat{\rho}e^{j\hat{\theta}}$ be the least squares estimator of $a_0 = \rho_0e^{j\theta_0}$. %where both $\hat{\rho}$ and $\rho_0$ are positive real numbers.  
+Let $\{w_i\}$ be a sequence of independent and identically distributed, circularly symmetric complex random variables with $\expect \abs{w_1}^2$ finite, and let $\{y_i, i \in P \cup D\}$ be given by~\eqref{eq:sigmod}.   Let $\hat{a} = \hat{\rho}e^{j\hat{\theta}}$ be the least squares estimator of $a_0 = \rho_0e^{j\theta_0}$. %where both $\hat{\rho}$ and $\rho_0$ are positive real numbers.  
 Put $L = \abs{P \cup D}$ and let $p$ and $d$ be the limits
 \[
 \frac{\abs{P}}{L} \rightarrow p \qquad \text{and} \qquad \frac{\abs{D}}{L} \rightarrow d \qquad \text{as $L \rightarrow \infty$.}
@@ -359,7 +359,10 @@ where $o(1)$ goes to zero as $L \rightarrow \infty$.
 and the corollary holds since $\expect \hat{m}_L^2 = B/L + o(1)$ and $\expect\hat{m}_L = o(1)$ from Theorem~\ref{thm:normality}.
 \end{IEEEproof}
 
-The proof of Theorem~\ref{thm:consistency} is in Section~\ref{sec:proof-almost-sure} and the proof of Theorem~\ref{thm:normality} is in Section~\ref{sec:proof-asympt-norm}.  Before giving the proofs we discuss the assumptions made by these theorems.  The assumption that $w_1, \dots w_L$ are circularly symmetric can be relaxed, but this comes at the expense of making the theorem statements more complicated.  If $w_i$ is not circularly symmetric then the distribution of $R_i$ and $\Phi_i$ may depend on $a_0$ and also on the transmitted symbols $s_1, \dots, s_L$.  In result, the asymptotic variance described in Theorem~\ref{thm:normality} depends on $a_0$ and $s_1, \dots, s_L$, rather than just $\rho_0$.  The circularly symmetric assumption may not always hold in practice, but we feel it provides a sensible trade off between simplicity and generality.
+The proof of Theorem~\ref{thm:consistency} is in Section~\ref{sec:proof-almost-sure} and the proof of Theorem~\ref{thm:normality} is in Section~\ref{sec:proof-asympt-norm}.  Before giving the proofs we discuss the assumptions made by these theorems.  The assumption that $w_1, \dots w_L$ are circularly symmetric can be relaxed, but this comes at the expense of making the theorem statements more complicated.  If $w_i$ is not circularly symmetric then the distribution of $R_i$ and $\Phi_i$ may depend on $a_0$ and also on the transmitted symbols $s_1, \dots, s_L$.  In result, the asymptotic variance described in Theorem~\ref{thm:normality} depends on $a_0$ and $s_1, \dots, s_L$, rather than just $\rho_0$.  The circularly symmetric assumption may not always hold in practice, but we feel it provides a sensible trade off between simplicity and generality.  
+
+The assumption that $\expect \sabs{w_i}^2$ is finite implies that $R_i$ has finite variance since $\expect R_i^2 = 1 + \expect \abs{w_i}^2$.  This is required in Theorem~\ref{thm:normality} so that the constants $A_1$, $A_2$, $B_1$ and $B_2$ exist.  We will also use that $R_i$ has finite variance to simplify the proof of Theorem~\ref{thm:consistency} by use of Kolmogorov's strong law of large numbers~\cite[Theorem 2.3.10]{SenSinger_large_sample_stats_1993}
+
 
 The theorems place conditions on $\sfracpart{\hat{\theta} - \theta_0}_\pi$ rather than directly on $\hat{\theta} - \theta_0$.  This makes sense because the phases $\theta_0$ and $\theta_0 + 2\pi k$ are equivalent for any integer $k$. So, for example, we expect the phases $0.49\pi$ and $-0.49\pi$ to be \emph{close} together, the difference between them being $\vert\sfracpart{-0.49\pi - 0.49\pi}_\pi\vert = 0.02\pi$, and \emph{not} $\vert -0.49\pi - 0.49\pi\vert = 0.98\pi$.
 
@@ -471,7 +474,7 @@ Thus,
 0 &\leq \sabs{G(\hat{\lambda}_L)} - \sabs{G(0)} \\ 
 & \leq \sabs{G(\hat{\lambda}_L)} - \sabs{G(0)} + \sabs{G_L(0)} - \sabs{G_L(\hat{\lambda}_L)} \\
 & \leq |G(\hat{\lambda}_L) - G_L(\hat{\lambda}_L)| + |G_L(0) - G(0)| \\
-&\leq 2\sup_{x \in [-\pi, \pi)} \sabs{G(x) - G_L(x)},
+&\leq 2\sup_{\lambda \in [-\pi, \pi)} \sabs{G(\lambda) - G_L(\lambda)},
 \end{align*}
 and the last line converges amost surely to zero by Lemma~\ref{lem:uniflawGGL}.
 \end{IEEEproof}
@@ -499,38 +502,183 @@ Now $\sabs{G_L(\hat{\lambda}_L) - G(\hat{\lambda}_L)} \rightarrow 0$ as $L \righ
 \begin{lemma}\label{lem:uniflawGGL}
 The function $G_L$ converges almost surely and uniformly on $[-\pi, \pi)$ to the function $G$, that is,
 \[
-\sup_{x \in [-\pi, \pi)}\sabs{G_L(x) - G(x)} \rightarrow 0
+\sup_{\lambda \in [-\pi, \pi)}\sabs{G_L(\lambda) - G(\lambda)} \rightarrow 0
 \] 
 almost surely as $L \rightarrow \infty$.
 \end{lemma}
 \begin{IEEEproof}
-Put $T(x) = \expect G_L(x)$ and observe that
+Put $T(\lambda) = \expect G_L(\lambda)$ and write
+\begin{align*}
+&\sup_{\lambda \in [-\pi, \pi)}\sabs{G_L(\lambda) - G(\lambda)} \\
+&\leq \sup_{\lambda \in [-\pi, \pi)}\sabs{G_L(\lambda) - T(\lambda) + T(\lambda) - G(\lambda)} \\
+&\leq \sup_{\lambda \in [-\pi, \pi)}\sabs{G_L(\lambda) - T(\lambda)} +  \sup_{\lambda \in [-\pi, \pi)}\sabs{T(\lambda) - G(\lambda)}.
+\end{align*}
+Now,
 \begin{align*}
 T(\lambda) - G(\lambda) &= \big(\tfrac{\abs{P}}{L} - p\big)h_1(\lambda) + \big(\tfrac{\abs{D}}{L} - d\big)h_2(\lambda) \\
 &= o(1) h_1(\lambda) + o(1) h_2(\lambda)
 \end{align*}
-where $o(1)$ denotes a number converging to zero as $L \rightarrow \infty$.  Since $\sabs{h_1(\lambda)} \leq 1$ and $\sabs{h_2(\lambda)} \leq 1$ for all $\lambda \in [-\pi, \pi)$, then $\sup_{\lambda \in [-\pi, \pi)}\sabs{T(\lambda) - G(\lambda)} \rightarrow 0$ as $L\rightarrow \infty$.  Now
-\begin{align*}
-\sup_{\lambda \in [-\pi, \pi)}&\sabs{G_L(\lambda) - G(\lambda)} \\
-&\leq \sup_{\lambda \in [-\pi, \pi)}\sabs{G_L(\lambda) - T(\lambda) + T(\lambda) - G(\lambda)} \\
-&\leq \sup_{\lambda \in [-\pi, \pi)}\sabs{G_L(\lambda) - T(\lambda)} +  \sup_{\lambda \in [-\pi, \pi)}\sabs{T(\lambda) - G(\lambda)}
-\end{align*}
-and Lemma~\ref{lem:uniflawTGL} shows that $\sup_{\lambda \in [-\pi, \pi)}\sabs{G_L(\lambda) - T(\lambda)} \rightarrow 0$ as $L\rightarrow \infty$.
+where $o(1)$ denotes a number converging to zero as $L \rightarrow \infty$.  Since $\sabs{h_1(\lambda)} \leq 1$ and $\sabs{h_2(\lambda)} \leq 1$ for all $\lambda \in [-\pi, \pi)$, it follows that 
+\[
+\sup_{\lambda \in [-\pi, \pi)}\sabs{T(\lambda) - G(\lambda)} \rightarrow 0
+\]  
+almost surely as $L\rightarrow \infty$.  Lemma~\ref{lem:uniflawTGL} shows that 
+\[
+\sup_{\lambda \in [-\pi, \pi)}\sabs{G_L(\lambda) - T(\lambda)} \rightarrow 0
+\]
+almost surely as $L\rightarrow \infty$.
 \end{IEEEproof}
 
 
 \begin{lemma}\label{lem:uniflawTGL} 
-Put $T(x) = \expect G_L(x)$, then
+Put $T(\lambda) = \expect G_L(\lambda)$, then
 \[
-\sup_{x \in [-\pi, \pi)}\sabs{G_L(x) - T(x)} \rightarrow 0
+\sup_{\lambda \in [-\pi, \pi)}\sabs{G_L(\lambda) - T(\lambda)} \rightarrow 0
 \] 
 almost surely as $L \rightarrow \infty$.
 \end{lemma}
 \begin{IEEEproof}
-BLERG
+Put $D_L(\lambda) = G_L(\lambda) - T(\lambda)$ and let
+\[
+\lambda_n = \tfrac{2\pi}{N}(n-1) - \pi, \qquad n = 1, \dots, N
+\]
+be $N$ points uniformly spaced on the interval $[-\pi, \pi)$.  Let $L_n$ be the interval $[\lambda_n, \lambda_n + \tfrac{2\pi}{N})$ and observe that $L_1, \dots, L_N$ partition $[-\pi, \pi)$.  Now
+\begin{align*}
+\sup_{\lambda \in [-\pi, \pi)}&\sabs{D_L(\lambda)} \\
+&= \sup_{n = 1,\dots,N}\sup_{\lambda \in L_n}\sabs{D_L(\lambda) - D_L(\lambda_n) + D_L(\lambda_n)} \\
+&\leq A_L + B_L,
+\end{align*}
+where 
+\[
+A_L = \sup_{n = 1,\dots,N}\sabs{D_L(\lambda_n)},
+\]
+\[
+B_L = \sup_{n = 1,\dots,N}\sup_{\lambda \in L_n}\sabs{D_L(\lambda) - D_L(\lambda_n)}.
+\]
+Lemma~\ref{lem:supDLlambdan} shows that for any finite $N$, and any $\epsilon > 0$, 
+\[
+\prob\left\{ \lim_{L\rightarrow\infty} A_L > \epsilon \right\} = 0,
+\]
+i.e., $A_L \rightarrow 0$ almost surely as $L\rightarrow\infty$.  Lemma~\ref{lem:supsupDLlambda} shows that for any $\epsilon > 0$,
+\[
+\prob\left\{ \lim_{L \rightarrow \infty} B_L > \epsilon + \tfrac{4\pi }{N}\expect R_i \right\} = 0.
+\] 
+Choose $N$ large enough that $4\pi\expect R_i < \epsilon N$ and
+\begin{align*}
+\prob& \left\{ \lim_{L\rightarrow\infty} \sup_{\lambda \in [-\pi, \pi)}\sabs{D_L(\lambda)} > 3\epsilon \right\} \\
+&\leq \prob\left\{\lim_{L\rightarrow\infty}(A_L + B_L) > 3\epsilon \right\} \\
+&\leq \prob\left\{\lim_{L\rightarrow\infty} (A_L + B_L) > \epsilon + \epsilon + \tfrac{4\pi }{N}\expect R_i \right\} \\
+&\leq \prob\left\{\lim_{L\rightarrow\infty} A_L > \epsilon\right\} +  \prob\left\{ \lim_{L\rightarrow\infty} B_L > \epsilon + \tfrac{4\pi }{N}\expect R_i \right\} \\
+&= 0.
+\end{align*}
+Thus, $\sup_{\lambda \in [-\pi, \pi)}\sabs{D_L(\lambda)} \rightarrow 0$ almost surely as $L\rightarrow\infty$.
 \end{IEEEproof}
 
- 
+
+\begin{lemma}\label{lem:supDLlambdan}
+If $N$ is finite then $A_L \rightarrow 0$ almost surely as $L \rightarrow \infty$.
+\end{lemma}
+\begin{IEEEproof}
+Put
+\[
+Z_i(\lambda) = \begin{cases}
+R_i\cos(\lambda + \Phi_i) , & i \in P \\
+R_i\cos\sfracpart{\lambda + \Phi_i} , & i \in D
+\end{cases}
+\]
+so that
+\[
+D_L(\lambda) = G_L(\lambda) - T(\lambda) = \frac{1}{L}\sum_{i=1}^{L} \big( Z_i(\lambda) - \expect Z_i(\lambda) \big).
+\]
+Now $Z_1(\lambda_n), \dots,Z_L(\lambda_n)$ are independent with finite variance (because $\expect R_i^2$ is finite), so for each $n =1, \dots, N$,
+\[
+\abs{D_L(\lambda_n)} = \abs{\frac{1}{L}\sum_{i=1}^{L} \big( Z_i(\lambda_n) - \expect Z_i(\lambda)\big)} \rightarrow 0
+\]
+almost surely as $L\rightarrow\infty$ by the Kolmogorov's strong law of large numbers~\cite[Theorem 2.3.10]{SenSinger_large_sample_stats_1993}.  Now, since $N$ is finite,
+\[
+A_L = \sup_{n=1,\dots,N}\sabs{D_L(\lambda_n)} \leq \sum_{n=1}^N \sabs{D_L(\lambda_n)} \rightarrow 0
+\]
+almost surely to zero as $L \rightarrow \infty$.
+\end{IEEEproof}
+
+\begin{lemma}\label{lem:supsupDLlambda} For any $\epsilon > 0$,
+\[
+\prob\left\{ \lim_{L \rightarrow \infty} B_L > \epsilon + \tfrac{2\pi}{N}\expect R_i \right\} = 0.
+\]
+\end{lemma}
+\begin{IEEEproof}
+Observe that
+\begin{align*}
+&\sabs{D_L(\lambda) - D_L(\lambda_n)} \\
+&\leq  \abs{G_L(\lambda) - \expect G_L(\lambda) - G_L(\lambda_n) + \expect G_L(\lambda_n)} \\
+&\leq  \abs{G_L(\lambda) - G_L(\lambda_n)} + \abs{\expect G_L(\lambda) - \expect G_L(\lambda_n)} \\
+&\leq \abs{G_L(\lambda) - G_L(\lambda_n) } + \expect \abs{G_L(\lambda) - G_L(\lambda_n)},
+\end{align*}
+the last line following from Jensens inequality.  Put
+\[
+C_L = \sup_{n = 1,\dots,N}\sup_{\lambda \in L_n} \abs{G_L(\lambda) - G_L(\lambda_n) }
+\]
+then
+\[
+B_L = \sup_{n = 1,\dots,N}\sup_{\lambda \in L_n}\sabs{D_L(\lambda) - D_L(\lambda_n)} \leq C_L + \expect C_L.
+\]
+because 
+\[
+ \sup_{n = 1,\dots,N}\sup_{\lambda \in L_n} \expect \abs{G_L(\lambda) - G_L(\lambda_n)} \leq \expect C_L
+\]
+follows by moving expectation outside the supremum.  Lemma~\ref{lem:CL} shows that $\expect C_L \leq \tfrac{2\pi}{N}\expect R_i$ and also that
+\[
+\prob\left\{ \lim_{L \rightarrow \infty} C_L > \epsilon + \tfrac{2\pi}{N}\expect R_i \right\} = 0.
+\]
+So,
+\begin{align*}
+\prob&\left\{ \lim_{L \rightarrow \infty} B_L > \epsilon + \tfrac{4\pi}{N}\expect R_i \right\} \\
+&\leq \prob\left\{ \lim_{L \rightarrow \infty} (C_L + \expect C_L) > \epsilon + \tfrac{4\pi}{N}\expect R_i \right\} \\
+&\leq \prob\left\{ \lim_{L \rightarrow \infty} C_L > \epsilon + \tfrac{2\pi}{N}\expect R_i \right\} = 0.
+\end{align*}
+\end{IEEEproof}
+
+\begin{lemma}\label{lem:CL}
+$\expect C_L \leq \tfrac{2\pi}{N}\expect R_i$ and for any $\epsilon > 0$,
+\[
+\prob\left\{ \lim_{L \rightarrow \infty} C_L > \epsilon + \tfrac{2\pi}{N}\expect R_i \right\} = 0.
+\]
+\end{lemma}
+\begin{IEEEproof}
+If $\lambda \in L_n$, then $\lambda = \lambda_n + \delta$ with $\delta < \tfrac{2\pi}{N}$, and from Lemma~\ref{lem:coslipshitz},
+\[
+\abs{\cos(\lambda) - \cos(\lambda_n)} \leq \tfrac{2\pi}{N} \;\;\; \text{and} \;\;\; \abs{\cos\sfracpart{\lambda} - \cos\sfracpart{\lambda_n}} \leq \tfrac{2\pi}{N}.
+\]
+Because this results does not depend on $n$,
+\[
+\sup_{n=1,\dots,N}\sup_{\lambda \in L_n} \abs{Z_i(\lambda) - Z_i(\lambda)} \leq R_i \frac{2\pi}{N}
+\]
+for all $i = 1, \dots, L$.  Now,
+\begin{align*}
+C_L &= \sup_{n=1,\dots,N}\sup_{\lambda \in L_n}\abs{\frac{1}{L}\sum_{i=1}^L Z_i(\lambda) - Z_i(\lambda_n)} \\
+&\leq \frac{1}{L}\sum_{i=1}^L \sup_{n=1,\dots,N}\sup_{\lambda \in L_n} \abs{Z_i(\lambda) - Z_i(\lambda_n)} \\
+&\leq \frac{2\pi}{N L}\sum_{i=1}^L R_i \rightarrow \frac{2\pi}{N}\expect R_i
+\end{align*}
+almost surely to $\frac{2\pi}{N}\expect R_i$ as $L \rightarrow\infty$ by the strong law of large numbers, and so
+\begin{align*}
+\prob&\left\{ \lim_{L \rightarrow \infty} C_L > \epsilon + \tfrac{2\pi}{N}\expect R_i \right\} \\
+&\leq \prob\left\{ \lim_{L \rightarrow \infty} \frac{2\pi}{N L}\sum_{i=1}^L R_i > \epsilon + \tfrac{2\pi}{N}\expect R_i \right\} = 0.
+\end{align*}
+Also $\expect C_L \leq \frac{2\pi}{N}\expect R_i$.
+\end{IEEEproof}
+
+
+
+\begin{lemma}\label{lem:coslipshitz}
+Let $x$ and $\delta$ be real numbers.  Then
+\[
+\abs{\cos(x + \delta) - \cos(x)} \leq \abs{\delta},
+\]
+and 
+\[
+\abs{\cos\fracpart{x + \delta} - \cos\fracpart{x}} \leq \abs{\delta}.
+\]
+\end{lemma}
 
 \section{Proof of asymptotic normality (Theorem~\ref{thm:normality}) } \label{sec:proof-asympt-norm}
 
