@@ -655,18 +655,15 @@ So,
 \end{lemma}
 \begin{IEEEproof}
 If $\lambda \in L_n$, then $\lambda = \lambda_n + \delta$ with $\delta < \tfrac{2\pi}{N}$, and from Lemma~\ref{lem:coslipshitz},
-\[
-\abs{\cos(\lambda + \Phi_i) - \cos(\lambda_n + \Phi_i)} \leq \tfrac{2\pi}{N},
-\]
-and
-\[
-\abs{\cos\sfracpart{\lambda + \Phi_i} - \cos\sfracpart{\lambda_n + \Phi_i}} \leq \tfrac{2\pi}{N}.
-\]
+\begin{align*}
+&\abs{\cos(\lambda + \Phi_i) - \cos(\lambda_n + \Phi_i)} \leq \tfrac{2\pi}{N}, \;\;\; \text{and} \\
+&\abs{\cos\sfracpart{\lambda + \Phi_i} - \cos\sfracpart{\lambda_n + \Phi_i}} \leq \tfrac{2\pi}{N}.
+\end{align*}
 Because this results does not depend on $n$,
 \[
 \sup_{n=1,\dots,N}\sup_{\lambda \in L_n} \abs{Z_i(\lambda) - Z_i(\lambda_n)} \leq R_i \frac{2\pi}{N}
 \]
-for all $i = 1, \dots, L$.  Now,
+for all $i = P \cup D$.  Now,
 \begin{align*}
 C_L &= \sup_{n=1,\dots,N}\sup_{\lambda \in L_n}\abs{\frac{1}{L}\sum_{i=1}^L Z_i(\lambda) - Z_i(\lambda_n)} \\
 &\leq \frac{1}{L}\sum_{i=1}^L \sup_{n=1,\dots,N}\sup_{\lambda \in L_n} \abs{Z_i(\lambda) - Z_i(\lambda_n)} \\
@@ -691,23 +688,17 @@ almost surely to $\frac{2\pi}{N}\expect R_1$ as $L \rightarrow\infty$ by the str
 
 \begin{lemma}\label{lem:coslipshitz}
 Let $x$ and $\delta$ be real numbers.  Then
-\[
-\abs{\cos(x + \delta) - \cos(x)} \leq \abs{\delta},
-\]
-and 
-\[
-\abs{\cos\fracpart{x + \delta} - \cos\fracpart{x}} \leq \abs{\delta}.
-\]
+\begin{align*}
+&\abs{\cos(x + \delta) - \cos(x)} \leq \abs{\delta}, \;\;\; \text{and} \\
+&\abs{\cos\fracpart{x + \delta} - \cos\fracpart{x}} \leq \abs{\delta}.
+\end{align*}
 \end{lemma}
 \begin{IEEEproof}
 Both $\cos(x)$ and $\cos\fracpart{x}$ are Lipshitz continuous functions from $\reals$ to $\reals$ with constant $K=1$.  That is, for any $x$ and $y$ in $\reals$,
-\[
-\abs{\cos(y) - \cos(x)} \leq K\abs{x-y} = \abs{x-y},
-\]
-and
-\[
-\abs{\cos\fracpart{y} - \cos\fracpart{x}} \leq K\abs{x-y} = \abs{x-y}.
-\]
+\begin{align*}
+&\abs{\cos(y) - \cos(x)} \leq K\abs{x-y} = \abs{x-y}, \;\;\; \text{and} \\
+&\abs{\cos\fracpart{y} - \cos\fracpart{x}} \leq K\abs{x-y} = \abs{x-y}.
+\end{align*}
  The lemma follows by putting $y = x + \delta$.
 \end{IEEEproof}
 
@@ -781,45 +772,49 @@ G_L^\prime(\hat{\lambda}_L) = \frac{d G_L}{d \lambda}(\hat{\lambda}_L) = 0.
 \]
 \end{lemma}
 \begin{IEEEproof}
-BLERG
+Observe that $G_L$ is differentiable at all points $\lambda \in [-\pi , \pi)$ those which staisfy $\fracpart{\lambda + \Phi_i} = -\tfrac{\pi}{M}$ for any $i = P \cup D$.  Lemma~\ref{lem:fracpartlambdahatnotpi} shows that,
+\[
+\sabs{\sfracpart{\hat{\lambda}_L + \Phi_i}} \leq \frac{\pi}{2M} - \frac{\pi}{2LM ?}
+\]
+for all $i \in P \cup D$.  The proof follows since $y_i = 0$ with probability zero.  
 \end{IEEEproof}
 
-% \begin{lemma}
-% \[
-% \sabs{\sfracpart{\hat{\lambda}_L + \Phi_i}} \leq \frac{1}{2M} - \frac{1}{2LM ?}
-% \]
-% for all $i \in D$.
-% \end{lemma}
-% \begin{IEEEproof}
-% Recall that $\hat{d}_i = \hat{d}_i(\hat{\theta})$ are the minimsers of $SS$.  The proof now proceeds by contradiction.  Assume that $\sfracpart{\hat{\lambda}_L + \Phi_i} \leq \frac{1}{2M} - \frac{1}{2LM ?}$ for some $k$.  Put $r_i = \hat{d}_i e_k$, then
-% \begin{align*}
-% Y(\{ r_i, i \in D\}) = \frac{1}{L}\left( B + \sum_{i \in D} y_i\hat{r}_i^* \right) = \hat{Y} + \frac{1}{L}\eta y_k\hat{d}_k^*.
-% \end{align*}
-% where we put $\hat{Y} = Y(\{ \hat{d}_i, i \in D\})$.  Now,
-% \begin{align*}
-% SS&(\{r_i, i \in D\}) \\
-% &= A - \frac{1}{L} \abs{ Y(\{ r_i, i \in D\}) }^2 \\
-% &= A - \frac{1}{L} \abs{ \hat{Y} + \frac{1}{L} \eta y_k\hat{d}_k^* }^2 \\
-% &= A - \frac{1}{L}\abs{\hat{Y}}^2 - \frac{2}{L^2}\Re\left(\eta \hat{Y}^* y_k \hat{d}_k^* \right) -  \frac{1}{L^3}\abs{ \eta y_k \hat{d}_k^* }^2\\
-% &= SS(\{\hat{d}_i, i \in D\}) - R
-% \end{align*}
-% where 
-% \[
-% R = \frac{2}{L^2}\Re\left(\eta \hat{Y}^* y_k \hat{d}_k^* \right) +  \frac{1}{L^3}\abs{ \eta y_k \hat{d}_k^* }^2.
-% \]
-% We will show that $R$ is positive, from which is will follow that $SS(\{r_i, i \in D\}) < SS(\{\hat{d}_i, i \in D\})$, violating the fact that $\{\hat{d}_i, i \in D\}$ are minimisers of $SS$.
+\begin{lemma}\label{lem:fracpartlambdahatnotpi}
+\[
+\sabs{\sfracpart{\hat{\lambda}_L + \Phi_i}} \leq \frac{\pi}{2M} - \frac{\pi}{2LM ?}
+\]
+for all $i \in D$.
+\end{lemma}
+\begin{IEEEproof}
+Recall that $\hat{d}_i = \hat{d}_i(\hat{\theta})$ are the minimsers of $SS$.  The proof now proceeds by contradiction.  Assume that $\sfracpart{\hat{\lambda}_L + \Phi_i} > \frac{1}{2M} - \frac{1}{2LM ?}$ for some $k$.  Put $r_i = \hat{d}_i e_k$, then
+\begin{align*}
+Y(\{ r_i, i \in D\}) = \frac{1}{L}\left( B + \sum_{i \in D} y_i\hat{r}_i^* \right) = \hat{Y} + \frac{1}{L}\eta y_k\hat{d}_k^*.
+\end{align*}
+where we put $\hat{Y} = Y(\{ \hat{d}_i, i \in D\})$.  Now,
+\begin{align*}
+SS&(\{r_i, i \in D\}) \\
+&= A - \frac{1}{L} \abs{ Y(\{ r_i, i \in D\}) }^2 \\
+&= A - \frac{1}{L} \abs{ \hat{Y} + \frac{1}{L} \eta y_k\hat{d}_k^* }^2 \\
+&= A - \frac{1}{L}\abs{\hat{Y}}^2 - \frac{2}{L^2}\Re\left(\eta \hat{Y}^* y_k \hat{d}_k^* \right) -  \frac{1}{L^3}\abs{ \eta y_k \hat{d}_k^* }^2\\
+&= SS(\{\hat{d}_i, i \in D\}) - R
+\end{align*}
+where 
+\[
+R = \frac{2}{L^2}\Re\left(\eta \hat{Y}^* y_k \hat{d}_k^* \right) +  \frac{1}{L^3}\abs{ \eta y_k \hat{d}_k^* }^2.
+\]
+We will show that $R$ is positive, from which is will follow that $SS(\{r_i, i \in D\}) < SS(\{\hat{d}_i, i \in D\})$, violating the fact that $\{\hat{d}_i, i \in D\}$ are minimisers of $SS$.
 
-% To see that $R$ is positive write
-%  \begin{align*}
-% R &\geq  \frac{2}{L^2}\abs{\hat{Y} y_k}\Re\left(\eta e^{j(\phi_i - \hat{\theta})}\hat{d}_k^* \right) +  \frac{1}{L^3}\abs{ \eta}^2 \abs{ y_k }^2 \\
-%  &= \frac{1}{L^2}\abs{y_k} \left( 2\abs{\hat{Y}}\Re\left(\eta e^{j(\phi_i - \hat{\theta})} \hat{d}_k^* \right) + \frac{1}{L}\abs{ \eta}^2 \abs{ y_k }  \right) 
-%  \end{align*}
-%  so it is sufficient to show that
-%  \[
-%  \Re\left(\eta e^{j(\phi_i - \hat{\theta})} \hat{d}_k^* \right) > - \frac{\abs{ \eta}^2 \abs{ y_k }}{2 L \abs{\hat{Y}}}.
-%  \]
-%  Unfinished, but this proof will work
-% \end{IEEEproof}
+To see that $R$ is positive write
+ \begin{align*}
+R &\geq  \frac{2}{L^2}\abs{\hat{Y} y_k}\Re\left(\eta e^{j(\phi_i - \hat{\theta})}\hat{d}_k^* \right) +  \frac{1}{L^3}\abs{ \eta}^2 \abs{ y_k }^2 \\
+ &= \frac{1}{L^2}\abs{y_k} \left( 2\abs{\hat{Y}}\Re\left(\eta e^{j(\phi_i - \hat{\theta})} \hat{d}_k^* \right) + \frac{1}{L}\abs{ \eta}^2 \abs{ y_k }  \right) 
+ \end{align*}
+ so it is sufficient to show that
+ \[
+ \Re\left(\eta e^{j(\phi_i - \hat{\theta})} \hat{d}_k^* \right) > - \frac{\abs{ \eta}^2 \abs{ y_k }}{2 L \abs{\hat{Y}}}.
+ \]
+ Unfinished, but this proof will work.  BLERG.
+\end{IEEEproof}
 
 
 \begin{lemma}\label{lem:Qconv}
@@ -842,10 +837,9 @@ We analyse $k_1(\lambda)$ first.  By a Taylor expansion of $\sin(\lambda + \Phi_
 where $\zeta$ is a continuous function with $\zeta(0) = 0$.  So,
 \begin{align*}
 k_1(\lambda) &= \expect R_1\lambda(\cos(\Phi_1) \; + \; \zeta(\lambda)) \\
-&= \lambda \big( \expect R_1\cos(\Phi_1) \; + \; \zeta(\lambda) \expect R_1 \big) \\
-&= \lambda \big( 1 \; + \; \zeta(\lambda) K \big),
+&= \lambda \big( \expect R_1\cos(\Phi_1) \; + \; \zeta(\lambda) \expect R_1 \big) 
 \end{align*}
-since $h_1(0) = \expect R_1\cos(\Phi_1) = 1$ because $w_1$ has zero mean, and $K = \expect R_1$ is a finite constant because $\expect\abs{w_1}$ is finite by assumption in Theorem~\ref{thm:consistency}.  Because $\hat{\lambda}_L$ converges almost surely to zero as $L \rightarrow\infty$, then $\zeta(\hat{\lambda}_L)$ converges almost surely (and therefore also in probability) to zero as $L \rightarrow\infty$, i.e. $\zeta(\hat{\lambda}_L) = o_P(1)$.  So, 
+since $h_1(0) = \expect R_1\cos(\Phi_1) = 1$ because $w_1$ has zero mean.  Because $\hat{\lambda}_L$ converges almost surely to zero as $L \rightarrow\infty$, then $\zeta(\hat{\lambda}_L)$ converges almost surely (and therefore also in probability) to zero as $L \rightarrow\infty$, i.e. $\zeta(\hat{\lambda}_L) = o_P(1)$.  So, 
 \[
 k_1(\hat{\lambda}_L) = \hat{\lambda}_L \big( 1 \; + \; \zeta(\hat{\lambda}_L) K \big) = \hat{\lambda}_L \big( 1  + o_P(1)\big).
 \]
@@ -862,7 +856,7 @@ since $\frac{\abs{P}}{L} \rightarrow p$ and $\frac{\abs{D}}{L} \rightarrow d$ as
 $k_2(\hat{\lambda}_L) = \hat{\lambda}_L ( H + o_P(1) ).$
 \end{lemma}
 \begin{IEEEproof}
-As $\hat{\lambda}_L \in [-\pi, \pi)$ it is only the behaviour of the function $k_2(\lambda)$ for $\lambda\in [-\pi, \pi)$ that is relevant.  We will analyse $k_2(\lambda)$ for $0 \leq \lambda < \tfrac{\pi}{M}$.  An analagous argument follows when $-\tfrac{\pi}{M} \leq \lambda < 0$.  To keep our notation clean put
+As $\hat{\lambda}_L \rightarrow 0$ almost surely as $L\rightarrow\infty$, it is only the behaviour of $k_2(\lambda)$ around $\lambda = 0$ that is relevant.  We will analyse $k_2(\lambda)$ for $0 \leq \lambda < \tfrac{\pi}{M}$.  An analagous argument follows when $-\tfrac{\pi}{M} < \lambda < 0$.  To keep our notation clean put
 \[
 \psi_k = \tfrac{2\pi}{M}k + \tfrac{\pi}{M}.
 \]
@@ -888,7 +882,7 @@ and by a Taylor expansion of $\sin(\lambda + \Phi_1 - \tfrac{2\pi}{M}k)$ about $
 \sin\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} &= \lambda\big(\cos(\Phi_1 - \tfrac{2\pi}{M}k) + \zeta_k(\lambda)\big) \\
 &= \lambda\big(\cos\fracpart{\Phi_1} + \zeta_k(\lambda)\big).
 \end{align*}
-where, for each integer $k$, the function $\zeta_k$ is continuous with $\zeta_k(0) = 0$.  Alternatively, when $\Phi_1 \in [ \psi_{k} - \lambda,\psi_{k})$,
+where, for each $k$, the function $\zeta_k$ is continuous with $\zeta_k(0) = 0$.  Alternatively, when $\Phi_1 \in [ \psi_{k} - \lambda,\psi_{k})$,
 \begin{align*}
 \sin\fracpart{\lambda + \Phi_1} &- \sin\fracpart{\Phi_1} \\
 &= \sin(\lambda + \Phi_1 - \tfrac{2\pi}{M}k - \tfrac{2\pi}{M}) - \sin(\Phi_1 - \tfrac{2\pi}{M}k)
@@ -904,9 +898,9 @@ s_k(\Phi_1) = \sin(\Phi_1 - \tfrac{2\pi}{M}k - \tfrac{2\pi}{M}) - \sin(\Phi_1 - 
 \]
 and
 \[
-\eta_k(\lambda, \Phi_1) = \cos(\Phi_1 - \tfrac{2\pi}{M}k - \tfrac{2\pi}{M}) - \cos(\Phi_1 - \tfrac{2\pi k}{M}) + \zeta_{k+1}(\lambda).
+\eta_k(\lambda, \Phi_1) = \cos(\Phi_1 - \tfrac{2\pi}{M}k - \tfrac{2\pi}{M}) - \cos\fracpart{\Phi_1} + \zeta_{k+1}(\lambda).
 \]
-Observe that $s_k$ is continuous and $s_k(\psi_{k}) = -2\sin(\tfrac{\pi}{M})$.
+Observe that both $s_k$ and $\eta_k$ are continuous and that $s_k(\psi_{k}) = -2\sin(\tfrac{\pi}{M})$ and $\eta_k(\lambda,\psi_k) = \zeta_{k+1}(\lambda)$.
 
 Let us now collate what we have.  For each integer $k$, if $\Phi_1 \in [\psi_{k-1}, \psi_{k} - \lambda )$, then
 \[
@@ -926,7 +920,7 @@ v_k(\lambda,\Phi_1) = \begin{cases}
 s_k(\Phi_1) + \lambda\eta_k(\lambda, \Phi_1) &  \Phi_1 \in [ \psi_{k} - \lambda,\psi_{k} ) \\
 \lambda\zeta_k(\lambda) & \Phi_1 \in [\psi_{k-1}, \psi_{k} - \lambda ) \\
 0 & \text{otherwise}.
-\end{cases}
+\end{cases} 
 \end{equation}
 Now,
 \begin{align*}
@@ -956,7 +950,7 @@ W(\lambda) &= \expect R_1 v(\lambda, \Phi_1) \nonumber  \\
 &= \int_0^{2\pi} v(\lambda, \phi) g(\phi) d\phi \nonumber \\
 &= \sum_{k \in \ints} \int_0^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi. \label{eq:Winfsum}
 \end{align}
-Now, when $0 < k < M$, we have $0 < \psi_{k-1} < \psi_k < 2\pi$, so, using~\eqref{eq:vk},
+Now, when $0 < k < M$, we have $0 < \psi_{k-1} < \psi_k < 2\pi$, and so, using~\eqref{eq:vk},
 \begin{align*}
 \int_0^{2\pi} v_k(\lambda, \phi) &g(\phi) d\phi = \int_{\psi_{k-1}}^{\psi_{k}} v_k(\lambda, \phi) g(\phi) d\phi \\
 &= \lambda a_k(\lambda) + \lambda b_k(\lambda) + \lambda c_k(\lambda),
@@ -1014,7 +1008,7 @@ C(\lambda) = \sum_{k=0}^{M-1} c_k(\lambda).
 \]
 Both $A(\lambda)$ and $B(\lambda)$ converge to zero as $\lambda$ goes to zero, whilst $C(\lambda)$ converges to $H_1$ as $\lambda$ converges to zero.  Put
 \[
-\gamma(\lambda) = A(\lambda) + B(\lambda) + D(\lambda) - H_1.
+\gamma(\lambda) = A(\lambda) + B(\lambda) + C(\lambda) - H_1.
 \]
 Then $\gamma(\lambda)$ converges to zero as $\lambda$ goes to zero and $W(\lambda) = \lambda(H_1 + \gamma(\lambda))$ as required.
 \end{IEEEproof}
@@ -1162,7 +1156,7 @@ Since the intervals $[\psi_{k-1}, \psi_{k})$ partion the real line, that is $\re
 \cos\fracpart{\lambda + \Phi_1} - \cos\fracpart{\Phi_1} = -\lambda\sin\fracpart{\Phi_1} +  v(\lambda, \Phi_1),
 \]
 where $v(\lambda, \Phi_1) = \sum_{k\in\ints} v_k(\lambda, \Phi_1)$ and
-\begin{equation}\label{eq:vk}
+\begin{equation}\label{eq:cvk}
 v_k(\lambda,\Phi_1) = \begin{cases}
 c_k(\Phi_1) - \lambda\eta_k(\lambda, \Phi_1) &  \Phi_1 \in [ \psi_{k} - \lambda,\psi_{k} ) \\
 \lambda\zeta_k(\lambda) & \Phi_1 \in [\psi_{k-1}, \psi_{k} - \lambda ) \\
