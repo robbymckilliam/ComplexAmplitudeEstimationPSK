@@ -88,7 +88,7 @@ Define the sum of squares function
 SS(a, &\{d_i, i \in D\}) = \sum_{i \in P \cup D} \abs{ y_i - a s_i }^2 \nonumber \\
 &= \sum_{i \in P \cup D} \abs{y_i}^2 - a s_i y_i^* - a^* s_i^* y_i + aa^*, \label{eq:SS}
 \end{align}
-where $*$ denotes the complex congugate.  Fixing the data symbols $\{d_i, i \in D\}$, differentiating with respect to $a^*$, and setting the resulting equation to zero we find that the least squares estimator of $a_0$, satisfies
+where $*$ denotes the complex congugate.  Fixing the data symbols $\{d_i, i \in D\}$, differentiating with respect to $a^*$, and setting the resulting equation to zero we find the least squares estimator of $a_0$ as a function of $\{d_i, i \in D\}$,
 \begin{equation}\label{eq:hata}
 \hat{a} = \frac{1}{L} \sum_{i \in P \cup D} y_i s_i^* = \frac{1}{L} Y
 \end{equation}
@@ -195,7 +195,7 @@ Y_1 &= B + \sum_{i \in D} g_{1i} \\
 &= B +  (e^{j2\pi/M} - 1)g_{0\sigma(0)} + \sum_{i \in D} g_{0i} \\
 &= Y_0 + \eta g_{0\sigma(0)},
 \end{align*}
-where $\eta = (e^{j2\pi/M} - 1)$.  In general,
+where $\eta = e^{j2\pi/M} - 1$.  In general,
 \[
 Y_{k+1} = Y_k + \eta g_{k\sigma(k)}.
 \]
@@ -419,11 +419,11 @@ Recalling the definition of $\hat{d}_i(\theta)$ and $\hat{u}_i(\theta)$ from~\eq
 &= \round{ \lambda + \Phi_i + \angle{s_i} },
 \end{align*}
 where we put $\lambda = \fracpart{\theta_0 - \theta}_\pi$.  Because $\hat{d}_i^*(\theta) = e^{-j\hat{u}_i(\theta)}$, it follows that, when $i \in D$,
-\begin{align*}
- y_i e^{-j\theta} \hat{d}_i^*(\theta) &= \rho_0 R_i e^{j(\lambda + \Phi_i + \angle{s_i} - \round{\lambda + \Phi_i + \angle{s_i}})} \\
-&= \rho_0 R_i e^{j(\lambda + \Phi_i - \round{\lambda + \Phi_i})} \\
-&= \rho_0 R_i e^{j\sfracpart{\lambda + \Phi_i}}
-\end{align*}
+\begin{align}
+ y_i e^{-j\theta} \hat{d}_i^*(\theta) &= \rho_0 R_i e^{j(\lambda + \Phi_i + \angle{s_i} - \round{\lambda + \Phi_i + \angle{s_i}})} \nonumber \\
+&= \rho_0 R_i e^{j(\lambda + \Phi_i - \round{\lambda + \Phi_i})} \nonumber  \\
+&= \rho_0 R_i e^{j\sfracpart{\lambda + \Phi_i}} \label{eq:yethetadhat}
+\end{align}
 since $\round{x + \angle{s_i}} = \round{x} + \angle{s_i}$ as a result of $\angle{s_i}$ being a multiple of $\tfrac{2\pi}{M}$.  Otherwise, when $i \in P$,  
 \[
 y_i e^{-j\theta} p_i^* = \rho_0 R_i e^{j(\lambda + \Phi_i)}.
@@ -768,52 +768,95 @@ as $L \rightarrow \infty$.  It remains to prove the lemmas that we have used.
 \begin{lemma}~\label{lem:diffatlambdaL}
 The derivative of $G_L$ exists, and is equal to zero, at $\hat{\lambda}_L$.  That is,
 \[
-G_L^\prime(\hat{\lambda}_L) = \frac{d G_L}{d \lambda}(\hat{\lambda}_L) = 0.
+G_L^\prime(\hat{\lambda}_L) = \frac{d G_L}{d \lambda}(\hat{\lambda}_L) = 0,
 \]
 \end{lemma}
 \begin{IEEEproof}
-Observe that $G_L$ is differentiable at all points $\lambda \in [-\pi , \pi)$ those which staisfy $\fracpart{\lambda + \Phi_i} = -\tfrac{\pi}{M}$ for any $i = P \cup D$.  Lemma~\ref{lem:fracpartlambdahatnotpi} shows that,
+Observe that 
 \[
-\sabs{\sfracpart{\hat{\lambda}_L + \Phi_i}} \leq \frac{\pi}{2M} - \frac{\pi}{2LM ?}
+G_L(\lambda) = \frac{1}{L}\sum_{i \in P} R_i \cos(\lambda + \Phi_i) + \frac{1}{L} \sum_{i \in D} R_i \cos\sfracpart{\lambda + \Phi_i}
+\] 
+is differentiable everywhere except when $\fracpart{\lambda + \Phi_i} = -\tfrac{\pi}{M}$ and $R_i > 0$ for any $i \in D$.  Let $q$ be the largest negative real number such that
+\[
+\sin(q) > -\frac{\rho_o \sabs{\eta}^2 R_{\text{min}}}{4 L \hat{\rho} \sin(\pi/M)}
 \]
-for all $i \in P \cup D$.  The proof follows since $y_i = 0$ with probability zero.  
+where $\eta = e^{-j2\pi/M} - 1$ and $R_{\text{min}}$ is the smallest strictly postive value of $R_i,$ for $i \in D$, that is
+\[
+R_{\text{min}} = \min_{i \in D, R_i \neq 0} R_i.
+\]  
+Lemma~\ref{lem:fracpartlambdahatnotpi} shows that,
+\[
+\sabs{\sfracpart{\hat{\lambda}_L + \Phi_i}} \leq \frac{\pi}{M} + q
+\]
+for all $i \in D$.  Thus, $\sfracpart{\hat{\lambda}_L + \Phi_i} \neq \tfrac{\pi}{M}$ if $R_i > 0$.
 \end{IEEEproof}
 
 \begin{lemma}\label{lem:fracpartlambdahatnotpi}
 \[
-\sabs{\sfracpart{\hat{\lambda}_L + \Phi_i}} \leq \frac{\pi}{2M} - \frac{\pi}{2LM ?}
+\sabs{\sfracpart{\hat{\lambda}_L + \Phi_i}} \leq \frac{\pi}{M} - \frac{\pi}{2LM ?}
 \]
 for all $i \in D$.
 \end{lemma}
 \begin{IEEEproof}
-Recall that $\hat{d}_i = \hat{d}_i(\hat{\theta})$ are the minimsers of $SS$.  The proof now proceeds by contradiction.  Assume that $\sfracpart{\hat{\lambda}_L + \Phi_i} > \frac{1}{2M} - \frac{1}{2LM ?}$ for some $k$.  Put $r_i = \hat{d}_i e_k$, then
+Recall that 
+\[
+\hat{d}_i = \hat{d}_i(\hat{\theta}) = e^{j\round{\angle y_i - \hat{\theta}}}, \;\;\; i \in D
+\] 
+defined in \eqref{eq:hatdfinxtheta} are the minimsers of the function 
+\[
+SS(\{d_i, i \in D\}) = A - \frac{1}{L}\abs{Y(\{d_i, i \in D\})}^2,
+\]
+defined in~\eqref{eq:SSdatasymbols}. The proof now proceeds by contradiction.  Assume that 
+\begin{equation}\label{eq:fraclambassumption}
+\sfracpart{\hat{\lambda}_L + \Phi_i} > \frac{\pi}{M} - ?
+\end{equation}
+for some $k$ for which $\abs{R_k} > 0$.  Recalling the notation $e_k$ defined in Section~\ref{sec:least-squar-estim}, put $r_i = \hat{d}_i e_k$, then
 \begin{align*}
-Y(\{ r_i, i \in D\}) = \frac{1}{L}\left( B + \sum_{i \in D} y_i\hat{r}_i^* \right) = \hat{Y} + \frac{1}{L}\eta y_k\hat{d}_k^*.
+Y(\{ r_i, i \in D\}) = \sum_{i \in P} y_ip_i^* + \sum_{i \in D} y_i\hat{r}_i^* = \hat{Y} + \eta y_k\hat{d}_k^*.
 \end{align*}
-where we put $\hat{Y} = Y(\{ \hat{d}_i, i \in D\})$.  Now,
+where $\eta = e^{-j2\pi/M} - 1$ and $\hat{Y} = Y(\{ \hat{d}_i, i \in D\})$.  Now,
 \begin{align*}
 SS&(\{r_i, i \in D\}) \\
 &= A - \frac{1}{L} \abs{ Y(\{ r_i, i \in D\}) }^2 \\
-&= A - \frac{1}{L} \abs{ \hat{Y} + \frac{1}{L} \eta y_k\hat{d}_k^* }^2 \\
-&= A - \frac{1}{L}\abs{\hat{Y}}^2 - \frac{2}{L^2}\Re\left(\eta \hat{Y}^* y_k \hat{d}_k^* \right) -  \frac{1}{L^3}\abs{ \eta y_k \hat{d}_k^* }^2\\
-&= SS(\{\hat{d}_i, i \in D\}) - R
+&= A - \frac{1}{L} \abs{ \hat{Y} + \eta y_k\hat{d}_k^* }^2 \\
+&= A - \frac{1}{L}\abs{\hat{Y}}^2 - \frac{2}{L}\Re\left(\eta \hat{Y}^* y_k \hat{d}_k^* \right) -  \frac{1}{L}\abs{ \eta y_k}^2\\
+&= SS(\{\hat{d}_i, i \in D\}) - D
 \end{align*}
 where 
 \[
-R = \frac{2}{L^2}\Re\left(\eta \hat{Y}^* y_k \hat{d}_k^* \right) +  \frac{1}{L^3}\abs{ \eta y_k \hat{d}_k^* }^2.
+D = \frac{2}{L}\Re\left(\eta \hat{Y}^* y_k \hat{d}_k^* \right) +  \frac{1}{L}\abs{ \eta y_k }^2.
 \]
-We will show that $R$ is positive, from which is will follow that $SS(\{r_i, i \in D\}) < SS(\{\hat{d}_i, i \in D\})$, violating the fact that $\{\hat{d}_i, i \in D\}$ are minimisers of $SS$.
+Now $\frac{1}{L}\hat{Y} = \hat{a} = \hat{\rho} e^{j\hat{\theta}}$ from~\eqref{eq:hata} and using~\eqref{eq:yethetadhat},
+\[
+\frac{1}{L} \hat{Y}^* y_k \hat{d}_k^* = \hat{\rho} \rho_0 R_k e^{j\sfracpart{\hat{\lambda}_L + \Phi_k}}
+\]
+so that
+\[
+D = 2 \hat{\rho} \rho_0 R_k \Re\left( \eta e^{j\sfracpart{\hat{\lambda}_L + \Phi_k}}\right) + \frac{1}{L}\abs{\eta}^2\rho_0^2 R_k^2.
+\]
+Let $v = \sfracpart{\hat{\lambda}_L + \Phi_k} - \tfrac{\pi}{M}$ so that
+\begin{align*}
+\eta e^{j\sfracpart{\hat{\lambda}_L + \Phi_k}} &= (e^{-j2\pi/M} - 1) e^{j \pi/M} e^{jv} \\
+&= (e^{-j\pi/M} - e^{j\pi/M}) e^{jv} \\
+&= -2 \sin(\tfrac{\pi}{M}) e^{j ( v + \pi/2) }
+\end{align*}
+and
+\begin{align*}
+\Re\left( \eta e^{j\sfracpart{\hat{\lambda}_L + \Phi_k}}\right) &= -2 \sin(\tfrac{\pi}{M}) \cos(v + \tfrac{\pi}{2}) \\
+ &= 2 \sin(\tfrac{\pi}{M}) \sin(v)
+\end{align*}
+Because we assumed~\eqref{eq:fraclambassumption},
+\[
+0 > v > -?
+\]
+and therefore
+\begin{align*}
+0 &> 2 \sin(\tfrac{\pi}{M}) \sin(v) \\
+&> -\frac{\rho_0 R_k \abs{\eta}^2}{2L\hat{\rho}}
+\end{align*}
 
-To see that $R$ is positive write
- \begin{align*}
-R &\geq  \frac{2}{L^2}\abs{\hat{Y} y_k}\Re\left(\eta e^{j(\phi_i - \hat{\theta})}\hat{d}_k^* \right) +  \frac{1}{L^3}\abs{ \eta}^2 \abs{ y_k }^2 \\
- &= \frac{1}{L^2}\abs{y_k} \left( 2\abs{\hat{Y}}\Re\left(\eta e^{j(\phi_i - \hat{\theta})} \hat{d}_k^* \right) + \frac{1}{L}\abs{ \eta}^2 \abs{ y_k }  \right) 
- \end{align*}
- so it is sufficient to show that
- \[
- \Re\left(\eta e^{j(\phi_i - \hat{\theta})} \hat{d}_k^* \right) > - \frac{\abs{ \eta}^2 \abs{ y_k }}{2 L \abs{\hat{Y}}}.
- \]
- Unfinished, but this proof will work.  BLERG.
+So $D$ is positive.  But then $SS(\{r_i, i \in D\}) < SS(\{\hat{d}_i, i \in D\})$, violating the fact that $\{\hat{d}_i, i \in D\}$ are minimisers of $SS$.
+
 \end{IEEEproof}
 
 
