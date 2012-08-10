@@ -1,6 +1,6 @@
 %\documentclass[a4paper,10pt]{article}
-\documentclass[draftcls, onecolumn, 11pt]{IEEEtran}
-%\documentclass[journal]{IEEEtran}
+%\documentclass[draftcls, onecolumn, 11pt]{IEEEtran}
+\documentclass[journal]{IEEEtran}
 
 \usepackage{mathbf-abbrevs}
 \input{defs}
@@ -361,7 +361,7 @@ The mean square error of the amplitude estimator $\hat{\rho}$ is
 From Theorem~\ref{thm:normality} it follows that $\expect \hat{m}_L^2 = \tfrac{B}{L} + o(L^{-1})$ and that $\expect \hat{m}_L = o(L^{-1/2})$. 
 \end{IEEEproof}
 
-The proof of Theorem~\ref{thm:consistency} is in Section~\ref{sec:proof-almost-sure} and the proof of Theorem~\ref{thm:normality} is in Section~\ref{sec:proof-asympt-norm}.  Before giving the proofs we discuss the assumptions made by these theorems.  The assumption that $w_1, \dots w_L$ are circularly symmetric can be relaxed, but this comes at the expense of making the theorem statements more complicated.  If $w_i$ is not circularly symmetric then the distribution of $R_i$ and $\Phi_i$ may depend on $a_0$ and also on the transmitted symbols $s_1, \dots, s_L$.  In result, the asymptotic variance described in Theorem~\ref{thm:normality} depends on $a_0$ and $s_1, \dots, s_L$, rather than just $\rho_0$.  The circularly symmetric assumption may not always hold in practice, but we feel it provides a sensible trade off between simplicity and generality.  
+The proof of Theorem~\ref{thm:consistency} is in Section~\ref{sec:proof-almost-sure} and the proof of Theorem~\ref{thm:normality} is in Section~\ref{sec:proof-asympt-norm}.  Before giving the proofs we discuss the assumptions made by these theorems.  The assumption that $w_1, \dots w_L$ are circularly symmetric can be relaxed, but this comes at the expense of making the theorem statements more complicated.  If $w_i$ is not circularly symmetric then the distribution of $R_i$ and $\Phi_i$ may depend on $a_0$ and also on the transmitted symbols $\{s_i,i \in P \cup D\}$.  In result, the asymptotic variance described in Theorem~\ref{thm:normality} depends on $a_0$ and $\{s_i,i \in P \cup D\}$, rather than just $\rho_0$.  The circularly symmetric assumption may not always hold in practice, but we feel it provides a sensible trade off between simplicity and generality.  
 
 The assumption that $\expect \sabs{w_1}^2 = \expect \sabs{w_i}^2$ is finite implies that $R_i$ has finite variance since $\expect R_i^2 = 1 + \expect \abs{w_i}^2$.  This is required in Theorem~\ref{thm:normality} so that the constants $A_1$, $A_2$, $B_1$ and $B_2$ exist.  We will also use that $R_i$ has finite variance to simplify the proof of Theorem~\ref{thm:consistency} by use of Kolmogorov's strong law of large numbers~\cite[Theorem 2.3.10]{SenSinger_large_sample_stats_1993}
 
@@ -776,9 +776,9 @@ Observe that
 \[
 G_L(\lambda) = \frac{1}{L}\sum_{i \in P} R_i \cos(\lambda + \Phi_i) + \frac{1}{L} \sum_{i \in D} R_i \cos\sfracpart{\lambda + \Phi_i}
 \] 
-is differentiable everywhere except when $\fracpart{\lambda + \Phi_i} = -\tfrac{\pi}{M}$ for any $i \in D$ where $R_i > 0$.  Let $q_i$ be the smallest number from $[-\tfrac{\pi}{M}, 0]$ such that
+is differentiable everywhere except when $\fracpart{\lambda + \Phi_i} = -\tfrac{\pi}{M}$ for any $i \in D$ where $R_i > 0$.  Let $q_i$ be the smallest number from the interval $[-\tfrac{\pi}{M}, 0]$ such that
 \[
- \sin(q_i) > -\frac{\rho_o \sabs{\eta}^2 R_k}{4 L \hat{\rho} \sin(\pi/M)}
+ \sin(q_i) > -\frac{\rho_o \sabs{\eta}^2 R_i}{4 L \hat{\rho} \sin(\pi/M)}
 \]
 where $\eta = e^{-j2\pi/M} - 1$.  Observe that if $R_i > 0$ then $q_i < 0$.  Lemma~\ref{lem:fracpartlambdahatnotpi} shows that,
 \[
@@ -787,26 +787,18 @@ where $\eta = e^{-j2\pi/M} - 1$.  Observe that if $R_i > 0$ then $q_i < 0$.  Lem
 for all $i \in D$.  Thus, $\sfracpart{\hat{\lambda}_L + \Phi_i} \neq -\tfrac{\pi}{M}$ if $R_i > 0$.  The lemma follows.
 \end{IEEEproof}
 
-\begin{lemma}\label{lem:fracpartlambdahatnotpi}
-\[
-\sabs{\sfracpart{\hat{\lambda}_L + \Phi_i}} \leq \frac{\pi}{M} - \frac{\pi}{2LM ?}
-\]
-for all $i \in D$.
+\begin{lemma}\label{lem:fracpartlambdahatnotpi} Let $q_i, i \in D$ be defined as in Lemma~\ref{lem:diffatlambdaL}.  Then $\sabs{\sfracpart{\hat{\lambda}_L + \Phi_i}} \leq \frac{\pi}{M} + q_i$ for all $i \in D$.
 \end{lemma}
 \begin{IEEEproof}
-Recall that 
-\[
-\hat{d}_i = \hat{d}_i(\hat{\theta}) = e^{j\round{\angle y_i - \hat{\theta}}}, \;\;\; i \in D
-\] 
-defined in \eqref{eq:hatdfinxtheta} are the minimsers of the function 
+Recall that $\hat{d}_i = \hat{d}_i(\hat{\theta}), i \in D$ defined in \eqref{eq:hatdfinxtheta} are the minimsers of the function 
 \[
 SS(\{d_i, i \in D\}) = A - \frac{1}{L}\abs{Y(\{d_i, i \in D\})}^2,
 \]
 defined in~\eqref{eq:SSdatasymbols}. The proof now proceeds by contradiction.  Assume that 
 \begin{equation}\label{eq:fraclambassumption}
-\sfracpart{\hat{\lambda}_L + \Phi_i} > \frac{\pi}{M} - ?
+\sfracpart{\hat{\lambda}_L + \Phi_k} > \frac{\pi}{M} + q_k
 \end{equation}
-for some $k$ for which $\abs{R_k} > 0$.  Recalling the notation $e_k$ defined in Section~\ref{sec:least-squar-estim}, put $r_i = \hat{d}_i e_k$, then
+for some $k \in D$.  Recalling the notation $e_k$ defined in Section~\ref{sec:least-squar-estim}, put $r_i = \hat{d}_i e_k$.  We will show that $SS(\{r_i, i \in D\}) < SS(\{\hat{d}_i, i \in D\})$, violating the fact that $\{\hat{d}_i, i \in D\}$ are minimisers of $SS$.  First observe that,
 \begin{align*}
 Y(\{ r_i, i \in D\}) = \sum_{i \in P} y_ip_i^* + \sum_{i \in D} y_i\hat{r}_i^* = \hat{Y} + \eta y_k\hat{d}_k^*.
 \end{align*}
@@ -824,12 +816,12 @@ D = \frac{2}{L}\Re\left(\eta \hat{Y}^* y_k \hat{d}_k^* \right) +  \frac{1}{L}\ab
 \]
 Now $\frac{1}{L}\hat{Y} = \hat{a} = \hat{\rho} e^{j\hat{\theta}}$ from~\eqref{eq:hata} and using~\eqref{eq:yethetadhat},
 \[
-\frac{1}{L} \hat{Y}^* y_k \hat{d}_k^* = \hat{\rho} \rho_0 R_k e^{j\sfracpart{\hat{\lambda}_L + \Phi_k}}
+\frac{1}{L} \hat{Y}^* y_k \hat{d}_k^* = \hat{\rho} \rho_0 R_k e^{j\sfracpart{\hat{\lambda}_L + \Phi_k}},
 \]
 so that
-\[
+\begin{equation}\label{eq:Ddefn}
 D = 2 \hat{\rho} \rho_0 R_k \Re\left( \eta e^{j\sfracpart{\hat{\lambda}_L + \Phi_k}}\right) + \frac{1}{L}\abs{\eta}^2\rho_0^2 R_k^2.
-\]
+\end{equation}
 Let $v = \sfracpart{\hat{\lambda}_L + \Phi_k} - \tfrac{\pi}{M}$ so that
 \begin{align*}
 \eta e^{j\sfracpart{\hat{\lambda}_L + \Phi_k}} &= (e^{-j2\pi/M} - 1) e^{j \pi/M} e^{jv} \\
@@ -843,15 +835,16 @@ and
 \end{align*}
 Because we assumed~\eqref{eq:fraclambassumption},
 \[
-0 > v > -?
+0 > v > q_k
 \]
-and therefore
-\begin{align*}
-0 &> 2 \sin(\tfrac{\pi}{M}) \sin(v) \\
-&> -\frac{\rho_0 R_k \abs{\eta}^2}{2L\hat{\rho}}
-\end{align*}
+and, from the definition of $q_k$,
+\[
+0 > \sin(v) > -\frac{\rho_o \sabs{\eta}^2 R_i}{4 L \hat{\rho} \sin(\pi/M)}.
+\]
+Subtituting this into~\eqref{eq:Ddefn} gives $D > 0$, but then $SS(\{r_i, i \in D\}) < SS(\{\hat{d}_i, i \in D\})$, violating the fact that $\{\hat{d}_i, i \in D\}$ are minimisers of $SS$.  Thus,~\eqref{eq:fraclambassumption} is false.
 
-So $D$ is positive.  But then $SS(\{r_i, i \in D\}) < SS(\{\hat{d}_i, i \in D\})$, violating the fact that $\{\hat{d}_i, i \in D\}$ are minimisers of $SS$.
+To show that $\sfracpart{\hat{\lambda}_L + \Phi_k} \geq -\frac{\pi}{M} - q_k$ we use contradiction again.  Assume that $\sfracpart{\hat{\lambda}_L + \Phi_k} < -\frac{\pi}{M} - q_k$.  Recalling the notation $e_k^*$ defined in Section~\ref{sec:least-squar-estim}, put $r_i = \hat{d}_i e_k^*$.  Now an argument analagous to that used previously shows that $SS(\{r_i, i \in D\}) < SS(\{\hat{d}_i, i \in D\})$ again.
+
 
 \end{IEEEproof}
 
