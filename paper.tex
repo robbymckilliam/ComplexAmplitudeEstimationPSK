@@ -1,6 +1,6 @@
 %\documentclass[a4paper,10pt]{article}
-%\documentclass[draftcls, onecolumn, 11pt]{IEEEtran}
-\documentclass[journal]{IEEEtran}
+\documentclass[draftcls, onecolumn, 11pt]{IEEEtran}
+%\documentclass[journal]{IEEEtran}
 
 \usepackage{mathbf-abbrevs}
 \input{defs}
@@ -776,19 +776,15 @@ Observe that
 \[
 G_L(\lambda) = \frac{1}{L}\sum_{i \in P} R_i \cos(\lambda + \Phi_i) + \frac{1}{L} \sum_{i \in D} R_i \cos\sfracpart{\lambda + \Phi_i}
 \] 
-is differentiable everywhere except when $\fracpart{\lambda + \Phi_i} = -\tfrac{\pi}{M}$ and $R_i > 0$ for any $i \in D$.  Let $q$ be the largest negative real number such that
+is differentiable everywhere except when $\fracpart{\lambda + \Phi_i} = -\tfrac{\pi}{M}$ for any $i \in D$ where $R_i > 0$.  Let $q_i$ be the smallest number from $[-\tfrac{\pi}{M}, 0]$ such that
 \[
-\sin(q) > -\frac{\rho_o \sabs{\eta}^2 R_{\text{min}}}{4 L \hat{\rho} \sin(\pi/M)}
+ \sin(q_i) > -\frac{\rho_o \sabs{\eta}^2 R_k}{4 L \hat{\rho} \sin(\pi/M)}
 \]
-where $\eta = e^{-j2\pi/M} - 1$ and $R_{\text{min}}$ is the smallest strictly postive value of $R_i,$ for $i \in D$, that is
+where $\eta = e^{-j2\pi/M} - 1$.  Observe that if $R_i > 0$ then $q_i < 0$.  Lemma~\ref{lem:fracpartlambdahatnotpi} shows that,
 \[
-R_{\text{min}} = \min_{i \in D, R_i \neq 0} R_i.
-\]  
-Lemma~\ref{lem:fracpartlambdahatnotpi} shows that,
-\[
-\sabs{\sfracpart{\hat{\lambda}_L + \Phi_i}} \leq \frac{\pi}{M} + q
+\sabs{\sfracpart{\hat{\lambda}_L + \Phi_i}} \leq \frac{\pi}{M} + q_i
 \]
-for all $i \in D$.  Thus, $\sfracpart{\hat{\lambda}_L + \Phi_i} \neq \tfrac{\pi}{M}$ if $R_i > 0$.
+for all $i \in D$.  Thus, $\sfracpart{\hat{\lambda}_L + \Phi_i} \neq -\tfrac{\pi}{M}$ if $R_i > 0$.  The lemma follows.
 \end{IEEEproof}
 
 \begin{lemma}\label{lem:fracpartlambdahatnotpi}
