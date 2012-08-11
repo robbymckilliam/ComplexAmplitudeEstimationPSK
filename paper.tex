@@ -1,6 +1,6 @@
 %\documentclass[a4paper,10pt]{article}
-%\documentclass[draftcls, onecolumn, 11pt]{IEEEtran}
-\documentclass[journal]{IEEEtran}
+\documentclass[draftcls, onecolumn, 11pt]{IEEEtran}
+%\documentclass[journal]{IEEEtran}
 
 \usepackage{mathbf-abbrevs}
 \input{defs}
@@ -34,7 +34,7 @@ In passband communication systems the transmitted signal typically undergoes tim
 \[
 s_i = e^{j u_i},
 \]
-where $j = \sqrt{-1}$ and $u_i$ is from the set $\{0, \tfrac{2\pi}{M}, \dots, \tfrac{2\pi(M-1)}{M}\}$ and $M$ is the size of the constellation.  We assume that some of the transmitted symbols are \emph{pilot symbols} known to the receiver and the remainder are information carrying \emph{data symbols} with phase that is unknown to the receiver.  So,
+where $j = \sqrt{-1}$ and $u_i$ is from the set $\{0, \tfrac{2\pi}{M}, \dots, \tfrac{2\pi(M-1)}{M}\}$ and $M \geq 2$ is the size of the constellation.  We assume that some of the transmitted symbols are \emph{pilot symbols} known to the receiver and the remainder are information carrying \emph{data symbols} with phase that is unknown to the receiver.  So,
 \[
 s_i = \begin{cases}
 p_i & i \in P \\
@@ -339,10 +339,10 @@ as $L \rightarrow \infty$, where
 H = h_2(0) -  2 \sin(\tfrac{\pi}{M}) \sum_{k = 0}^{M-1} g(\tfrac{2\pi}{M}k + \tfrac{\pi}{M}),
 \]
 \[
-A_1 = \expect R_1^2\sin^2(\Phi_1), \qquad A_2 = \var\big( R_1^2\sin^2\fracpart{\Phi_1} \big),
+A_1 = \var\big( R_1^2\sin^2(\Phi_1) \big), \qquad A_2 = \var\big( R_1^2\sin^2\fracpart{\Phi_1} \big),
 \]
 \[
-B_1 = \expect R_1^2 \cos^2(\Phi_1) - 1, \;\;\; B_2 = \expect R_1^2 \cos^2\fracpart{\Phi_1} - h_2^2(0).
+B_1 = \var\big( R_1^2 \cos^2(\Phi_1) \big), \;\;\; B_2 = \var\big( R_1^2 \cos^2\fracpart{\Phi_1} \big).
 \]
 \end{theorem}
 
