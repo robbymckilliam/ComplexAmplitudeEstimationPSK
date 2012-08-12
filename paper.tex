@@ -704,33 +704,32 @@ Both $\cos(x)$ and $\cos\fracpart{x}$ are Lipshitz continuous functions from $\r
 
 \section{Proof of asymptotic normality (Theorem~\ref{thm:normality}) } \label{sec:proof-asympt-norm}
 
-We first prove the asymptotic normality of $\sqrt{L} \hat{\lambda}_L$.  Once this is done we will be able to prove the normality of $\sqrt{L} m_L$.  Recall that $\hat{\lambda}_L$ is the maximiser of the function $G_L$ defined in~\eqref{eq:GLdefn}.  The proof is complicated by the fact that $G_L$ is not differentiable everywhere due to the function $\fracpart{\cdot}$ not being differentiable at multiples of $\tfrac{\pi}{M}$.  This prevents the use of ``standard approaches'' to proving normality that are based on the mean value theorem~\cite{vonMises_diff_stats_1947,vanDerVart1971_asymptotic_stats,Pollard_new_ways_clts_1986,Pollard_conv_stat_proc_1984,Pollard_asymp_empi_proc_1989}.  However, we show in Lemma~\ref{lem:diffatlambdaL} that the derivative $G_L^\prime$ does exist, and is equal to zero, at $\hat{\lambda}_L$, so
+We first prove the asymptotic normality of $\sqrt{L} \hat{\lambda}_L$.  Once this is done we will be able to prove the normality of $\sqrt{L} m_L$.  Recall that $\hat{\lambda}_L$ is the maximiser of the function $G_L$ defined in~\eqref{eq:GLdefn}.  The proof is complicated by the fact that $G_L$ is not differentiable everywhere due to the function $\fracpart{\cdot}$ not being differentiable at multiples of $\tfrac{\pi}{M}$.  This prevents the use of ``standard approaches'' to proving normality that are based on the mean value theorem~\cite{vonMises_diff_stats_1947,vanDerVart1971_asymptotic_stats,Pollard_new_ways_clts_1986,Pollard_conv_stat_proc_1984,Pollard_asymp_empi_proc_1989}.  However, we show in Lemma~\ref{lem:diffatlambdaL} that the derivative $G_L^\prime$ does exist, and is equal to zero, at $\hat{\lambda}_L$. Define the function
+\[
+R_L(\lambda) = \frac{1}{L} \sum_{i \in P} R_i \sin(\lambda + \Phi_i) + \frac{1}{L} \sum_{i \in D} R_i \sin\sfracpart{\lambda + \Phi_i}.
+\]
+Whenever $G_L(\lambda)$ is differentiable $G_L^\prime(\lambda) = R_L(\lambda)$ so $R_L(\hat{\lambda}_L) = G_L^\prime(\hat{\lambda}_L) = 0$ by Lemma~\ref{lem:diffatlambdaL}.  Let $Q_L(\lambda) = \expect R_L(\lambda) - \expect R_L(0)$ and write
 \begin{align*}
-G_L^\prime(\hat{\lambda}_L) &= 0 \\
-&= \frac{1}{L} \sum_{i \in P} R_i \sin(\hat{\lambda}_L + \Phi_i) + \frac{1}{L} \sum_{i \in D} R_i \sin\sfracpart{\hat{\lambda}_L + \Phi_i}.
-\end{align*}
-Let $Q(\lambda) = \expect G_L^\prime(\lambda) - \expect G_L^\prime(0)$ and write
-\begin{align*}
-0 &= G_L^\prime(\hat{\lambda}_L) - Q(\hat{\lambda}_L) + Q(\hat{\lambda}_L) \\
-&= \sqrt{L}\big( G_L^\prime(\hat{\lambda}_L) - Q(\hat{\lambda}_L) \big) + \sqrt{L}Q(\hat{\lambda}_L).
+0 &= R_L(\hat{\lambda}_L) - Q_L(\hat{\lambda}_L) + Q_L(\hat{\lambda}_L) \\
+&= \sqrt{L}\big( R_L(\hat{\lambda}_L) - Q_L(\hat{\lambda}_L) \big) + \sqrt{L}Q_L(\hat{\lambda}_L).
 \end{align*}
 Lemma~\ref{lem:Qconv} shows that
 \[
-\sqrt{L} Q(\hat{\lambda}_L) = \sqrt{L} \hat{\lambda}_L\big( p + Hd  + o_P(1) \big)
+\sqrt{L} Q_L(\hat{\lambda}_L) = \sqrt{L} \hat{\lambda}_L\big( p + Hd  + o_P(1) \big)
 \]
 where $o_P(1)$ denotes a number converging in probablity to zero as $L \rightarrow \infty$, and the constants $p,d$ and $H$ are defined in the statement of Theorems~\ref{thm:consistency}~and~\ref{thm:normality}.  Lemma~\ref{lem:empiricprocc} shows that
 \[
-\sqrt{L}\big( G_L^\prime(\hat{\lambda}_L) - Q(\hat{\lambda}_L) \big) = o_P(1) + \sqrt{L} G_L^\prime(0).
+\sqrt{L}\big( R_L(\hat{\lambda}_L) - Q_L(\hat{\lambda}_L) \big) = o_P(1) + \sqrt{L} R_L(0).
 \]
 It follows from the three equations above that,
 \[
-0 = o_P(1) + \sqrt{L}G_L^\prime(0) + \sqrt{L} \hat{\lambda}_L \big( p + Hd  + o_P(1) \big)
+0 = o_P(1) + \sqrt{L}R_L(0) + \sqrt{L} \hat{\lambda}_L \big( p + Hd  + o_P(1) \big)
 \]
 and rearranging gives,
 \[
-\sqrt{L} \hat{\lambda}_L = o_P(1) - \frac{\sqrt{L}G_L'(0)}{p + Hd  + o_P(1)}.
+\sqrt{L} \hat{\lambda}_L = o_P(1) - \frac{\sqrt{L}R_L(0)}{p + Hd  + o_P(1)}.
 \]
-Lemma~\ref{lem:convdistGLdash} shows that the distribution of $\sqrt{L}G_L'(0)$ converges to the normal with zero mean and variance $pA_1 + dA_2$ where $A_1$ and $A_2$ are real constants defined in the statement of Thereom~\ref{thm:normality}.  It follows that the distribution of $\sqrt{L}\hat{\lambda}_L$ converges to the normal with zero mean and variance
+Lemma~\ref{lem:convdistGLdash} shows that the distribution of $\sqrt{L}R_L(0)$ converges to the normal with zero mean and variance $pA_1 + dA_2$ where $A_1$ and $A_2$ are real constants defined in the statement of Thereom~\ref{thm:normality}.  It follows that the distribution of $\sqrt{L}\hat{\lambda}_L$ converges to the normal with zero mean and variance
 \[
 \frac{pA_1 + dA_2}{(p + Hd)^2}.
 \]
@@ -845,12 +844,12 @@ To show that $\sfracpart{\hat{\lambda}_L + \Phi_k} \geq -\frac{\pi}{M} - q_k$ we
 
 
 \begin{lemma}\label{lem:Qconv}
-$\sqrt{L} Q(\hat{\lambda}_L) = \sqrt{L} \hat{\lambda}_L\big( p + Hd  + o_P(1) \big)$
+$\sqrt{L} Q_L(\hat{\lambda}_L) = \sqrt{L} \hat{\lambda}_L\big( p + Hd  + o_P(1) \big)$
 \end{lemma}
 \begin{IEEEproof}
 We have
 \[
-Q(\lambda) = \expect G_L^\prime(\lambda) - \expect G_L^\prime(0) = \tfrac{\abs{P}}{L} k_1(\lambda) + \tfrac{\abs{D}}{L} k_2(\lambda)
+Q_L(\lambda) = \expect R_L(\lambda) - \expect R_L(0) = \tfrac{\abs{P}}{L} k_1(\lambda) + \tfrac{\abs{D}}{L} k_2(\lambda)
 \]
 where
 \begin{align}
@@ -872,7 +871,7 @@ k_1(\hat{\lambda}_L) = \hat{\lambda}_L \big( 1 \; + \; \zeta(\hat{\lambda}_L) K 
 \]
 Lemma~\ref{lem:k2conv} shows that $k_2(\hat{\lambda}_L) = \hat{\lambda}_L ( H + o_P(1) )$.  So,
 \begin{align*}
-Q(\hat{\lambda}_L) &=  \tfrac{\abs{P}}{L} \hat{\lambda}_L \big( 1  + o_P(1)\big)  + \tfrac{\abs{D}}{L} \hat{\lambda}_L ( H + o_P(1) ) \\
+Q_L(\hat{\lambda}_L) &=  \tfrac{\abs{P}}{L} \hat{\lambda}_L \big( 1  + o_P(1)\big)  + \tfrac{\abs{D}}{L} \hat{\lambda}_L ( H + o_P(1) ) \\
 &= \hat{\lambda}_L \left( \tfrac{\abs{P}}{L}  + \tfrac{\abs{D}}{L} H + o_P(1) \right) \\
 &= \hat{\lambda}_L \left( p  + d H + o_P(1) \right),
 \end{align*}
@@ -1042,17 +1041,17 @@ Then $\gamma(\lambda)$ converges to zero as $\lambda$ goes to zero and $W(\lambd
 
 \begin{lemma}\label{lem:empiricprocc}
 \[
-\sqrt{L}\big( G_L^\prime(\hat{\lambda}_L) - Q(\hat{\lambda}_L) \big) = o_P(1) + \sqrt{L} G_L^\prime(0).
+\sqrt{L}\big( R_L(\hat{\lambda}_L) - Q_L(\hat{\lambda}_L) \big) = o_P(1) + \sqrt{L} R_L(0).
 \]
 \end{lemma}
 \begin{IEEEproof}
 Put 
 \[
-Z_L(\lambda) = \sqrt{L}\big(G_L^\prime(\lambda) - \expect G_L^\prime(\lambda) - G_L^\prime(0) + \expect G_L^\prime(0)\big)
+Z_L(\lambda) = \sqrt{L}\big( R_L(\lambda) - \expect R_L(\lambda) - R_L(0) + \expect R_L(0)\big)
 \] 
 so that
 \[
-\sqrt{L}\big( G_L^\prime(\hat{\lambda}_L) - Q(\hat{\lambda}_L) \big) = Z_L(\hat{\lambda}_L) + \sqrt{L} G_L^\prime(0)
+\sqrt{L}\big( R_L(\hat{\lambda}_L) - Q_L(\hat{\lambda}_L) \big) = Z_L(\hat{\lambda}_L) + \sqrt{L} R_L(0)
 \]
 Lemma~? shows that for any $\delta > 0$ and $\nu > 0$, there exists $\epsilon > 0$ such that
 \[
