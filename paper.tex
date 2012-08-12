@@ -1,6 +1,6 @@
 %\documentclass[a4paper,10pt]{article}
-\documentclass[draftcls, onecolumn, 11pt]{IEEEtran}
-%\documentclass[journal]{IEEEtran}
+%\documentclass[draftcls, onecolumn, 11pt]{IEEEtran}
+\documentclass[journal]{IEEEtran}
 
 \usepackage{mathbf-abbrevs}
 \input{defs}
@@ -331,7 +331,7 @@ Then the distribution of $(\sqrt{L}\hat{\lambda}_L, \sqrt{L}\hat{m}_L)$ converge
 \[
 \left( \begin{array}{cc} 
 \frac{pA_1 + dA_2}{(p + H d)^2} & 0 \\
-0 & pB_1 + dB_2
+0 & \rho_0^2(pB_1 + dB_2)
 \end{array} \right)
 \]
 as $L \rightarrow \infty$, where
@@ -776,7 +776,7 @@ Observe that
 \[
 G_L(\lambda) = \frac{1}{L}\sum_{i \in P} R_i \cos(\lambda + \Phi_i) + \frac{1}{L} \sum_{i \in D} R_i \cos\sfracpart{\lambda + \Phi_i}
 \] 
-is differentiable everywhere except when $\fracpart{\lambda + \Phi_i} = -\tfrac{\pi}{M}$ for any $i \in D$ where $R_i > 0$.  Let $q_i$ be the smallest number from the interval $[-\tfrac{\pi}{M}, 0]$ such that
+is differentiable everywhere except when $\fracpart{\lambda + \Phi_i} = -\tfrac{\pi}{M}$ for any $i \in D$ with $R_i > 0$.  Let $q_i$ be the smallest number from the interval $[-\tfrac{\pi}{M}, 0]$ such that
 \[
  \sin(q_i) > -\frac{\rho_o \sabs{\eta}^2 R_i}{4 L \hat{\rho} \sin(\pi/M)}
 \]
@@ -790,9 +790,9 @@ for all $i \in D$.  Thus, $\sfracpart{\hat{\lambda}_L + \Phi_i} \neq -\tfrac{\pi
 \begin{lemma}\label{lem:fracpartlambdahatnotpi} Let $q_i, i \in D$ be defined as in Lemma~\ref{lem:diffatlambdaL}.  Then $\sabs{\sfracpart{\hat{\lambda}_L + \Phi_i}} \leq \frac{\pi}{M} + q_i$ for all $i \in D$.
 \end{lemma}
 \begin{IEEEproof}
-Recall that $\hat{d}_i = \hat{d}_i(\hat{\theta}), i \in D$ defined in \eqref{eq:hatdfinxtheta} are the minimsers of the function 
+Recall that $\{\hat{d}_i = \hat{d}_i(\hat{\theta}), i \in D\}$ defined in \eqref{eq:hatdfinxtheta} are the minimsers of the function 
 \[
-SS(\{d_i, i \in D\}) = A - \frac{1}{L}\abs{Y(\{d_i, i \in D\})}^2,
+SS(\{d_i, i \in D\}) = A - \frac{1}{L}\sabs{Y(\{d_i, i \in D\})}^2,
 \]
 defined in~\eqref{eq:SSdatasymbols}. The proof now proceeds by contradiction.  Assume that 
 \begin{equation}\label{eq:fraclambassumption}
@@ -805,9 +805,9 @@ Y(\{ r_i, i \in D\}) = \sum_{i \in P} y_ip_i^* + \sum_{i \in D} y_i\hat{r}_i^* =
 where $\eta = e^{-j2\pi/M} - 1$ and $\hat{Y} = Y(\{ \hat{d}_i, i \in D\})$.  Now,
 \begin{align*}
 SS&(\{r_i, i \in D\}) \\
-&= A - \frac{1}{L} \abs{ Y(\{ r_i, i \in D\}) }^2 \\
-&= A - \frac{1}{L} \abs{ \hat{Y} + \eta y_k\hat{d}_k^* }^2 \\
-&= A - \frac{1}{L}\abs{\hat{Y}}^2 - \frac{2}{L}\Re\left(\eta \hat{Y}^* y_k \hat{d}_k^* \right) -  \frac{1}{L}\abs{ \eta y_k}^2\\
+&= A - \frac{1}{L} \sabs{ Y(\{ r_i, i \in D\}) }^2 \\
+&= A - \frac{1}{L} \sabs{ \hat{Y} + \eta y_k\hat{d}_k^* }^2 \\
+&= A - \frac{1}{L}\sabs{\hat{Y}}^2 - \frac{2}{L}\Re\left(\eta \hat{Y}^* y_k \hat{d}_k^* \right) -  \frac{1}{L}\sabs{ \eta y_k}^2\\
 &= SS(\{\hat{d}_i, i \in D\}) - D
 \end{align*}
 where 
@@ -831,20 +831,15 @@ Let $v = \sfracpart{\hat{\lambda}_L + \Phi_k} - \tfrac{\pi}{M}$ so that
 and
 \begin{align*}
 \Re\left( \eta e^{j\sfracpart{\hat{\lambda}_L + \Phi_k}}\right) &= -2 \sin(\tfrac{\pi}{M}) \cos(v + \tfrac{\pi}{2}) \\
- &= 2 \sin(\tfrac{\pi}{M}) \sin(v)
+ &= 2 \sin(\tfrac{\pi}{M}) \sin(v),
 \end{align*}
-Because we assumed~\eqref{eq:fraclambassumption},
-\[
-0 > v > q_k
-\]
-and, from the definition of $q_k$,
+Because we assumed~\eqref{eq:fraclambassumption}, it follows that $0 > v > q_k$ and, from the definition of $q_k$,
 \[
 0 > \sin(v) > -\frac{\rho_o \sabs{\eta}^2 R_i}{4 L \hat{\rho} \sin(\pi/M)}.
 \]
 Subtituting this into~\eqref{eq:Ddefn} gives $D > 0$, but then $SS(\{r_i, i \in D\}) < SS(\{\hat{d}_i, i \in D\})$, violating the fact that $\{\hat{d}_i, i \in D\}$ are minimisers of $SS$.  Thus,~\eqref{eq:fraclambassumption} is false.
 
-To show that $\sfracpart{\hat{\lambda}_L + \Phi_k} \geq -\frac{\pi}{M} - q_k$ we use contradiction again.  Assume that $\sfracpart{\hat{\lambda}_L + \Phi_k} < -\frac{\pi}{M} - q_k$.  Recalling the notation $e_k^*$ defined in Section~\ref{sec:least-squar-estim}, put $r_i = \hat{d}_i e_k^*$.  Now an argument analagous to that used previously shows that $SS(\{r_i, i \in D\}) < SS(\{\hat{d}_i, i \in D\})$ again.
-
+To show that $\sfracpart{\hat{\lambda}_L + \Phi_k} \geq -\frac{\pi}{M} - q_k$ we use contradiction again.  Assume that $\sfracpart{\hat{\lambda}_L + \Phi_k} < -\frac{\pi}{M} - q_k$.  Recalling the notation $e_k^*$ defined in Section~\ref{sec:least-squar-estim}, put $r_i = \hat{d}_i e_k^*$.  Now an analagous argument can be used to show that $SS(\{r_i, i \in D\}) < SS(\{\hat{d}_i, i \in D\})$ again.
 
 \end{IEEEproof}
 
@@ -1045,13 +1040,37 @@ Both $A(\lambda)$ and $B(\lambda)$ converge to zero as $\lambda$ goes to zero, w
 Then $\gamma(\lambda)$ converges to zero as $\lambda$ goes to zero and $W(\lambda) = \lambda(H_1 + \gamma(\lambda))$ as required.
 \end{IEEEproof}
 
-\begin{lemma}\label{lem:empiricprocc} BLERG
+\begin{lemma}\label{lem:empiricprocc}
 \[
 \sqrt{L}\big( G_L^\prime(\hat{\lambda}_L) - Q(\hat{\lambda}_L) \big) = o_P(1) + \sqrt{L} G_L^\prime(0).
 \]
 \end{lemma}
 \begin{IEEEproof}
-
+Put 
+\[
+Z_L(\lambda) = \sqrt{L}\big(G_L^\prime(\lambda) - \expect G_L^\prime(\lambda) - G_L^\prime(0) + \expect G_L^\prime(0)\big)
+\] 
+so that
+\[
+\sqrt{L}\big( G_L^\prime(\hat{\lambda}_L) - Q(\hat{\lambda}_L) \big) = Z_L(\hat{\lambda}_L) + \sqrt{L} G_L^\prime(0)
+\]
+Lemma~? shows that for any $\delta > 0$ and $\nu > 0$, there exists $\epsilon > 0$ such that
+\[
+\Pr\left\{ \sup_{\sabs{\lambda}<\epsilon}\sabs{Z_L(\lambda)} > \delta  \right\} < \nu
+\]
+for all positive integers $L$.  Since $\hat{\lambda}_L$ converges almost surely to zero, it follows that for any $\epsilon > 0$,
+\[
+\lim_{L\rightarrow\infty}\prob\left\{ \sabs{\hat{\lambda}_L} \geq \epsilon \right\} = 0
+\] 
+and therefore $\prob\{ \sabs{\hat{\lambda}_L} \geq \epsilon \} < \nu$ for all sufficiently large $L$.  Now
+\begin{align*}
+  \prob&\left\{\sabs{ Z_L(\hat{\lambda}_L) } > \delta \right\} \\
+&= \prob\left\{ \sabs{Z_L(\hat{\lambda}_L)} > \delta \;\text{and} \; \sabs{\hat{\lambda}_L} < \epsilon \right\} \\
+&\hspace{0.7cm} + \prob\left\{ \sabs{Z_L(\lambda_L)} > \delta  \;\text{and} \; \sabs{\hat{\lambda}_L} \geq \epsilon \right\} \\
+&\leq \prob\left\{  \sup_{\lambda < \epsilon} \sabs{ Z_L(\lambda) } > \delta \right\} + \prob\left\{ \sabs{\hat{\lambda}_L} \geq \epsilon \right\} \\
+&\leq 2\nu.
+\end{align*}
+for all sufficiently large $L$.  Since $\nu$ and $\delta$ can be chosen arbitrarily small, it follows that $Z_L(\hat{\lambda}_L)$ converges in probability to zero as $N\rightarrow\infty$.
 \end{IEEEproof}
 
 \begin{lemma}\label{lem:convdistGLdash}

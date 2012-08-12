@@ -20,10 +20,6 @@ class CLTComputerTest {
   }
 
   @Test
-  def example = {
-  }
-  
-  @Test
   def testGaussianCLT = {
     val M = 4
     val p = 0.1
