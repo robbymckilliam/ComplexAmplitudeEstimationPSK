@@ -601,11 +601,11 @@ R_i\cos\sfracpart{\lambda + \Phi_i} , & i \in D
 \]
 so that
 \[
-D_L(\lambda) = G_L(\lambda) - T_L(\lambda) = \frac{1}{L}\sum_{i=1}^{L} \big( Z_i(\lambda) - \expect Z_i(\lambda) \big).
+D_L(\lambda) = G_L(\lambda) - T_L(\lambda) = \frac{1}{L}\sum_{i\in P \cup D} \big( Z_i(\lambda) - \expect Z_i(\lambda) \big).
 \]
 Now $Z_1(\lambda_n), \dots,Z_L(\lambda_n)$ are independent with finite variance (because $\expect R_i^2$ is finite), so for each $n =1, \dots, N$,
 \[
-\abs{D_L(\lambda_n)} = \abs{\frac{1}{L}\sum_{i=1}^{L} \big( Z_i(\lambda_n) - \expect Z_i(\lambda)\big)} \rightarrow 0
+\abs{D_L(\lambda_n)} = \abs{\frac{1}{L}\sum_{i\in P \cup D} \big( Z_i(\lambda_n) - \expect Z_i(\lambda)\big)} \rightarrow 0
 \]
 almost surely as $L\rightarrow\infty$ by the Kolmogorov's strong law of large numbers~\cite[Theorem 2.3.10]{SenSinger_large_sample_stats_1993}.  Now, since $N$ is finite,
 \[
@@ -669,22 +669,22 @@ Because this results does not depend on $n$,
 \]
 for all $i = P \cup D$.  Now,
 \begin{align*}
-C_L &= \sup_{n=1,\dots,N}\sup_{\lambda \in L_n}\abs{\frac{1}{L}\sum_{i=1}^L Z_i(\lambda) - Z_i(\lambda_n)} \\
-&\leq \frac{1}{L}\sum_{i=1}^L \sup_{n=1,\dots,N}\sup_{\lambda \in L_n} \abs{Z_i(\lambda) - Z_i(\lambda_n)} \\
-&\leq \frac{2\pi}{N L}\sum_{i=1}^L R_i .
+C_L &= \sup_{n=1,\dots,N}\sup_{\lambda \in L_n}\abs{\frac{1}{L}\sum_{i \in P \cup D} Z_i(\lambda) - Z_i(\lambda_n)} \\
+&\leq \frac{1}{L}\sum_{i \in P \cup D} \sup_{n=1,\dots,N}\sup_{\lambda \in L_n} \abs{Z_i(\lambda) - Z_i(\lambda_n)} \\
+&\leq \frac{2\pi}{N L}\sum_{i \in P \cup D} R_i .
 \end{align*}
 Thus, 
 \[
-\expect C_L \leq \expect \frac{2\pi}{N L}\sum_{i=1}^L R_i = \tfrac{2\pi}{N}\expect R_1
+\expect C_L \leq \expect \frac{2\pi}{N L}\sum_{i \in P \cup D} R_i = \tfrac{2\pi}{N}\expect R_1
 \]
 and the first statement holds.  Now, 
 \[
-\frac{2\pi}{N L}\sum_{i=1}^L R_i \rightarrow \frac{2\pi}{N}\expect R_1
+\frac{2\pi}{N L}\sum_{i \in P \cup D} R_i \rightarrow \frac{2\pi}{N}\expect R_1
 \] 
 almost surely to $\frac{2\pi}{N}\expect R_1$ as $L \rightarrow\infty$ by the strong law of large numbers, and so, for any $\epsilon > 0$,
 \begin{align*}
 \prob&\left\{ \lim_{L \rightarrow \infty} C_L > \epsilon + \tfrac{2\pi}{N}\expect R_1 \right\} \\
-&\leq \prob\left\{ \lim_{L \rightarrow \infty} \frac{2\pi}{N L}\sum_{i=1}^L R_i > \epsilon + \tfrac{2\pi}{N}\expect R_1 \right\} = 0.
+&\leq \prob\left\{ \lim_{L \rightarrow \infty} \frac{2\pi}{N L}\sum_{i \in P \cup D} R_i > \epsilon + \tfrac{2\pi}{N}\expect R_1 \right\} = 0.
 \end{align*}
 \end{IEEEproof}
 
@@ -1465,7 +1465,7 @@ For any $\delta > 0$ and $\nu > 0$, there exists $\epsilon > 0$ such that:
 \item $\Pr\left\{ \sup_{\sabs{\lambda}<\epsilon}\sabs{W_L(\lambda)} > \delta  \right\} < \nu$, and,
 \item $\Pr\left\{ \sup_{\sabs{\lambda}<\epsilon}\sabs{Y_L(\lambda)} > \delta  \right\} < \nu$,
 \end{enumerate}
-for all positive integers $L$
+for all positive integers $L$.
 \end{lemma}
 \begin{IEEEproof}
 These results are related to what is called \emph{tightness} in the literature on empirical processes and weak convergence on metric spaces~\cite{Billingsley1999_convergence_of_probability_measures,Dudley_unif_central_lim_th_1999,Shorak_emp_proc_stat_2009}.  The proof is based on a technique called \emph{symmetrisation} and another technique called \emph{chaining} (also known as \emph{bracketing})~\cite{Pollard_asymp_empi_proc_1989}.  We will only give a proof of the first statement regarding the function $W_L$.  The proof for the second statement regarding $Y_L$ is similar.  
@@ -1479,7 +1479,7 @@ R_i( \sin\sfracpart{\lambda + \Phi_i} - \sin\sfracpart{\Phi_i}), & i \in D \\
 \]
 so that
 \[
-W_L(\lambda) = \frac{1}{\sqrt{L}} \sum_{i = 1}^{L} \big( f_i(\lambda, R_i, \Phi_i) - \expect f_i(\lambda, R_i, \Phi_i) \big).
+W_L(\lambda) = \frac{1}{\sqrt{L}} \sum_{i \in P \cup D} \big( f_i(\lambda, R_i, \Phi_i) - \expect f_i(\lambda, R_i, \Phi_i) \big).
 \]
 Let $\{g_i\}$ be a sequence of independent standard normal random variables, independent of $\{R_i\}$ and $\{\Phi_i\}$.  Lemma~\ref{lem:symmetrisation} shows that
 \[
@@ -1487,7 +1487,7 @@ Let $\{g_i\}$ be a sequence of independent standard normal random variables, ind
 \]
 where 
 \begin{equation}\label{eq:ZpsiCondGaussProc}
-X_L(\lambda) = \frac{1}{\sqrt{L}} \sum_{n=1}^{L} g_i f_i(\lambda, R_i, \Phi_i),
+X_L(\lambda) = \frac{1}{\sqrt{L}} \sum_{i \in P \cup D} g_i f_i(\lambda, R_i, \Phi_i),
 \end{equation}
 and where $\expect$ runs over all of $\{g_i\}$, $\{R_i\}$ and $\{\Phi_i\}$.  Conditionally on $\{\Phi_i\}$ and $\{R_i\}$, $\{X_L(\lambda), \lambda \in \reals \}$ is a \emph{Gaussian process}, and numerous techniques exist for its analysis.  Lemma~\ref{lem:chaining} shows that for any $\kappa > 0$ there exists $\epsilon > 0$ such that
 \[
@@ -1513,8 +1513,8 @@ for any $\delta > 0$.  The proof follows by choosing $\nu =  \sqrt{2\pi} \kappa/
 \begin{IEEEproof}
 Let $\{R_i'\}$ be a sequence identically distributed to $\{R_i\}$ and let $\{\Phi_i'\}$ be sequence identically distributed to $\{\Phi_i\}$, both $\{R_i'\}$ and $\{\Phi_i'\}$ chosen independently of $\{R_i\}$ and $\{\Phi_i\}$.  Let $\expect_{R,\Phi}$ denote expectation conditional on $\{R_i\}$ and $\{\Phi_i\}$.  Then
 \begin{align*}
-W_L(\lambda) &= \frac{1}{\sqrt{L}} \sum_{i = 1}^{L} \big( f_i(\lambda, R_i, \Phi_i) - \expect_{R,\Phi} f_i(\lambda, R_i', \Phi_i') \big) \\
-&= \expect_{R,\Phi} \frac{1}{\sqrt{L}} \sum_{i=1}^{L} ( f_{i} - f_{i}^\prime ),
+W_L(\lambda) &= \frac{1}{\sqrt{L}} \sum_{i \in P \cup D} \big( f_i(\lambda, R_i, \Phi_i) - \expect_{R,\Phi} f_i(\lambda, R_i', \Phi_i') \big) \\
+&= \expect_{R,\Phi} \frac{1}{\sqrt{L}} \sum_{i \in P \cup D} ( f_{i} - f_{i}^\prime ),
 \end{align*}
 where, for notational convenience, we put 
 \[
@@ -1522,16 +1522,16 @@ f_{i} = f_i(\lambda, R_i, \Phi_i) \qquad \text{and} \qquad  f_{i}^\prime = f_i(\
 \] 
 Taking absolute values followed by supremums,
 \begin{align*}
- \sup_{\sabs{\lambda} < \epsilon} \abs{ W_L(\lambda)} &= \sup_{\sabs{\lambda} < \epsilon}  \abs{\frac{1}{\sqrt{L}} \expect_{R,\Phi} \sum_{i=1}^{L} (f_{i} - f_{i}^\prime )} \\
-&\leq \sup_{\sabs{\lambda} < \epsilon} \expect_{R,\Phi}  \abs{ \frac{1}{\sqrt{L}} \sum_{i=1}^{L}  (f_{i} - f_{i}^\prime) },
+ \sup_{\sabs{\lambda} < \epsilon} \abs{ W_L(\lambda)} &= \sup_{\sabs{\lambda} < \epsilon}  \abs{\frac{1}{\sqrt{L}} \expect_{R,\Phi} \sum_{i \in P \cup D} (f_{i} - f_{i}^\prime )} \\
+&\leq \sup_{\sabs{\lambda} < \epsilon} \expect_{R,\Phi}  \abs{ \frac{1}{\sqrt{L}} \sum_{i \in P \cup D}  (f_{i} - f_{i}^\prime) },
 \end{align*}
 the upper bound following from Jensen's inequality.  Since $\sup \expect \abs{\dots} \leq \expect \sup \abs{\dots}$, the bound can be increased by moving $\expect_{R,\Phi}$ outside the supremum,
 \begin{equation}\label{eq:Eoutsidesup}
- \sup_{\sabs{\lambda} < \epsilon} \abs{ W_L(\lambda)} \leq \expect_{R,\Phi} \sup_{\sabs{\lambda} < \epsilon} \abs{ \frac{1}{\sqrt{L}}\sum_{i=1}^{L} ( f_{i} - f_{i}^\prime ) }.
+ \sup_{\sabs{\lambda} < \epsilon} \abs{ W_L(\lambda)} \leq \expect_{R,\Phi} \sup_{\sabs{\lambda} < \epsilon} \abs{ \frac{1}{\sqrt{L}}\sum_{i \in P \cup D} ( f_{i} - f_{i}^\prime ) }.
 \end{equation}
 Applying $\expect$ to both sides gives the inequality
 \begin{equation}\label{eq:Gninequfin}
- \expect \sup_{\sabs{\lambda} < \epsilon} \abs{ W_L(\lambda)} \leq  \expect \sup_{\sabs{\lambda} < \epsilon} \abs{ \frac{1}{\sqrt{L}}\sum_{i=1}^{L}  (f_{i} - f_{i}^\prime) },
+ \expect \sup_{\sabs{\lambda} < \epsilon} \abs{ W_L(\lambda)} \leq  \expect \sup_{\sabs{\lambda} < \epsilon} \abs{ \frac{1}{\sqrt{L}}\sum_{i \in P \cup D} (f_{i} - f_{i}^\prime) },
 \end{equation}
 since $\expect \expect_{R,\Phi}$ is equivalent to $\expect$.   Let
 \[
@@ -1547,28 +1547,28 @@ As $R_i$ and $\Phi_i$ are independent and identically distributed to $R_i^\prime
 %\]
 %are identically distributed, and therefore
 \begin{align*}
- \expect \sup_{\sabs{\lambda} < \epsilon}  &\abs{  \frac{1}{\sqrt{L}}\sum_{i=1}^{L}  (f_{i} - f_{i}^\prime) } \\
-&= \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{  \frac{1}{\sqrt{L}}\sum_{i=1}^{L} \sigma_i ( f_{i} - f_{i}^\prime) }.
+ \expect \sup_{\sabs{\lambda} < \epsilon}  &\abs{  \frac{1}{\sqrt{L}}\sum_{i \in P \cup D}  (f_{i} - f_{i}^\prime) } \\
+&= \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{  \frac{1}{\sqrt{L}}\sum_{i \in P \cup D} \sigma_i ( f_{i} - f_{i}^\prime) }.
 \end{align*}
 By the triangle inequality
 \[
-\abs{ \sum_{i=1}^{L} \sigma_i (f_{i} - f_{i}^\prime)} \leq \abs{ \sum_{i=1}^{L} \sigma_i f_{i} } + \abs{ \sum_{i=1}^{L}  \sigma_i f_{i}^\prime },
+\abs{ \sum_{i\in P \cup D} \sigma_i (f_{i} - f_{i}^\prime)} \leq \abs{ \sum_{i \in P \cup D} \sigma_i f_{i} } + \abs{ \sum_{i\in P \cup D}  \sigma_i f_{i}^\prime },
 \]
 and it follows from~\eqref{eq:Gninequfin}, that
 \begin{align*}
- \expect \sup_{\sabs{\lambda} < \epsilon} \abs{ W_L(\lambda)} &\leq \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{ \frac{1}{\sqrt{L}}\sum_{i=1}^{L} \sigma_i f_{i} } \\
-&\hspace{1cm} + \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{\frac{1}{\sqrt{L}} \sum_{i=1}^{L}  \sigma_i  f_{i}^\prime } \\
-&= 2 \; \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{ \frac{1}{\sqrt{L}}\sum_{i=1}^{L} \sigma_i f_{i} }.
+ \expect \sup_{\sabs{\lambda} < \epsilon} \abs{ W_L(\lambda)} &\leq \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{ \frac{1}{\sqrt{L}}\sum_{i\in P \cup D} \sigma_i f_{i} } \\
+&\hspace{1cm} + \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{\frac{1}{\sqrt{L}} \sum_{i \in P \cup D}  \sigma_i  f_{i}^\prime } \\
+&= 2 \; \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{ \frac{1}{\sqrt{L}}\sum_{i \in P \cup D} \sigma_i f_{i} }.
 \end{align*}
 Since $g_i$ is a standard normal random variable, $\expect \abs{g_i} = \expect_{R,\Phi} \abs{g_i} = \sqrt{2/\pi}$, and
 \begin{align*}
-\expect \sup_{\sabs{\lambda} < \epsilon}  &\abs{ \frac{1}{\sqrt{L}}\sum_{i=1}^{L} \sigma_i f_{i} } \\
-&= \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{ \frac{1}{\sqrt{L}}\sum_{i=1}^{L} \sigma_i f_{i} \sqrt{\frac{\pi}{2}}\expect_{R,\Phi} \abs{g_i}} \\
-&\leq \sqrt{\frac{\pi}{2}} \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{ \frac{1}{ \sqrt{L}}\sum_{i=1}^{L} \sigma_i \abs{g_i}  f_{i}},
+\expect \sup_{\sabs{\lambda} < \epsilon}  &\abs{ \frac{1}{\sqrt{L}}\sum_{i \in P \cup D} \sigma_i f_{i} } \\
+&= \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{ \frac{1}{\sqrt{L}}\sum_{i \in P \cup D} \sigma_i f_{i} \sqrt{\frac{\pi}{2}}\expect_{R,\Phi} \abs{g_i}} \\
+&\leq \sqrt{\frac{\pi}{2}} \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{ \frac{1}{ \sqrt{L}}\sum_{i \in P \cup D} \sigma_i \abs{g_i}  f_{i}},
 \end{align*}
 the last line following from Jensen's inequality and by moving $\expect_{R,\Phi}$ outside the supremum similarly to~\eqref{eq:Eoutsidesup}. As $g_i = \sigma_i \abs{g_i}$, it follows that
 \begin{align*}
-\expect \sup_{\sabs{\lambda} < \epsilon} \abs{W_L(\lambda)}  &\leq 2\sqrt{\frac{\pi}{2}} \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{ \frac{1}{\sqrt{L}}\sum_{i=1}^{L} g_i  f_{i}} \\
+\expect \sup_{\sabs{\lambda} < \epsilon} \abs{W_L(\lambda)}  &\leq 2\sqrt{\frac{\pi}{2}} \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{ \frac{1}{\sqrt{L}}\sum_{i\in P \cup D} g_i  f_{i}} \\
 &= \sqrt{2\pi} \; \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{ X_L(\lambda) } 
 \end{align*}
 as required.
@@ -1582,7 +1582,111 @@ For any $\kappa > 0$ there exists $\epsilon > 0$ such that
 where $X_L(\lambda)$ is defined by~\eqref{eq:ZpsiCondGaussProc}.
 \end{lemma}
 \begin{IEEEproof}
+Without loss of generality, assume that $\epsilon < \tfrac{\pi}{M}$.  Lemma~\ref{lem:chaining2} shows that
+\begin{equation}\label{eq:supZCK1} 
+\expect_{R,\Phi} \sup_{\sabs{\lambda} < \epsilon} \abs{ X_L(\psibf) } \leq K_1 \sqrt{C_\epsilon(\{\Phi\})}
+\end{equation}
+where $K_1$ is a finite, positive constant, and $C_\epsilon(\{\Phi\})$ is average number of times $\Phi_i, i \in D$ are inside the set
+\[
+S_\epsilon = \bigcup_{k \in \ints} [\psi_k - \epsilon, \psi_k + \epsilon],
+\]
+where $\psi_k = \tfrac{2\pi}{M}k + \tfrac{\pi}{M}$.  That is,
+\[
+C_\epsilon(\{\Phi\}) = \frac{1}{L} \sum_{i \in P \cup D} I_\epsilon(\Phi_i)
+\]
+where $I_\epsilon(\Phi_i) = 1$ if $\Phi_i \in S_\epsilon$ and zero otherwise.
+\end{IEEEproof}
+
+The proofs of Lemmas~\ref{lem:chaining2}~and~\ref{lem:chaining3} are based on a technique called \emph{chaining} (or \emph{bracketing})~\cite{Dudley_unif_central_lim_th_1999,Ossiander_clt_bracketing_1984,Pollard_asymp_empi_proc_1989,Pollard_new_ways_clts_1986}.  The proofs here follow those of Pollard~\cite[Section 3]{Pollard_asymp_empi_proc_1989}.  %Within the remaining proofs, we are interested in expectations conditional on the phase noise sequence $\{\Phi_n\}$, so for the purpose of these lemmas, $\{\Phi_n\}$ is treated as a fixed realisation.  
+For notational convenience we use the abbreviations 
+\[
+C_\epsilon = C_\epsilon(\{\Phi\}) \qquad \text{and} \qquad f_{i}(\lambda) = f_{i}(\lambda, R_i, \Phi_i)
+\]
+in what follows.  As in Lemma~\ref{lem:chaining} we assume, without loss of generality, that $\epsilon < \tfrac{1}{m+1}$.  %This comes at no loss since Lemma~\ref{lem:chaining} only asks for the existence of an $\epsilon > 0$.
+
+\begin{lemma}\label{lem:chaining2}
+There exists a positive constant $K_1$ such that
+\[
+\expect_{R,\Phi} \sup_{\sabs{\lambda} < \epsilon} \abs{ X_L(\lambda) } \leq K_1 \sqrt{C_\epsilon}.
+\]
+\end{lemma}
+\begin{IEEEproof}
+Let $B_\epsilon = \{x \in \reals \mid \abs{x} < \epsilon\}$ be the set of real numbers with magnitude less than $\epsilon$.  For each non negative integer $k$, let $T_\epsilon(k)$ be a discrete subset of $\reals$ with the property that for every $\lambda \in B_\epsilon$ there exists $\lambda^* \in T_\epsilon(k)$ such that the pseudometric
+\[
+d(\lambda, \lambda^*) = \sum_{i \in P \cup D} \big( f_{i}(\lambda) - f_{i}(\lambda^*) \big)^2 \leq 2^{-k} C_\epsilon N.
+\]
+We specifically define $T_\epsilon(0)$ to contain only zero.  Defined this way 
+\end{IEEEproof}
+
+
+\begin{lemma}
+Suppose $\sabs{\lambda} < \epsilon$ and $\sabs{\lambda^*} < \epsilon$ with $\epsilon < \tfrac{\pi}{M}$. Then
+\begin{align*}
+d(\lambda, \lambda^*) &= \sum_{i \in P \cup D} \big( f_{i}(\lambda) - f_{i}(\lambda^*) \big)^2 \\
+&\leq R_i^2 L \left( (\lambda - \lambda^*)^2 + 4 C_\epsilon \right).
+\end{align*}
+\end{lemma}
+
+
+\begin{lemma}
+If $i \in P$, then $\big(f_{i}(\lambda) - f_{i}(\lambda^*)\big)^2 \leq R_i^2(\lambda - \lambda^*)^2.$
+\end{lemma}
+\begin{IEEEproof} 
+We have
+\[
+\big(f_{i}(\lambda) - f_{i}(\lambda^*)\big)^2 = R_i^2\sabs{\sin(\lambda + \Phi_i) - \sin(\lambda^* + \Phi_i)}^2
+\]
+and, since $\sin(\cdot)$ is Lipshitz continuous with constant $K=1$,
+\[
+\sabs{\sin(\lambda + \Phi_i) - \sin(\lambda^* + \Phi_i)} \leq K\sabs{\lambda - \lambda^*} = \sabs{\lambda - \lambda^*}.
+\]
+\end{IEEEproof}
+
+\begin{lemma}
+Suppose $\sabs{\lambda} < \epsilon$ and $\sabs{\lambda^*} < \epsilon$ with $\epsilon < \tfrac{\pi}{M}$.  If $i \in D$, then
+\begin{equation}\label{eq:fismall}
+\big(f_{i}(\lambda) - f_{i}(\lambda^*)\big)^2 \leq R_i^2(\lambda - \lambda^*)^2
+\end{equation}
+when $\Phi_i \notin S_\epsilon$, otherwise,
+\begin{equation}\label{eq:fibig}
+\big(f_{i}(\lambda) - f_{i}(\lambda^*)\big)^2 \leq 4 R_i^2.
+\end{equation}
+\end{lemma}
+\begin{IEEEproof}
+Because $\sin(\cdot) \leq 1$ it follows that
+\begin{align*}
+\big(f_{i}(\lambda) - f_{i}(\lambda^*)\big)^2 &= R_i^2\sabs{\sin\fracpart{\lambda + \Phi_i} - \sin\fracpart{\lambda^* + \Phi_i}}^2 \\
+&\leq 4 R_i^2
+\end{align*}
+for any $\Phi_i \in \reals$, and so~\eqref{eq:fibig} holds.  If $\Phi_i \notin S_\epsilon$ then $\Phi_i \in (\psi_{k-1} + \epsilon, \psi_{k} - \epsilon)$ for some $k\in\ints$ and 
+\[
+\fracpart{\Phi_i + \lambda} = \Phi_i + \lambda - \tfrac{2\pi}{M}k
+\] 
+and
+\[
+\fracpart{\Phi_i + \lambda^*} = \Phi_i + \lambda^* - \tfrac{2\pi}{M}k 
+\]
+and, since $\sin(\cdot)$ is Lipshitz continuous with constant $K=1$,
+\begin{align*}
+\vert \sin&\fracpart{\Phi_i + \lambda} - \sin\fracpart{\Phi_i + \lambda^*}\vert \\
+&=  \sabs{\sin(\Phi_i + \lambda - \tfrac{2\pi}{M}k) - \sin(\Phi_i + \lambda^* - \tfrac{2\pi}{M}k)} \\
+&\leq K \sabs{\lambda - \lambda^*} \\
+&= \sabs{\lambda - \lambda^*}.
+\end{align*}
+Thus~\eqref{eq:fismall} holds. 
+\end{IEEEproof}
+
+
+
+\begin{lemma}\label{lem:chaining3}(Chaining)
+For all positive integers $k$,
+\[
+\expect_{R,\Phi} \sup_{\psibf \in T_\epsilon(k) } \abs{ X_L(\lambda) } \leq \sqrt{C_\epsilon} \sum_{i=1}^{k}\frac{?}{2^{i/2}}.
+\]
+\end{lemma}
+\begin{IEEEproof}
 
 \end{IEEEproof}
+
 
 \end{document}
