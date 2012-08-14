@@ -54,7 +54,7 @@ y_i = a_0 s_i + w_i, \qquad i \in P \cup D,
 where $w_i$ is noise and $a_0 = \rho_0 e^{j\theta_0}$ is a complex number representing both carrier phase $\theta_0$ and amplitude $\rho_0$ (by definition $\rho_0$ is a positive real number).  Our aim is to estimate $a_0$ from the noisy symbols $\{ y_i, i \in P \cup D \}$.  Complicating matters is that the data symbols $\{d_i, i \in D\}$ are not known to the reciever and must also be estimated.  Estimation problems of this type have undergone extensive prior study~\cite{ViterbiViterbi_phase_est_1983,Cowley_ref_sym_carr_1998,Wilson1989,Makrakis1990,Liu1991,Mackenthun1994,Sweldens2001,McKilliamLinearTimeBlockPSK2009}.  A practical approach is the least squares estimator, that is, the minimisers of the sum of squares function
 \begin{align*}
 SS(a, &\{d_i, i \in D\}) = \sum_{i \in P \cup D} \abs{ y_i - a s_i }^2 \\
-&= \sum_{i \in P} \abs{ y_i - a s_i }^2 + \sum_{i \in P \cup D} \abs{ y_i - a d_i }^2,
+&= \sum_{i \in P} \abs{ y_i - a s_i }^2 + \sum_{i \in D} \abs{ y_i - a d_i }^2,
 \end{align*}
 where $\abs{x}$ denotes the magnitude of the complex number $x$.  The least squares estimator is also the maximum likelihood estimator under the assumption that the noise sequence $\{w_i, i \in \ints\}$ is additive white and Gaussian.  However, as we will show, the estimator works well under less stringent assumptions.  %It is the least squares estimator that we primarily study in this paper.
 
@@ -269,6 +269,21 @@ where $\Re(\cdot)$ denotes the real part, and
 \expect \Im(R e^{j\Phi}) = \expect R \sin(\Phi) = 0,
 \end{equation}
 where $\Im(\cdot)$ denotes the imaginary part.  %The next lemma will be useful for the analysis of the least squares estimator.
+
+\begin{lemma}\label{lem:gg2cont}
+Let $X = Z e^{j\Theta}$ be a circularly symmetric complex random variable with pdf $\tfrac{1}{2\pi}f_Z(z)$.  Let $R > 0$ and $\Phi \in [0, 2\pi)$ be random variables satisfying $R e^{j\Phi} = 1 + X$ and with pdf $f(r,\phi)$.  Let
+\[
+g(\phi) = \int_{0}^\infty r f(r, \phi) dr,
+\]
+and
+\[
+g_2(\phi) = \int_{0}^\infty r^2 f(r, \phi) dr.
+\]
+Then $g$ and $g_2$ are continuous functions from $\reals$ to $\reals$.
+\end{lemma}
+\begin{IEEEproof}
+BLERG
+\end{IEEEproof}
 
 % \begin{lemma}\label{lem:h1minedcircsym}
 % Let $X = Z e^{j\Theta}$ be a circularly symmetric complex random variable with pdf $\tfrac{1}{2\pi}f_Z(z)$.  Let $R > 0$ and $\Phi \in [0, 2\pi)$ be random variables satisfying $R e^{j\Phi} = 1 + X$.  Let
@@ -1455,7 +1470,7 @@ Our first set of simulations considers the case where there are a number of pilo
 %\section{Tricks with fractional parts}
 %Throughout the paper, and particularly in  have made use of a number of results involving the fractional part function
 
-\subsection{Empirical process results}
+\subsection{An empirical process result}
 
 During the proof of asymptotic normality in Section~\ref{sec:proof-asympt-norm} we made use of the following result regarding the functions $W_L(\lambda)$ and $Y_L(\lambda)$ defined in~\eqref{eq:WLdef}~and~\eqref{eq:YLdef}.
 
@@ -1511,7 +1526,7 @@ for any $\delta > 0$.  The proof follows by choosing $\nu =  \sqrt{2\pi} \kappa/
 \]
 \end{lemma}
 \begin{IEEEproof}
-Let $\{R_i'\}$ be a sequence identically distributed to $\{R_i\}$ and let $\{\Phi_i'\}$ be sequence identically distributed to $\{\Phi_i\}$, both $\{R_i'\}$ and $\{\Phi_i'\}$ chosen independently of $\{R_i\}$ and $\{\Phi_i\}$.  Let $\expect_{R,\Phi}$ denote expectation conditional on $\{R_i\}$ and $\{\Phi_i\}$.  Then
+Let $\{R_i'\}$ be a sequence identically distributed to $\{R_i\}$ and let $\{\Phi_i'\}$ be sequence identically distributed to $\{\Phi_i\}$.  Both $\{R_i'\}$ and $\{\Phi_i'\}$ are chosen independently of $\{R_i\}$ and $\{\Phi_i\}$.  Let $\expect_{R,\Phi}$ denote expectation conditional on $\{R_i\}$ and $\{\Phi_i\}$.  Then
 \begin{align*}
 W_L(\lambda) &= \frac{1}{\sqrt{L}} \sum_{i \in P \cup D} \big( f_i(\lambda, R_i, \Phi_i) - \expect_{R,\Phi} f_i(\lambda, R_i', \Phi_i') \big) \\
 &= \expect_{R,\Phi} \frac{1}{\sqrt{L}} \sum_{i \in P \cup D} ( f_{i} - f_{i}^\prime ),
@@ -1560,7 +1575,7 @@ and it follows from~\eqref{eq:Gninequfin}, that
 &\hspace{1cm} + \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{\frac{1}{\sqrt{L}} \sum_{i \in P \cup D}  \sigma_i  f_{i}^\prime } \\
 &= 2 \; \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{ \frac{1}{\sqrt{L}}\sum_{i \in P \cup D} \sigma_i f_{i} }.
 \end{align*}
-Since $g_i$ is a standard normal random variable, $\expect \abs{g_i} = \expect_{R,\Phi} \abs{g_i} = \sqrt{2/\pi}$, and
+Because $g_i$ is a standard normal random variable it follows that $\expect \abs{g_i} = \expect_{R,\Phi} \abs{g_i} = \sqrt{2/\pi}$, and
 \begin{align*}
 \expect \sup_{\sabs{\lambda} < \epsilon}  &\abs{ \frac{1}{\sqrt{L}}\sum_{i \in P \cup D} \sigma_i f_{i} } \\
 &= \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{ \frac{1}{\sqrt{L}}\sum_{i \in P \cup D} \sigma_i f_{i} \sqrt{\frac{\pi}{2}}\expect_{R,\Phi} \abs{g_i}} \\
@@ -1579,47 +1594,119 @@ For any $\kappa > 0$ there exists $\epsilon > 0$ such that
 \[
 \expect \sup_{\sabs{\lambda} < \epsilon} \abs{ X_L(\lambda) } < \kappa,
 \]
-where $X_L(\lambda)$ is defined by~\eqref{eq:ZpsiCondGaussProc}.
+where $X_L(\lambda)$ is defined in~\eqref{eq:ZpsiCondGaussProc}.
 \end{lemma}
 \begin{IEEEproof}
 Without loss of generality, assume that $\epsilon < \tfrac{\pi}{M}$.  Lemma~\ref{lem:chaining2} shows that
 \begin{equation}\label{eq:supZCK1} 
-\expect_{R,\Phi} \sup_{\sabs{\lambda} < \epsilon} \abs{ X_L(\psibf) } \leq K_1 \sqrt{C_\epsilon(\{\Phi\})}
+\expect_{R,\Phi} \sup_{\sabs{\lambda} < \epsilon} \abs{ X_L(\psibf) } \leq K_1 \sqrt{\frac{C_\epsilon}{L}}
 \end{equation}
-where $K_1$ is a finite, positive constant, and $C_\epsilon(\{\Phi\})$ is average number of times $\Phi_i, i \in D$ are inside the set
+where $K_1$ is a finite, positive constant, and
 \[
-S_\epsilon = \bigcup_{k \in \ints} [\psi_k - \epsilon, \psi_k + \epsilon],
+C_\epsilon = 2\epsilon\sum_{i\in P \cup D}R_i^2 + 4\sum_{i\in P \cup D}R_i^2 I_{\epsilon}(\Phi_i)
 \]
-where $\psi_k = \tfrac{2\pi}{M}k + \tfrac{\pi}{M}$.  That is,
+where $I_{\epsilon}(\Phi_i)$ returns one when $\Phi_i \in \cup_{k\in\ints}[\psi_k - \epsilon, \psi_k + \epsilon]$ and zero otherwise.  Now,
 \[
-C_\epsilon(\{\Phi\}) = \frac{1}{L} \sum_{i \in P \cup D} I_\epsilon(\Phi_i)
+\tfrac{1}{L}\expect C_\epsilon =  2\epsilon\expect R_1^2 + 4 \expect R_i^2 I_{\epsilon}(\Phi_i).
 \]
-where $I_\epsilon(\Phi_i) = 1$ if $\Phi_i \in S_\epsilon$ and zero otherwise.
+Recalling that $f(r,\phi)$ is the joint probability density function of $R_i$ and $\Phi_i$,
+\begin{align*}
+\expect R_i^2 I_\epsilon(\Phi_i) &= \int_0^{2\pi} \int_{0}^\infty  r^2 f(r,\phi) I_\epsilon(\phi) dr d\phi \\ 
+&= \int_0^{2\pi}g_2(\phi) I_\epsilon(\phi) d\phi 
+\end{align*}
+where the function 
+\[
+g_2(\phi) = \int_{0}^\infty  r^2 f(r,\phi) dr d\phi 
+\]
+is continuous due to Lemma~\ref{lem:gg2cont}.  From the definition of $I_\epsilon$,
+\begin{align*}
+\expect R_i^2 I_\epsilon(\Phi_i) &= \sum_{k=0}^{M-1}\int_{\psi_k-\epsilon}^{\psi_k-\epsilon}g_2(\phi) d\phi \\
+&= 2\epsilon \sum_{k=0}^{M-1} (g_2(\psi_k) + o(1))
+\end{align*}
+where $o(1)$ goes to zero as $\epsilon$ goes to zero, by the mean value theorem.  Thus $\expect R_i^2 I_\epsilon(\Phi_i) \leq K_2\epsilon$ for some constant $K_2$. Since $\sqrt{\cdot}$ is a concave function on the positive real line, and since $C_{\epsilon}$ is always positive, then
+\[
+\expect \sqrt{\frac{C_\epsilon}{L}} \leq  \sqrt{\tfrac{1}{L}\expect  C_\epsilon} < \sqrt{\epsilon( K_2 + 2\expect R_1^2)  }
+\]
+by Jensen's inequality.  Applying $\expect$ to both sides of~\eqref{eq:supZCK1},
+\[
+\expect \sup_{\sabs{\lambda} < \epsilon} \abs{ X_L(\psibf) } \leq K_1 \sqrt{\tfrac{1}{L}\expect C_\epsilon} < K_1 \sqrt{\epsilon( K_2 + 2\expect R_1^2)}.
+\]
+Choosing 
+\[
+\epsilon = \frac{\kappa^2}{ K_1^2 ( K_2 + 2\expect R_1^2)}
+\] 
+completes the proof.  It remains to prove Lemma~\ref{lem:chaining2}.
 \end{IEEEproof}
 
 The proofs of Lemmas~\ref{lem:chaining2}~and~\ref{lem:chaining3} are based on a technique called \emph{chaining} (or \emph{bracketing})~\cite{Dudley_unif_central_lim_th_1999,Ossiander_clt_bracketing_1984,Pollard_asymp_empi_proc_1989,Pollard_new_ways_clts_1986}.  The proofs here follow those of Pollard~\cite[Section 3]{Pollard_asymp_empi_proc_1989}.  %Within the remaining proofs, we are interested in expectations conditional on the phase noise sequence $\{\Phi_n\}$, so for the purpose of these lemmas, $\{\Phi_n\}$ is treated as a fixed realisation.  
-For notational convenience we use the abbreviations 
+For notational convenience we use the abbreviation 
 \[
-C_\epsilon = C_\epsilon(\{\Phi\}) \qquad \text{and} \qquad f_{i}(\lambda) = f_{i}(\lambda, R_i, \Phi_i)
+f_{i}(\lambda) = f_{i}(\lambda, R_i, \Phi_i)
 \]
 in what follows.  As in Lemma~\ref{lem:chaining} we assume, without loss of generality, that $\epsilon < \tfrac{1}{m+1}$.  %This comes at no loss since Lemma~\ref{lem:chaining} only asks for the existence of an $\epsilon > 0$.
 
 \begin{lemma}\label{lem:chaining2}
 There exists a positive constant $K_1$ such that
 \[
-\expect_{R,\Phi} \sup_{\sabs{\lambda} < \epsilon} \abs{ X_L(\lambda) } \leq K_1 \sqrt{C_\epsilon}.
+\expect_{R,\Phi} \sup_{\sabs{\lambda} < \epsilon} \abs{ X_L(\lambda) } \leq K_1 \sqrt{\frac{C_\epsilon}{L}}.
 \]
 \end{lemma}
 \begin{IEEEproof}
-Let $B_\epsilon = \{x \in \reals \mid \abs{x} < \epsilon\}$ be the set of real numbers with magnitude less than $\epsilon$.  For each non negative integer $k$, let $T_\epsilon(k)$ be a discrete subset of $\reals$ with the property that for every $\lambda \in B_\epsilon$ there exists $\lambda^* \in T_\epsilon(k)$ such that the pseudometric
+Let $B_\epsilon = \{x \in \reals \mid \abs{x} < \epsilon\}$ be the set of real numbers with magnitude less than $\epsilon$.  For each non negative integer $k$, let $T_\epsilon(k)$ be a discrete subset of $B_\epsilon$ with the property that for every $\lambda \in B_\epsilon$ there exists $\lambda_1$ and $\lambda_2$ in $T_\epsilon(k)$ such that the psuedometric
 \[
-d(\lambda, \lambda^*) = \sum_{i \in P \cup D} \big( f_{i}(\lambda) - f_{i}(\lambda^*) \big)^2 \leq 2^{-k} C_\epsilon N.
+d_1(\lambda, \lambda_1) = \sum_{i \in P \cup D} \big( f_{i}(\lambda) - f_{i}(\lambda_1) \big)^2 \leq 2^{-k} C_\epsilon,
 \]
-We specifically define $T_\epsilon(0)$ to contain only zero.  Defined this way 
+and the psuedometric
+\[
+d_2(\lambda, \lambda_2) = \sum_{i \in P \cup D} \sabs{f_{i}(\lambda) - f_{i}(\lambda_2)} \leq 2^{-k} D_\epsilon
+\]
+where 
+\[
+D_\epsilon = \epsilon\sum_{i\in P \cup D}R_i + \sum_{i\in P \cup D}R_i I_{\epsilon}(\Phi_i).
+\]
+We specifically define $T_\epsilon(0)$ to contain only zero.  Defined this way, $T_\epsilon(0)$ satisfies the inequality above because both $d_1(\lambda, 0)$ and $d_2(\lambda, 0)$ are less than $C_\epsilon$ for all $\lambda \in B_\epsilon$, as a result of Lemma~\ref{lem:epslmlemma}.  The existance of $T_\epsilon(k)$ for every positive integer $k$ will be proved by construction in Lemma~\ref{}.
+
+Lemma~\ref{lem:limexpTk} shows that
+\[
+\lim_{k\rightarrow\infty}\expect_{R,\Phi}\sup_{\lambda \in T_\epsilon(k)} \sabs{X_L(\lambda)} = \expect_{R,\Phi} \sup_{\sabs{\lambda} < \epsilon} \sabs{X_L(\lambda)}.
+\]
+Lemma~\ref{lem:chaining3} shows that
+\[
+\expect_{R,\Phi} \sup_{\lambda \in T_\epsilon(k)} \sabs{X_L(\lambda)} \leq \sqrt{\frac{C_\epsilon}{L}} \sum_{i=1}^{k} \frac{?}{2^{i/2}}
+\]
+The sum above converges as $k\rightarrow\infty$ so lemma holds with
+\[
+K_1 = \sum_{i=1}^{\infty} \frac{?}{2^{i/2}}.
+\]
+\end{IEEEproof}
+
+\begin{lemma}\label{lem:limexpTk}
+\[
+\lim_{k\rightarrow\infty}\expect_{R,\Phi}\sup_{\lambda \in T_\epsilon(k)} \sabs{X_L(\lambda)} = \expect_{R,\Phi} \sup_{\sabs{\lambda} < \epsilon} \sabs{X_L(\lambda)}
+\]
+\end{lemma}
+\begin{IEEEproof}
+Because $T_\epsilon(k)$ is a subset of $B_\epsilon$,
+\[
+\sup_{\lambda \in T_\epsilon(k)} \sabs{X_L(\lambda)} \leq \sup_{\sabs{\lambda} < \epsilon} \sabs{X_L(\lambda)}.
+\]
+Let $\lambda^* \in B_\epsilon$ be a maximiser of $\sabs{X_L(\lambda)}$, that is
+\[
+\sabs{X_L(\lambda^*)} = \sup_{\sabs{\lambda} < \epsilon}\sabs{X_L(\lambda)}.
+\]
+By definition $T_\epsilon(k)$ contains a point $\lambda_2$ such that $d_2(\lambda^*,\lambda_2) \leq 2^{-k}D_\epsilon$.  Now
+\begin{align*}
+\sabs{X_L(\lambda^*) - X_L(\lambda_2)} &= \abs{\frac{1}{\sqrt{L}}\sum_{i\in P \cup D}g_i(f_i(\lambda^*) - f_i(\lambda_2))} \\
+&\leq  \frac{1}{\sqrt{L}}\sum_{i\in P \cup D}\abs{g_i}\sabs{f_i(\lambda^*) - f_i(\lambda_2)} \\
+&\leq \frac{g_\text{max}}{\sqrt{L}} \sum_{i\in P \cup D}\sabs{f_i(\lambda^*) - f_i(\lambda_2)} \\
+&\leq \frac{g_\text{max}}{\sqrt{L}} d(\lambda^*,\lambda_2) \\
+&\leq \frac{g_\text{max}}{\sqrt{L}} 2^{-k} D_\epsilon.
+\end{align*}
+where $g_\text{max} = \max_{i\in P\cup D} \abs{g_i}$.
 \end{IEEEproof}
 
 
-\begin{lemma}
+\begin{lemma}\label{lem:epslmlemma}
 Suppose $\sabs{\lambda} < \epsilon$ and $\sabs{\lambda^*} < \epsilon$ with $\epsilon < \tfrac{\pi}{M}$. Then
 \begin{align*}
 d(\lambda, \lambda^*) &= \sum_{i \in P \cup D} \big( f_{i}(\lambda) - f_{i}(\lambda^*) \big)^2 \\
@@ -1685,7 +1772,11 @@ For all positive integers $k$,
 \]
 \end{lemma}
 \begin{IEEEproof}
-
+Let $b_k(\lambda)$ maps each $\lambda \in T_\epsilon(k)$ to an element in $T_\epsilon(k-1)$ such that 
+\[
+d(\lambda, b_k(\lambda)) \leq 2^{1-k}C_\epsilon.
+\]
+The existance of $b_k$ is guaranteed by the definition of $T_\epsilon(k-1)$. 
 \end{IEEEproof}
 
 
