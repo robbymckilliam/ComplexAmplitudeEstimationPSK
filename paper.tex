@@ -1686,23 +1686,34 @@ K_1 = \sum_{i=1}^{\infty} \frac{?}{2^{i/2}}.
 \]
 \end{lemma}
 \begin{IEEEproof}
-Because $T_\epsilon(k)$ is a subset of $B_\epsilon$,
-\[
-\sup_{\lambda \in T_\epsilon(k)} \sabs{X_L(\lambda)} \leq \sup_{\sabs{\lambda} < \epsilon} \sabs{X_L(\lambda)}.
-\]
-Let $\lambda^* \in B_\epsilon$ be a maximiser of $\sabs{X_L(\lambda)}$, that is
-\[
-\sabs{X_L(\lambda^*)} = \sup_{\sabs{\lambda} < \epsilon}\sabs{X_L(\lambda)}.
-\]
-By definition $T_\epsilon(k)$ contains a point $\lambda_2$ such that $d_2(\lambda^*,\lambda_2) \leq 2^{-k}D_\epsilon$.  Now
+Let $b_k(\lambda)$ be a function that maps $\lambda \in B_\epsilon$ to a point in $T_\epsilon(k)$ such that  $d_2(\lambda,b_k(\lambda)) \leq 2^{-k}D_\epsilon$.  The existance of $b_k$ is guaranteed by the definition of $T_\epsilon(k-1)$.  So, for all $\lambda \in B_\epsilon$,
 \begin{align*}
-\sabs{X_L(\lambda^*) - X_L(\lambda_2)} &= \abs{\frac{1}{\sqrt{L}}\sum_{i\in P \cup D}g_i(f_i(\lambda^*) - f_i(\lambda_2))} \\
-&\leq  \frac{1}{\sqrt{L}}\sum_{i\in P \cup D}\abs{g_i}\sabs{f_i(\lambda^*) - f_i(\lambda_2)} \\
-&\leq \frac{g_\text{max}}{\sqrt{L}} \sum_{i\in P \cup D}\sabs{f_i(\lambda^*) - f_i(\lambda_2)} \\
-&\leq \frac{g_\text{max}}{\sqrt{L}} d(\lambda^*,\lambda_2) \\
+\sabs{X_L(\lambda) - X_L(b_k(\lambda))} &= \abs{\frac{1}{\sqrt{L}}\sum_{i\in P \cup D}g_i(f_i(\lambda) - f_i(b_k(\lambda)))} \\
+&\leq  \frac{1}{\sqrt{L}}\sum_{i\in P \cup D}\abs{g_i}\sabs{f_i(\lambda) - f_i(b_k(\lambda))} \\
+&\leq \frac{g_\text{max}}{\sqrt{L}} \sum_{i\in P \cup D}\sabs{f_i(\lambda) - f_i(b_k(\lambda))} \\
+&\leq \frac{g_\text{max}}{\sqrt{L}} d_2(\lambda,b_k(\lambda)) \\
 &\leq \frac{g_\text{max}}{\sqrt{L}} 2^{-k} D_\epsilon.
 \end{align*}
-where $g_\text{max} = \max_{i\in P\cup D} \abs{g_i}$.
+where $g_\text{max} = \max_{i\in P\cup D} \abs{g_i}$. The bound applies uniformly over $\lambda \in B_\epsilon$, so
+\[
+\sup_{\sabs{\lambda} < \epsilon} \sabs{X_L(\lambda) - X_L(b_k(\lambda))} \leq \frac{g_\text{max}}{\sqrt{L}} 2^{-k} D_\epsilon.
+\]
+Applying $\expect_{R,\Phi}$ to both sides of this inequality,
+\[
+\expect_{R,\Phi} \sup_{\sabs{\lambda} < \epsilon} \sabs{X_L(\lambda) - X_L(b_k(\lambda))} \leq K_4 2^{-k} D_\epsilon
+\]
+where $K_4 = \tfrac{1}{\sqrt{L}}\expect_{R,\Phi} g_\text{max}$ is a positive constant as a result of Lemma~\ref{} (BLERG, a maximal inequality lemma is needed).  Because $T_\epsilon(k)$ is a subset of $B_\epsilon$,
+\[
+\sup_{\lambda \in T_\epsilon(k)} \expect_{R,\Phi} \sabs{X_L(\lambda)} \leq \sup_{\sabs{\lambda} < \epsilon} \expect_{R,\Phi} \sabs{X_L(\lambda)},
+\]
+and so,
+\begin{align*}
+0 &\leq \sup_{\sabs{\lambda} < \epsilon} \expect_{R,\Phi} \sabs{X_L(\lambda)} - \sup_{\lambda \in T_\epsilon(k)} \expect_{R,\Phi} \sabs{X_L(\lambda)} \\
+&\leq \sup_{\sabs{\lambda} < \epsilon} \expect_{R,\Phi} \big( \sabs{X_L(\lambda)} - \sabs{X_L(b_k(\lambda))} \big) \\
+&\leq \sup_{\sabs{\lambda} < \epsilon} \expect_{R,\Phi} \sabs{X_L(\lambda) - X_L(b_k(\lambda))} \\
+&\leq K_4 2^{-k} D_\epsilon.
+\end{align*}
+The lemma follows since this converges to zero as $k\rightarrow\infty$.
 \end{IEEEproof}
 
 
@@ -1772,11 +1783,7 @@ For all positive integers $k$,
 \]
 \end{lemma}
 \begin{IEEEproof}
-Let $b_k(\lambda)$ maps each $\lambda \in T_\epsilon(k)$ to an element in $T_\epsilon(k-1)$ such that 
-\[
-d(\lambda, b_k(\lambda)) \leq 2^{1-k}C_\epsilon.
-\]
-The existance of $b_k$ is guaranteed by the definition of $T_\epsilon(k-1)$. 
+Let $b_k(\lambda)$ maps each $\lambda \in T_\epsilon(k)$ to an element in $T_\epsilon(k-1)$ such that $d(\lambda, b_k(\lambda)) \leq 2^{1-k}C_\epsilon$. 
 \end{IEEEproof}
 
 
