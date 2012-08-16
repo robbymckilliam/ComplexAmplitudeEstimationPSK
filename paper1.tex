@@ -17,7 +17,7 @@
 \newcommand{\rect}[1]{\operatorname{rect}\left(#1\right)}
 
 %opening
-\title{Carrier phase and amplitude estimation for phase shift keying using pilots and data 1: \\ Estimators and simulations}
+\title{Carrier phase and amplitude estimation for phase shift keying using pilots and data}
 \author{Robby McKilliam, Andre Pollok, Bill Cowley  
 \thanks{
 Supported under the Australian Government’s Australian Space Research Program.
@@ -71,7 +71,7 @@ An important paper is by Mackenthun~\cite{Mackenthun1994} who described an algor
 
 In the literature it has been common to assume that the data symbols $\{d_i, i \in D\}$ are of primary interest and the complex amplitude $a_0$ is a nuisance parameter.  The metric of performance is correspondingly \emph{symbol error rate}, or \emph{bit error rate}.  Whilst estimating the symbols (or more precisely the transmitted bits) is ultimately the goal, we take the opposite approach here.  Our aim is to estimate $a_0$, and we treat the unknown data symbols as nuisance parameters.  This is motivated by the fact that in many modern communication systems the data symbols are \emph{coded}.  For this reason raw symbol error rate is not of interest at this stage.  Instead, we desire an accurate estimator $\hat{a}$ of $a_0$, so that the compensated recieved symbols $\hat{a}^{-1}y_i$ can be accurately modelled using an additive noise channel.  The additive noise channel is a common assumption for subsequent reciever operations, such as decoding.  Consequently, our metric of performance will not be symbol or bit error rate, it will be mean square error (MSE) between complex amplitude $a_0$ and its estimator $\hat{a}$, that is, our metric is $\expect\abs{a_0 - \hat{a}}^2$ where $\expect$ denotes the expected value. It will actually be informative to consider the carrier phase and amplitude estimators separately, that is, if $\hat{a} = \hat{\rho}e^{j\hat{\theta}}$ where $\hat{\rho}$ is a positive real number, then we consider $\expect\langle\theta_0 - \hat{\theta}\rangle_\pi^2$ and $\expect(\rho_0 - \hat{\rho})^2$.  The function $\fracpart{\cdot}_\pi$ denotes its argument taken `modulo $2\pi$' into the interval $[-\pi, \pi)$.  It will become apparent why $\expect\langle\theta_0 - \hat{\theta}\rangle_\pi^2$ rather than $\expect(\theta_0 - \hat{\theta})^2$ is the appropriate measure of error for the phase parameter.
 
-The paper is organised as follows BLERG.
+The paper is organised in the following way.  Section~\ref{sec:least-squar-estim} extends Mackenthun's algorithm for the coherent case, when pilot symbols and data symbols exist.  Section~\ref{sec:circ-symm-compl} describes properties of complex random variables that we need.  Section~\ref{sec:stat-prop-least} states two theorms that describe the statistical properties of the least squares estimator of carrier phase $\hat{\theta}$ and amplitude $\hat{\rho}$.  We show, under some assumptions about the distribution of the noise $w_1,\dots,w_L$, that $\langle\theta_0 - \hat{\theta}\rangle^2$ converges almost surely to zero and that $\sqrt{L}\langle\theta_0 - \hat{\theta}\rangle^2$ is asymptotically normally distributed as $L\rightarrow \infty$.  However, $\hat{\rho_0}$ is not a consistent estimator of the amplitude $\rho_0$.  The bias of $\hat{\rho}$ is small when the signal to noise ratio (SNR) is large, but the bias is significant when the SNR is small.  Sections~\ref{sec:proof-almost-sure} and~\ref{sec:proof-asympt-norm} provide proofs of the theorems stated in Section~\ref{sec:stat-prop-least}.  Due to space constraints, the lemmas needed by these proofs have been placed in the supplementary paper~\cite{McKilliam_leastsqPSKpilotsdata_2012appendix}.  In Section~\ref{sec:gaussian-noise-case} we consider the special case when the noise is Gaussian.  In this case, our expressions for the asymptotic variance can be simplified.  Section~\ref{sec:simulations} presents the results of Monte-Carlo simulations.  These simulations agree with the derived asymptotic properties. 
 
 %It is worth commenting on our use of $\prob$ rather than the more usual $\expect$ or $E$ for the expected value operator.  The notation comes from Pollard~\cite[Ch 1]{Pollard_users_guide_prob_2002}.  The notation is good because it removes unecessary distinction between `probability' and expectation.  Given a random variable $X$ with cumulative density function $F$, the probability of an event, say $X \in S$, where $S$ is some subset of the range of $X$, is 
 %\[
@@ -405,9 +405,141 @@ BLERG
 \end{IEEEproof}
 
 
+\section{Proof of almost sure convergence (Theorem~\ref{thm:consistency}) } \label{sec:proof-almost-sure}
+
+Substituting $\{ \hat{d}_i(\theta), i \in D \}$ from~\eqref{eq:hatdfinxtheta} into~\eqref{eq:SSallparams} we obtain $SS$ conditioned on minimisation with respect to the data symbols,
+ \begin{align*}
+SS(\rho, \theta) &=\sum_{i \in P} \abs{ y_i - \rho e^{j\theta} p_i }^2 + \sum_{i \in D} \abs{ y_i - \rho e^{j\theta} \hat{d_i}(\theta) }^2 \\
+&= A - \rho Z(\theta) - \rho Z^*(\theta) + L \rho^2,
+\end{align*}
+where
+\[
+Z(\theta)  = \sum_{i \in P} y_i e^{-j\theta} p_i^* + \sum_{i \in D} y_i e^{-j\theta} \hat{d}_i^*(\theta),
+\]
+and $Z^*(\theta)$ is the conjugate of $Z(\theta)$.  Differentiating with respect to $\rho$ and setting the resulting expression to zero gives the least squares estimator of $\rho_0$ as a function of $\theta$, 
+\begin{equation}\label{eq:hatrhoZ}
+\hat{\rho} = \frac{Z(\theta) + Z^*(\theta)}{2L} = \frac{1}{L}\Re(Z(\theta)),
+\end{equation}
+where $\Re(\cdot)$ denotes the real part.  Substituting this expression into $SS(\rho, \theta)$ gives $SS$ conditioned upon minimisation with respect to $\rho$ and the data symbols,
+\[
+SS(\theta) = A - \frac{1}{L}\Re(Z(\theta))^2.
+\]
+
+We are interested in analysing $\hat{\theta}$, the minimiser of $SS(\theta)$, or equivalently, the maximiser of $\abs{\Re(Z(\theta))}$.  Recalling the definition of $R_i$ and $\Phi_i$ from~\eqref{eq:RiandPhii},
+\begin{align*}
+y_i &= a_0 s_i + w_i \\
+&= a_0 s_i \left( 1 + \frac{w_i}{a_0 s_i} \right) \\
+&= a_0 s_i R_i e^{j \Phi_i} \\
+&= \rho_0 R_i e^{j ( \Phi_i + \theta_0 + \angle{s_i}) }.
+\end{align*}
+%The $\Phi_i$ can be identified as \emph{circular~random~variables}~\cite{Mardia_directional_statistics,Fisher1993,McKilliam_mean_dir_est_sq_arc_length2010}.  
+Recalling the definition of $\hat{d}_i(\theta)$ and $\hat{u}_i(\theta)$ from~\eqref{eq:hatdfinxtheta},
+\begin{align*}
+\hat{u}_i(\theta) &= \round{\angle{y_i} - \theta} \\
+&= \round{\theta_0 + \Phi_i + \angle{s_i} - \theta} \\
+&\equiv \round{ \fracpart{\theta_0 - \theta}_{\pi} + \Phi_i + \angle{s_i}} \pmod{2\pi} \\
+&= \round{ \lambda + \Phi_i + \angle{s_i} },
+\end{align*}
+where we put $\lambda = \fracpart{\theta_0 - \theta}_\pi$.  Because $\hat{d}_i^*(\theta) = e^{-j\hat{u}_i(\theta)}$, it follows that, when $i \in D$,
+\begin{align}
+ y_i e^{-j\theta} \hat{d}_i^*(\theta) &= \rho_0 R_i e^{j(\lambda + \Phi_i + \angle{s_i} - \round{\lambda + \Phi_i + \angle{s_i}})} \nonumber \\
+&= \rho_0 R_i e^{j(\lambda + \Phi_i - \round{\lambda + \Phi_i})} \nonumber  \\
+&= \rho_0 R_i e^{j\sfracpart{\lambda + \Phi_i}} \label{eq:yethetadhat}
+\end{align}
+since $\round{x + \angle{s_i}} = \round{x} + \angle{s_i}$ as a result of $\angle{s_i}$ being a multiple of $\tfrac{2\pi}{M}$.  Otherwise, when $i \in P$,  
+\[
+y_i e^{-j\theta} p_i^* = \rho_0 R_i e^{j(\lambda + \Phi_i)}.
+\]
+Now,
+\[
+Z(\theta) = \rho_0 \sum_{i \in P} R_i e^{j(\lambda + \Phi_i)} + \rho_0  \sum_{i \in D} R_i e^{j\sfracpart{\lambda + \Phi_i}},
+\]
+and
+\[
+\Re(Z(\theta)) = \rho_0 \sum_{i \in P} R_i \cos(\lambda + \Phi_i) + \rho_0 \sum_{i \in D} R_i \cos\sfracpart{\lambda + \Phi_i}.
+\] 
+Let 
+\begin{equation}\label{eq:GLdefn}
+G_L(\lambda) = \frac{1}{\rho_0 L} \Re(Z(\theta))
+\end{equation}
+and put $\hat{\lambda}_L = \langle\theta_0 - \hat{\theta}\rangle_\pi$.  Since $\hat{\theta}$ is the maximiser of $\abs{\Re(Z(\theta))}$ then  $\hat{\lambda}_L$ is the maximiser of $\abs{G_L(\lambda)}$.  We will show that $\hat{\lambda}_L$ converges almost surely to zero as $L \rightarrow \infty$.  The proof of part 1 of the Theorem~\ref{thm:consistency} follows from this.
+
+Recall the functions $G$, $h_1$ and $h_2$ defined in the statement of Theorem~\ref{thm:consistency}.  Observe that
+\[
+\expect G_L(\lambda) = \frac{\abs{P}}{L} h_1(\lambda) + \frac{\abs{D}}{L} h_2(\lambda)
+\]
+and since $\frac{\abs{P}}{L} \rightarrow p$ and $\frac{\abs{D}}{L} \rightarrow d$ as $L \rightarrow \infty$, then
+\[
+\lim_{L \rightarrow\infty} \expect G_L(\lambda) = G(\lambda) = p h_1(\lambda)   +  d h_2(\lambda).
+\]
+As is customary, let $(\Omega, \mathcal F, \prob)$ be the probability space over which the random variables $\{w_i\}$ are defined.  Let $A$ be the subset of the sample space $\Omega$ upon which $\sabs{G(\hat{\lambda}_L)} \rightarrow \sabs{G(0)}$ as $L\rightarrow\infty$.  Lemma~\ref{lem:convtoexpGlamL} shows that $\prob\{A\} = 1$.  Let $A'$ be the subset of the sample space upon which $\hat{\lambda}_L \rightarrow 0$ as $L\rightarrow \infty$.  Because $\sabs{G(x)}$ is uniquely maximised at $x=0$, it follows that $\sabs{G(\hat{\lambda}_L)} \rightarrow \sabs{G(0)}$ only if $\hat{\lambda}_L \rightarrow 0$ as $L \rightarrow\infty$. So $A \subseteq A'$ and therefore $\prob\{A'\} \geq \prob\{A\} = 1$.  Part 1 of Theorem~\ref{thm:consistency} follows.  
+
+It remains to prove part 2 of the theorem regarding the convergence of the amplitude estimator $\hat{\rho}$.  From~\eqref{eq:hatrhoZ},
+\begin{equation}\label{eq:rhoGLZ}
+\hat{\rho} = \frac{1}{L}\Re(Z(\hat{\theta})) = \rho_0 G_L(\hat{\lambda}_L).
+\end{equation}  
+Lemma~\ref{lem:GLtoG0} shows that $G_L(\hat{\lambda}_L)$ converges almost surely to $G(0)$ as $L\rightarrow\infty$, and $\hat{\rho}$ consequently converges almost surely to $\rho_0 G(0)$ as required.
+
+\section{Proof of asymptotic normality (Theorem~\ref{thm:normality}) } \label{sec:proof-asympt-norm}
+
+We first prove the asymptotic normality of $\sqrt{L} \hat{\lambda}_L$.  Once this is done we will be able to prove the normality of $\sqrt{L} m_L$.  Recall that $\hat{\lambda}_L$ is the maximiser of the function $G_L$ defined in~\eqref{eq:GLdefn}.  The proof is complicated by the fact that $G_L$ is not differentiable everywhere due to the function $\fracpart{\cdot}$ not being differentiable at multiples of $\tfrac{\pi}{M}$.  This prevents the use of ``standard approaches'' to proving normality that are based on the mean value theorem~\cite{vonMises_diff_stats_1947,vanDerVart1971_asymptotic_stats,Pollard_new_ways_clts_1986,Pollard_conv_stat_proc_1984,Pollard_asymp_empi_proc_1989}.  However, we show in Lemma~\ref{lem:diffatlambdaL} that the derivative $G_L^\prime$ does exist, and is equal to zero, at $\hat{\lambda}_L$. Define the function
+\begin{equation}\label{eq:RLdef}
+R_L(\lambda) = \frac{1}{L} \sum_{i \in P} R_i \sin(\lambda + \Phi_i) + \frac{1}{L} \sum_{i \in D} R_i \sin\sfracpart{\lambda + \Phi_i}.
+\end{equation}
+Whenever $G_L(\lambda)$ is differentiable $G_L^\prime(\lambda) = R_L(\lambda)$ so $R_L(\hat{\lambda}_L) = G_L^\prime(\hat{\lambda}_L) = 0$ by Lemma~\ref{lem:diffatlambdaL}.  Let $Q_L(\lambda) = \expect R_L(\lambda) - \expect R_L(0)$ and write
+\begin{align*}
+0 &= R_L(\hat{\lambda}_L) - Q_L(\hat{\lambda}_L) + Q_L(\hat{\lambda}_L) \\
+&= \sqrt{L}\big( R_L(\hat{\lambda}_L) - Q_L(\hat{\lambda}_L) \big) + \sqrt{L}Q_L(\hat{\lambda}_L).
+\end{align*}
+Lemma~\ref{lem:Qconv} shows that
+\[
+\sqrt{L} Q_L(\hat{\lambda}_L) = \sqrt{L} \hat{\lambda}_L\big( p + Hd  + o_P(1) \big)
+\]
+where $o_P(1)$ denotes a number converging in probablity to zero as $L \rightarrow \infty$, and the constants $p,d$ and $H$ are defined in the statement of Theorems~\ref{thm:consistency}~and~\ref{thm:normality}.  Lemma~\ref{lem:empiricprocc} shows that
+\[
+\sqrt{L}\big( R_L(\hat{\lambda}_L) - Q_L(\hat{\lambda}_L) \big) = o_P(1) + \sqrt{L} R_L(0).
+\]
+It follows from the three equations above that,
+\[
+0 = o_P(1) + \sqrt{L}R_L(0) + \sqrt{L} \hat{\lambda}_L \big( p + Hd  + o_P(1) \big)
+\]
+and rearranging gives,
+\[
+\sqrt{L} \hat{\lambda}_L = o_P(1) - \frac{\sqrt{L}R_L(0)}{p + Hd  + o_P(1)}.
+\]
+Lemma~\ref{lem:convdistGLdash} shows that the distribution of $\sqrt{L}R_L(0)$ converges to the normal with zero mean and variance $pA_1 + dA_2$ where $A_1$ and $A_2$ are real constants defined in the statement of Thereom~\ref{thm:normality}.  It follows that the distribution of $\sqrt{L}\hat{\lambda}_L$ converges to the normal with zero mean and variance
+\[
+\frac{pA_1 + dA_2}{(p + Hd)^2}.
+\]
+ 
+We now analyse the asymptotic distribution of $\sqrt{L} m_L$.  Let $T_L(\lambda) = \expect G_L(\lambda)$.  Using~\eqref{eq:rhoGLZ},
+\begin{align*}
+\sqrt{L} m_L &= \sqrt{L} \rho_0 \big( G_L(\hat{\lambda}_L) - G(0) \big) \\
+&= \sqrt{L} \rho_0 \big( G_L(\hat{\lambda}_L) - T_L(\hat{\lambda}_L) + T_L(\hat{\lambda}_L) - G(0) \big).
+\end{align*}
+Lemma~\ref{lem:empiricprocforrho} shows that 
+\[
+\sqrt{L}\big( G_L(\hat{\lambda}_L) - T_L(\hat{\lambda}_L)  \big) = o_P(1) + X_L,
+\]
+where $X_L = \sqrt{L}\big( G_L(0) - T_L(0)  \big)$.  Lemma~\ref{lem:HLtoG} shows that
+\[
+%\sqrt{L}\big( T_L(\hat{\lambda}_L) - G(0) \big) = \sqrt{L} \hat{\lambda}_L \big( ? + o_P(1) \big).
+\sqrt{L}\big( T_L(\hat{\lambda}_L) - G(0) \big) = o_P(1).
+\]
+It follows that
+\[
+%\sqrt{L} m_L = o_P(1) + X_L  + \hat{\lambda}_L \big( ? + o_P(1) \big).
+\sqrt{L} m_L =  \rho_0 X_L + o_P(1). 
+\]
+Lemma~\ref{lem:XL} shows that the distrubtion of $X_L$ converges to the normal with zero mean and variance $p B_1 + d B_2$ as $L\rightarrow\infty$ where $B_1$ and $B_2$ are defined in the statement of Theorem~\ref{thm:normality}.  Thus, the distribution of $\sqrt{L} m_L$ converges to the normal with zero mean and variance $\rho_0^2(p B_1 + d B_2)$ as required.  Because $X_L$ does not depend on $\hat{\lambda}_L$, it follows that $\covar(X_L, \sqrt{L}\hat{\lambda}_L) = 0$, and so,
+\[
+\covar(\sqrt{L}\hat{m}_L, \sqrt{L}\hat{\lambda}_L) = \covar(\rho_0 X_L + o_P(1), \sqrt{L}\hat{\lambda}_L) \rightarrow 0
+\]
+as $L \rightarrow \infty$.  It remains to prove the lemmas that we have used.
 
 
-\section{The Gaussian noise case}
+
+\section{The Gaussian noise case}\label{sec:gaussian-noise-case}
 
 Let the noise sequence $\{w_i\}$ be complex Gaussian with independent real and imaginary parts having zero mean and variance $\sigma^2$.  The joint density function of the real and imaginary parts is then
 \[
@@ -582,9 +714,6 @@ Our first set of simulations considers the case where there are a number of pilo
 \small
 \bibliography{bib}
 
-
-\normalsize
-\appendix
 
 %\section{Tricks with fractional parts}
 %Throughout the paper, and particularly in  have made use of a number of results involving the fractional part function
