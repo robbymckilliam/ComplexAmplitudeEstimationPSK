@@ -35,9 +35,15 @@ We consider least squares estimators of carrier phase and amplitude from a noisy
 Coherent detection, noncoherent detection, phase shift keying, asymptotic statistics
 \end{IEEEkeywords}
 
+%set this to the number of the last equation in the previous document.
+\setcounter{equation}{20}
+\newcounter{lasteqplusone}
+\setcounter{lasteqplusone}{\value{equation}}
+\addtocounter{lasteqplusone}{1}
+
 \section{Introduction to this appendix}
 
-Here we compile lemmas required for the proof almost sure convergence (Theorem~\ref{thm:consistency}) and asymptotic normality (Theorem~\ref{thm:normality}) from the paper~\cite{McKilliam_leastsqPSKpilotsdata_2012}.  This document is not self contained and it is intended that the reader start at~\cite{McKilliam_leastsqPSKpilotsdata_2012}.  The equation reference numbers in this document start at (?).  All reference numbers less than (?) refer back to~\cite{McKilliam_leastsqPSKpilotsdata_2012}.  This document is separated into 3 sections.  Section~\ref{sec:proof-almost-sureappendix} contains those lemmas required for the proof of almost sure convergence (Theorem~\ref{thm:consistency}).  Section~\ref{sec:proof-asympt-normappendix} contains those lemmas required for the proof of asymptotic normality (Theorem~\ref{thm:normality}).  Section~\ref{sec:an-empirical-process} contains proofs for lemmas that arise during Section~\ref{sec:proof-asympt-normappendix}.  These involve the proof of~\emph{tightness} for certain empirical processes~\cite{Billingsley1999_convergence_of_probability_measures,Dudley_unif_central_lim_th_1999,Shorak_emp_proc_stat_2009}. 
+Here we compile lemmas required for the proof almost sure convergence (Theorem~\ref{thm:consistency}) and asymptotic normality (Theorem~\ref{thm:normality}) from the paper~\cite{McKilliam_leastsqPSKpilotsdata_2012}.  This document is not self contained and it is intended that the reader start at~\cite{McKilliam_leastsqPSKpilotsdata_2012}.  The equation reference numbers in this document start at (\arabic{lasteqplusone}).  All equation numbers less than (\arabic{lasteqplusone}) refer back to~\cite{McKilliam_leastsqPSKpilotsdata_2012}.  This document is separated into 3 sections.  Section~\ref{sec:proof-almost-sureappendix} contains those lemmas required for the proof of almost sure convergence (Theorem~\ref{thm:consistency}).  Section~\ref{sec:proof-asympt-normappendix} contains those lemmas required for the proof of asymptotic normality (Theorem~\ref{thm:normality}).  Section~\ref{sec:an-empirical-process} contains proofs for lemmas that arise during Section~\ref{sec:proof-asympt-normappendix}.  These involve the proof of~\emph{tightness} for certain empirical processes~\cite{Billingsley1999_convergence_of_probability_measures,Dudley_unif_central_lim_th_1999,Shorak_emp_proc_stat_2009}. 
 
 \section{Lemmas required for the proof of almost sure convergence (Theorem~\ref{thm:consistency}) } \label{sec:proof-almost-sureappendix}
 
@@ -1019,7 +1025,47 @@ K_1 = \sum_{i=1}^\infty \frac{5\sqrt{i \log 2 + \log K_3}}{2^{i/2}}
 Both $d_1(\lambda, 0) \leq C_\epsilon L $ and $d_2(\lambda, 0) \leq D_\epsilon L$ for all $\lambda \in B_\epsilon$.
 \end{lemma}
 \begin{IEEEproof}
-BLERG
+We prove the lemma for $d_2$.  The proof for $d_1$ is similar.  Observe that $d_2(\lambda, 0) = c_1 + c_2$ where 
+ \[
+ c_1 = \sum_{i \in P} R_i\sabs{\sin(\lambda + \Phi_i) - \sin(\Phi_i) }
+ \]
+ and 
+ \[
+ c_2 = \sum_{i \in D} R_i \sabs{\sin\fracpart{\lambda + \Phi_i} - \sin\fracpart{\Phi_i}}.
+ \]
+ As $\sin(\cdot)$ is Lipshitz continuous with constant $K=1$,
+ \[
+ \sabs{\sin(\lambda + \Phi_i) - \sin(\Phi_i)} \leq K\sabs{\lambda} = \sabs{\lambda} < \epsilon
+ \]
+ for all $i \in P \cup D$, and therefore $c_1 \leq \epsilon \sum_{i \in P} R_i$.  Let $S = \{ i \in D \mid I_\epsilon(\Phi_i) = 1\}$. Now $c_2 = c_3 + c_4$ where 
+ \[
+ c_3 = \sum_{i \in D, i \in S} R_i \sabs{\sin\fracpart{\lambda + \Phi_i} - \sin\fracpart{\Phi_i}}
+ \]
+ and
+ \[
+ c_4 =  \sum_{i \in D, i \notin S} R_i \sabs{\sin\fracpart{\lambda + \Phi_i} - \sin\fracpart{\Phi_i}}.
+ \]
+ If $i \notin S$ then $\round{\lambda + \Phi_i} = \round{\Phi_i}$ for all $\sabs{\lambda} < \epsilon$ and therefore
+ \begin{align*}
+ \vert\sin&\fracpart{\lambda + \Phi_i} - \sin\fracpart{\Phi_i}\vert \\
+ &= \sabs{\sin(\lambda + \Phi_i - \round{\Phi_i}) - \sin(\Phi_i - \round{\Phi_i})} \\
+ &\leq \sabs{\lambda} < \epsilon
+ \end{align*}
+and so, 
+\[
+c_4 \leq \epsilon \sum_{i \in D, i \notin S} R_i \leq \epsilon \sum_{i \in D} R_i.
+\]
+Otherwise, if $i \in S$, then $\sabs{\sin\fracpart{\lambda + \Phi_i} - \sin\fracpart{\Phi_i}} \leq 2$ because $\sin(\cdot) \leq 1$.  Thus 
+\[
+c_3 \leq 2 \sum_{i \in D, i \in C} R_i \leq 2 \sum_{i \in D} R_i I_\epsilon(\Phi_i).
+\]
+Now
+\begin{align*}
+d_2(\lambda, 0) &= c_1 + c_2 \\
+&\leq c_1 + c_3 + c_4 \\
+&\leq \epsilon \sum_{i \in P \cup D} R_i + 2 \sum_{i \in D} R_i I_\epsilon(\Phi_i)
+\end{align*}
+as required
 \end{IEEEproof}
 
 

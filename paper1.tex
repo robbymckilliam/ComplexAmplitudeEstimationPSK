@@ -248,21 +248,21 @@ Before describing the statistical properties of the least squares estimator, we 
 \[
 f_{Z,\Theta}(z,\theta) = \frac{1}{2\pi}f_Z(z).
 \]  
-Observe that for any real number $\phi$, the distribution of $X$ and $e^{j\phi}X$ are the same, that is, the distribution is invariant to phase rotation.  If $\expect\abs{X} = \expect Z$ is finite, then $X$ has zero mean because
+Observe that for any real number $\phi$, the pdf of $X$ and $e^{j\phi}X$ are the same, that is, the pdf is invariant to phase rotation.  If $\expect\abs{X} = \expect Z$ is finite, then $X$ has zero mean because
 \begin{align*}
-\expect X &= \int_{0}^{2\pi} \int_{0}^\infty z e^{j\theta} f_{Z,\Theta}(z,\theta) dz d\theta \\
-&= \frac{1}{2\pi} \int_{0}^{2\pi} e^{j\theta} \int_{0}^\infty z f_Z(z) dz d\theta \\
-&= \frac{1}{2\pi}\expect Z \int_{0}^{2\pi} e^{j\theta} d\theta = 0.
-\end{align*}
+ \expect X &= \int_{0}^{2\pi} \int_{0}^\infty z e^{j\theta} f_{Z,\Theta}(z,\theta) dz d\theta \\
+ &= \frac{1}{2\pi} \int_{0}^{2\pi} e^{j\theta} \int_{0}^\infty z f_Z(z) dz d\theta \\
+ &= \frac{1}{2\pi}\expect Z \int_{0}^{2\pi} e^{j\theta} d\theta = 0.
+ \end{align*}
 
 We will have particular use of complex random variables of the form $1 + X$ where $X$ is circularly symmetric.  Let $R \geq 0$ and $\Phi \in [0,2\pi)$ be real random variables satisfying, 
 \[
 R e^{j\Phi} = 1 + X.
 \]
-The joint distribution of $R$ and $\Phi$ can be shown to be
-\[
+The joint pdf of $R$ and $\Phi$ can be shown to be
+\begin{equation}\label{eq:pdfRPhi}
 f(r,\phi) = \frac{r f_Z(\sqrt{r^2 - 2r\cos\phi + 1})}{\sqrt{r^2 - 2r\cos\phi + 1}}.
-\]
+\end{equation}
 The mean of $R e^{j\Phi}$ is equal to one because the mean of $X$ is zero.  So,
 \begin{equation}\label{eq:expectRepartRphi}
 \expect \Re(R e^{j\Phi}) = \expect R \cos(\Phi) = 1,
@@ -271,21 +271,29 @@ where $\Re(\cdot)$ denotes the real part, and
 \begin{equation}\label{eq:expectImpartRphi}
 \expect \Im(R e^{j\Phi}) = \expect R \sin(\Phi) = 0,
 \end{equation}
-where $\Im(\cdot)$ denotes the imaginary part.  %The next lemma will be useful for the analysis of the least squares estimator.
+where $\Im(\cdot)$ denotes the imaginary part.  The next result will be useful for the analysis of the least squares estimator.  %Me ommit the proof, which is straightforward, but tedious.
 
-\begin{lemma}\label{lem:gg2cont}
-Let $X = Z e^{j\Theta}$ be a circularly symmetric complex random variable with pdf $\tfrac{1}{2\pi}f_Z(z)$.  Let $R > 0$ and $\Phi \in [0, 2\pi)$ be random variables satisfying $R e^{j\Phi} = 1 + X$ and with joint pdf $f(r,\phi)$.  Then
+\begin{proposition}\label{lem:gg2cont}
+Let $X = Z e^{j\Theta}$ be a circularly symmetric complex random variable with pdf $\tfrac{1}{2\pi}f_Z(z)$ that is continuous on the positive reals and with $\expect \abs{X}^2 = \expect Z^2$ finite.  Let $R > 0$ and $\Phi \in [0, 2\pi)$ be random variables satisfying $R e^{j\Phi} = 1 + X$ and with joint pdf $f(r,\phi)$.  Then
 \[
 g(\phi) = \int_{0}^\infty r f(r, \phi) dr,
 \]
 and
 \[
-g_2(\phi) = \int_{0}^\infty r^2 f(r, \phi) dr.
+g_2(\phi) = \int_{0}^\infty r^2 f(r, \phi) dr
 \]
 are continuous functions from $\reals$ to $\reals$.
-\end{lemma}
+\end{proposition}
 \begin{IEEEproof}
-BLERG
+From~\eqref{eq:pdfRPhi},
+\[
+g(\phi) = \int_{0}^\infty \frac{r^2 f_Z(\sqrt{r^2 - 2r\cos\phi + 1})}{\sqrt{r^2 - 2r\cos\phi + 1}} dr,
+\]
+and
+\[
+g_2(\phi) = \int_{0}^\infty \frac{r^3 f_Z(\sqrt{r^2 - 2r\cos\phi + 1})}{\sqrt{r^2 - 2r\cos\phi + 1}} dr.
+\]
+The continuity of these functions follows immediately from the continuity of $f_Z$.
 \end{IEEEproof}
 
 % \begin{lemma}\label{lem:h1minedcircsym}
@@ -392,13 +400,13 @@ The theorems place conditions on $\sfracpart{\hat{\theta} - \theta_0}_\pi$ rathe
 
 A key assumption in Theorem~\ref{thm:consistency} is that $\abs{G(x)}$ is uniquely maximised at $x = 0$ for $x \in [-\pi, \pi)$.  This assumption asserts that $\abs{G(x)} \leq \abs{G(0)}$ for all $x \in [-\pi, \pi)$ and that if $\{x_i\}$ is a sequence such that $\abs{G(x_i)} \rightarrow \sabs{G(0)}$ as $i \rightarrow \infty$ then $x_i \rightarrow 0$ as $i \rightarrow \infty$.  Although we will not prove it here, this assumption is not only sufficient, but also nescessary, for if $\abs{G(x)}$ is uniquely maximised at some point $x \neq 0$ then $\sfracpart{\theta_0 - \hat{\theta}}_\pi \rightarrow x$ almost surely as $L\rightarrow\infty$, while if $\abs{G(x)}$ is not uniquely maximised then $\sfracpart{\theta_0 - \hat{\theta}}_\pi$ will not converge.  The next Lemma describes a class of circularly symmetric distributions for which $\abs{G(x)}$ is uniquely maximised at $x = 0$.
 
-\begin{lemma}
-Let $X = Z e^{j\Theta}$ be a circularly symmetric complex random variable with pdf $\tfrac{1}{2\pi}f_Z(z)$ such that $z^{-1} f_Z(z)$ is nonincreasing with $z$.  Let $R > 0$ and $\Phi \in [0, 2\pi)$ be random variables satisfying $R e^{j\Phi} = 1 + X$.  Let,
+\begin{proposition}
+Let $X = Z e^{j\Theta}$ be a circularly symmetric complex random variable with pdf $\tfrac{1}{2\pi}f_Z(z)$ that is continuous and differentiable on the positive reals.  Let $R > 0$ and $\Phi \in [0, 2\pi)$ be random variables satisfying $R e^{j\Phi} = 1 + X$.  Let,
 \[
-h_1(x) = \expect R \cos(x + \Phi) \;\;\; \text{and} \;\;\; h_2(x) =  \expect R \cos\sfracpart{ x + \Phi}.
+h_1(x) = \expect R \cos(x + \Phi) \;\;\; \text{and} \;\;\; h_2(x) =  \expect R \cos\sfracpart{x + \Phi}.
 \]
-Then $\abs{h_1(x)}$ is uniquely maximised at $x=0$ over the interval $[-\pi,\pi]$ and $\abs{h_2(x)}$ is uniquely maximised at $x = 0$ over the interval $[-\tfrac{\pi}{M},\tfrac{\pi}{M}]$.
-\end{lemma}
+If $z^{-1} f_Z(z)$ is nonincreasing with $z$, then $\abs{h_1(x)}$ is uniquely maximised at $x=0$ over the interval $[-\pi,\pi]$ and $\abs{h_2(x)}$ is uniquely maximised at $x = 0$ over the interval $[-\tfrac{\pi}{M},\tfrac{\pi}{M}]$.
+\end{proposition}
 Before giving the proof we discuss the requirements of this lemma.  The requirement that $z^{-1}f_{Z}(z)$ be non increasing implies that the pdf of $X$ decreases as we move away from the origin. That is, the pdf of $X$ in rectangular coordinates is $p(x,y) = z^{-1}f_{Z}(z)$, where $z = \sqrt{x^2 + y^2}$, and this is required to be non increasing with $z$.  For example, the zero mean complex Gaussian distribution with independent real and imaginary parts satisfies this requirement.
 \begin{IEEEproof}
 BLERG
@@ -535,7 +543,7 @@ Lemma~\ref{lem:XL} shows that the distrubtion of $X_L$ converges to the normal w
 \[
 \covar(\sqrt{L}\hat{m}_L, \sqrt{L}\hat{\lambda}_L) = \covar(\rho_0 X_L + o_P(1), \sqrt{L}\hat{\lambda}_L) \rightarrow 0
 \]
-as $L \rightarrow \infty$.  It remains to prove the lemmas that we have used.
+as $L \rightarrow \infty$.  It remains to prove the lemmas that we have used.  These lemmas are proved in~\cite{McKilliam_leastsqPSKpilotsdata_2012appendix}.
 
 
 
