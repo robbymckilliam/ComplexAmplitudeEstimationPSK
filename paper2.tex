@@ -901,13 +901,13 @@ for any $\delta > 0$.  The proof follows by choosing $\nu =  \sqrt{2\pi} \kappa/
 \end{IEEEproof}
 
 
-\begin{lemma}\label{lem:symmetrisation}
+\begin{lemma}\label{lem:symmetrisation} (Symmetrisation)
 \[
 \expect \sup_{\sabs{\lambda} < \epsilon} \abs{ W_L(\lambda)} \leq \sqrt{2\pi} \; \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{ X(\lambda) }
 \]
 \end{lemma}
 \begin{IEEEproof}
-Let $\{R_i'\}$ be a sequence identically distributed to $\{R_i\}$ and let $\{\Phi_i'\}$ be sequence identically distributed to $\{\Phi_i\}$.  Both $\{R_i'\}$ and $\{\Phi_i'\}$ are chosen independently of $\{R_i\}$ and $\{\Phi_i\}$.  Let $\expect_{R,\Phi}$ denote expectation conditional on $\{R_i\}$ and $\{\Phi_i\}$.  Then
+Let $\{R_i'\}$ be a sequence identically distributed to $\{R_i\}$ and let $\{\Phi_i'\}$ be sequence identically distributed to $\{\Phi_i\}$.  Both $\{R_i'\}$ and $\{\Phi_i'\}$ are chosen independently of $\{R_i\}$ and $\{\Phi_i\}$.  Let $\expect_{R,\Phi}$ denote expectation conditional on $\{R_i\}$ and $\{\Phi_i\}$.  Now,
 \begin{align*}
 W_L(\lambda) &= \frac{1}{\sqrt{L}} \sum_{i \in P \cup D} \big( f_i(\lambda, R_i, \Phi_i) - \expect_{R,\Phi} f_i(\lambda, R_i', \Phi_i') \big) \\
 &= \expect_{R,\Phi} \frac{1}{\sqrt{L}} \sum_{i \in P \cup D} ( f_{i} - f_{i}^\prime ),
@@ -962,7 +962,7 @@ Because $g_i$ is a standard normal random variable it follows that $\expect \abs
 &= \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{ \frac{1}{\sqrt{L}}\sum_{i \in P \cup D} \sigma_i f_{i} \sqrt{\frac{\pi}{2}}\expect_{R,\Phi} \abs{g_i}} \\
 &\leq \sqrt{\frac{\pi}{2}} \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{ \frac{1}{ \sqrt{L}}\sum_{i \in P \cup D} \sigma_i \abs{g_i}  f_{i}},
 \end{align*}
-the last line following from Jensen's inequality and by moving $\expect_{R,\Phi}$ outside the supremum similarly to~\eqref{eq:Eoutsidesup}. As $g_i = \sigma_i \abs{g_i}$, it follows that
+the last line following from Jensen's inequality and by moving $\expect_{R,\Phi}$ outside the supremum similarly to~\eqref{eq:Eoutsidesup}. As $g_i = \sigma_i \abs{g_i}$,
 \begin{align*}
 \expect \sup_{\sabs{\lambda} < \epsilon} \abs{W_L(\lambda)}  &\leq 2\sqrt{\frac{\pi}{2}} \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{ \frac{1}{\sqrt{L}}\sum_{i\in P \cup D} g_i  f_{i}} \\
 &= \sqrt{2\pi} \; \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{ X(\lambda) } 
@@ -1011,7 +1011,7 @@ is continuous at $\psi_k = \tfrac{2\pi}{M}k + \tfrac{\pi}{M}$ for each $k = 0, 1
 \expect R_i^2 I_\epsilon(\Phi_i) &= \sum_{k=0}^{M-1}\int_{\psi_k-\epsilon}^{\psi_k-\epsilon}g_2(\phi) d\phi \\
 &= 2\epsilon \sum_{k=0}^{M-1} (g_2(\psi_k) + o(1))
 \end{align*}
-where $o(1)$ goes to zero as $\epsilon$ goes to zero, by the mean value theorem.  Thus $\expect R_i^2 I_\epsilon(\Phi_i) \leq K_2\epsilon$ for some constant $K_2$. Since $\sqrt{\cdot}$ is a concave function on the positive real line, and since $C_{\epsilon}$ is always positive, it follows that
+where $o(1)$ goes to zero as $\epsilon$ goes to zero, by the mean value theorem.  Thus $\expect R_i^2 I_\epsilon(\Phi_i) \leq K_2\epsilon$ for some constant $K_2$. Since $\sqrt{\cdot}$ is a concave function on the positive real line, and since $C_{\epsilon}$ is always positive,
 \[
 \expect \sqrt{C_\epsilon} \leq  \sqrt{\expect  C_\epsilon} < \sqrt{\epsilon( K_2 + 2\expect R_1^2)  }
 \]
@@ -1069,7 +1069,7 @@ K_1 = \sum_{i=1}^\infty \frac{5\sqrt{i \log 2 + \log K_3}}{2^{i/2}}
 \]
 \end{IEEEproof}
 
-\begin{lemma}
+\begin{lemma}\label{lem:epslmlemma}
 Both $d_1(\lambda, 0) \leq C_\epsilon L $ and $d_2(\lambda, 0) \leq D_\epsilon L$ for all $\lambda \in B_\epsilon$.
 \end{lemma}
 \begin{IEEEproof}
