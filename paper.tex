@@ -256,9 +256,9 @@ We will have particular use of complex random variables of the form $1 + X$ wher
 \[
 R e^{j\Phi} = 1 + X.
 \]
-The joint distribution of $R$ and $\Phi$ can be shown to be
+The joint pdf of $R$ and $\Phi$ can be shown to be
 \[
-f(r,\phi) = \frac{r f_Z(\sqrt{r^2 - 2r\cos\phi + 1})}{\sqrt{r^2 - 2r\cos\phi + 1}}.
+f(r,\phi) = \frac{r f_Z(\sqrt{r^2 - 2r\cos\phi + 1})}{2\pi\sqrt{r^2 - 2r\cos\phi + 1}}.
 \]
 The mean of $R e^{j\Phi}$ is equal to one because the mean of $X$ is zero.  So,
 \begin{equation}\label{eq:expectRepartRphi}
@@ -271,7 +271,7 @@ where $\Re(\cdot)$ denotes the real part, and
 where $\Im(\cdot)$ denotes the imaginary part.  %The next lemma will be useful for the analysis of the least squares estimator.
 
 \begin{lemma}\label{lem:gg2cont}
-Let $X = Z e^{j\Theta}$ be a circularly symmetric complex random variable with pdf $\tfrac{1}{2\pi}f_Z(z)$.  Let $R > 0$ and $\Phi \in [0, 2\pi)$ be random variables satisfying $R e^{j\Phi} = 1 + X$ and with joint pdf $f(r,\phi)$.  Then
+Let $X = Z e^{j\Theta}$ be a circularly symmetric complex random variable with continuous pdf $\tfrac{1}{2\pi}f_Z(z)$.  Let $R > 0$ and $\Phi \in [0, 2\pi)$ be random variables satisfying $R e^{j\Phi} = 1 + X$ and with joint pdf $f(r,\phi)$.  Then
 \[
 g(\phi) = \int_{0}^\infty r f(r, \phi) dr,
 \]
@@ -282,7 +282,7 @@ g_2(\phi) = \int_{0}^\infty r^2 f(r, \phi) dr.
 are continuous functions from $\reals$ to $\reals$.
 \end{lemma}
 \begin{IEEEproof}
-BLERG
+We only give a proof for $g_2$, the proof for $g$ being similar.  From 
 \end{IEEEproof}
 
 % \begin{lemma}\label{lem:h1minedcircsym}

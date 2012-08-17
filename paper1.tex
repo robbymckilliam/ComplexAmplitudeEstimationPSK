@@ -244,26 +244,30 @@ $Q = \frac{1}{L}\abs{Y}^2$\;
 
 \section{Circularly symmetric complex random variables}\label{sec:circ-symm-compl}
 
-Before describing the statistical properties of the least squares estimator, we first require some properties of complex valued random variables.  A complex random variable $X$ is said to be \emph{circularly symmetric} if the distribution of its phase $\angle{X}$ is uniform on $[0,2\pi)$ and is independent of the distribution of its magnitude $\abs{X}$.  That is, if $Z \geq 0$ and $\Theta \in [0,2\pi)$ are real random variables such that $Ze^{j\Theta} = X$, then $\Theta$ is uniformly distributed on $[0,2\pi)$ and is indepedent of $Z$.  If the probability density function (pdf) of $Z$ is $f_Z(z)$, then the joint pdf of $\Theta$ and $Z$ is 
+Before describing the statistical properties of the least squares estimator, we first require some properties of complex valued random variables.  A complex random variable $W$ is said to be \emph{circularly symmetric} if the distribution of its phase $\angle{W}$ is uniform on $[0,2\pi)$ and is independent of the distribution of its magnitude $\abs{W}$.  That is, if $Z \geq 0$ and $\Theta \in [0,2\pi)$ are real random variables such that $Ze^{j\Theta} = W$, then $\Theta$ is uniformly distributed on $[0,2\pi)$ and is indepedent of $Z$.  If the probability density function (pdf) of $Z$ is $f_Z(z)$, then the joint pdf of $\Theta$ and $Z$ is 
 \[
 f_{Z,\Theta}(z,\theta) = \frac{1}{2\pi}f_Z(z).
-\]  
-Observe that for any real number $\phi$, the pdf of $X$ and $e^{j\phi}X$ are the same, that is, the pdf is invariant to phase rotation.  If $\expect\abs{X} = \expect Z$ is finite, then $X$ has zero mean because
+\]
+If $X$ and $Y$ are real random variables equal to the real and imaginary parts of $W = X + jY$ then the joint pdf of $X$ and $Y$ is
+\[
+f_{X,Y}(x,y) = \frac{f_Z(z)}{2\pi z} \qquad \text{where $z = \sqrt{x^2 + y^2}$.}
+\]
+Observe that for any real number $\phi$, the pdf of $W$ and $e^{j\phi}W$ are the same, that is, the pdf is invariant to phase rotation.  If $\expect\abs{W} = \expect Z$ is finite, then $W$ has zero mean because
 \begin{align*}
- \expect X &= \int_{0}^{2\pi} \int_{0}^\infty z e^{j\theta} f_{Z,\Theta}(z,\theta) dz d\theta \\
+ \expect W &= \int_{0}^{2\pi} \int_{0}^\infty z e^{j\theta} f_{Z,\Theta}(z,\theta) dz d\theta \\
  &= \frac{1}{2\pi} \int_{0}^{2\pi} e^{j\theta} \int_{0}^\infty z f_Z(z) dz d\theta \\
  &= \frac{1}{2\pi}\expect Z \int_{0}^{2\pi} e^{j\theta} d\theta = 0.
  \end{align*}
 
-We will have particular use of complex random variables of the form $1 + X$ where $X$ is circularly symmetric.  Let $R \geq 0$ and $\Phi \in [0,2\pi)$ be real random variables satisfying, 
+We will have particular use of complex random variables of the form $1 + W$ where $W$ is circularly symmetric.  Let $R \geq 0$ and $\Phi \in [0,2\pi)$ be real random variables satisfying, 
 \[
-R e^{j\Phi} = 1 + X.
+R e^{j\Phi} = 1 + W.
 \]
 The joint pdf of $R$ and $\Phi$ can be shown to be
 \begin{equation}\label{eq:pdfRPhi}
-f(r,\phi) = \frac{r f_Z(\sqrt{r^2 - 2r\cos\phi + 1})}{\sqrt{r^2 - 2r\cos\phi + 1}}.
+f(r,\phi) = \frac{r f_Z(\sqrt{\abs{r^2 - 2r\cos\phi + 1}})}{2\pi\sqrt{\abs{r^2 - 2r\cos\phi + 1}}}.
 \end{equation}
-The mean of $R e^{j\Phi}$ is equal to one because the mean of $X$ is zero.  So,
+The mean of $R e^{j\Phi}$ is equal to one because the mean of $W$ is zero.  So,
 \begin{equation}\label{eq:expectRepartRphi}
 \expect \Re(R e^{j\Phi}) = \expect R \cos(\Phi) = 1,
 \end{equation}
@@ -271,30 +275,7 @@ where $\Re(\cdot)$ denotes the real part, and
 \begin{equation}\label{eq:expectImpartRphi}
 \expect \Im(R e^{j\Phi}) = \expect R \sin(\Phi) = 0,
 \end{equation}
-where $\Im(\cdot)$ denotes the imaginary part.  The next result will be useful for the analysis of the least squares estimator.  %Me ommit the proof, which is straightforward, but tedious.
-
-\begin{proposition}\label{lem:gg2cont}
-Let $X = Z e^{j\Theta}$ be a circularly symmetric complex random variable with pdf $\tfrac{1}{2\pi}f_Z(z)$ that is continuous on the positive reals and with $\expect \abs{X}^2 = \expect Z^2$ finite.  Let $R > 0$ and $\Phi \in [0, 2\pi)$ be random variables satisfying $R e^{j\Phi} = 1 + X$ and with joint pdf $f(r,\phi)$.  Then
-\[
-g(\phi) = \int_{0}^\infty r f(r, \phi) dr,
-\]
-and
-\[
-g_2(\phi) = \int_{0}^\infty r^2 f(r, \phi) dr
-\]
-are continuous functions from $\reals$ to $\reals$.
-\end{proposition}
-\begin{IEEEproof}
-From~\eqref{eq:pdfRPhi},
-\[
-g(\phi) = \int_{0}^\infty \frac{r^2 f_Z(\sqrt{r^2 - 2r\cos\phi + 1})}{\sqrt{r^2 - 2r\cos\phi + 1}} dr,
-\]
-and
-\[
-g_2(\phi) = \int_{0}^\infty \frac{r^3 f_Z(\sqrt{r^2 - 2r\cos\phi + 1})}{\sqrt{r^2 - 2r\cos\phi + 1}} dr.
-\]
-The continuity of these functions follows immediately from the continuity of $f_Z$.
-\end{IEEEproof}
+where $\Im(\cdot)$ denotes the imaginary part.
 
 % \begin{lemma}\label{lem:h1minedcircsym}
 % Let $X = Z e^{j\Theta}$ be a circularly symmetric complex random variable with pdf $\tfrac{1}{2\pi}f_Z(z)$.  Let $R > 0$ and $\Phi \in [0, 2\pi)$ be random variables satisfying $R e^{j\Phi} = 1 + X$.  Let
@@ -369,27 +350,27 @@ as $L \rightarrow \infty$, where
 H = h_2(0) -  2 \sin(\tfrac{\pi}{M}) \sum_{k = 0}^{M-1} g(\tfrac{2\pi}{M}k + \tfrac{\pi}{M}),
 \]
 \[
-A_1 = \var\big( R_1^2\sin^2(\Phi_1) \big), \qquad A_2 = \var\big( R_1^2\sin^2\fracpart{\Phi_1} \big),
+A_1 = \expect R_1^2\sin^2(\Phi_1), \qquad A_2 = \expect R_1^2\sin^2\fracpart{\Phi_1},
 \]
 \[
-B_1 = \var\big( R_1^2 \cos^2(\Phi_1) \big), \;\;\; B_2 = \var\big( R_1^2 \cos^2\fracpart{\Phi_1} \big).
+B_1 = \expect R_1^2 \cos^2(\Phi_1) - 1, \;\;\; B_2 = \expect R_1^2 \cos^2\fracpart{\Phi_1} - h_2^2(0).
 \]
 \end{theorem}
 
-\begin{corollary}\label{cor:ampmse}
-The mean square error of the amplitude estimator $\hat{\rho}$ is 
-\[
-\expect (\rho_0 - \hat{\rho})^2 = \rho_0^2\frac{p B_1 + d B_2}{L} + \rho_0^2(1 - G(0))^2 + o(L^{-1/2}).
-\] 
-\end{corollary}
-\begin{IEEEproof} Write
-\begin{align*}
-\expect (\rho_0 - \hat{\rho})^2 &= \expect \big( \rho_0(1 - G(0)) + G(0)\rho_0 - \hat{\rho} \big)^2 \\
-&= \expect \big( \rho_0(1 - G(0)) - \hat{m}_L \big)^2 \\
-&= \rho_0^2(1 - G(0))^2 + \expect \hat{m}_L^2 - 2\rho_0(1 - G(0))\expect\hat{m}_L.
-\end{align*} 
-From Theorem~\ref{thm:normality} it follows that $\expect \hat{m}_L^2 = \tfrac{B}{L} + o(L^{-1})$ and that $\expect \hat{m}_L = o(L^{-1/2})$. 
-\end{IEEEproof}
+% \begin{corollary}\label{cor:ampmse}
+% The mean square error of the amplitude estimator $\hat{\rho}$ is 
+% \[
+% \expect (\rho_0 - \hat{\rho})^2 = \rho_0^2\frac{p B_1 + d B_2}{L} + \rho_0^2(1 - G(0))^2 + o(L^{-1/2}).
+% \] 
+% \end{corollary}
+% \begin{IEEEproof} Write
+% \begin{align*}
+% \expect (\rho_0 - \hat{\rho})^2 &= \expect \big( \rho_0(1 - G(0)) + G(0)\rho_0 - \hat{\rho} \big)^2 \\
+% &= \expect \big( \rho_0(1 - G(0)) - \hat{m}_L \big)^2 \\
+% &= \rho_0^2(1 - G(0))^2 + \expect \hat{m}_L^2 - 2\rho_0(1 - G(0))\expect\hat{m}_L.
+% \end{align*} 
+% From Theorem~\ref{thm:normality} it follows that $\expect \hat{m}_L^2 = \tfrac{B}{L} + o(L^{-1})$ and that $\expect \hat{m}_L = o(L^{-1/2})$. 
+% \end{IEEEproof}
 
 The proof of Theorem~\ref{thm:consistency} is in Section~\ref{sec:proof-almost-sure} and the proof of Theorem~\ref{thm:normality} is in Section~\ref{sec:proof-asympt-norm}.  Before giving the proofs we discuss the assumptions made by these theorems.  The assumption that $w_1, \dots w_L$ are circularly symmetric can be relaxed, but this comes at the expense of making the theorem statements more complicated.  If $w_i$ is not circularly symmetric then the distribution of $R_i$ and $\Phi_i$ may depend on $a_0$ and also on the transmitted symbols $\{s_i,i \in P \cup D\}$.  In result, the asymptotic variance described in Theorem~\ref{thm:normality} depends on $a_0$ and $\{s_i,i \in P \cup D\}$, rather than just $\rho_0$.  The circularly symmetric assumption may not always hold in practice, but we feel it provides a sensible trade off between simplicity and generality.  
 
@@ -398,19 +379,61 @@ The assumption that $\expect \sabs{w_1}^2 = \expect \sabs{w_i}^2$ is finite impl
 
 The theorems place conditions on $\sfracpart{\hat{\theta} - \theta_0}_\pi$ rather than directly on $\hat{\theta} - \theta_0$.  This makes sense because the phases $\theta_0$ and $\theta_0 + 2\pi k$ are equivalent for any integer $k$. So, for example, we expect the phases $0.49\pi$ and $-0.49\pi$ to be close together, the difference between them being $\vert\sfracpart{-0.49\pi - 0.49\pi}_\pi\vert = 0.02\pi$, and not $\vert -0.49\pi - 0.49\pi\vert = 0.98\pi$.
 
-A key assumption in Theorem~\ref{thm:consistency} is that $\abs{G(x)}$ is uniquely maximised at $x = 0$ for $x \in [-\pi, \pi)$.  This assumption asserts that $\abs{G(x)} \leq \abs{G(0)}$ for all $x \in [-\pi, \pi)$ and that if $\{x_i\}$ is a sequence such that $\abs{G(x_i)} \rightarrow \sabs{G(0)}$ as $i \rightarrow \infty$ then $x_i \rightarrow 0$ as $i \rightarrow \infty$.  Although we will not prove it here, this assumption is not only sufficient, but also nescessary, for if $\abs{G(x)}$ is uniquely maximised at some point $x \neq 0$ then $\sfracpart{\theta_0 - \hat{\theta}}_\pi \rightarrow x$ almost surely as $L\rightarrow\infty$, while if $\abs{G(x)}$ is not uniquely maximised then $\sfracpart{\theta_0 - \hat{\theta}}_\pi$ will not converge.  The next Lemma describes a class of circularly symmetric distributions for which $\abs{G(x)}$ is uniquely maximised at $x = 0$.
+For Theorem~\ref{thm:normality} the integral defining $g(\phi)$ must exist at $\phi = \tfrac{2\pi}{M}k + \frac{\pi}{M}$ for $k = 0, \dots, M-1$ in order the constant $H$ to exist.  The next proposition shows that the assumptions made in Theorem~\ref{thm:normality} are strong enough to ensure that the integral does exist at these points.  At the same time we derive some properties that will be useful during the proof of Theorem~\ref{thm:normality}.
 
-\begin{proposition}
-Let $X = Z e^{j\Theta}$ be a circularly symmetric complex random variable with pdf $\tfrac{1}{2\pi}f_Z(z)$ that is continuous and differentiable on the positive reals.  Let $R > 0$ and $\Phi \in [0, 2\pi)$ be random variables satisfying $R e^{j\Phi} = 1 + X$.  Let,
+\begin{proposition}\label{prop:gg2cont}
+Let $W$ be a circularly symmetric complex random variable with $\expect\abs{W}^2$ finite.  Let $R > 0$ and $\Phi \in [0, 2\pi)$ be random variables satisfying $R e^{j\Phi} = 1 + W$.  Let $f(r,\phi)$ be the joint pdf of $R$ and $\Phi$.  Then
 \[
-h_1(x) = \expect R \cos(x + \Phi) \;\;\; \text{and} \;\;\; h_2(x) =  \expect R \cos\sfracpart{x + \Phi}.
+g(\phi) = \int_{0}^\infty r f(r, \phi) dr,
 \]
-If $z^{-1} f_Z(z)$ is nonincreasing with $z$, then $\abs{h_1(x)}$ is uniquely maximised at $x=0$ over the interval $[-\pi,\pi]$ and $\abs{h_2(x)}$ is uniquely maximised at $x = 0$ over the interval $[-\tfrac{\pi}{M},\tfrac{\pi}{M}]$.
+and
+\[
+g_2(\phi) = \int_{0}^\infty r^2 f(r, \phi) dr
+\]
+are even functions on $(-\pi,\pi)$ and are continuous at $\phi = \tfrac{2\pi}{M}k + \frac{\pi}{M}$ for $k = 0, \dots, M-1$.
 \end{proposition}
-Before giving the proof we discuss the requirements of this lemma.  The requirement that $z^{-1}f_{Z}(z)$ be non increasing implies that the pdf of $X$ decreases as we move away from the origin. That is, the pdf of $X$ in rectangular coordinates is $p(x,y) = z^{-1}f_{Z}(z)$, where $z = \sqrt{x^2 + y^2}$, and this is required to be non increasing with $z$.  For example, the zero mean complex Gaussian distribution with independent real and imaginary parts satisfies this requirement.
 \begin{IEEEproof}
 BLERG
 \end{IEEEproof}
+
+A key assumption in Theorem~\ref{thm:consistency} is that $\abs{G(x)}$ is uniquely maximised at $x = 0$ for $x \in [-\pi, \pi)$.  This assumption asserts that $\abs{G(x)} \leq \abs{G(0)}$ for all $x \in [-\pi, \pi)$ and that if $\{x_i\}$ is a sequence such that $\abs{G(x_i)} \rightarrow \sabs{G(0)}$ as $i \rightarrow \infty$ then $x_i \rightarrow 0$ as $i \rightarrow \infty$.  Although we will not prove it here, this assumption is not only sufficient, but also nescessary, for if $\abs{G(x)}$ is uniquely maximised at some point $x \neq 0$ then $\sfracpart{\theta_0 - \hat{\theta}}_\pi \rightarrow x$ almost surely as $L\rightarrow\infty$, while if $\abs{G(x)}$ is not uniquely maximised then $\sfracpart{\theta_0 - \hat{\theta}}_\pi$ will not converge.  The next Lemma describes a class of circularly symmetric distributions for which $\abs{G(x)}$ is uniquely maximised at $x = 0$.  The zero mean complex Gaussian distribution with independent real and imaginary parts is apart of this class.
+
+\begin{proposition}\label{prop:contgg2}
+Let $W = X + jY$ be a circularly symmetric complex random variable with pdf $f_{X,Y}(x,y)$ of the real and imaginary parts nonincreasing with $x^2 + y^2$.  Let $R > 0$ and $\Phi \in [0, 2\pi)$ be random variables satisfying $R e^{j\Phi} = 1 + W$.  Let,
+\[
+h_1(x) = \expect R \cos(x + \Phi) \;\;\; \text{and} \;\;\; h_2(x) =  \expect R \cos\sfracpart{x + \Phi}.
+\]
+Then $\abs{h_1(x)}$ is uniquely maximised at $x=0$ over the interval $[-\pi,\pi]$ and $\abs{h_2(x)}$ is uniquely maximised at $x = 0$ over the interval $[-\tfrac{\pi}{M},\tfrac{\pi}{M}]$.
+\end{proposition}
+\begin{IEEEproof}
+BLERG
+\end{IEEEproof}
+
+
+% \begin{IEEEproof}
+% We only give a proof for $g_2$, the proof for $g$ begin similar.  From~\eqref{eq:pdfRPhi},
+% \[
+% g_2(\phi) = \int_{0}^\infty \frac{r^3 f_Z(\sqrt{\sabs{r^2 - 2r\cos\phi + 1}})}{2\pi\sqrt{\sabs{r^2 - 2r\cos\phi + 1}}} dr.
+% \]
+% That $g_2$ is even on $[-\pi,\pi]$ is now obvious because $\cos\phi$ is even on $[-\pi,\pi]$.  Put $a = \cos\phi$ and $z^2 = r^2 - 2ra + 1$ and by a change of variable from $r$ to $z$,
+% \[
+% g_2(\phi) = \int_{1}^{\sqrt{1-a^2}} \frac{r^3 f_Z(z)}{2\pi ( r - a)} dz + \int_{\sqrt{1-a^2}}^\infty \frac{r^3 f_Z(z)}{2\pi ( r - a)} dz.
+% \]
+% when $0 < a \leq 1$ and
+% \[
+% g_2(\phi) = \int_{1}^\infty \frac{r^3 f_Z(z)}{2\pi ( r - a)} dz.
+% \]
+% when $-1 \leq a \leq 0$.  Because
+% \[
+% \frac{r^3}{(r - a)} \leq a z^2 +  b
+% \]
+% for all $\phi \in \reals$, it follows that
+% \[
+% g_2(\phi) \leq \int_{0}^\infty \frac{(a z^2 + d) f_Z(z)}{2\pi} dz = a \expect Z^2 + b
+% \]
+% which is finite.  BLERG work out a and b.
+% \end{IEEEproof}
+
 
 
 \section{Proof of almost sure convergence (Theorem~\ref{thm:consistency}) } \label{sec:proof-almost-sure}
@@ -567,7 +590,7 @@ where $\kappa = \rho_0/\sigma$ and
 \[
 \Psi(\phi) = 1 + \erf(\kappa \cos(\phi)) = 1 + \frac{2}{\sqrt{\pi}}\int_0^{\kappa \cos(\phi)} e^{-t^2} dt .
 \]
-The value of $A_1$ and $A_2$ can be computed by numerical integration.
+The value of $A_1, A_2, B_1$ and $B_2$ can be efficiently computed by numerical integration using these formula.
 
 
 \section{Simulations}\label{sec:simulations}

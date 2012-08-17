@@ -18,7 +18,7 @@
 
 %opening
 \title{Carrier phase and amplitude estimation for phase shift keying using pilots and data (Appendix)}
-\author{Robby McKilliam, Andre Pollok, Bill Cowley 
+\author{Robby McKilliam, Andre Pollok, Bill Cowley, I. Vaughan L. Clarkson and Barry Quinn
 \thanks{
 Supported under the Australian Government’s Australian Space Research Program.
 Robby McKilliam, Andre Pollok and Bill Cowley are with the Institute for Telecommunications Research, The University of South Australia, SA, 5095.
@@ -35,15 +35,20 @@ We consider least squares estimators of carrier phase and amplitude from a noisy
 Coherent detection, noncoherent detection, phase shift keying, asymptotic statistics
 \end{IEEEkeywords}
 
-%set this to the number of the last equation in the previous document.
+%set sections and equation counters based on the previous document.
 \setcounter{equation}{20}
 \newcounter{lasteqplusone}
 \setcounter{lasteqplusone}{\value{equation}}
 \addtocounter{lasteqplusone}{1}
+\setcounter{section}{9}
+\newcounter{lastsecplusone}
+\setcounter{lastsecplusone}{\value{section}}
+\addtocounter{lastsecplusone}{1}
+
 
 \section{Introduction to this appendix}
 
-Here we compile lemmas required for the proof almost sure convergence (Theorem~\ref{thm:consistency}) and asymptotic normality (Theorem~\ref{thm:normality}) from the paper~\cite{McKilliam_leastsqPSKpilotsdata_2012}.  This document is not self contained and it is intended that the reader start at~\cite{McKilliam_leastsqPSKpilotsdata_2012}.  The equation reference numbers in this document start at (\arabic{lasteqplusone}).  All equation numbers less than (\arabic{lasteqplusone}) refer back to~\cite{McKilliam_leastsqPSKpilotsdata_2012}.  This document is separated into 3 sections.  Section~\ref{sec:proof-almost-sureappendix} contains those lemmas required for the proof of almost sure convergence (Theorem~\ref{thm:consistency}).  Section~\ref{sec:proof-asympt-normappendix} contains those lemmas required for the proof of asymptotic normality (Theorem~\ref{thm:normality}).  Section~\ref{sec:an-empirical-process} contains proofs for lemmas that arise during Section~\ref{sec:proof-asympt-normappendix}.  These involve the proof of~\emph{tightness} for certain empirical processes~\cite{Billingsley1999_convergence_of_probability_measures,Dudley_unif_central_lim_th_1999,Shorak_emp_proc_stat_2009}. 
+Here we compile lemmas required for the proof almost sure convergence (Theorem~\ref{thm:consistency}) and asymptotic normality (Theorem~\ref{thm:normality}) from the paper~\cite{McKilliam_leastsqPSKpilotsdata_2012}.  This document is not self contained and it is intended that the reader start at~\cite{McKilliam_leastsqPSKpilotsdata_2012} and refer to this document when prompted in~\cite{McKilliam_leastsqPSKpilotsdata_2012}.  The equation reference numbers in this document start at (\arabic{lasteqplusone}).  All equation numbers less than (\arabic{lasteqplusone}) refer back to~\cite{McKilliam_leastsqPSKpilotsdata_2012}.  The section numbers in this document start at~\arabic{lastsecplusone} and all sections before~\arabic{lastsecplusone} are contain in~\cite{McKilliam_leastsqPSKpilotsdata_2012}.  This document is separated into 3 sections.  Section~\ref{sec:proof-almost-sureappendix} contains those lemmas required for the proof of almost sure convergence (Theorem~\ref{thm:consistency}).  Section~\ref{sec:proof-asympt-normappendix} contains those lemmas required for the proof of asymptotic normality (Theorem~\ref{thm:normality}).  Section~\ref{sec:an-empirical-process} contains proofs for lemmas that arise in Section~\ref{sec:proof-asympt-normappendix}.  These involve the proof of~\emph{tightness} for certain empirical processes~\cite{Billingsley1999_convergence_of_probability_measures,Dudley_unif_central_lim_th_1999,Shorak_emp_proc_stat_2009}. 
 
 \section{Lemmas required for the proof of almost sure convergence (Theorem~\ref{thm:consistency}) } \label{sec:proof-almost-sureappendix}
 
@@ -321,7 +326,7 @@ G_L^\prime(\hat{\lambda}_L), & G_L(\hat{\lambda}_L) > 0\\
 -G_L^\prime(\hat{\lambda}_L), & G_L(\hat{\lambda}_L) < 0.
 \end{cases}
 \]
-Thus, $G_L^\prime(\hat{\lambda}_L) = 0$ if $\sabs{G_L(\hat{\lambda}_L)} > 0$.  On the other hand $\sabs{G_L(\hat{\lambda}_L)} = 0$ only if $G_L(\lambda) = 0$ for all $\lambda \in \reals$, inwhich case $G_L^\prime(\hat{\lambda}_L) = 0$. 
+Thus, $G_L^\prime(\hat{\lambda}_L) = 0$ if $\sabs{G_L(\hat{\lambda}_L)} > 0$.  On the other hand $\sabs{G_L(\hat{\lambda}_L)} = 0$ only if $G_L(\lambda) = 0$ for all $\lambda \in \reals$, and in this case $G_L^\prime(\hat{\lambda}_L) = 0$ also. 
 \end{IEEEproof}
 
 \begin{lemma}\label{lem:fracpartlambdahatnotpi} Let $q_i, i \in D$ be defined as in Lemma~\ref{lem:diffatlambdaL}.  Then $\sabs{\sfracpart{\hat{\lambda}_L + \Phi_i}} \leq \frac{\pi}{M} + q_i$ for all $i \in D$.
@@ -536,11 +541,11 @@ b_k(\lambda) = \zeta_k(\lambda) \int_{\psi_{k-1}}^{\psi_k -\lambda}g(\phi) d\phi
 \begin{equation}\label{eq:ck}
 c_k(\lambda) = \frac{1}{\lambda} \int_{\psi_{k} - \lambda}^{\psi_{k}} s_k(\phi) g(\phi) d\phi.
 \end{equation}
-Both $a_k(\lambda)$ and $b_k(\lambda)$ converge to zero as $\lambda$ goes to zero, and, since $g$ is continuous, $c_k(\lambda)$ converges to 
+Both $a_k(\lambda)$ and $b_k(\lambda)$ converge to zero as $\lambda$ goes to zero, and, since $g$ is continuous at $\psi_k = \tfrac{2\pi}{M}k + \tfrac{\pi}{M}$ for each $k = 0, 1, \dots, M-1$ by Proposition~\ref{prop:gg2cont} in~\cite{McKilliam_leastsqPSKpilotsdata_2012}, it follows $c_k(\lambda)$ converges to 
 \[
 s_k(\psi_k)g(\psi_k) = -2\sin(\tfrac{\pi}{M}) g(\tfrac{2\pi}{M}k + \tfrac{\pi}{M})
 \]
-as $\lambda$ goes to zero from above.  We are only interested in the limit from above because we are working under the assumption that that $0 \leq \lambda < \frac{\pi}{M}$.  The analgous argument when $-\tfrac{\pi}{M} \leq \lambda < 0$ would involve limits as $\lambda$ approaches zero from below.  We actually only require $g$ to be continuous at $\psi_k = \tfrac{2\pi}{M}k + \tfrac{\pi}{M}$ for each $k = 0, 1, \dots, M-1$, and the requirements of Theorem~\ref{thm:normality} could be weakened in this sense.  Here, the continuity of $g$ is garaunteed by the assumption that the noise $w_1$ is circularly symetric.
+as $\lambda$ goes to zero from above.  We are only interested in the limit from above because we are working under the assumption that $0 \leq \lambda < \frac{\pi}{M}$.  The analgous argument when $-\tfrac{\pi}{M} \leq \lambda < 0$ would involve limits as $\lambda$ approaches zero from below.
 
 Now, when $k = 0$, we have $\psi_{-1} < 0 < \psi_0 - \lambda < \psi_0 < 2\pi$, so that
 \[
@@ -598,7 +603,7 @@ so that
 \[
 \sqrt{L}\big( R_L(\hat{\lambda}_L) - Q_L(\hat{\lambda}_L) \big) = W_L(\hat{\lambda}_L) + \sqrt{L} R_L(0)
 \]
-Lemma~\ref{lem:ZYLempiricproc} in the Appendix shows that for any $\delta > 0$ and $\nu > 0$, there exists $\epsilon > 0$ such that
+Lemma~\ref{lem:ZYLempiricproc} in Section~\ref{sec:an-empirical-process} shows that for any $\delta > 0$ and $\nu > 0$, there exists $\epsilon > 0$ such that
 \[
 \Pr\left\{ \sup_{\sabs{\lambda}<\epsilon}\sabs{W_L(\lambda)} > \delta  \right\} < \nu
 \]
@@ -640,12 +645,51 @@ Similarly, the distribution of
 \[ 
 \frac{1}{\sqrt{L}} \sum_{i \in D} R_i \sin\fracpart{\Phi_i} = \sqrt{\frac{\sabs{D}}{L}} \frac{1}{\sqrt{\sabs{D}}} \sum_{i \in D} R_i \sin\fracpart{\Phi_i} 
 \]
-converges to the normal with mean $\sqrt{d}\expect R_1 \sin\fracpart{\Phi_1} = 0$ as a result of Lemma~? BLERG, and variance
+converges to the normal with mean $\sqrt{d}\expect R_1 \sin\fracpart{\Phi_1} = 0$ as a result of Lemma~\ref{lem:expectImRfracpart}, and variance
 \[
 d A_2 = d \expect R_1^2 \sin^2\fracpart{\Phi_1}.
 \]
 \end{IEEEproof}
 
+\begin{lemma}\label{lem:expectImRfracpart}
+$\expect R_1 \sin\fracpart{\Phi_1} = 0$.
+\end{lemma}
+\begin{IEEEproof}
+Recalling the $f(r,\phi)$ is the joint pdf of $R_1$ and $\Phi_1$, we have
+\begin{align*}
+\expect R_1 \sin\fracpart{\Phi_1} &= \int_{0}^{2\pi} \int_{0}^\infty r \sin\fracpart{\phi} f(r,\phi) dr d\phi \\
+&= \int_{-\pi}^{\pi} \sin\fracpart{\phi} g(\phi) d\phi,
+\end{align*}
+where $g$ is defined in the statement of Theorem~\ref{thm:normality} and the change in bounds from $0, 2\pi$ to $-\pi,\pi$ is valid because both $\sin\fracpart{\phi}$ and $g(\phi)$ are periodic with period $2\pi$.  Propostion~\ref{prop:gg2cont} in \cite{McKilliam_leastsqPSKpilotsdata_2012} shows that $g$ is even on $(-\pi,\pi)$.  Also $\sin\fracpart{\cdot}$ has period $\tfrac{2\pi}{M}$ and is odd on $(-\frac{\pi}{M}, \tfrac{\pi}{M})$.  So, for any $k \in \ints$ and $\phi \in (-\tfrac{\pi}{M}, 0)$,
+\[
+g(-\phi + k \tfrac{\pi}{M}) = g(\phi - k \tfrac{\pi}{M})
+\]
+and
+\[
+\sin\fracpart{-\phi + k \tfrac{\pi}{M}} = -\sin\fracpart{\phi - k \tfrac{\pi}{M}}.
+\]
+Now,
+\begin{align*}
+I_k &= \int_{-(k+1)\tfrac{\pi}{M}}^{-k\tfrac{\pi}{M}}\sin\fracpart{\phi} g(\phi) d\phi + \int_{k\tfrac{\pi}{M}}^{(k+1)\tfrac{\pi}{M}}\sin\fracpart{\phi} g(\phi) d\phi \\
+&= \int_{-\tfrac{\pi}{M}}^{0}\sin\fracpart{\phi -  k\tfrac{\pi}{M}} g(\phi - k\tfrac{\pi}{M}) d\phi \\
+&\hspace{1cm}+ \int_{0}^{\tfrac{\pi}{M}}\sin\fracpart{\phi + k\tfrac{\pi}{M}} g(\phi + k\tfrac{\pi}{M}) d\phi \\
+&= 0
+\end{align*}
+for all integers $k$ because
+\begin{align*}
+\int_{0}^{\tfrac{\pi}{M}}&\sin\fracpart{\phi + k\tfrac{\pi}{M}} g(\phi + k\tfrac{\pi}{M}) d\phi \\
+&= \int_{-\tfrac{\pi}{M}}^{0}\sin\fracpart{-\phi + k\tfrac{\pi}{M}} g(-\phi + k\tfrac{\pi}{M}) d\phi \\
+&= -\int_{-\tfrac{\pi}{M}}^{0}\sin\fracpart{\phi - k\tfrac{\pi}{M}} g(\phi - k\tfrac{\pi}{M}) d\phi.
+\end{align*}
+Observe that the intervals
+\[
+ [-(k+1)\tfrac{\pi}{M},-k\tfrac{\pi}{M}] \cup [k\tfrac{\pi}{M},(k+1)\tfrac{\pi}{M}], \;\;\; k = 0, \dots, M-1
+\]
+partition $[-\pi, \pi]$, and so
+\[
+\expect R_1 \sin\fracpart{\Phi_1} = \int_{-\pi}^{\pi} \sin\fracpart{\phi} g(\phi) d\phi = \sum_{k=0}^{M-1} I_k = 0.
+\]
+\end{IEEEproof}
 
 \begin{lemma}\label{lem:empiricprocforrho} Let $T_L(\lambda) = \expect G_L(\lambda)$.  Then
 \[
@@ -662,7 +706,11 @@ so that
 \[
 \sqrt{L}\big( G_L(\hat{\lambda}_L) - T_L(\hat{\lambda}_L) \big) = Y_L(\lambda) + X_L
 \]
-Lemma~\ref{lem:ZYLempiricproc} in the appendix 
+Lemma~\ref{lem:ZYLempiricproc} in Section~\ref{sec:an-empirical-process} shows that for any $\delta > 0$ and $\nu > 0$, there exists $\epsilon > 0$ such that
+\[
+\Pr\left\{ \sup_{\sabs{\lambda}<\epsilon}\sabs{Y_L(\lambda)} > \delta  \right\} < \nu.
+\]
+The proof now follows by an argument analogous to that in Lemma~\ref{lem:empiricprocc}.
 \end{IEEEproof}
 
 \begin{lemma}\label{lem:HLtoG} $\sqrt{L}\big( T_L(\hat{\lambda}_L) - G(0) \big) = o_P(1)$.
@@ -958,7 +1006,7 @@ where the function
 \[
 g_2(\phi) = \int_{0}^\infty  r^2 f(r,\phi) dr d\phi 
 \]
-is continuous due to Lemma~\ref{lem:gg2cont}.  From the definition of $I_\epsilon$,
+is continuous at $\psi_k = \tfrac{2\pi}{M}k + \tfrac{\pi}{M}$ for each $k = 0, 1, \dots, M-1$ by Proposition~\ref{prop:gg2cont} in~\cite{McKilliam_leastsqPSKpilotsdata_2012}.  From the definition of $I_\epsilon$,
 \begin{align*}
 \expect R_i^2 I_\epsilon(\Phi_i) &= \sum_{k=0}^{M-1}\int_{\psi_k-\epsilon}^{\psi_k-\epsilon}g_2(\phi) d\phi \\
 &= 2\epsilon \sum_{k=0}^{M-1} (g_2(\psi_k) + o(1))
