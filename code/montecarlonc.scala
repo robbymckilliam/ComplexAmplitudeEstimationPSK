@@ -11,7 +11,7 @@ import cam.noise.ComplexGaussian
 import pubsim.Util
 
 val Ms = List(2,4,8) //BPSK, QPSK, 8-PSK
-val Ls = List(32, 256, 2048)
+val Ls = List(32,256,1024,4096)
 val a0 = new PolarComplex(1,2*scala.math.Pi*(new scala.util.Random).nextDouble)
 val iters = 5000
 

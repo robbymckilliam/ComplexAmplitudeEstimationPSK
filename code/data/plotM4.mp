@@ -125,21 +125,20 @@ draw begingraph(plotwidth, plotheight);
   setrange(whatever,whatever, whatever,5);
   %setrange(4.9,"1e-13", 22,2);
 
-%  gdraw (0, "1e-13")--(0, 2) dashed evenly; %glabel.bot(btex AWGN channel capacity etex, 0) rotated 90;
+  gdraw "cltM4L4096absP4096p"; gdraw "MackenthunCoherentM4L4096absP4096p" plot(times); glabel.llft(btex $L = 4096$ etex, 1000);
+  gdraw "cltM4L4096absP2048p"; gdraw "MackenthunCoherentM4L4096absP2048p" plot(dot);
+  gdraw "cltM4L4096absP512p"; gdraw "MackenthunCoherentM4L4096absP512p" plot(square);
+  gdraw "cltM4L4096absP128p"; gdraw "MackenthunCoherentM4L4096absP128p" plot(circle);
+  gdraw "cltM4L4096absP0p"; gdraw "MackenthunNonCoherentM4L4096p" plot(circle);
 
-  gdraw "cltM4L2048absP512p"; gdraw "MackenthunCoherentM4L2048absP512p" plot(dot); glabel.llft(btex $L = 2048$ etex, 1000);
-  %gdraw "cltM4L256absP64p"; gdraw "MackenthunCoherentM4L256absP64p" plot(dot); glabel.llft(btex $L = 256$ etex, 1000);
-  gdraw "cltM4L32absP8p"; gdraw "MackenthunCoherentM4L32absP8p" plot(dot); glabel.llft(btex $L = 32$ etex, 1000);
-  %gdraw "MackenthunCoherentM4L10000absP1000p"; gdraw "MackenthunCoherentM4L10000absP1000p" plot(dot); glabel.llft(btex $L = 10000$ etex, 1000);
 
-  gdraw "cltM4L2048absP256p"; gdraw "MackenthunCoherentM4L2048absP256p" plot(circle); 
-  %gdraw "cltM4L256absP16p"; gdraw "MackenthunCoherentM4L256absP16p" plot(circle); 
-  gdraw "cltM4L32absP4p"; gdraw "MackenthunCoherentM4L32absP4p" plot(circle);
+  gdraw "cltM4L128absP128p"; gdraw "MackenthunNonCoherentMM4L128absP128p" plot(times); glabel.llft(btex $L = 128$ etex, 1000);
+  gdraw "cltM4L128absP64p"; gdraw "MackenthunCoherentM4L128absP64p" plot(dot);
+  gdraw "cltM4L128absP16p"; gdraw "MackenthunCoherentM4L128absP16p" plot(square);
+  gdraw "cltM4L128absP4p"; gdraw "MackenthunCoherentM4L128absP4p" plot(circle);
+  gdraw "cltM4L128absP0p"; gdraw "MackenthunNonCoherentM4L128p" plot(circle);
 
-  gdraw "cltM4L2048absP2048p"; gdraw "MackenthunCoherentM4L2048absP2048p" plot(square); 
-  %gdraw "cltM4L256absP256p"; gdraw "MackenthunCoherentM4L256absP256p" plot(square);
-  gdraw "cltM4L32absP32p";   gdraw "MackenthunCoherentM4L32absP32p" plot(square);
-
+  
 draw legend shifted(legendx,legendy);
 
 endgraph;
