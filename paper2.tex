@@ -48,7 +48,7 @@ Coherent detection, noncoherent detection, phase shift keying, asymptotic statis
 
 \section{Introduction to this appendix}
 
-Here we compile lemmas required for the proof almost sure convergence (Theorem~\ref{thm:consistency}) and asymptotic normality (Theorem~\ref{thm:normality}) from the paper~\cite{McKilliam_leastsqPSKpilotsdata_2012}.  This document is not self contained and it is intended that the reader start at~\cite{McKilliam_leastsqPSKpilotsdata_2012} and refer to this document when prompted in~\cite{McKilliam_leastsqPSKpilotsdata_2012}.  The equation reference numbers in this document start at (\arabic{lasteqplusone}).  All equation numbers less than (\arabic{lasteqplusone}) refer back to~\cite{McKilliam_leastsqPSKpilotsdata_2012}.  The section numbers in this document start at~\arabic{lastsecplusone} and all sections before~\arabic{lastsecplusone} are contain in~\cite{McKilliam_leastsqPSKpilotsdata_2012}.  This document is separated into 3 sections.  Section~\ref{sec:proof-almost-sureappendix} contains those lemmas required for the proof of almost sure convergence (Theorem~\ref{thm:consistency}).  Section~\ref{sec:proof-asympt-normappendix} contains those lemmas required for the proof of asymptotic normality (Theorem~\ref{thm:normality}).  Section~\ref{sec:an-empirical-process} contains proofs for lemmas that arise in Section~\ref{sec:proof-asympt-normappendix}.  These involve the proof of~\emph{tightness} for certain empirical processes~\cite{Billingsley1999_convergence_of_probability_measures,Dudley_unif_central_lim_th_1999,Shorak_emp_proc_stat_2009}. 
+Here we compile lemmas required for the proof of almost sure convergence (Theorem~\ref{thm:consistency}) and asymptotic normality (Theorem~\ref{thm:normality}) from the paper~\cite{McKilliam_leastsqPSKpilotsdata_2012}.  This document is not self contained.  It is intended that the reader start at~\cite{McKilliam_leastsqPSKpilotsdata_2012} and refer to this document when prompted in~\cite{McKilliam_leastsqPSKpilotsdata_2012}.  The equation reference numbers in this document start at (\arabic{lasteqplusone}).  All equation numbers less than (\arabic{lasteqplusone}) refer back to~\cite{McKilliam_leastsqPSKpilotsdata_2012}.  The section numbers in this document start at~\arabic{lastsecplusone} and all sections before~\arabic{lastsecplusone} are contained in~\cite{McKilliam_leastsqPSKpilotsdata_2012}.  This document is separated into 3 sections.  Section~\ref{sec:proof-almost-sureappendix} contains those lemmas required for the proof of almost sure convergence (Theorem~\ref{thm:consistency}).  Section~\ref{sec:proof-asympt-normappendix} contains those lemmas required for the proof of asymptotic normality (Theorem~\ref{thm:normality}).  Section~\ref{sec:an-empirical-process} contains proofs for lemmas that arise in Section~\ref{sec:proof-asympt-normappendix}.  These involve the proof of~\emph{tightness} for certain empirical processes~\cite{Billingsley1999_convergence_of_probability_measures,Dudley_unif_central_lim_th_1999,Shorak_emp_proc_stat_2009}. 
 
 \section{Lemmas required for the proof of almost sure convergence (Theorem~\ref{thm:consistency}) } \label{sec:proof-almost-sureappendix}
 
@@ -1051,9 +1051,10 @@ d_2(\lambda, \lambda_2) = \sum_{i \in P \cup D} \sabs{f_{i}(\lambda) - f_{i}(\la
 \]
 where 
 \begin{equation}\label{eq:Depsdefn}
-D_\epsilon = \frac{1}{L}\epsilon\sum_{i\in P \cup D}R_i + \frac{1}{L}\sum_{i\in P \cup D}R_i I_{\epsilon}(\Phi_i).
+D_\epsilon = \frac{1}{L}\epsilon\sum_{i\in P \cup D}R_i + \frac{2}{L}\sum_{i\in P \cup D}R_i I_{\epsilon}(\Phi_i).
 \end{equation}
-We specifically define $T_\epsilon(0)$ to contain only zero.  Defined this way, $T_\epsilon(0)$ satisfies the inequality above because $d_1(\lambda, 0) \leq C_\epsilon L $ and $d_2(\lambda, 0) \leq D_\epsilon L$ for all $\lambda \in B_\epsilon$, as a result of Lemma~\ref{lem:epslmlemma}.  The existance of $T_\epsilon(k)$ for every positive integer $k$ will be proved by construction in Lemma~\ref{lem:metricentropy}.  Lemma~\ref{lem:metricentropy} also shows that the number of elements in $T_\epsilon(k)$ is no more that $K_3 2^k$ where $K_3$ is a constant, independent of $L$, $\epsilon$ and $k$.
+We specifically define $T_\epsilon(0)$ to contain only zero.  Defined this way, $T_\epsilon(0)$ satisfies the inequality above because $d_1(\lambda, 0) \leq C_\epsilon L $ and $d_2(\lambda, 0) \leq D_\epsilon L$ for all $\lambda \in B_\epsilon$, as a result of Lemma~\ref{lem:epslmlemma}.  
+The existance of $T_\epsilon(k)$ for every positive integer $k$ will be proved by construction in Lemma~\ref{lem:metricentropy}.  Lemma~\ref{lem:metricentropy} also shows that the number of elements in $T_\epsilon(k)$ is no more that $K_3 2^k$ where $K_3$ is a constant, independent of $L$, $\epsilon$ and $k$.
 
 Lemma~\ref{lem:limexpTk} shows that
 \[
@@ -1105,13 +1106,14 @@ c_4 \leq \epsilon \sum_{i \in D, i \notin S} R_i \leq \epsilon \sum_{i \in D} R_
 \]
 Otherwise, if $i \in S$, then $\sabs{\sin\fracpart{\lambda + \Phi_i} - \sin\fracpart{\Phi_i}} \leq 2$ because $\sin(\cdot) \leq 1$.  Thus 
 \[
-c_3 \leq 2 \sum_{i \in D, i \in C} R_i \leq 2 \sum_{i \in D} R_i I_\epsilon(\Phi_i).
+c_3 \leq 2 \sum_{i \in D, i \in S} R_i \leq 2 \sum_{i \in D} R_i I_\epsilon(\Phi_i).
 \]
-Now
+Now,
 \begin{align*}
 d_2(\lambda, 0) &= c_1 + c_2 \\
 &\leq c_1 + c_3 + c_4 \\
-&\leq \epsilon \sum_{i \in P \cup D} R_i + 2 \sum_{i \in D} R_i I_\epsilon(\Phi_i)
+&\leq \epsilon \sum_{i \in P \cup D} R_i + 2 \sum_{i \in D} R_i I_\epsilon(\Phi_i) \\
+&= D_\epsilon L
 \end{align*}
 as required
 \end{IEEEproof}
@@ -1127,15 +1129,15 @@ Let $b_2(\lambda)$ be a function that maps $\lambda \in B_\epsilon$ to a point i
 \begin{align*}
 \sabs{X(\lambda) - X(b_2(\lambda))} &= \abs{\frac{1}{\sqrt{L}}\sum_{i\in P \cup D}g_i(f_i(\lambda) - f_i(b_2(\lambda)))} \\
 &\leq  \frac{1}{\sqrt{L}}\sum_{i\in P \cup D}\abs{g_i}\sabs{f_i(\lambda) - f_i(b_2(\lambda))} \\
-&\leq \frac{g_\text{max}}{\sqrt{L}} \sum_{i\in P \cup D}\sabs{f_i(\lambda) - f_i(b_2(\lambda))} \\
+&\leq \frac{1}{\sqrt{L}} \sum_{i\in P \cup D} g_\text{max} \sabs{f_i(\lambda) - f_i(b_2(\lambda))} \\
 &\leq \frac{g_\text{max}}{\sqrt{L}} d_2(\lambda,b_2(\lambda)) \\
 &\leq \frac{g_\text{max}}{\sqrt{L}} 2^{-k} D_\epsilon L,
 \end{align*}
-where $g_\text{max} = \max_{i\in P\cup D} \abs{g_i}$. The bound applies uniformly over $\lambda \in B_\epsilon$, so
+where $g_\text{max} = \sup_{i\in P\cup D} \abs{g_i}$. The bound applies uniformly over $\lambda \in B_\epsilon$, so
 \[
 \sup_{\sabs{\lambda} < \epsilon} \sabs{X(\lambda) - X(b_2(\lambda))} \leq \frac{g_\text{max}}{\sqrt{L}} 2^{-k} D_\epsilon L.
 \]
-Applying $\expect_{R,\Phi}$ to both sides of this inequality,
+Applying $\expect_{R,\Phi}$ to both sides,
 \[
 \expect_{R,\Phi} \sup_{\sabs{\lambda} < \epsilon} \sabs{X(\lambda) - X(b_2(\lambda))} \leq K_4 2^{-k} D_\epsilon L,
 \]
@@ -1143,23 +1145,23 @@ where, as a result of Lemma~\ref{lem:maxineq},
 \[
 K_4 = \tfrac{1}{\sqrt{L}}\expect_{R,\Phi} g_\text{max} \leq 3 \sqrt{\frac{\log L}{L}}
 \]
-is a constant, independent of $\epsilon$ and $k$.  Because $T_\epsilon(k)$ is a subset of $B_\epsilon$,
+is independent of $\epsilon$ and $k$.  Because $T_\epsilon(k)$ is a subset of $B_\epsilon$,
 \[
 \sup_{\lambda \in T_\epsilon(k)} \expect_{R,\Phi} \sabs{X(\lambda)} \leq \sup_{\sabs{\lambda} < \epsilon} \expect_{R,\Phi} \sabs{X(\lambda)},
 \]
 and so,
-\begin{align}
+\begin{align*}
 0 &\leq \sup_{\sabs{\lambda} < \epsilon} \expect_{R,\Phi} \sabs{X(\lambda)} - \sup_{\lambda \in T_\epsilon(k)} \expect_{R,\Phi} \sabs{X(\lambda)} \nonumber \\
 &\leq \sup_{\sabs{\lambda} < \epsilon} \expect_{R,\Phi} \sabs{X(\lambda)} - \sup_{\sabs{\lambda} < \epsilon} \expect_{R,\Phi} \sabs{X(b_2(\lambda))} \nonumber \\
 &\leq \sup_{\sabs{\lambda} < \epsilon} \expect_{R,\Phi} \big( \sabs{X(\lambda)} - \sabs{X(b_2(\lambda))} \big) \nonumber \\
 &\leq \sup_{\sabs{\lambda} < \epsilon} \expect_{R,\Phi} \sabs{X(\lambda) - X(b_2(\lambda))} \nonumber \\
-&\leq K_4 2^{-k} D_\epsilon L, \label{eq:Deps2nktozero}
-\end{align}
-the second line because,
+&\leq K_4 2^{-k} D_\epsilon L. \label{eq:Deps2nktozero}
+\end{align*}
+The second line in the inequaliy above follows because,
 \[
 \sup_{\sabs{\lambda} < \epsilon} \expect_{R,\Phi} \sabs{X(b_2(\lambda))} \leq \sup_{\lambda \in T_\epsilon(k)} \expect_{R,\Phi} \sabs{X(\lambda)},
 \]
-since $b_2(\lambda) \in T_\epsilon(k)$.  The lemma follows from~\eqref{eq:Deps2nktozero} because $K_4 2^{-k} D_\epsilon L$ converges to zero as $k\rightarrow\infty$.
+since $b_2(\lambda) \in T_\epsilon(k)$.  The lemma follows because $K_4 2^{-k} D_\epsilon L$ goes to zero as $k\rightarrow\infty$.
 \end{IEEEproof}
 
 
@@ -1228,7 +1230,7 @@ For all positive integers $k$,
 \]
 \end{lemma}
 \begin{IEEEproof}
-Let $b_1(\lambda)$ maps each $\lambda \in T_\epsilon(k)$ to an element in $T_\epsilon(k-1)$ such that $d(\lambda, b_1(\lambda)) \leq 2^{1-k}C_\epsilon L$.  The existance of $b_1$ is guaranteed by the definition of $T_\epsilon(k)$.  By the triangle inequality
+Let $b_1(\lambda)$ map each $\lambda \in T_\epsilon(k)$ to an element in $T_\epsilon(k-1)$ such that $d(\lambda, b_1(\lambda)) \leq 2^{1-k}C_\epsilon L$.  The existance of $b_1$ is guaranteed by the definition of $T_\epsilon(k)$.  By the triangle inequality
 \[
 \sabs{X(\lambda)} \leq \sabs{X(b_2(\lambda))} + \sabs{X(\lambda) - X(b_2(\lambda))}  
 \]
@@ -1246,21 +1248,21 @@ Conditional on $\{R_i\}$ and $\{\Phi_i\}$ the random variable
 \[
 U(\lambda) = X(\lambda) - X(b_2(\lambda))
 \]
-has zero mean, and it normally distributed with variance
+has zero mean and is normally distributed with variance
 \begin{align*}
 \sigma_U^2 &= \expect_{R,\Phi} \frac{1}{L} \sum_{i \in P \cup D} g_i^2 \big( f_i(\lambda) - f_i(b_2(\lambda)) \big)^2 \\
 &=  \frac{1}{L} \sum_{i \in P \cup D} \big( f_i(\lambda) - f_i(b_2(\lambda)) \big)^2 \\
-&= d(\lambda, b_2(\lambda) \leq 2^{1-k} C_\epsilon,
+&= d(\lambda, b_2(\lambda)) \leq 2^{1-k} C_\epsilon,
 \end{align*}
 since $\expect_{R,\Phi}g_i^2 = 1$.  So, from Lemma~\ref{lem:maxineq},
 \begin{align*}
 \expect_{R,\Phi} \sup_{\lambda \in T_\epsilon(k)} \sabs{U(\lambda)} &\leq 3 \sqrt{ 2^{1-k} C_\epsilon \log \abs{T_\epsilon(k)} } \\
-&\leq \sqrt{C_\epsilon} \frac{5\sqrt{k \log 2 + \log K_3}}{2^{k/2}}  
+&\leq \sqrt{C_\epsilon} \frac{5\sqrt{k \log 2 + \log K_3}}{2^{k/2}}.
 \end{align*}
 Taking expectations on both sides of~\eqref{eq:Xb2recpreexp},
 \begin{align*}
 \expect_{R,\Phi}&\sup_{\lambda \in T_\epsilon(k)}\sabs{X(\lambda)} \\
-&\leq \expect_{R,\Phi}\sup_{\lambda \in T_\epsilon(k-1)}\sabs{X(\lambda)} + \sqrt{C_\epsilon} \frac{5\sqrt{k \log 2 + \log K_3}}{2^{k/2}}  
+&\leq \expect_{R,\Phi}\sup_{\lambda \in T_\epsilon(k-1)}\sabs{X(\lambda)} + \sqrt{C_\epsilon} \frac{5\sqrt{k \log 2 + \log K_3}}{2^{k/2}} ,
 \end{align*}
 which involves a recursion in $k$.  By unravelling the recursion and using that $T_\epsilon(k)$ contains only zero, and therefore
 \[
@@ -1274,7 +1276,7 @@ as required.
 \end{IEEEproof}
 
 \begin{lemma}\label{lem:maxineq}(Maximal inequalities)
-Suppose $X_1, \dots, X_N$ are $N$ zero mean Gaussian random variables each with variance less than some positive constant $K$.  Then
+Suppose $X_1, \dots, X_N$ are zero mean Gaussian random variables each with variance less than some positive constant $K$.  Then
 \[
 \expect \sup_{n = 1, \dots, N} \abs{X_n} \leq 3  \sqrt{K \log N}
 \]
