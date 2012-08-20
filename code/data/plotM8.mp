@@ -99,18 +99,12 @@ draw begingraph(plotwidth, plotheight);
 
 %  gdraw (0, "1e-13")--(0, 2) dashed evenly; %glabel.bot(btex AWGN channel capacity etex, 0) rotated 90;
 
-  gdraw "MackenthunCoherentM8L2048absP512a"; gdraw "MackenthunCoherentM8L2048absP512a" plot(dot); glabel.llft(btex $L = 1000$ etex, 1000);
-  gdraw "MackenthunCoherentM8L256absP64a"; gdraw "MackenthunCoherentM8L256absP64a" plot(dot); glabel.llft(btex $L = 100$ etex, 1000);
-  gdraw "MackenthunCoherentM8L32absP8a"; gdraw "MackenthunCoherentM8L32absP8a" plot(dot); glabel.llft(btex $L = 10$ etex, 1000);
-  %gdraw "MackenthunCoherentM8L10000absP1000a"; gdraw "MackenthunCoherentM8L10000absP1000a" plot(dot); glabel.llft(btex $L = 10000$ etex, 1000);
+  gdraw "cltM8L4096absP4096a"; gdraw "MackenthunCoherentM8L4096absP4096a" plot(times); %glabel.llft(btex $L = 4096$ etex, 1000);
+  gdraw "cltM8L4096absP2048a"; gdraw "MackenthunCoherentM8L4096absP2048a" plot(dot);
+  gdraw "cltM8L4096absP512a"; gdraw "MackenthunCoherentM8L4096absP512a" plot(square);
+  %gdraw "cltM8L4096absP128a"; gdraw "MackenthunCoherentM8L4096absP128a" plot(circle);
+  gdraw "cltM8L4096absP0a"; gdraw "MackenthunNonCoherentM8L4096a" plot(cross);
 
-  gdraw "MackenthunCoherentM8L2048absP128a"; gdraw "MackenthunCoherentM8L2048absP128a" plot(circle); 
-  gdraw "MackenthunCoherentM8L256absP16a"; gdraw "MackenthunCoherentM8L256absP16a" plot(circle); 
-  gdraw "MackenthunCoherentM8L32absP2a"; gdraw "MackenthunCoherentM8L32absP2a" plot(circle);
-
-  gdraw "MackenthunCoherentM8L2048absP2048a"; 
-  gdraw "MackenthunCoherentM8L256absP256a"; 
-  gdraw "MackenthunCoherentM8L32absP32a"; 
 
 
 draw legend shifted(legendx,legendy);

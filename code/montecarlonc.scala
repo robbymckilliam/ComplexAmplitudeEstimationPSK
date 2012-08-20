@@ -12,9 +12,9 @@ import pubsim.Util
 
 val Ms = List(2,4,8) //BPSK, QPSK, 8-PSK
 //val Ls = List(32,128,256,1024,4096)
-val Ls = List(128)
+val Ls = List(256,4096)
 val a0 = new PolarComplex(1,2*scala.math.Pi*(new scala.util.Random).nextDouble)
-val iters = 5000
+val iters = 500
 
 //construct an array of noise distributions with a logarithmic scale
 val SNRdBs = -20 to 20 by 1
@@ -44,8 +44,9 @@ for( L <- Ls; M <- Ms ) {
 	val rand = new scala.util.Random
 	val s = (1 to L).map(m => new PolarComplex(1, 2*scala.math.Pi*rand.nextInt(M)/M)) 
 	val est = estf() //construct an estimator	  
+        val G0 = noise.clt(M,0).G(0) //value of G0 for unbiasing the amplitude estimator
 
-	var msec = 0.0; var msea = 0.0; var msep = 0.0;
+	var msec = 0.0; var msea = 0.0; var msep = 0.0; var mseaunb = 0.0;
 	for( itr <- 1 to iters ) {
 	  //generate a recieved signal
 	  val y = s.map(si => a0*si + noise.noise )
@@ -54,9 +55,10 @@ for( L <- Ls; M <- Ms ) {
 	  msep += pe
 	  msea += ae
 	  msec += (ahat - a0).mag2 //compute the mean square error 
+          mseaunb += (ahat.magnitude - G0)*(ahat.magnitude - G0) //rho0 is assumed equal to 1
 	}
 	print(".")		      
-	(msea/iters, msep/iters, msec/iters) //last thing is what gets returned
+	(msea/iters, msep/iters, msec/iters, mseaunb/iters) //last thing is what gets returned
       }.toList
       
       val estruntime = (new java.util.Date).getTime - eststarttime
@@ -65,13 +67,15 @@ for( L <- Ls; M <- Ms ) {
       val filea = new java.io.FileWriter("data/" + estname + "a")
       val filep = new java.io.FileWriter("data/" + estname + "p")
       val filec = new java.io.FileWriter("data/" + estname + "c")
+      val fileaunb = new java.io.FileWriter("data/" + estname + "aunb")
       (mselist, SNRdBs).zipped.foreach{ (mse, snr) =>
-	val (ma,mp,mc) = mse
-				       filea.write(snr.toString.replace('E', 'e') + "\t" + ma.toString.replace('E', 'e')  + "\n") 
-				       filep.write(snr.toString.replace('E', 'e') + "\t" + mp.toString.replace('E', 'e')  + "\n") 
-				       filec.write(snr.toString.replace('E', 'e') + "\t" + mc.toString.replace('E', 'e')  + "\n") 
-				     }
-      filea.close; filep.close; filec.close //close all the files we wrote to 
+	val (ma,mp,mc,mu) = mse
+        filea.write(snr.toString.replace('E', 'e') + "\t" + ma.toString.replace('E', 'e')  + "\n") 
+	filep.write(snr.toString.replace('E', 'e') + "\t" + mp.toString.replace('E', 'e')  + "\n") 
+	filec.write(snr.toString.replace('E', 'e') + "\t" + mc.toString.replace('E', 'e')  + "\n") 
+        fileaunb.write(snr.toString.replace('E', 'e') + "\t" + mu.toString.replace('E', 'e')  + "\n") 				   
+      }  
+      filea.close; filep.close; filec.close; fileaunb.close //close all the files we wrote to 
 
     }
 }
