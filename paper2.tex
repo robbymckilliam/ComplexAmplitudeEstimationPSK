@@ -36,7 +36,7 @@ Coherent detection, noncoherent detection, phase shift keying, asymptotic statis
 \end{IEEEkeywords}
 
 %set sections and equation counters based on the previous document.
-\setcounter{equation}{20}
+\setcounter{equation}{21}
 \newcounter{lasteqplusone}
 \setcounter{lasteqplusone}{\value{equation}}
 \addtocounter{lasteqplusone}{1}
@@ -299,7 +299,7 @@ Both $\cos(x)$ and $\cos\fracpart{x}$ are Lipshitz continuous functions from $\r
 \begin{lemma}~\label{lem:diffatlambdaL}
 The derivative of $G_L$ exists, and is equal to zero, at $\hat{\lambda}_L$.  That is,
 \[
-G_L^\prime(\hat{\lambda}_L) = \frac{d G_L}{d \lambda}(\hat{\lambda}_L) = 0,
+G_L^\prime(\hat{\lambda}_L) = \frac{d G_L}{d \lambda}(\hat{\lambda}_L) = 0.
 \]
 \end{lemma}
 \begin{IEEEproof}
@@ -338,9 +338,13 @@ defined in~\eqref{eq:SSdatasymbols}. The proof now proceeds by contradiction.  A
 \begin{equation}\label{eq:fraclambassumption}
 \sfracpart{\hat{\lambda}_L + \Phi_k} > \frac{\pi}{M} + q_k
 \end{equation}
-for some $k \in D$.  Recalling the notation $e_k$ defined in Section~\ref{sec:least-squar-estim}, put $r_i = \hat{d}_i e_k$.  We will show that $SS(\{r_i, i \in D\}) < SS(\{\hat{d}_i, i \in D\})$, violating the fact that $\{\hat{d}_i, i \in D\}$ are minimisers of $SS$.  First observe that,
+for some $k \in D$.  Recalling the notation $e_k$ defined in Section~\ref{sec:least-squar-estim}, put $r_i = \hat{d}_i e_k$.  We will show that 
+\[
+SS(\{r_i, i \in D\}) < SS(\{\hat{d}_i, i \in D\}),
+\]
+violating the fact that $\{\hat{d}_i, i \in D\}$ are minimisers of $SS$.  First observe that,
 \begin{align*}
-Y(\{ r_i, i \in D\}) = \sum_{i \in P} y_ip_i^* + \sum_{i \in D} y_i\hat{r}_i^* = \hat{Y} + \eta y_k\hat{d}_k^*.
+Y(\{ r_i, i \in D\}) = \sum_{i \in P} y_ip_i^* + \sum_{i \in D} y_i\hat{r}_i^* = \hat{Y} + \eta y_k\hat{d}_k^*,
 \end{align*}
 where $\eta = e^{-j2\pi/M} - 1$ and $\hat{Y} = Y(\{ \hat{d}_i, i \in D\})$.  Now,
 \begin{align*}
@@ -348,7 +352,7 @@ SS&(\{r_i, i \in D\}) \\
 &= A - \frac{1}{L} \sabs{ Y(\{ r_i, i \in D\}) }^2 \\
 &= A - \frac{1}{L} \sabs{ \hat{Y} + \eta y_k\hat{d}_k^* }^2 \\
 &= A - \frac{1}{L}\sabs{\hat{Y}}^2 - \frac{2}{L}\Re\left(\eta \hat{Y}^* y_k \hat{d}_k^* \right) -  \frac{1}{L}\sabs{ \eta y_k}^2\\
-&= SS(\{\hat{d}_i, i \in D\}) - D
+&= SS(\{\hat{d}_i, i \in D\}) - D,
 \end{align*}
 where 
 \[
@@ -366,7 +370,7 @@ Let $v = \sfracpart{\hat{\lambda}_L + \Phi_k} - \tfrac{\pi}{M}$ so that
 \begin{align*}
 \eta e^{j\sfracpart{\hat{\lambda}_L + \Phi_k}} &= (e^{-j2\pi/M} - 1) e^{j \pi/M} e^{jv} \\
 &= (e^{-j\pi/M} - e^{j\pi/M}) e^{jv} \\
-&= -2 \sin(\tfrac{\pi}{M}) e^{j ( v + \pi/2) }
+&= -2 \sin(\tfrac{\pi}{M}) e^{j ( v + \pi/2) },
 \end{align*}
 and
 \begin{align*}
