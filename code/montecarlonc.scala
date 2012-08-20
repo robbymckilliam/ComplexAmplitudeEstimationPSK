@@ -12,9 +12,9 @@ import pubsim.Util
 
 val Ms = List(2,4,8) //BPSK, QPSK, 8-PSK
 //val Ls = List(32,128,256,1024,4096)
-val Ls = List(256,4096)
+val Ls = List(32,256,2048,4096)
 val a0 = new PolarComplex(1,2*scala.math.Pi*(new scala.util.Random).nextDouble)
-val iters = 500
+val iters = 5000
 
 //construct an array of noise distributions with a logarithmic scale
 val SNRdBs = -20 to 20 by 1

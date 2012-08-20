@@ -54,7 +54,7 @@ where $w_i$ is noise and $a_0 = \rho_0 e^{j\theta_0}$ is a complex number repres
 \end{equation}
 where $\complex$ is the set of complex numbers and $x^*$ and $\abs{x}$ denote the conjugate and magnitude of the complex number $x$.  Viterbi and Viterbi~\cite{ViterbiViterbi_phase_est_1983} call this the \emph{unmodulated carrier} estimator.  This estimator can be used if the transmitter includes \emph{pilot} symbols, known to the receiver, i.e.~\emph{coherent detection}.
 
-Here we are interested in \emph{noncoherent detection}, where $s_1, \dots, s_L$ are not known at the receiver, and must also be estimated.  This estimation problem has undergone extensive prior study and is often called \emph{multiple symbol differential detection}~\cite{ViterbiViterbi_phase_est_1983,Cowley_ref_sym_carr_1998,Wilson1989,Makrakis1990,Liu1991,Mackenthun1994,Sweldens2001,McKilliamLinearTimeBlockPSK2009}.  A practical approach is the least squares estimator,
+Here we are interested in \emph{noncoherent detection}, where $s_1, \dots, s_L$ are not known at the receiver, and must also be estimated.  This estimation problem has undergone extensive prior study and is often called \emph{multiple symbol differential detection}~\cite{ViterbiViterbi_phase_est_1983,Cowley_ref_sym_carr_1998,Wilson1989,Makrakis1990,Liu1991,Mackenthun1994,Sweldens2001,McKilliamLinearTimeBlockPSK2009,Divsalar1990}.  A practical approach is the least squares estimator,
 \begin{equation}\label{eq:hatadef}
 \hat{a} = \arg\min_{a \in \complex} \min_{s_1, \dots, s_L \in \calC} \sum_{i = 1}^L \abs{ y_i - a s_i }^2,
 \end{equation}
@@ -188,7 +188,7 @@ as $L \rightarrow \infty$, where
 H = G(0) -  2 \sin(\tfrac{\pi}{M}) \sum_{k = 0}^{M-1} g(\tfrac{2\pi}{M}k + \tfrac{\pi}{M}),
 \]
 \[
-A = \var\big( R_1^2\sin^2\fracpart{\Phi_1}\big), \;\;\; B = \var\big( R_1^2 \cos^2\fracpart{\Phi_1} \big). 
+A = \expect R_1^2\sin^2\fracpart{\Phi_1}, \;\;\; B = \expect R_1^2 \cos^2\fracpart{\Phi_1} - G^2(0). 
 \]
 \end{theorem}
 
@@ -272,7 +272,7 @@ Figures~\ref{fig:plotphaseM2}~and~\ref{fig:plotphaseM4} show the MSE of the ampl
 
 \section{Conclusion}
 
-We have studied the least squares estimator of carrier phase and amplitude from the observation of $L$ noisy $M$-PSK symbols.  The estimator can be computed in $O(L\log L)$ operations using the algorithm of Mackenthun~\cite{Mackenthun1994}, and is the maximum likelihood estimator in the case that the noise is additive white and Gaussian.  We shows that the phase estimator $\hat{\theta}$ is strongly consistent and asymptotically normally distributed.  However, the amplitude estimator $\hat{\rho}_0$ is biased, and converges to $G(0)\rho_0$.  This bias is large when the signal to noise ratio is small.  It would be interesting to investigate methods for correcting this bias. 
+We have studied the least squares estimator of carrier phase and amplitude from the observation of $L$ noisy $M$-PSK symbols.  The estimator can be computed in $O(L\log L)$ operations using the algorithm of Mackenthun~\cite{Mackenthun1994}, and is the maximum likelihood estimator in the case that the noise is additive white and Gaussian.  We show that the phase estimator $\hat{\theta}$ is strongly consistent and asymptotically normally distributed.  However, the amplitude estimator $\hat{\rho}_0$ is biased, and converges to $G(0)\rho_0$.  This bias is large when the signal to noise ratio is small.  It would be interesting to investigate methods for correcting this bias. 
 
 \small
 \bibliography{bib}
