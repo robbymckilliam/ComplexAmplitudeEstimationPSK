@@ -71,7 +71,7 @@ Thus,
 & \leq |G(0) - G_L(0)| + |G_L(\hat{\lambda}_L) - G(\hat{\lambda}_L)| \\
 &\leq 2\sup_{\lambda \in [-\pi, \pi)} \sabs{G_L(\lambda) - G(\lambda)},
 \end{align*}
-and the last line converges amost surely to zero by Lemma~\ref{lem:uniflawGGL}.
+and the last line converges almost surely to zero by Lemma~\ref{lem:uniflawGGL}.
 \end{IEEEproof}
 
 % \begin{lemma}\label{lem:Zconunif}
@@ -206,7 +206,7 @@ almost surely to zero as $L \rightarrow \infty$.
 
 \begin{lemma}\label{lem:supsupDLlambda} For any $\epsilon > 0$,
 \[
-\prob\left\{ \lim_{L \rightarrow \infty} V_L > \epsilon + \tfrac{2\pi}{N}\expect R_i \right\} = 0.
+\prob\left\{ \lim_{L \rightarrow \infty} V_L > \epsilon + \tfrac{4\pi}{N}\expect R_i \right\} = 0.
 \]
 \end{lemma}
 \begin{IEEEproof}
@@ -222,18 +222,16 @@ the last line following from Jensens inequality.  Put
 C_L = \sup_{n = 1,\dots,N}\sup_{\lambda \in L_n} \abs{G_L(\lambda) - G_L(\lambda_n) },
 \]
 so that
-\[
-V_L = \sup_{n = 1,\dots,N}\sup_{\lambda \in L_n}\sabs{D_L(\lambda) - D_L(\lambda_n)} \leq C_L + \expect C_L,
-\]
-because 
-\[
- \sup_{n = 1,\dots,N}\sup_{\lambda \in L_n} \expect \abs{G_L(\lambda) - G_L(\lambda_n)} \leq \expect C_L
-\]
-follows by moving expectation outside the supremum.  Lemma~\ref{lem:CL} shows that $\expect C_L \leq \tfrac{2\pi}{N}\expect R_1$ and also that
+\begin{align*}
+V_L &= \sup_{n = 1,\dots,N}\sup_{\lambda \in L_n}\sabs{D_L(\lambda) - D_L(\lambda_n)} \\
+&\leq  C_L +  \sup_{n = 1,\dots,N}\sup_{\lambda \in L_n} \expect\abs{G_L(\lambda) - G_L(\lambda_n) } \\
+&\leq C_L + \expect C_L,
+\end{align*}
+where the last line follows because $\sup \expect\vert \dots\vert \leq \expect \sup \vert \dots \vert$.  Lemma~\ref{lem:CL} shows that $\expect C_L \leq \tfrac{2\pi}{N}\expect R_1$ and also that
 \[
 \prob\left\{ \lim_{L \rightarrow \infty} C_L > \epsilon + \tfrac{2\pi}{N}\expect R_1 \right\} = 0.
 \]
-So,
+Thus,
 \begin{align*}
 \prob&\left\{ \lim_{L \rightarrow \infty} V_L > \epsilon + \tfrac{4\pi}{N}\expect R_1 \right\} \\
 &\leq \prob\left\{ \lim_{L \rightarrow \infty} (C_L + \expect C_L) > \epsilon + \tfrac{4\pi}{N}\expect R_1 \right\} \\
@@ -265,7 +263,7 @@ C_L &= \sup_{n=1,\dots,N}\sup_{\lambda \in L_n}\abs{\frac{1}{L}\sum_{i \in P \cu
 \end{align*}
 Thus, 
 \[
-\expect C_L \leq \expect \frac{2\pi}{N L}\sum_{i \in P \cup D} R_i = \tfrac{2\pi}{N}\expect R_1
+\expect C_L \leq \expect \frac{2\pi}{N L}\sum_{i \in P \cup D} R_i = \frac{2\pi}{N}\expect R_1
 \]
 and the first statement holds.  Now, 
 \[
