@@ -1073,9 +1073,8 @@ Both $d_1(\lambda, 0) \leq C_\epsilon L $ and $d_2(\lambda, 0) \leq D_\epsilon L
 \begin{IEEEproof}
 We prove the lemma for $d_2$.  The proof for $d_1$ is similar.  Observe that $d_2(\lambda, 0) = c_1 + c_2$ where 
  \[
- c_1 = \sum_{i \in P} R_i\sabs{\sin(\lambda + \Phi_i) - \sin(\Phi_i) }
- \]
- and 
+ c_1 = \sum_{i \in P} R_i\sabs{\sin(\lambda + \Phi_i) - \sin(\Phi_i) },
+ \] 
  \[
  c_2 = \sum_{i \in D} R_i \sabs{\sin\fracpart{\lambda + \Phi_i} - \sin\fracpart{\Phi_i}}.
  \]
@@ -1083,15 +1082,27 @@ We prove the lemma for $d_2$.  The proof for $d_1$ is similar.  Observe that $d_
  \[
  \sabs{\sin(\lambda + \Phi_i) - \sin(\Phi_i)} \leq K\sabs{\lambda} = \sabs{\lambda} < \epsilon
  \]
- for all $i \in P \cup D$, and therefore $c_1 \leq \epsilon \sum_{i \in P} R_i$.  Let $S = \{ i \in D \mid I_\epsilon(\Phi_i) = 1\}$. Now $c_2 = c_3 + c_4$ where 
+ for all $i \in P \cup D$, and therefore $c_1 \leq \epsilon \sum_{i \in P} R_i$.  Let 
+\[
+S = \{ i \in D \mid I_\epsilon(\Phi_i) = 1\}.
+\] 
+Now $c_2 = c_3 + c_4$ where 
  \[
- c_3 = \sum_{i \in D, i \in S} R_i \sabs{\sin\fracpart{\lambda + \Phi_i} - \sin\fracpart{\Phi_i}}
+ c_3 = \sum_{i \in D, i \in S} R_i \sabs{\sin\fracpart{\lambda + \Phi_i} - \sin\fracpart{\Phi_i}},
  \]
- and
  \[
  c_4 =  \sum_{i \in D, i \notin S} R_i \sabs{\sin\fracpart{\lambda + \Phi_i} - \sin\fracpart{\Phi_i}}.
  \]
- If $i \notin S$ then $\round{\lambda + \Phi_i} = \round{\Phi_i}$ for all $\sabs{\lambda} < \epsilon$ and therefore
+Observe that $I_\epsilon(\Phi_i) = 1$ if and only if $\abs{\fracpart{\Phi_i}} \geq \tfrac{\pi}{M} - \epsilon$.  So, if $i \notin S$ and $\sabs{\lambda} < \epsilon$, then
+\begin{align*}
+\round{\lambda + \Phi_i} &= \round{\lambda + \fracpart{\Phi_i} + \round{\Phi_i}} \\ 
+&= \round{\lambda + \fracpart{\Phi_i}} + \round{\Phi_i} = \round{\Phi_i}
+\end{align*}
+because
+\[
+\sabs{\lambda + \fracpart{\Phi_i}} < \epsilon + \tfrac{\pi}{M} - \epsilon = \tfrac{\pi}{M}
+\] 
+and therefore $\round{\lambda + \fracpart{\Phi_i}} = 0$.  Now,
  \begin{align*}
  \vert\sin&\fracpart{\lambda + \Phi_i} - \sin\fracpart{\Phi_i}\vert \\
  &= \sabs{\sin(\lambda + \Phi_i - \round{\Phi_i}) - \sin(\Phi_i - \round{\Phi_i})} \\
@@ -1107,10 +1118,8 @@ c_3 \leq 2 \sum_{i \in D, i \in S} R_i \leq 2 \sum_{i \in P \cup D} R_i I_\epsil
 \]
 Now,
 \begin{align*}
-d_2(\lambda, 0) &= c_1 + c_2 \\
-&\leq c_1 + c_3 + c_4 \\
-&\leq \epsilon \sum_{i \in P \cup D} R_i + 2 \sum_{i \in P \cup D} R_i I_\epsilon(\Phi_i) \\
-&= D_\epsilon L
+d_2(\lambda, 0) &= c_1 + c_2 = c_1 + c_3 + c_4 \\
+&\leq \epsilon \sum_{i \in P \cup D} R_i + 2 \sum_{i \in P \cup D} R_i I_\epsilon(\Phi_i) = D_\epsilon L
 \end{align*}
 as required
 \end{IEEEproof}
@@ -1273,7 +1282,7 @@ as required.
 \end{IEEEproof}
 
 \begin{lemma}\label{lem:maxineq}(Maximal inequalities)
-Suppose $X_1, \dots, X_N$ are zero mean Gaussian random variables each with variance less than some positive constant $K$.  Then
+Suppose $X_1, \dots, X_N$ are zero mean Gaussian random variables each with variance less than some positive constant $K$, then
 \[
 \expect \sup_{n = 1, \dots, N} \abs{X_n} \leq 3  \sqrt{K \log N}
 \]
@@ -1296,6 +1305,48 @@ d_2(\lambda, \lambda_2) = \sum_{i \in P \cup D} \sabs{f_{i}(\lambda) - f_{i}(\la
 where $C_\epsilon$ and $D_\epsilon$ are defined in~\eqref{eq:Cepsdefn} and~\eqref{eq:Depsdefn}.  The number of elements in $T_\epsilon(k)$ is no more than $K_3 2^{k}$ where $K_3$ is a positive constant, independent of $L$, $\epsilon$ and $k$.
 \end{lemma}
 \begin{IEEEproof}
+We will first construct a set $T^2_\epsilon(k)$ containing no more than $K_{23}2^{k}$ elements and so that for every $\lambda \in B_\epsilon$ there exists $\lambda_2 \in T^2_\epsilon(k)$ such that $d_2(\lambda, \lambda_2) \leq 2^{-k} D_\epsilon L$ with $K_{23}$ a constant, independent of $L$, $\epsilon$ and $k$.  Using a similar construction we find a set $T^1_\epsilon(k)$ containing no more than $K_{13}2^{k}$ elements and so that for every $\lambda \in B_\epsilon$ there exists $\lambda_1 \in T^1_\epsilon(k)$ such that $d_1(\lambda, \lambda_2) \leq 2^{-k} D_\epsilon L$ with $K_{13}$ a constant, independent of $L$, $\epsilon$ and $k$.  Puting $T_\epsilon(k) = T^1_\epsilon(k) \cup T^2_\epsilon(k)$ will then complete the proof with $K_3 = K_{13} + K_{23}$.
+
+We will only give a construction for $T^2_\epsilon(k)$, the construction for $T^1_\epsilon(k)$ being similar.  First observe that
+\[
+f_{i}(\lambda) - f_{i}(\lambda_2) = \begin{cases}
+R_i\big( \sin(\lambda + \Phi_i) - \sin(\lambda_2 + \Phi_i) \big) & i \in P \\
+R_i\big(\sin\fracpart{\lambda + \Phi_i} - \sin\fracpart{\lambda_2 + \Phi_i}\big) & i \in D
+\end{cases}
+\]
+Let 
+\[
+U = \{\epsilon(\ell 2^{-k} - 1) \mid \ell = 0, 1, \dots, 2^{k+1} \} 
+\]
+be a set containing $2^{k+1} + 1$ elements uniformly spaced over $B_\epsilon$.  For every $\lambda \in B_\epsilon$ there exists a $\lambda^* \in U$ such that $\abs{\lambda - \lambda^*} < \epsilon 2^{-k}$.  Since $\sin(\cdot)$ is Lipshitz continuous with constant $K=1$, it follows that if $i \in P$ then,
+Let 
+\begin{align*}
+\abs{f_{i}(\lambda) - f_{i}(\lambda_2)} &= R_i\abs{ \sin(\lambda + \Phi_i) - \sin(\lambda^* + \Phi_i) } \\
+&\leq R_i\sabs{\lambda - \lambda^*} \\
+&< \epsilon 2^{-k} R_i.
+\end{align*}
+Thus
+\[
+\sum_{i \in P} \sabs{f_{i}(\lambda) - f_{i}(\lambda^*)} < \epsilon 2^{-k} \sum_{i\in P} R_i.
+\]
+As in Lemma~\ref{lem:epslmlemma} let $S = \{ i \in D \mid I_\epsilon(\Phi_i) \}$. Now, if $i \in D$ but $i \notin S$ then 
+\[
+\round{\lambda + \Phi_i} = \round{\lambda^* + \Phi_i} = \round{\Phi_i},
+\] 
+so
+ \begin{align*}
+ \vert &f_{i}(\lambda) - f_{i}(\lambda_2)\vert \\
+&= R_i\vert\sin\fracpart{\lambda + \Phi_i} - \sin\fracpart{\lambda^* + \Phi_i}\vert \\
+ &= R_i\vert\sin(\lambda + \Phi_i - \round{\Phi_i}) - \sin(\lambda^* + \Phi_i - \round{\Phi_i})\vert  \\
+ &\leq R_i \sabs{\lambda - \lambda^*} \\
+&< \epsilon 2^{-k} R_i.
+ \end{align*}
+Thus,
+\[
+\sum_{i \in D, i \notin S} \sabs{f_{i}(\lambda) - f_{i}(\lambda^*)} < \epsilon 2^{-k} \sum_{i \in D, i \notin S} R_i \leq \epsilon 2^{-k} \sum_{i \in D} R_i
+\]
+
+To handle the case when $i \in S$ we need to add some extra elements to the set $U$.  Let $\sigma$ be a permutation of the indices in $S$ such that $\fracpart{\Phi_i}$ are in ascending order.
 
 \end{IEEEproof}
 
