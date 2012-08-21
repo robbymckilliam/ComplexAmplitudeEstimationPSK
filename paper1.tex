@@ -335,10 +335,11 @@ If $p > 0$ and if $\abs{G(x)}$ is uniquely maximised at $x = 0$ over the interva
 \end{theorem}
 
 \begin{theorem}\label{thm:normality} (Asymptotic normality)
-Under the same conditions as Theorem~\ref{thm:consistency}, let $f(r,\phi)$ be the joint probability density function of $R_1$ and $\Phi_1$, and let
+Under the same conditions as Theorem~\ref{thm:consistency}, let $f(r,\phi)$ be the joint probability density function of $R_1$ and $\Phi_1$, let
 \[
-g(\phi) = \int_{0}^{\infty} r f(r,\phi) dr.
+g(\phi) = \int_{0}^{\infty} r f(r,\phi) dr,
 \]
+and assume that $\frac{\abs{P}}{L} = p + o(L^{-1/2})$ and $\frac{\abs{D}}{L} = d + o(L^{-1/2})$.
 Put $\hat{\lambda}_L = \sfracpart{\theta_0 - \hat{\theta}}_\pi$ and $\hat{m}_L = \hat{\rho} - \rho_0 G(0)$. %If $g(\phi)$ is continuous at $\phi = \tfrac{2\pi}{M}k+\tfrac{\pi}{M}$ for each $k = 0, 1, \dots M-1$, then 
 Then the distribution of $(\sqrt{L}\hat{\lambda}_L, \sqrt{L}\hat{m}_L)$ converges to the bivariate normal with zero mean and covariance
 \[
@@ -411,6 +412,11 @@ Then $\abs{h_1(x)}$ is uniquely maximised at $x=0$ over the interval $[-\pi,\pi]
 BLERG
 \end{IEEEproof}
 
+Theorem~\ref{thm:consistency} defines real numbers $p$ and $d$ to represent the proportion of pilot symbols and data symbols in the limit as $L$ goes to infinity.  For Theorem~\ref{thm:normality} we need the slightly stronger condition that 
+\[
+\frac{\abs{P}}{L} = p + o(L^{-1/2}) \qquad \text{and} \qquad \frac{\abs{D}}{L} = d + o(L^{-1/2})
+\] 
+where $o(L^{-1/2})$ denotes a number such that $\sqrt{L} o(L^{-1/2})$ goes to zero as $L\rightarrow \infty$.  This stronger condition is required to prove the asymptotic normality of $\sqrt{L}\hat{m}_L$.
 
 % \begin{IEEEproof}
 % We only give a proof for $g_2$, the proof for $g$ begin similar.  From~\eqref{eq:pdfRPhi},

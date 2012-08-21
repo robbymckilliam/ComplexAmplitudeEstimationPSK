@@ -414,7 +414,7 @@ where $\zeta$ is a continuous function with $\zeta(0) = 0$.  So,
 k_1(\lambda) &= \expect R_1\lambda(\cos(\Phi_1) \; + \; \zeta(\lambda)) \\
 &= \lambda \big( 1 \; + \; \zeta(\lambda) \expect R_1 \big) 
 \end{align*}
-since $h_1(0) = \expect R_1\cos(\Phi_1) = 1$ because $w_1$ has zero mean.  Because $\hat{\lambda}_L$ converges almost surely to zero as $L \rightarrow\infty$, then $\zeta(\hat{\lambda}_L)$ converges almost surely (and therefore also in probability) to zero as $L \rightarrow\infty$, i.e. $\zeta(\hat{\lambda}_L) = o_P(1)$.  So, 
+since $h_1(0) = \expect R_1\cos(\Phi_1) = 1$ as a result of~\eqref{eq:expectRepartRphi}.  Because $\hat{\lambda}_L$ converges almost surely to zero as $L \rightarrow\infty$, then $\zeta(\hat{\lambda}_L)$ converges almost surely (and therefore also in probability) to zero as $L \rightarrow\infty$, i.e. $\zeta(\hat{\lambda}_L) = o_P(1)$.  So, 
 \[
 k_1(\hat{\lambda}_L) = \hat{\lambda}_L \big( 1 \; + \; \zeta(\hat{\lambda}_L) \expect R_1 \big) = \hat{\lambda}_L \big( 1  + o_P(1)\big)
 \]
@@ -526,8 +526,9 @@ In this lemma, as in Lemma~\ref{lem:k2conv}, we work under the assumption that $
 W(\lambda) &= \expect R_1 v(\lambda, \Phi_1) \nonumber  \\
 &= \int_0^{2\pi}\int_{0}^\infty r v(\lambda, \phi) f(r,\phi) dr d\phi \nonumber  \\ 
 &= \int_0^{2\pi} v(\lambda, \phi) g(\phi) d\phi \nonumber \\
-&= \sum_{k \in \ints} \int_0^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi. \label{eq:Winfsum}
+&= \sum_{k \in \ints} \int_0^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi, \label{eq:Winfsum}
 \end{align}
+where $g$ is defined in the statement of Theorem~\ref{thm:normality}
 Now, for $k = 1, \dots, M-1$ we have $0 < \psi_{k-1} < \psi_k < 2\pi$, and so, using~\eqref{eq:vk},
 \begin{align*}
 \int_0^{2\pi} v_k(\lambda, \phi) &g(\phi) d\phi = \int_{\psi_{k-1}}^{\psi_{k}} v_k(\lambda, \phi) g(\phi) d\phi \\
@@ -543,7 +544,7 @@ b_k(\lambda) = \zeta_k(\lambda) \int_{\psi_{k-1}}^{\psi_k -\lambda}g(\phi) d\phi
 \begin{equation}\label{eq:ck}
 c_k(\lambda) = \frac{1}{\lambda} \int_{\psi_{k} - \lambda}^{\psi_{k}} s_k(\phi) g(\phi) d\phi.
 \end{equation}
-Both $a_k(\lambda)$ and $b_k(\lambda)$ converge to zero as $\lambda$ goes to zero, and, since $g$ is continuous at $\psi_k = \tfrac{2\pi}{M}k + \tfrac{\pi}{M}$ for each $k = 0, 1, \dots, M-1$ by Proposition~\ref{prop:gg2cont} in~\cite{McKilliam_leastsqPSKpilotsdata_2012}, it follows $c_k(\lambda)$ converges to 
+Both $a_k(\lambda)$ and $b_k(\lambda)$ converge to zero as $\lambda$ goes to zero, and, since $g$ is continuous at $\psi_k = \tfrac{2\pi}{M}k + \tfrac{\pi}{M}$ for each $k = 0, 1, \dots, M-1$ by Proposition~\ref{prop:gg2cont} in~\cite{McKilliam_leastsqPSKpilotsdata_2012}, it follows that $c_k(\lambda)$ converges to 
 \[
 s_k(\psi_k)g(\psi_k) = -2\sin(\tfrac{\pi}{M}) g(\tfrac{2\pi}{M}k + \tfrac{\pi}{M})
 \]
@@ -631,38 +632,31 @@ for all sufficiently large $L$.  Since $\nu$ and $\delta$ can be chosen arbitrar
 The distribution of $\sqrt{L}R_L(0)$ converges to the normal with zero mean and variance $pA_1 + dA_2$.
 \end{lemma}
 \begin{IEEEproof}
-Observe that 
+Observe that $\sqrt{L} R_L(0) = C_L + D_L$ where
 \[
-\sqrt{L} R_L(0) = \frac{1}{\sqrt{L}} \sum_{i \in P} R_i \sin(\Phi_i) + \frac{1}{\sqrt{L}} \sum_{i \in D} R_i \sin\sfracpart{\Phi_i}.
+C_L = \frac{1}{\sqrt{L}} \sum_{i \in P} R_i \sin(\Phi_i), \qquad D_L = \frac{1}{\sqrt{L}} \sum_{i \in D} R_i \sin\sfracpart{\Phi_i}.
 \]
-From the standard central limit the distribution of
-\[
-\frac{1}{\sqrt{L}} \sum_{i \in P} R_i \sin(\Phi_i) = \sqrt{\frac{\sabs{P}}{L}} \frac{1}{\sqrt{\sabs{P}}} \sum_{i \in P} R_i \sin(\Phi_i) 
-\]
-converges to the normal with mean $\sqrt{p}\expect R_1 \sin(\Phi_1) = 0$ as a result of~\eqref{eq:expectImpartRphi}, and variance
+From the standard central limit theorem the distribution of $C_L$ converges to the normal with mean $\sqrt{p}\expect R_1 \sin(\Phi_1) = 0$ as a result of~\eqref{eq:expectImpartRphi}, and variance
 \[
 p A_1 = p \expect R_1^2 \sin^2(\Phi_1).
 \]
-Similarly, the distribution of 
-\[ 
-\frac{1}{\sqrt{L}} \sum_{i \in D} R_i \sin\fracpart{\Phi_i} = \sqrt{\frac{\sabs{D}}{L}} \frac{1}{\sqrt{\sabs{D}}} \sum_{i \in D} R_i \sin\fracpart{\Phi_i} 
-\]
-converges to the normal with mean $\sqrt{d}\expect R_1 \sin\fracpart{\Phi_1} = 0$ as a result of Lemma~\ref{lem:expectImRfracpart}, and variance
+Similarly, the distribution of $D_L$ converges to the normal with mean $\sqrt{d}\expect R_1 \sin\fracpart{\Phi_1} = 0$ as a result of Lemma~\ref{lem:expectImRfracpart}, and variance
 \[
 d A_2 = d \expect R_1^2 \sin^2\fracpart{\Phi_1}.
 \]
+The lemma holds because $C_L$ and $D_L$ are independent. 
 \end{IEEEproof}
 
 \begin{lemma}\label{lem:expectImRfracpart}
 $\expect R_1 \sin\fracpart{\Phi_1} = 0$.
 \end{lemma}
 \begin{IEEEproof}
-Recalling the $f(r,\phi)$ is the joint pdf of $R_1$ and $\Phi_1$, we have
+Recalling that $f(r,\phi)$ is the joint pdf of $R_1$ and $\Phi_1$, we have
 \begin{align*}
 \expect R_1 \sin\fracpart{\Phi_1} &= \int_{0}^{2\pi} \int_{0}^\infty r \sin\fracpart{\phi} f(r,\phi) dr d\phi \\
 &= \int_{-\pi}^{\pi} \sin\fracpart{\phi} g(\phi) d\phi,
 \end{align*}
-where $g$ is defined in the statement of Theorem~\ref{thm:normality} and the change in bounds from $0, 2\pi$ to $-\pi,\pi$ is valid because both $\sin\fracpart{\phi}$ and $g(\phi)$ are periodic with period $2\pi$.  Propostion~\ref{prop:gg2cont} in \cite{McKilliam_leastsqPSKpilotsdata_2012} shows that $g$ is even on $(-\pi,\pi)$.  Also $\sin\fracpart{\cdot}$ has period $\tfrac{2\pi}{M}$ and is odd on $(-\frac{\pi}{M}, \tfrac{\pi}{M})$.  So, for any $k \in \ints$ and $\phi \in (-\tfrac{\pi}{M}, 0)$,
+where $g$ is defined in the statement of Theorem~\ref{thm:normality} and the change in bounds from $0, 2\pi$ to $-\pi,\pi$ is valid because both $\sin\fracpart{\phi}$ and $g(\phi)$ have period $2\pi$.  Propostion~\ref{prop:gg2cont} in \cite{McKilliam_leastsqPSKpilotsdata_2012} shows that $g$ is even on $(-\pi,\pi)$.  Also $\sin\fracpart{\cdot}$ has period $\tfrac{2\pi}{M}$ and is odd on $(-\frac{\pi}{M}, \tfrac{\pi}{M})$.  So, for any $k \in \ints$ and $\phi \in (-\tfrac{\pi}{M}, 0)$,
 \[
 g(-\phi + k \tfrac{\pi}{M}) = g(\phi - k \tfrac{\pi}{M})
 \]
@@ -683,7 +677,7 @@ for all integers $k$ because
 &= \int_{-\tfrac{\pi}{M}}^{0}\sin\fracpart{-\phi + k\tfrac{\pi}{M}} g(-\phi + k\tfrac{\pi}{M}) d\phi \\
 &= -\int_{-\tfrac{\pi}{M}}^{0}\sin\fracpart{\phi - k\tfrac{\pi}{M}} g(\phi - k\tfrac{\pi}{M}) d\phi.
 \end{align*}
-Observe that the intervals
+Observe that the sets
 \[
  [-(k+1)\tfrac{\pi}{M},-k\tfrac{\pi}{M}] \cup [k\tfrac{\pi}{M},(k+1)\tfrac{\pi}{M}], \;\;\; k = 0, \dots, M-1
 \]
@@ -706,7 +700,7 @@ Y_L(\lambda) = \sqrt{L}\big( G_L(\hat{\lambda}_L) - T_L(\hat{\lambda}_L) \big) -
 \end{equation}
 so that
 \[
-\sqrt{L}\big( G_L(\hat{\lambda}_L) - T_L(\hat{\lambda}_L) \big) = Y_L(\lambda) + X_L
+\sqrt{L}\big( G_L(\hat{\lambda}_L) - T_L(\hat{\lambda}_L) \big) = Y_L(\hat{\lambda}_L) + X_L
 \]
 Lemma~\ref{lem:ZYLempiricproc} in Section~\ref{sec:an-empirical-process} shows that for any $\delta > 0$ and $\nu > 0$, there exists $\epsilon > 0$ such that
 \[
@@ -723,11 +717,12 @@ The argument is similar to that used in Lemma~\ref{lem:Qconv}.  First observe th
 T_L(\lambda) &= \frac{\sabs{P}}{L}\expect R_1\cos(\lambda + \Phi_1) + \frac{\sabs{D}}{L} \expect R_1\cos\fracpart{\lambda + \Phi_1} \\
 %&= \big( p + o(1) \big) \expect R_1\cos(\lambda + \Phi_1) \\
 %& \hspace{2cm} + \big( d + o(1) \big) \expect R_1\cos\fracpart{\lambda + \Phi_1} \\
-&=  p \expect R_1\cos(\lambda + \Phi_1) + d\expect R_1\cos\fracpart{\lambda + \Phi_1} + o(1),
+&=  \big( p + o(L^{-1/2}) \big) \expect R_1\cos(\lambda + \Phi_1) \\
+&\hspace{2cm} + \big( d + o(L^{-1/2}) \big) \expect R_1\cos\fracpart{\lambda + \Phi_1},
 \end{align*}
-because $\frac{\sabs{P}}{L} \rightarrow p$ and $\frac{\sabs{D}}{L} \rightarrow d$ as $L\rightarrow\infty$. Put
+because $\tfrac{\abs{P}}{L} = p + o(L^{-1/2})$ and $\tfrac{\abs{D}}{L} = d + o(L^{-1/2})$ is an assumption in the statement of Theorem~\ref{thm:normality}.  Now,
 \begin{align*}
-L(\lambda) &= \sqrt{L}\big( T_L(\lambda) - G(0) \big) = p q_1(\lambda) + d q_2(\lambda) + o(1),
+\sqrt{L}\big( T_L(\lambda) - G(0) \big) = p q_1(\lambda) + d q_2(\lambda) + o(1),
 \end{align*}
 where
 \[
@@ -744,17 +739,17 @@ where $\zeta$ is a continuous function with $\zeta(0) = 0$. So,
 \begin{align*}
 q_1(\lambda) &= -\expect R_1\lambda(\sin(\Phi_1) +  \zeta(\lambda)) \\
 &= -\lambda \big( \expect R_1\sin(\Phi_1) +  \zeta(\lambda) \expect R_1 \big) \\
-&= \lambda \zeta(\lambda) K,
+&= -\lambda \zeta(\lambda) \expect R_1,
 \end{align*}
-since $\expect R_1\sin(\Phi_1) = 0$ because $w_1$ has zero mean,  and $K = \expect R_1$ is a finite constant because $\expect\sabs{w_1}$ is finite by assumption in Theorem~\ref{thm:consistency}.  So, 
+since $\expect R_1\sin(\Phi_1) = 0$ as a result of~\eqref{eq:expectImpartRphi}.  Now, 
 \begin{align*}
-\sqrt{L} q_1(\hat{\lambda}_L) = \sqrt{L} \hat{\lambda}_L \zeta(\hat{\lambda}_L) K = o_P(1)
+\sqrt{L} q_1(\hat{\lambda}_L) = -\sqrt{L} \hat{\lambda}_L \zeta(\hat{\lambda}_L) \expect R_1 = o_P(1)
 \end{align*}
 because $\sqrt{L} \hat{\lambda}_L$ converges in distribution and $\zeta(\hat{\lambda}_L) = o_P(1)$.  An argument analogous to that used in Lemma~\ref{lem:k2conv} shows that $\sqrt{L} q_2(\hat{\lambda}_L) = o_P(1)$.  Thus, 
 \[
-L(\lambda) = p q_1(\lambda) + d q_2(\lambda) + o(1) = o_P(1)
+\sqrt{L}\big( T_L(\lambda) - G(0) \big) = p q_1(\lambda) + d q_2(\lambda) + o(1) = o_P(1)
 \]
-as reuqired.
+as required.
 \end{IEEEproof}
 
 
@@ -837,17 +832,17 @@ Observe that $X_L = C_L + D_L$ where
 C_L = \frac{1}{\sqrt{L}} \sum_{i \in P} \big( R_i \cos(\Phi_i) - h_1(0) \big),
 \]
 \[
-D_L = \frac{1}{\sqrt{L}} \sum_{i \in D} (R_i \cos\fracpart{\Phi_i} - h_2(0) ).
+D_L = \frac{1}{\sqrt{L}} \sum_{i \in D} (R_i \cos\fracpart{\Phi_i} - h_2(0) ),
 \]
-From the standard central limit the distribution of $C_L$ converges to the normal with zero mean and variance
+where $h_1$ and $h_2$ are defined in the statement of Theorem~\ref{thm:consistency}.  From the standard central limit theorem the distribution of $C_L$ converges to the normal with zero mean and variance
 \[
 p B_1 = p \expect R_1^2 \cos^2(\Phi_1) - p h_1^2(0) =  p \expect R_1^2 \cos^2(\Phi_1) - p 
 \]
-since $h_1(0) = 1$.  The distribution of $D_L$ converges to the normal with zero mean and variance
+since $h_1(0) = 1$.  Similarly the distribution of $D_L$ converges to the normal with zero mean and variance
 \[
-d B_2 = d \expect R_1^2 \cos^2\fracpart{\Phi_1} - d h_2^2(0)
+d B_2 = d \expect R_1^2 \cos^2\fracpart{\Phi_1} - d h_2^2(0).
 \]
-The proof follows since $C_L$ and $D_L$ are indpendent.
+The lemma follows since $C_L$ and $D_L$ are indpendent.
 \end{IEEEproof}
 
 %\section{Tricks with fractional parts}
@@ -866,7 +861,7 @@ For any $\delta > 0$ and $\nu > 0$, there exists $\epsilon > 0$ such that:
 for all positive integers $L$.
 \end{lemma}
 \begin{IEEEproof}
-These results are related to what is called \emph{tightness} in the literature on empirical processes and weak convergence on metric spaces~\cite{Billingsley1999_convergence_of_probability_measures,Dudley_unif_central_lim_th_1999,Shorak_emp_proc_stat_2009}.  The proof is based on a technique called \emph{symmetrisation} and another technique called \emph{chaining} (also known as \emph{bracketing})~\cite{Pollard_asymp_empi_proc_1989}.  We will only give a proof of the first statement regarding the function $W_L$.  The proof for the second statement regarding $Y_L$ is similar.  
+These results are related to what is called \emph{tightness} in the literature on empirical processes and weak convergence on metric spaces~\cite{Billingsley1999_convergence_of_probability_measures,Dudley_unif_central_lim_th_1999,Shorak_emp_proc_stat_2009}.  The proof is based on a technique called \emph{symmetrisation} and another technique called \emph{chaining} (also known as \emph{bracketing})~\cite{Pollard_asymp_empi_proc_1989,Gine_Zinn_symmetrisation_1984,Ossiander_clt_bracketing_1984}.  We will only give a proof of the first statement regarding the function $W_L$.  The proof for the second statement regarding $Y_L$ is similar.  
 
 Put 
 \[
@@ -909,7 +904,7 @@ for any $\delta > 0$.  The proof follows by choosing $\nu =  \sqrt{2\pi} \kappa/
 \]
 \end{lemma}
 \begin{IEEEproof}
-Let $\{R_i'\}$ be a sequence identically distributed to $\{R_i\}$ and let $\{\Phi_i'\}$ be sequence identically distributed to $\{\Phi_i\}$.  Both $\{R_i'\}$ and $\{\Phi_i'\}$ are chosen independently of $\{R_i\}$ and $\{\Phi_i\}$.  Let $\expect_{R,\Phi}$ denote expectation conditional on $\{R_i\}$ and $\{\Phi_i\}$.  Now,
+Let $\{R_i'\}$ be a sequence identically distributed to $\{R_i\}$ and let $\{\Phi_i'\}$ be a sequence identically distributed to $\{\Phi_i\}$.  Both $\{R_i'\}$ and $\{\Phi_i'\}$ are chosen independently of $\{R_i\}$ and $\{\Phi_i\}$.  Let $\expect_{R,\Phi}$ denote expectation conditional on $\{R_i\}$ and $\{\Phi_i\}$.  Now,
 \begin{align*}
 W_L(\lambda) &= \frac{1}{\sqrt{L}} \sum_{i \in P \cup D} \big( f_i(\lambda, R_i, \Phi_i) - \expect_{R,\Phi} f_i(\lambda, R_i', \Phi_i') \big) \\
 &= \expect_{R,\Phi} \frac{1}{\sqrt{L}} \sum_{i \in P \cup D} ( f_{i} - f_{i}^\prime ),
@@ -1008,7 +1003,7 @@ where the function
 \[
 g_2(\phi) = \int_{0}^\infty  r^2 f(r,\phi) dr d\phi 
 \]
-is continuous at $\psi_k = \tfrac{2\pi}{M}k + \tfrac{\pi}{M}$ for each $k = 0, 1, \dots, M-1$ by Proposition~\ref{prop:gg2cont} in~\cite{McKilliam_leastsqPSKpilotsdata_2012}.  From the definition of $I_\epsilon$,
+is continuous at $\psi_k = \tfrac{2\pi}{M}k + \tfrac{\pi}{M}$ for each $k = 0, 1, \dots, M-1$ by Proposition~\ref{prop:gg2cont}.  From the definition of $I_\epsilon$,
 \begin{align*}
 \expect R_i^2 I_\epsilon(\Phi_i) &= \sum_{k=0}^{M-1}\int_{\psi_k-\epsilon}^{\psi_k-\epsilon}g_2(\phi) d\phi \\
 &= 2\epsilon \sum_{k=0}^{M-1} (g_2(\psi_k) + o(1))
@@ -1068,7 +1063,7 @@ Lemma~\ref{lem:chaining3} shows that
 \]
 The sum above converges as $k\rightarrow\infty$ so lemma holds with
 \[
-K_1 = \sum_{i=1}^\infty \frac{5\sqrt{i \log 2 + \log K_3}}{2^{i/2}}
+K_1 = \sum_{i=1}^\infty \frac{5\sqrt{i \log 2 + \log K_3}}{2^{i/2}}.
 \]
 \end{IEEEproof}
 
@@ -1108,13 +1103,13 @@ c_4 \leq \epsilon \sum_{i \in D, i \notin S} R_i \leq \epsilon \sum_{i \in D} R_
 \]
 Otherwise, if $i \in S$, then $\sabs{\sin\fracpart{\lambda + \Phi_i} - \sin\fracpart{\Phi_i}} \leq 2$ because $\sin(\cdot) \leq 1$.  Thus 
 \[
-c_3 \leq 2 \sum_{i \in D, i \in S} R_i \leq 2 \sum_{i \in D} R_i I_\epsilon(\Phi_i).
+c_3 \leq 2 \sum_{i \in D, i \in S} R_i \leq 2 \sum_{i \in P \cup D} R_i I_\epsilon(\Phi_i).
 \]
 Now,
 \begin{align*}
 d_2(\lambda, 0) &= c_1 + c_2 \\
 &\leq c_1 + c_3 + c_4 \\
-&\leq \epsilon \sum_{i \in P \cup D} R_i + 2 \sum_{i \in D} R_i I_\epsilon(\Phi_i) \\
+&\leq \epsilon \sum_{i \in P \cup D} R_i + 2 \sum_{i \in P \cup D} R_i I_\epsilon(\Phi_i) \\
 &= D_\epsilon L
 \end{align*}
 as required
