@@ -1305,48 +1305,98 @@ d_2(\lambda, \lambda_2) = \sum_{i \in P \cup D} \sabs{f_{i}(\lambda) - f_{i}(\la
 where $C_\epsilon$ and $D_\epsilon$ are defined in~\eqref{eq:Cepsdefn} and~\eqref{eq:Depsdefn}.  The number of elements in $T_\epsilon(k)$ is no more than $K_3 2^{k}$ where $K_3$ is a positive constant, independent of $L$, $\epsilon$ and $k$.
 \end{lemma}
 \begin{IEEEproof}
-We will first construct a set $T^2_\epsilon(k)$ containing no more than $K_{23}2^{k}$ elements and so that for every $\lambda \in B_\epsilon$ there exists $\lambda_2 \in T^2_\epsilon(k)$ such that $d_2(\lambda, \lambda_2) \leq 2^{-k} D_\epsilon L$ with $K_{23}$ a constant, independent of $L$, $\epsilon$ and $k$.  Using a similar construction we find a set $T^1_\epsilon(k)$ containing no more than $K_{13}2^{k}$ elements and so that for every $\lambda \in B_\epsilon$ there exists $\lambda_1 \in T^1_\epsilon(k)$ such that $d_1(\lambda, \lambda_2) \leq 2^{-k} D_\epsilon L$ with $K_{13}$ a constant, independent of $L$, $\epsilon$ and $k$.  Puting $T_\epsilon(k) = T^1_\epsilon(k) \cup T^2_\epsilon(k)$ will then complete the proof with $K_3 = K_{13} + K_{23}$.
+% We will first construct a set $T^2_\epsilon(k)$ containing no more than $K_{23}2^{k}$ elements and so that for every $\lambda \in B_\epsilon$ there exists $\lambda_2 \in T^2_\epsilon(k)$ such that $d_2(\lambda, \lambda_2) \leq 2^{-k} D_\epsilon L$ with $K_{23}$ a constant, independent of $L$, $\epsilon$ and $k$.  Using a similar construction we find a set $T^1_\epsilon(k)$ containing no more than $K_{13}2^{k}$ elements and so that for every $\lambda \in B_\epsilon$ there exists $\lambda_1 \in T^1_\epsilon(k)$ such that $d_1(\lambda, \lambda_2) \leq 2^{-k} D_\epsilon L$ with $K_{13}$ a constant, independent of $L$, $\epsilon$ and $k$.  Puting $T_\epsilon(k) = T^1_\epsilon(k) \cup T^2_\epsilon(k)$ will then complete the proof with $K_3 = K_{13} + K_{23}$.
 
-We will only give a construction for $T^2_\epsilon(k)$, the construction for $T^1_\epsilon(k)$ being similar.  First observe that
-\[
-f_{i}(\lambda) - f_{i}(\lambda_2) = \begin{cases}
-R_i\big( \sin(\lambda + \Phi_i) - \sin(\lambda_2 + \Phi_i) \big) & i \in P \\
-R_i\big(\sin\fracpart{\lambda + \Phi_i} - \sin\fracpart{\lambda_2 + \Phi_i}\big) & i \in D
-\end{cases}
-\]
-Let 
-\[
-U = \{\epsilon(\ell 2^{-k} - 1) \mid \ell = 0, 1, \dots, 2^{k+1} \} 
-\]
-be a set containing $2^{k+1} + 1$ elements uniformly spaced over $B_\epsilon$.  For every $\lambda \in B_\epsilon$ there exists a $\lambda^* \in U$ such that $\abs{\lambda - \lambda^*} < \epsilon 2^{-k}$.  Since $\sin(\cdot)$ is Lipshitz continuous with constant $K=1$, it follows that if $i \in P$ then,
-Let 
-\begin{align*}
-\abs{f_{i}(\lambda) - f_{i}(\lambda_2)} &= R_i\abs{ \sin(\lambda + \Phi_i) - \sin(\lambda^* + \Phi_i) } \\
-&\leq R_i\sabs{\lambda - \lambda^*} \\
-&< \epsilon 2^{-k} R_i.
-\end{align*}
-Thus
-\[
-\sum_{i \in P} \sabs{f_{i}(\lambda) - f_{i}(\lambda^*)} < \epsilon 2^{-k} \sum_{i\in P} R_i.
-\]
-As in Lemma~\ref{lem:epslmlemma} let $S = \{ i \in D \mid I_\epsilon(\Phi_i) \}$. Now, if $i \in D$ but $i \notin S$ then 
-\[
-\round{\lambda + \Phi_i} = \round{\lambda^* + \Phi_i} = \round{\Phi_i},
-\] 
-so
- \begin{align*}
- \vert &f_{i}(\lambda) - f_{i}(\lambda_2)\vert \\
-&= R_i\vert\sin\fracpart{\lambda + \Phi_i} - \sin\fracpart{\lambda^* + \Phi_i}\vert \\
- &= R_i\vert\sin(\lambda + \Phi_i - \round{\Phi_i}) - \sin(\lambda^* + \Phi_i - \round{\Phi_i})\vert  \\
- &\leq R_i \sabs{\lambda - \lambda^*} \\
-&< \epsilon 2^{-k} R_i.
- \end{align*}
-Thus,
-\[
-\sum_{i \in D, i \notin S} \sabs{f_{i}(\lambda) - f_{i}(\lambda^*)} < \epsilon 2^{-k} \sum_{i \in D, i \notin S} R_i \leq \epsilon 2^{-k} \sum_{i \in D} R_i
-\]
+% We will only give a construction for $T^2_\epsilon(k)$, the construction for $T^1_\epsilon(k)$ being similar.  First observe that
+% \[
+% f_{i}(\lambda) - f_{i}(\lambda_2) = \begin{cases}
+% R_i\big( \sin(\lambda + \Phi_i) - \sin(\lambda_2 + \Phi_i) \big) & i \in P \\
+% R_i\big(\sin\fracpart{\lambda + \Phi_i} - \sin\fracpart{\lambda_2 + \Phi_i}\big) & i \in D
+% \end{cases}
+% \]
+% Let 
+% \[
+% U = \{\epsilon(\ell 2^{-k} - 1) \mid \ell = 0, 1, \dots, 2^{k+1} \} 
+% \]
+% be a set containing $2^{k+1} + 1$ elements uniformly spaced over $B_\epsilon$.  For every $\lambda \in B_\epsilon$ there exists a $\lambda^* \in U$ such that $\abs{\lambda - \lambda^*} < \epsilon 2^{-k}$.  Since $\sin(\cdot)$ is Lipshitz continuous with constant $K=1$, it follows that if $i \in P$ then,
+% Let 
+% \begin{align*}
+% \abs{f_{i}(\lambda) - f_{i}(\lambda_2)} &= R_i\abs{ \sin(\lambda + \Phi_i) - \sin(\lambda^* + \Phi_i) } \\
+% &\leq R_i\sabs{\lambda - \lambda^*} \\
+% &< \epsilon 2^{-k} R_i.
+% \end{align*}
+% Thus
+% \[
+% \sum_{i \in P} \sabs{f_{i}(\lambda) - f_{i}(\lambda^*)} < \epsilon 2^{-k} \sum_{i\in P} R_i.
+% \]
+% As in Lemma~\ref{lem:epslmlemma} let $S = \{ i \in D \mid I_\epsilon(\Phi_i) \}$. Now, if $i \in D$ but $i \notin S$ then 
+% \[
+% \round{\lambda + \Phi_i} = \round{\lambda^* + \Phi_i} = \round{\Phi_i},
+% \] 
+% so
+%  \begin{align*}
+%  \vert f_{i}(\lambda) - &f_{i}(\lambda^*)\vert \\
+% &= R_i\vert\sin\fracpart{\lambda + \Phi_i} - \sin\fracpart{\lambda^* + \Phi_i}\vert \\
+%  &= R_i\vert\sin(\lambda + \Phi_i - \round{\Phi_i}) - \sin(\lambda^* + \Phi_i - \round{\Phi_i})\vert  \\
+%  &\leq R_i \sabs{\lambda - \lambda^*} \\
+% &< \epsilon 2^{-k} R_i.
+%  \end{align*}
+% Thus,
+% \[
+% \sum_{i \in D, i \notin S} \sabs{f_{i}(\lambda) - f_{i}(\lambda^*)} < \epsilon 2^{-k} \sum_{i \in D, i \notin S} R_i 
+% \]
 
-To handle the case when $i \in S$ we need to add some extra elements to the set $U$.  Let $\sigma$ be a permutation of the indices in $S$ such that $\fracpart{\Phi_i}$ are in ascending order.
+% To handle the case when $i \in S$ we need to add some extra elements to the set $U$.  Let 
+% \[
+% r_i = \begin{cases}
+% \tfrac{\pi}{M} - \fracpart{\Phi_i} & \fracpart{\Phi_i} > 0 \\
+% -\tfrac{\pi}{M} - \fracpart{\Phi_i} & \fracpart{\Phi_i} \leq 0
+% \end{cases}
+% \]
+% and let $\sigma$ be a permutation of the indices in $S$ such that $r_i$ are in ascending order, that is,
+% \begin{equation}\label{eq:sigmasortind}
+% r_{\sigma(i)} \leq r_{\sigma(k)}
+% \end{equation}
+% whenever $i < k $ where $i, k \in \{0, 1, \dots, \abs{S}-1\}$.  Now,
+% \begin{align*}
+% \sum_{i\in S} \sabs{f_{i}(\lambda) - f_{i}(\lambda^*)} = \sum_{i = 0}^{\abs{S}-1} \sabs{ f_{\sigma(i)}(\lambda) - f_{\sigma(i)}(\lambda^*)}.
+% \end{align*}
+% If $\epsilon > \lambda \geq r_{\sigma(k)} > 0$ for some $k$, then
+% \[
+% \round{\lambda + \fracpart{\Phi_{\sigma(i)}}} = \round{\lambda + \tfrac{\pi}{M} - r_{\sigma(i)}} = \tfrac{\pi}{M}
+% \]
+% for all $i \leq k$, whilst
+% \[
+% \round{\lambda + \fracpart{\Phi_{\sigma(i)}}} = \round{\lambda + \tfrac{\pi}{M} - r_{\sigma(i)}} = 0
+% \]
+% for all $i > k$.  Otherwise if $-\epsilon < \lambda < r_{\sigma(k)} \leq 0$ for some $k$, then
+% \[
+% \round{\lambda + \fracpart{\Phi_{\sigma(i)}}} = \round{\lambda + -\tfrac{\pi}{M} - r_{\sigma(i)}} = -\tfrac{\pi}{M}
+% \]
+% for all $i \leq k$, whilst
+% \[
+% \round{\lambda + \fracpart{\Phi_{\sigma(i)}}} = \round{\lambda + \tfrac{\pi}{M} - r_{\sigma(i)}} = 0
+% \]
+% for all $i > k$.
+
+% Let $R = \sum_{i \in S} R_i$ and let $d(\ell)$ be the largest integer such that
+% \[
+% \sum_{i=0}^{d(\ell)} R_{\sigma(i)} \leq \frac{\ell}{2^k} R.
+% \]
+% for integers $\ell = 1, \dots, 2^k$.  Define the intervals
+% \[
+% L_\ell = \in [r_{d(\ell)}, r_{d(\ell+1)})
+% \]
+% where $r_{0} = -\epsilon$ and $r_{2^k+1} = \epsilon$.  Then $L_0, L_1, \dots, L_{2^k}$ partition the closure of $B_\epsilon$.  If $\lambda$ and $\lambda^*$ are from interval $L_\ell$, then for all $i \in \{0, 1, \dots, \abs{S}-1\}$ less than $d(\ell)$,
+% \begin{align*}
+% \fracpart{\lambda + \Phi_{\sigma(i)}} &= \fracpart{\lambda + \fracpart{\Phi_{\sigma(i)}}} \\
+% &= \fracpart{\lambda + \fracpart{\Phi_{\sigma(i)}}}
+% \end{align*}
+% \begin{align*}
+% \vert f_{\sigma(i)}(\lambda) - &f_{\sigma(i)}(\lambda^*) \vert \\
+% &= R_{\sigma(i)}\vert\sin\fracpart{\lambda + \Phi_{\sigma(i)}} - \sin\fracpart{\lambda^* + \Phi_{\sigma(i)}}\vert 
+% \end{align*}
+BLERG
 
 \end{IEEEproof}
 
