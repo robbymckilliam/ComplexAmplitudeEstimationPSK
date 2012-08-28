@@ -1,0 +1,252 @@
+%\documentclass[a4paper,10pt]{article}
+%\documentclass[draftcls, onecolumn, 11pt]{IEEEtran}
+\documentclass[journal]{IEEEtran}
+
+\usepackage{mathbf-abbrevs}
+\input{defs}
+
+\usepackage{xr}
+\externaldocument{paper2}
+
+\usepackage{amsmath,amsfonts,amssymb, amsthm, bm}
+
+\usepackage[square,comma,numbers,sort&compress]{natbib}
+
+\newcommand{\sgn}{\operatorname{sgn}}
+\newcommand{\sinc}{\operatorname{sinc}}
+\newcommand{\rect}[1]{\operatorname{rect}\left(#1\right)}
+
+%opening
+\title{Carrier phase and amplitude estimation for phase shift keying using pilots and data}
+\author{Robby McKilliam, Andre Pollok, Bill Cowley
+\thanks{
+Supported under the Australian Government’s Australian Space Research Program.
+Robby McKilliam, Andre Pollok and Bill Cowley are with the Institute for Telecommunications Research, The University of South Australia, SA, 5095.  Vaughan~Clarkson is with the School of Information Technology \& Electrical Engineering, The University of Queensland, QLD., 4072, Australia.  Barry~Quinn is with the Department of Statistics, Macquarie University, Sydney, NSW, 2109, Australia.
+}}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+We consider least squares estimators of carrier phase and amplitude from a noisy communications signal that contains both pilot signals, known to the receiver, and data signals, unknown to the receiver.  We focus on signaling constellations that have symbols evenly distributed on the complex unit circle, i.e., $M$-ary phase shift keying.  We show, under reasonably mild conditions on the distribution of the noise, that the least squares estimator of carrier phase is strongly consistent and asymptotically normally distributed.  However, the amplitude estimator is not consistent, it converges to a positive real number that is a function of the true carrier amplitude, the noise distribution, and the size of the constellation.  Our theoretical results can also be applied to the case where no pilot symbols exist, i.e., noncoherent detection.  The results of Monte Carlo simulations are provided and these agree with the theoretical results.   
+\end{abstract}
+\begin{IEEEkeywords}
+Coherent detection, noncoherent detection, phase shift keying, asymptotic statistics
+\end{IEEEkeywords}
+
+\section{Introduction}
+
+In passband communication systems the transmitted signal typically undergoes time offset (delay), phase shift and attenuation (amplitude change).  These effects must be compensated for at the receiver. In this paper we assume that the time offset has been previously handled, and we focus on estimating the phase shift and attenuation.  We consider signalling constellations that have symbols evenly distributed on the complex unit circle such as binary phase shift keying (BPSK), quaternary phase shift keying (QPSK) and $M$-ary phase shift keying ($M$-PSK).  In this case, the transmitted symbols take the form,
+\[
+s_i = e^{j u_i},
+\]
+where $j = \sqrt{-1}$ and $u_i$ is from the set $\{0, \tfrac{2\pi}{M}, \dots, \tfrac{2\pi(M-1)}{M}\}$ and $M \geq 2$ is the size of the constellation.  We assume that some of the transmitted symbols are \emph{pilot symbols} known to the receiver and the remainder are information carrying \emph{data symbols} with phase that is unknown to the receiver.  So,
+\[
+s_i = \begin{cases}
+p_i & i \in P \\
+d_i & i \in D,
+\end{cases}
+\]
+where $P$ is the set of indices describing the position of the pilot symbols $p_i$, and $D$ is a set of indices describing the position of the data symbols $d_i$.  The sets $P$ and $D$ are disjoint, i.e. $P \cap D = \emptyset$, and $L = \abs{P \cup D}$ is the total number of symbols transmitted.
+
+We assume that time offset estimation has been performed and that $L$ noisy $M$-PSK symbols are observed by the receiver.  The received signal is then,
+\begin{equation}\label{eq:sigmod}
+y_i = a_0 s_i + w_i, \qquad i \in P \cup D,
+\end{equation}
+where $w_i$ is noise and $a_0 = \rho_0 e^{j\theta_0}$ is a complex number representing both carrier phase $\theta_0$ and amplitude $\rho_0$ (by definition $\rho_0$ is a positive real number).  Our aim is to estimate $a_0$ from the noisy symbols $\{ y_i, i \in P \cup D \}$.  Complicating matters is that the data symbols $\{d_i, i \in D\}$ are not known to the reciever and must also be estimated.  Estimation problems of this type have undergone extensive prior study~\cite{ViterbiViterbi_phase_est_1983,Cowley_ref_sym_carr_1998,Wilson1989,Makrakis1990,Liu1991,Mackenthun1994,Sweldens2001,McKilliamLinearTimeBlockPSK2009,Divsalar1990}.  A practical approach is the least squares estimator, that is, the minimisers of the sum of squares function
+\begin{equation}\label{eq:SSdefn}
+\begin{split}
+SS(a, &\{d_i, i \in D\}) = \sum_{i \in P \cup D} \abs{ y_i - a s_i }^2  \\
+&= \sum_{i \in P} \abs{ y_i - a s_i }^2 + \sum_{i \in D} \abs{ y_i - a d_i }^2,
+\end{split}
+\end{equation}
+where $\abs{x}$ denotes the magnitude of the complex number $x$.  The least squares estimator is also the maximum likelihood estimator under the assumption that the noise sequence $\{w_i, i \in \ints\}$ is additive white and Gaussian.  However, as we will show, the estimator works well under less stringent assumptions.  %It is the least squares estimator that we primarily study in this paper.
+
+The existing literature~\cite{Mackenthun1994,Cowley_ref_sym_carr_1998,ViterbiViterbi_phase_est_1983,Sweldens2001,Wilson1989,Makrakis1990,Liu1991} mostly considers what is called \emph{noncoherent detection} where no pilot symbols exist ($P = \emptyset$ where $\emptyset$ is the empty set).  In the nocoherent setting \emph{differential encoding} is often used, and for this reason the estimation problem has been called \emph{multiple symbol differential detection}.  A popular approach is the so called \emph{non-data aided}, sometimes also called \emph{non-decision directed}, estimator based on the paper of Viterbi and Viterbi~\cite{ViterbiViterbi_phase_est_1983}.  The idea is to `strip' the modulation from the recieved signal by taking $y_i / \abs{y_i}$ to the power of $M$.  A function $F: \reals \mapsto \reals$ is chosen and the estimator of the carrier phase $\theta_0$ is taken to be $\tfrac{1}{M}\angle{A}$ where $\angle$ denotes the complex argument and
+\[
+A = \frac{1}{L}\sum_{i \in P \cup D} F(\abs{y_i}) \big(\tfrac{y_i}{\abs{y_i}}\big)^M.
+\]
+Various choices for $F$ are suggested in~\cite{ViterbiViterbi_phase_est_1983} and a statistical analysis is presented.  A caveat of this estimator is that it is not entirely obvious how pilot symbols should be included. Techniques are available but they are somewhat adhoc~\cite{Cowley_ref_sym_carr_1998}.  This problem does not occur with the least square estimator.
+
+An important paper is by Mackenthun~\cite{Mackenthun1994} who described an algorithm to compute the least squares estimator requiring only $O(L \log L)$ arithmetic operations.  Sweldens~\cite{Sweldens2001} rediscovered Mackenthun's algorithm in 2001.  Both Mackenthun and Swelden's considered only the noncoherent setting, but we show in Section~\ref{sec:least-squar-estim}~that Mackenthun's algorithm can be modified to include pilot symbols. Our model includes the noncoherent case by setting the number of pilot symbols to zero, that is, putting $P = \emptyset$.  
+
+
+%It is worth commenting on our use of $\prob$ rather than the more usual $\expect$ or $E$ for the expected value operator.  The notation comes from Pollard~\cite[Ch 1]{Pollard_users_guide_prob_2002}.  The notation is good because it removes unecessary distinction between `probability' and expectation.  Given a random variable $X$ with cumulative density function $F$, the probability of an event, say $X \in S$, where $S$ is some subset of the range of $X$, is 
+%\[
+%\prob \indicator \{X \in S\} = \int \indicator \{X \in S\}(x) dF(x) = \int_{S} dF(x)
+%\]
+%where $\indicator \{X \in S\}$ is the indicator function of the set $S$, i.e $\indicator \{X \in S\}(x) = 1$ when the argument $x \in S$ and zero otherwise.  We will usually drop the $\onebf$ and simply write $\prob \{ X \in S \}$ to mean $\prob \onebf\{ X \in S \}$.  To illustrate the utility of this notation, Markov's inequality becomes 
+%\[
+%\prob \{ \abs{X} > \delta \}  \leq \prob \frac{\abs{X}}{\delta}\onebf\{ \abs{X} > \delta \} \leq \frac{1}{\delta}\prob\abs{X},
+%\]
+%where $\frac{\abs{X}}{\delta}\onebf\{ \abs{X} > \delta \}(x)$ is the function equal to $\abs{x}/\delta$ when the argument $x > \delta$ and zero otherwise.
+
+\section{Mackentun's algorithm with pilots}\label{sec:least-squar-estim}
+
+In this section we derive Mackentun's algorithm to compute the least squares estimator of the carrier phase and amplitude~\cite{Mackenthun1994}.  Mackenthun specifically considered the noncoherent setting, so we modify the algorithm to include the pilot symbols.  For the purpose of anaylsing computational complexity, we will assume that the number of data symbols $\abs{D}$ is proportional to the total number of symbols $L$, so that, for example, $O(L) = O(\abs{D})$.  In this case Mackentun's algorithm requires $O(L \log L)$ arithmetic operations.  This complexity arises from the need to sort a list of $\abs{D}$ elements.  
+%We use order notation in the standard way, that is, for functions $h$ and $g$, we write $h(N) = O(g(N))$ to mean that there exists a constant $K > 0$ and a finite $N_0$ such that $h(N) \leq K g(N)$ for all $N > N_0$.
+
+%In Section~\ref{sec:line-time-algor} we will show that a full sort is not neccesary, and that the least squares estimator can be implemented in $O(L)$ operations.
+
+Define the sum of squares function
+\begin{align}
+SS(a, &\{d_i, i \in D\}) = \sum_{i \in P \cup D} \abs{ y_i - a s_i }^2 \nonumber \\
+&= \sum_{i \in P \cup D} \abs{y_i}^2 - a s_i y_i^* - a^* s_i^* y_i + aa^*, \label{eq:SS}
+\end{align}
+where $*$ denotes the complex congugate.  Fixing the data symbols $\{d_i, i \in D\}$, differentiating with respect to $a^*$, and setting the resulting equation to zero we find the least squares estimator of $a_0$ as a function of $\{d_i, i \in D\}$,
+\begin{equation}\label{eq:hata}
+\hat{a}(\{d_i, i \in D\}) = \frac{1}{L} \sum_{i \in P \cup D} y_i s_i^* = \frac{1}{L} Y
+\end{equation}
+where $L = \abs{P \cup D}$ is the total number of symbols transmitted, and to simplify our notation we have put 
+\[
+Y = \sum_{i \in P \cup D} y_i s_i^* = \sum_{i \in P } y_i p_i^* + \sum_{i \in D } y_i d_i^*.
+\]  
+Note that $Y$ is a function of the unknown data symbols $\{ d_i, i \in D\}$ and we could write $Y(\{ d_i, i \in D\})$, but have chosen to surpress the argument $(\{ d_i, i \in D\})$ for notational clarity.  Substituting $\frac{1}{L}Y$ for $a$ into~\eqref{eq:SS} we obtain the $SS$ conditioned on minimisation with respect to $a$,
+\begin{equation}\label{eq:SSdatasymbols}
+SS(\{d_i, i \in D\}) = A - \frac{1}{L}\abs{Y}^2,
+\end{equation}
+where $A = \sum_{i \in P \cup D}\abs{y_i}^2$ is a constant.  Observe that given candidate values for the data symbols, we can compute the corresponding $SS(\{d_i, i \in D\})$ in $O(L)$ arithmetic operations.  It turns out that there are atmost $(M+1)\abs{D}$ candidate values of the least squares estimator of the data symbols~\cite{Sweldens2001,Mackenthun1994}.  %When the number of data symbols is not small, this set is substantially smaller than the entire set of possible transmitted symbols, which is of size $M^{\abs{D}}$.
+
+To see this, let $a = \rho e^{j\theta}$ where $\rho$ is a nonnegative real.  Now,
+\begin{align}
+SS(\rho, \theta, &\{d_i, i \in D\}) = \sum_{i \in P \cup D} \abs{ y_i - \rho e^{j\theta} s_i }^2  \nonumber \\
+&= \sum_{i \in P} \abs{ y_i - \rho e^{j\theta} p_i }^2 + \sum_{i \in D} \abs{ y_i - \rho e^{j\theta} d_i }^2. \label{eq:SSallparams}
+\end{align}
+For given $\theta$, the least squares estimator of the $i$th data symbol $d_i$ is given by minimising $\abs{ y_i - \rho e^{j\theta} d_i }^2$, that is,
+\begin{equation}\label{eq:hatdfinxtheta}
+\hat{d}_i(\theta) = e^{j\hat{u}_i(\theta)} \qquad \text{where} \qquad \hat{u}_i(\theta) = \round{\angle( e^{-j\theta}y_i)},
+\end{equation}
+where $\angle(\cdot)$ denotes the complex argument (or phase), and $\round{\cdot}$ rounds its argument to the nearest multiple of $\frac{2\pi}{M}$.  A word of caution, the notation $\round{\cdot}$ is often used to denote rounding to the nearest \emph{integer}.  This is not the case here.  If the function $\operatorname{round}(\cdot)$ takes its argument to the nearest integer then,
+\[
+\round{x} = \tfrac{2\pi}{M}\operatorname{round}\left(\tfrac{M}{2\pi}x\right).
+\] 
+Note that $\hat{d}_i(\theta)$ does not depend on $\rho$.  As defined, $\hat{u}_i(\theta)$ is not strictly inside the set $\{0, \tfrac{2\pi}{M}, \dots, \tfrac{2\pi(M-1)}{M}\}$, but this is not of consequence, as we intend its value to be considered equivalent modulo $2\pi$.  With this in mind,
+\[
+\hat{u}_i(\theta) = \round{\angle{y_i} - \theta }
+\]
+which is equivalent to the definition from~\eqref{eq:hatdfinxtheta} modulo $2\pi$.
+
+We only require to consider $\theta$ in the interval $[0, 2\pi)$.  Consider how $\hat{d}_i(\theta)$ changes as $\theta$ varies from $0$ to $2\pi$.  Let $b_i = \hat{d}_i(0)$ and let 
+\[
+z_i = \angle{y_i} - \hat{u}_i(0) = \angle{y_i} - \round{\angle{y_i}}.
+\]
+Then,
+\begin{equation}\label{eq:uicombos}
+\hat{d}_i(\theta) = 
+\begin{cases}
+b_i, &  0 \leq \theta < z_i + \frac{\pi}{M} \\
+b_i e^{-j2\pi/M}, & z_i + \frac{\pi}{M} \leq \theta < z_i + \frac{3\pi}{M} \\ 
+\vdots & \\
+b_i e^{-j2\pi k /M}, & z_i + \frac{\pi(2k - 1)}{M} \leq \theta < z_i + \frac{\pi(2k + 1)}{M}  \\ 
+\vdots & \\
+b_i e^{-j2\pi}, &  z_i + \frac{\pi(2M - 1)}{M} \leq \theta < 2\pi. \\
+\end{cases}
+\end{equation}
+
+Let 
+\[
+f(\theta) = \{ \hat{d}_i(\theta), i \in D \}
+\]
+be a function mapping the interval $[0, 2\pi)$ to a sequence of $M$-PSK symbols indexed by the elements of $D$.  Observe that $f(\theta)$ is piecewise continuous.  The subintervals of $[0, 2\pi)$ over which $f(\theta)$ remains contant are determined by the values of $\{z_i, i \in D\}$.  Let
+\[
+S = \{ f(\theta) \mid \theta \in [0, 2 \pi) \}
+\]
+be the set of all sequences $f(\theta)$ as $\theta$ varies from $0$ to $2\pi$.  If $\hat{\theta}$ is the least squares estimator the phase then $S$ contains the sequence $\{ \hat{d}_i(\hat{\theta}), i \in D \}$ corresponding to the least squares estimator of the data symbols, i.e., $S$ contains the minimiser of~\eqref{eq:SSdatasymbols}.  Observe from~\eqref{eq:uicombos} that there are atmost $(M+1)\abs{D}$ sequences in $S$, because there are $M+1$ sequences for each $i \in D$.
+
+The sequences in $S$ can be enumerated as follows.  Let $\sigma$ denote the permutation of the indices in $D$ such that $z_{\sigma(i)}$ are in ascending order, that is,
+\begin{equation}\label{eq:sigmasortind}
+z_{\sigma(i)} \leq z_{\sigma(k)}
+\end{equation}
+whenever $i < k $ where $i, k \in \{0, 1, \dots, \abs{D}-1\}$.  It is convenient to define the indices into $\sigma$ to be taken modulo $\abs{D}$, that is, if $m$ is an integer not from $\{0, 1, \dots, \abs{D}-1\}$ then we define $\sigma(m) = \sigma(k)$ where $k \equiv m \mod \abs{D}$ and $k \in  \{0, 1, \dots, \abs{D}-1\}$.  The first sequence in $S$ is 
+\[
+f_0 = f(0) = \{ \hat{d}_i(0), i \in D \} = \{ b_i, i \in D \}.
+\]  
+The next sequence $f_1$ is given by replacing the element $b_{\sigma(1)}$ in $f_0$ with $b_{\sigma(1)}e^{-j2\pi/M}$.  Given a sequence $x$ we use $x e_i$ to denote $x$ with the $i$th element replaced by $x_i e^{-j2\pi/M}$.  Using this notation,  
+\[
+f_1 = f_0 e_{\sigma(0)}.
+\] 
+The next sequence in $S$ is correspondingly 
+\[
+f_2 = f_0 e_{\sigma(0)} e_{\sigma(1)} = f_1 e_{\sigma(1)},
+\]
+and the $k$th sequence is
+\begin{equation}\label{eq:fkrec}
+f_{k+1} = f_{k} e_{\sigma(k)}.
+\end{equation}
+In this way, all $(M+1)\abs{D}$ sequences in $S$ can be recursively enumerated.
+
+We want to find the $f_k \in S$ corresponding to the minimiser of~(\ref{eq:SSdatasymbols}).  A na\"{\i}ve approach would be to compute $SS(f_k)$ for each $k \in \{0,1,\dots,(M+1)\abs{D}-1\}$.  Computing $SS(f_k)$ for any particular $k$ requires $O(L)$ arithmetic operations.  So, this na\"{\i}ve approach would require $O(L (M+1) \abs{D}) = O(L^2)$ operations in total.  Following Mackenthun~\cite{Mackenthun1994}, we show how $SS(f_k)$ can be computed recursively.
+
+Let,
+\begin{equation}\label{eq:SSfk}
+SS(f_k) = A - \frac{1}{L}\abs{Y_k}^2,
+\end{equation}
+where, 
+\begin{align*}
+Y_k = Y( f_k ) &= \sum_{i \in P} y_i p_i^*  + \sum_{i \in D} y_i f_{ki}^* \\
+&= B + \sum_{i \in D}g_{ki},
+\end{align*}
+where $B = \sum_{i \in P} y_i p_i^*$ is a constant, independent of the data symbols, and $f_{ki}$ denotes the $i$th symbol in $f_k$, and for convenience, we put $g_{ki}  = y_i f_{ki}^*$.  Letting $g_{k}$ be the sequence $\{g_{ik}, i \in D\}$ we have, from~\eqref{eq:fkrec}, that $g_k$ satisfies the recursive equation
+\[
+g_{k+1} = g_{k} e_{\sigma(k)}^*,
+\]
+where $g_{k} e_{\sigma(k)}^*$ indicates the sequence $g_k$ with the $\sigma(k)$th element replaced by $g_{k \sigma(k)}e^{j2\pi/M}$.  Now,
+\[
+Y_0 = B + \sum_{i \in D} g_{0i}
+\] 
+can be computed in $O(L)$ operations, and
+\begin{align*}
+Y_1 &= B + \sum_{i \in D} g_{1i} \\
+&= B +  (e^{j2\pi/M} - 1)g_{0\sigma(0)} + \sum_{i \in D} g_{0i} \\
+&= Y_0 + \eta g_{0\sigma(0)},
+\end{align*}
+where $\eta = e^{j2\pi/M} - 1$.  In general,
+\[
+Y_{k+1} = Y_k + \eta g_{k\sigma(k)}.
+\]
+So, each $Y_k$ can be computed from it predecessor $Y_{k-1}$ in a constant number of operations.  Given $Y_k$, the value of $SS(f_k)$ can be computed in a constant number of operations using~\eqref{eq:SSfk}.  Let $\hat{k} = \arg\min SS(f_k)$.  The least squares estimator of the complex amplitude is then computed according to~\eqref{eq:hata},
+\begin{equation}\label{eq:ahatYhat}
+\hat{a} = \frac{1}{L} Y_{\hat{k}}.
+\end{equation}
+Psuedocode is given in Algorithm~\ref{alg:loglinear}.  Line~\ref{alg_sortindices} contains the function $\operatorname{sortindicies}$ that, given $z = \{z_i, i \in D\}$, returns the permutation $\sigma$ as described in~\eqref{eq:sigmasortind}.  The $\operatorname{sortindicies}$ function requires sorting $\abs{D}$ elements.  This requires $O(L \log L)$ operations.  The $\operatorname{sortindicies}$ function is the primary bottleneck in this algorithm when $L$ is large.  The loops on lines~\ref{alg_loop_setup} and~\ref{alg_loop_search} and the operations on lines~\ref{alg_Y} to lines~\ref{alg_Q} all require $O(L)$ or less operations.  %In the next sections we will show how to the sortinces function can be avoided.  This leads to an algorithm that requires only $O(L)$ operations.
+
+\begin{algorithm}[t] \label{alg:loglinear}
+\SetAlCapFnt{\small}
+\SetAlTitleFnt{}
+\caption{Mackenthun's algorithm with pilot symbols}
+\DontPrintSemicolon
+\KwIn{$\{y_i, i \in P \cup D \}$}
+\For{$i \in D$ \nllabel{alg_loop_setup}}{
+$\phi = \angle{y_i}$ \;
+$u = \round{\phi} $ \;
+$z_i = \phi -  u $ \;
+$g_i = y_i e^{-j u}$ \;
+}
+$\sigma = \operatorname{sortindicies}(z)$ \nllabel{alg_sortindices} \;
+$Y = \sum_{i \in P} y_i p_i^* + \sum_{i \in D} g_i $ \nllabel{alg_Y}\;
+$\hat{a} = \frac{1}{L} Y$ \;
+$\hat{Q} = \frac{1}{L}\abs{Y}^2$ \nllabel{alg_Q} \;
+$\eta = e^{j2\pi/M} - 1$ \;
+\For{$k= 0$ \emph{\textbf{to}} $(M+1)\abs{D}-1$ \nllabel{alg_loop_search}}{
+$Y = Y + \eta g_{\sigma(k)}$ \;
+$g_{\sigma(k)} = (\eta + 1) g_{\sigma(k)} $\;
+$Q = \frac{1}{L}\abs{Y}^2$\;
+\If{$Q > \hat{Q}$}{
+ 	$\hat{Q} = Q$ \;
+ 	$\hat{a} =  \frac{1}{L} Y$ \;
+ }
+}
+\Return{$\hat{a}$ \nllabel{alg_return}}
+\end{algorithm}
+
+
+\small
+\bibliography{bib}
+
+
+%\section{Tricks with fractional parts}
+%Throughout the paper, and particularly in  have made use of a number of results involving the fractional part function
+
+ 
+\end{document}
