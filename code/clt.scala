@@ -37,7 +37,7 @@ for( L <- Ls; M <- Ms ) {
     val cltlist = noises.par.map { noise =>	
 	val p = P.length.toDouble/L  
         val cltcomp = noise.clt(M,p)
-	val (varp, vara) : (Double, Double) = cltcomp.variance
+	val (varp, vara) = cltcomp.variance
         val biascor  = 1 - cltcomp.G(0)    
 	print(".")
 	(varp/L, vara/L, vara/L + biascor*biascor) //last thing is what gets returned
