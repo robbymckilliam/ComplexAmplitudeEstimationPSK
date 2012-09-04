@@ -24,7 +24,7 @@ trait ComplexNoise extends pubsim.distributions.complex.ComplexRandomVariable {
   
 }
 
-class ComplexGaussian(variance : Double) 
+class ComplexGaussian(val variance : Double) 
   extends pubsim.distributions.complex.SymmetricComplexNormal(variance) with ComplexNoise {
     
   /** Assumes signal amplitude rho0 is 1 */

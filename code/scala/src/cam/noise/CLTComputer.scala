@@ -50,7 +50,7 @@ trait CLTComputer {
   
 }
 
-abstract class AbstractCLTComputer(M : Int, p : Double) extends CLTComputer {
+abstract class AbstractCLTComputer(val M : Int, val p : Double) extends CLTComputer {
   protected val d = 1 - p
   def fracpart(x : Double) = x - 2*pi/M*scala.math.round(M*x/2/pi)
   
@@ -98,7 +98,7 @@ class GeneralCLTComputer(M : Int, p : Double, X : ComplexRandomVariable) extends
  *CLT for circularly symmetric complex Gaussian noise.  Makes use of specific formula for
  *this case.  This is fast and should be numerically accurate.
 */
-class GaussianCLT(M : Int, p : Double, sigma : Double, rho0 : Double) extends AbstractCLTComputer(M,p) {
+class GaussianCLT(M : Int, p : Double, val sigma : Double, val rho0 : Double) extends AbstractCLTComputer(M,p) {
   
   /** Signal amplitude defaults to 1 */
   def this(M : Int, p: Double, sigma : Double) = this(M,p,sigma,1.0)

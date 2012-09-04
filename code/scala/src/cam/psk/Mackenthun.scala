@@ -13,7 +13,7 @@ import numbers.finite.PolarComplex
  *  An implementation of Mackenthun's O(L log L) complex amplitude estimator.
  *  This is a minor modification of Mackenthun's estimator that allows for pilots.
  */
-class MackenthunCoherent(M: Int, P: Seq[Int], D : Seq[Int], p : Seq[Complex]) 
+class MackenthunCoherent(val M: Int, val P: Seq[Int], val D : Seq[Int], val p : Seq[Complex]) 
 extends CoherentComplexAmplitudeEstimator {
   
   protected val z = new Array[IndexedDouble](D.length)
@@ -64,7 +64,7 @@ extends CoherentComplexAmplitudeEstimator {
  * Mackenthun's original NonCoherent estimator.
  * Does not allow for any pilot symbols.
  */
-class MackenthunNonCoherent(M : Int, D : Seq[Int]) 
+class MackenthunNonCoherent(M : Int, val D : Seq[Int]) 
 extends NonCoherentComplexAmplitudeEstimator(M) {
   
   protected val z = new Array[IndexedDouble](D.length)

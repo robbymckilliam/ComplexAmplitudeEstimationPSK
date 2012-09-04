@@ -44,7 +44,7 @@ abstract class CoherentComplexAmplitudeEstimator extends ComplexAmplitudeEstimat
  * Abstract class for Coherent PSK estimators.  Provides function for correctly computing
  * square error between phase and amplitude
  */
-abstract class NonCoherentComplexAmplitudeEstimator(M : Int) extends ComplexAmplitudeEstimator {
+abstract class NonCoherentComplexAmplitudeEstimator(val M : Int) extends ComplexAmplitudeEstimator {
   
   /** 
   * Returns the square error in amplitude and phase between two complex numbers.
