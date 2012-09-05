@@ -25,7 +25,7 @@ extends CoherentComplexAmplitudeEstimator {
   protected val eta = new PolarComplex(1, w)
   protected val nu = eta - 1.0
   
-  protected def sigma(k : Int)= z(k % D.length).i
+  protected def sigma(k : Int)= z(k % D.length).index
 
   /** Execute Mackenthun's estimator */
   def estimate(y : Seq[Complex]) : Complex = {
@@ -64,7 +64,7 @@ extends CoherentComplexAmplitudeEstimator {
  * Mackenthun's original NonCoherent estimator.
  * Does not allow for any pilot symbols.
  */
-class MackenthunNonCoherent(M : Int, val D : Seq[Int]) 
+class MackenthunNonCoherent(override val M : Int, val D : Seq[Int]) 
 extends NonCoherentComplexAmplitudeEstimator(M) {
   
   protected val z = new Array[IndexedDouble](D.length)
@@ -76,7 +76,7 @@ extends NonCoherentComplexAmplitudeEstimator(M) {
   protected val eta = new PolarComplex(1, w)
   protected val nu = eta - 1.0
   
-  protected def sigma(k : Int)= z(k % D.length).i
+  protected def sigma(k : Int)= z(k % D.length).index
 
   /** Execute Mackenthun's estimator */
   def estimate(y : Seq[Complex]) : Complex = {
@@ -110,9 +110,7 @@ extends NonCoherentComplexAmplitudeEstimator(M) {
 }
 
 /** Class containing a double and it's index for the purpose of sorting */
-class IndexedDouble(value : Double, index : Int) extends Ordered[IndexedDouble] {
-  val v = value
-  val i = index
-  override def compare(that: IndexedDouble) = this.v.compareTo(that.v)
+class IndexedDouble(val value : Double, val index : Int) extends Ordered[IndexedDouble] {
+  override def compare(that: IndexedDouble) = this.value.compareTo(that.value)
   override def toString = "(" + value + ", " + index + ")"
 }

@@ -22,7 +22,7 @@ import numbers.finite.PolarComplex
  * D, a sequence of indices for the recieved symbols
  * F, a function for modulating the magnitude
  */
-class ViterbiViterbi(M : Int, val D : Seq[Int], val F : Double => Double) 
+class ViterbiViterbi(override val M : Int, val D : Seq[Int], val F : Double => Double) 
 extends NonCoherentComplexAmplitudeEstimator(M) {
   
   val L = D.length

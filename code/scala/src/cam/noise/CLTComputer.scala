@@ -76,7 +76,7 @@ abstract class AbstractCLTComputer(val M : Int, val p : Double) extends CLTCompu
  * values by numerical integration.  Might not be numerically accurate and is fairly slow.
  * THIS CURRENTLY ASSUMES THAT the true amplitude rho0 = 1
  */
-class GeneralCLTComputer(M : Int, p : Double, X : ComplexRandomVariable) extends AbstractCLTComputer(M,p) {
+class GeneralCLTComputer(override val M : Int, override val p : Double, val X : ComplexRandomVariable) extends AbstractCLTComputer(M,p) {
   
   //get the class representing the marginal magnitude random variable of X
   protected val Z = X.magnitudeMarginal
@@ -98,7 +98,7 @@ class GeneralCLTComputer(M : Int, p : Double, X : ComplexRandomVariable) extends
  *CLT for circularly symmetric complex Gaussian noise.  Makes use of specific formula for
  *this case.  This is fast and should be numerically accurate.
 */
-class GaussianCLT(M : Int, p : Double, val sigma : Double, val rho0 : Double) extends AbstractCLTComputer(M,p) {
+class GaussianCLT(override val M : Int, override val p : Double, val sigma : Double, val rho0 : Double) extends AbstractCLTComputer(M,p) {
   
   /** Signal amplitude defaults to 1 */
   def this(M : Int, p: Double, sigma : Double) = this(M,p,sigma,1.0)
