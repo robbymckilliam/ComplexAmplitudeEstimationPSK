@@ -1,13 +1,22 @@
 prologues := 2;
 filenametemplate "%j-%c.mps";
 
+input graph;
+input sarith;
+
 input TEX; 
 TEXPRE("%&latex" & char(10) & 
 "\documentclass{minimal}\begin{document}"); 
 TEXPOST("\end{document}"); 
 
-input graph;
-input sarith;
+%verbatimtex
+%&latex
+%\documentclass[8pt]{extarticle}
+%  \begin{document}
+%  etex
+
+%init_numbers(btex $-$ etex,btex $1$ etex, btex ${\times}10$ etex, btex ${}^-$ etex, btex ${}^2$ etex);
+  
 picture ORIGINAL_PICTURE;
 ORIGINAL_PICTURE := currentpicture;
 
