@@ -28,7 +28,7 @@ Robby McKilliam, Andre Pollok and Bill Cowley are with the Institute for Telecom
 \maketitle
 
 \begin{abstract}
-We consider least squares estimators of carrier phase and amplitude from a noisy communications signal that contains both pilot signals, known to the receiver, and data signals, unknown to the receiver.  We focus on signaling constellations that have symbols evenly distributed on the complex unit circle, i.e., $M$-ary phase shift keying.  We show, under reasonably mild conditions on the distribution of the noise, that the least squares estimator of carrier phase is strongly consistent and asymptotically normally distributed.  However, the amplitude estimator is not consistent, it converges to a positive real number that is a function of the true carrier amplitude, the noise distribution, and the size of the constellation.  Our theoretical results can also be applied to the case where no pilot symbols exist, i.e., noncoherent detection.  The results of Monte Carlo simulations are provided and these agree with the theoretical results.   
+We consider least squares estimators of carrier phase and amplitude from a noisy communications signal that contains both pilot signals, known to the receiver, and data signals, unknown to the receiver.  We focus on signaling constellations that have symbols evenly distributed on the complex unit circle, i.e., $M$-ary phase shift keying.  We describe an algorithm to compute the least suqares estimator that requires only $O(L \log L)$ arithmetic operations, where $L$ is the number of recieved symbols.   
 \end{abstract}
 \begin{IEEEkeywords}
 Coherent detection, noncoherent detection, phase shift keying, asymptotic statistics
@@ -240,12 +240,94 @@ $Q = \frac{1}{L}\abs{Y}^2$\;
 \end{algorithm}
 
 
+\section{Simulations}\label{sec:simulations}
+
+We present the results of Monte-Carlo simulations with the least squares estimator.  In all simulations the noise $w_1,\dots,w_L$ is independent and identically distributed circularly symmetric and Gaussian with real and imaginary parts having variance $\sigma^2$.  Under these conditions the least squares estimator is also the maximum likelihood estimator.  Simulations are run with $M=2,4,8$ (BPSK and QPSK and $8$-PSK) and with signal to noise ratio $\text{SNR} = \tfrac{\rho_0^2}{2\sigma^2}$ between \unit[-20]{dB} and \unit[20]{dB}.  The amplitude $\rho_0=1$ and $\theta_0$ is uniformly distributed on $[-\pi, \pi)$.  For each value of SNR, $T = 5000$ replications are performed to obtain $T$ estimates $\hat{\rho}_1, \dots, \hat{\rho}_T$ and $\hat{\theta}_1, \dots, \hat{\theta}_T$.  
+
+Figures~\ref{fig:plotphaseBPSK},~\ref{fig:plotphaseQPSK}~and~\ref{fig:plotphase8PSK} show the mean square error (MSE) of the phase estimator when $M=2,4,8$ with $L=4096$ and for varying proportions of pilots symbols $\abs{P} = 0, \tfrac{L}{2}, \tfrac{L}{8}, \tfrac{L}{32}, L$.  When $\abs{P} \neq 0$ (i.e. coherent detection) the mean square error is computed as $\tfrac{1}{T}\sum_{i=1}^T\sfracpart{\hat{\theta}_i - \theta_0}_\pi^2$.  Otherwise, when $\abs{P}=0$ the mean square error is computed as $\tfrac{1}{T}\sum_{i=1}^T\sfracpart{\hat{\theta}_i - \theta_0}^2$ as in~\cite{McKilliam_leastsqPSKnoncoICASSP_2012}.  The dots, squares, circles and crosses are the results of Monte-Carlo simulations with the least square estimator.  The solid lines are the MSEs predicted a theoretical result not described here.  %The theory accurately predicts the behaviour of the phase estimator when $L$ is sufficiently large and when the SNR is not too small.  As the SNR decreases the variance of the phase estimator approaches that of the uniform distribution on $[-\pi, \pi)$ when $\abs{P} \neq 0$ and the uniform distribution on $[-\tfrac{\pi}{M}, \tfrac{\pi}{M})$ when $\abs{P}=0$~\cite{McKilliam_leastsqPSKnoncoICASSP_2012}. 
+
+% Figures~\ref{fig:plotampBPSK},~\ref{fig:plotampQPSK}~and~\ref{fig:plotamp8PSK} show the variance of the amplitude estimator when $M=2,4,8$ and with $L=32, 256, 2048$ and when the number of pilots symbols is $\abs{P} = 0, \tfrac{L}{2}, L$.  The solid lines are the variance predicted by Theorem~\ref{thm:normality}.  The dots and crosses show the results of Monte-Carlo simulations.  Each point is computed as $\tfrac{1}{T}\sum_{i=1}^T\big(\hat{\rho}_i - \rho_0G(0)\big)^2$.  This requires $G(0)$ to be known.  In practice $G(0)$ may not be known at the receiver, so Figures~\ref{fig:plotampBPSK},~\ref{fig:plotampQPSK}~and~\ref{fig:plotamp8PSK} serve to validate the correctness of our asymptotic theory, rather than to suggest the practical performance of the amplitude estimator.  When SNR is large $G(0)$ is close to $1$ and the bias of the amplitude estimator is small.  However, $G(0)$ grows without bound as the variance of the noise increases, so the bias is significant when SNR is small.
+
+Figure~\ref{fig:plotphaseQPSKmultL} shows the MSE of the phase estimator when $M=4$ and $L=32,256, 2048$ and the number of pilots is $\abs{P}=\tfrac{L}{8},L$.  The figure depicts an interesting phenomenon.  When $L=2048$ and $\abs{P} = \tfrac{L}{8} = 256$ the number of pilots symbols is the same as when $L=\abs{P} = 256$.  When the SNR is small (approximately less than \unit[0]{dB}) the least squares estimator using the $256$ pilots symbols and also the $2048-256=1792$ data symbols performs \emph{worse} than the estimator that uses only the $256$ pilots symbols.  A similar phenomenon occurs when $L=256$ and $\abs{P} = \tfrac{L}{8} = 32$.  %When the SNR is small it is better to ignore the data symbols and use only the pilot symbols.  
+This behaviour suggests modifying the objective function to give the pilots symbols more importance when the SNR is low.  For example, rather the minimise~\eqref{eq:SSdefn} we could instead minimise a weighted version of it,
+\[
+SS_{\beta}(a, \{d_i, i \in D\}) = \sum_{i \in P} \abs{ y_i - a s_i }^2 + \beta \sum_{i \in D} \abs{ y_i - a d_i }^2,
+\]
+where the weight $\beta$ would be small when SNR is small and near $1$ when SNR is large.  %For fixed $\beta$ the asymptotic properties of this weighted estimator could be derived using the techniques we have developed in Sections~\ref{sec:stat-prop-least},~\ref{sec:proof-almost-sure} and~\ref{sec:proof-asympt-norm} and also in~\cite{McKilliam_leastsqPSKpilotsdata_2012appendix}.  This would enable a rigorous theory for selection of $\beta$ at the receiver.  One caveat is that the receiver would require knowledge about the noise distribution in order to advantageously choose $\beta$.  We do not investigate this further here.
+
+\begin{figure}[p]
+	\centering
+		\includegraphics[width=\linewidth]{code/data/plotM2-2.mps}
+		\caption{Phase error versus SNR for BPSK with $L=4096$.}
+		\label{fig:plotphaseBPSK}
+\end{figure}
+
+\begin{figure}[p]
+	\centering
+		\includegraphics[width=\linewidth]{code/data/plotM4-2.mps}
+		\caption{Phase error versus SNR for QPSK with $L=4096$.}
+		\label{fig:plotphaseQPSK}
+\end{figure}
+
+\begin{figure}[p]
+	\centering
+		\includegraphics[width=\linewidth]{code/data/plotM8-2.mps}
+		\caption{Phase error versus SNR for $8$-PSK with $L=4096$.}
+		\label{fig:plotphase8PSK}
+\end{figure}
+
+
+
+% \begin{figure}[p]
+% 	\centering
+% 		\includegraphics[width=\linewidth]{code/data/plotM2-1.mps}
+% 		\caption{Unbiased amplitude error versus SNR for BPSK.}
+% 		\label{fig:plotampBPSK}
+% \end{figure}
+
+% \begin{figure}[p]
+% 	\centering
+% 		\includegraphics[width=\linewidth]{code/data/plotM4-1.mps}
+% 		\caption{Unbiased amplitude error versus SNR for QPSK.}
+% 		\label{fig:plotampQPSK}
+% \end{figure}
+
+% \begin{figure}[p]
+% 	\centering
+% 		\includegraphics[width=\linewidth]{code/data/plotM8-1.mps}
+% 		\caption{Unbiased amplitude error versus SNR for $8$-PSK.}
+% 		\label{fig:plotamp8PSK}
+% \end{figure}
+
+%\begin{figure}[tp]
+%	\centering
+%		\includegraphics[width=\linewidth]{code/data/plotM2-3.mps}
+%		\caption{Phase error versus SNR for BPSK.}
+%		\label{fig:plotphase}
+%\end{figure}
+
+\begin{figure}[tp]
+	\centering
+		\includegraphics[width=\linewidth]{code/data/plotM4-3.mps}
+		\caption{Phase error versus SNR for QPSK.}
+		\label{fig:plotphaseQPSKmultL}
+\end{figure}
+
+
+\section{Conclusion}
+
+We considered least squares estimators of carrier phase and amplitude from noisy communications signals that contain both pilot signals, known to the receiver, and data signals, unknown to the receiver.  We focused on $M$-ary phase shift keying constellations.  The least squares estimator can be computed in $O(L\log L)$ operations using a modification of an algorithm due to Mackenthun~\cite{Mackenthun1994}, and is the maximum likelihood estimator in the case that the noise is additive white and Gaussian.  
+
+%We showed, under some conditions on the distribution of the noise, that the phase estimator $\hat{\theta}$ is strongly consistent and asymptotically normally distributed.  However, the amplitude estimator $\hat{\rho}_0$ is biased, and converges to $G(0)\rho_0$.  This bias is large when the signal to noise ratio is small.  It would be interesting to investigate methods for correcting this bias.  A method for estimating $G(0)$ at the receiver appears to be required.
+
+Monte Carlo simulations were used to assess the performance of the least squares estimator.  Interestingly, when the SNR is small, it is counter productive to use the data symbols to estimate the phase (Figure~\ref{fig:plotphaseQPSKmultL}).  This suggests the use of a weighed objective function, which would be an interesting topic for future research.
+
+
+
 \small
 \bibliography{bib}
 
 
-%\section{Tricks with fractional parts}
-%Throughout the paper, and particularly in  have made use of a number of results involving the fractional part function
 
  
 \end{document}
