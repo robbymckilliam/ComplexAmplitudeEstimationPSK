@@ -48,9 +48,9 @@ p_i & i \in P \\
 d_i & i \in D,
 \end{cases}
 \]
-where $P$ is the set of indices describing the position of the pilot symbols $p_i$, and $D$ is a set of indices describing the position of the data symbols $d_i$.  The sets $P$ and $D$ are disjoint, i.e. $P \cap D = \emptyset$, and $L = \abs{P \cup D}$ is the total number of symbols transmitted.
+where $P$ is the set of indices describing the position of the pilot symbols $p_i$, and $D$ is a set of indices describing the position of the data symbols $d_i$.  The sets $P$ and $D$ are disjoint, i.e., $P \cap D = \emptyset$, and we let $L = \abs{P \cup D}$ be the total number of symbols transmitted.
 
-We assume that time offset estimation has been performed and that $L$ noisy $M$-PSK symbols are observed by the receiver.  The received signal is then,
+We assume that time offset estimation has been performed and that $L$ noisy $M$-PSK symbols are observed by the receiver.  The received signal is,
 \begin{equation}\label{eq:sigmod}
 y_i = a_0 s_i + w_i, \qquad i \in P \cup D,
 \end{equation}
@@ -73,7 +73,7 @@ An important paper is by Mackenthun~\cite{Mackenthun1994} who described an algor
 
 In the literature it has been common to assume that the data symbols $\{d_i, i \in D\}$ are of primary interest and that the complex amplitude $a_0$ is a nuisance parameter.  The metric of performance is correspondingly \emph{symbol error rate}, or \emph{bit error rate}.  Whilst estimating the symbols (or more precisely the transmitted bits) is ultimately the goal, we take the opposite approach here.  Our aim is to estimate $a_0$, and we treat the unknown data symbols as nuisance parameters.  This is motivated by the fact that in many modern communication systems the data symbols are \emph{coded}.  For this reason raw symbol error rate is not of interest at this stage.  Instead, we desire an accurate estimator $\hat{a}$ of $a_0$, so that the compensated recieved symbols $\hat{a}^{-1}y_i$ can be accurately modelled using an additive noise channel.  The additive noise channel is a common assumption for subsequent reciever operations, such as decoding.  The estimator $\hat{a}$ is also used in the computation of decoder metrics for modern decoders, and for interference cancellation in multiuser systems.  Consequently, our metric of performance will not be symbol or bit error rate, it will be $\abs{a_0 - \hat{a}}^2$. It will actually be informative to consider the carrier phase and amplitude estimators separately, that is, if $\hat{a} = \hat{\rho}e^{j\hat{\theta}}$ where $\hat{\rho}$ is a positive real number, then we consider $\langle\theta_0 - \hat{\theta}\rangle_\pi^2$ and $(\rho_0 - \hat{\rho})^2$.  The function $\fracpart{\cdot}_\pi$ denotes its argument taken `modulo $2\pi$' into the interval $[-\pi, \pi)$.  It will become apparent why $\langle\theta_0 - \hat{\theta}\rangle_\pi^2$ rather than $(\theta_0 - \hat{\theta})^2$ is the appropriate measure of error for the phase parameter.
 
-The paper is organised in the following way.  Section~\ref{sec:least-squar-estim} extends Mackenthun's algorithm for the coherent case, when both pilot symbols and data symbols exist.  Section~\ref{sec:circ-symm-compl} describes properties of complex random variables that we need.  Section~\ref{sec:stat-prop-least} states two theorems that describe the statistical properties of the least squares estimator of carrier phase $\hat{\theta}$ and amplitude $\hat{\rho}$.  We show, under some assumptions about the distribution of the noise $w_1,\dots,w_L$, that $\langle\theta_0 - \hat{\theta}\rangle^2$ converges almost surely to zero and that $\sqrt{L}\langle\theta_0 - \hat{\theta}\rangle^2$ is asymptotically normally distributed as $L\rightarrow \infty$.  However, $\hat{\rho}$ is not a consistent estimator of the amplitude $\rho_0$.  The bias of $\hat{\rho}$ is small when the signal to noise ratio (SNR) is large, but the bias is significant when the SNR is small.  Sections~\ref{sec:proof-almost-sure} and~\ref{sec:proof-asympt-norm} provide proofs of the theorems stated in Section~\ref{sec:stat-prop-least}.  Due to space constraints, the lemmas needed by these proofs have been placed in the supplementary paper~\cite{McKilliam_leastsqPSKpilotsdata_2012appendix}.  In Section~\ref{sec:gaussian-noise-case} we consider the special case when the noise is Gaussian.  In this case, our expressions for the asymptotic distribution can be simplified.  Section~\ref{sec:simulations} presents the results of Monte-Carlo simulations.  These simulations agree with the derived asymptotic properties. 
+The paper is organised in the following way.  Section~\ref{sec:least-squar-estim} extends Mackenthun's algorithm for the coherent case, when both pilot symbols and data symbols exist.  Section~\ref{sec:circ-symm-compl} describes properties of complex random variables that we need.  Section~\ref{sec:stat-prop-least} states two theorems that describe the statistical properties of the least squares estimator of carrier phase $\hat{\theta}$ and amplitude $\hat{\rho}$.  We show, under some assumptions about the distribution of the noise $w_1,\dots,w_L$, that $\langle\theta_0 - \hat{\theta}\rangle^2$ converges almost surely to zero and that $\sqrt{L}\langle\theta_0 - \hat{\theta}\rangle^2$ is asymptotically normally distributed as $L\rightarrow \infty$.  However, $\hat{\rho}$ is not a consistent estimator of the amplitude $\rho_0$.  The bias of $\hat{\rho}$ is small when the signal to noise ratio (SNR) is large, but the bias is significant when the SNR is small.  Sections~\ref{sec:proof-almost-sure} and~\ref{sec:proof-asympt-norm} provide proofs of the theorems stated in Section~\ref{sec:stat-prop-least}.  In Section~\ref{sec:gaussian-noise-case} we consider the special case when the noise is Gaussian.  In this case, our expressions for the asymptotic distribution can be simplified.  Section~\ref{sec:simulations} presents the results of Monte-Carlo simulations.  These simulations agree with the derived asymptotic properties. 
 
 %It is worth commenting on our use of $\prob$ rather than the more usual $\expect$ or $E$ for the expected value operator.  The notation comes from Pollard~\cite[Ch 1]{Pollard_users_guide_prob_2002}.  The notation is good because it removes unecessary distinction between `probability' and expectation.  Given a random variable $X$ with cumulative density function $F$, the probability of an event, say $X \in S$, where $S$ is some subset of the range of $X$, is 
 %\[
@@ -399,7 +399,7 @@ are even functions on $(-\pi,\pi)$ and are continuous at $\phi = \tfrac{2\pi}{M}
 BLERG
 \end{IEEEproof}
 
-A key assumption in Theorem~\ref{thm:consistency} is that $\abs{G(x)}$ is uniquely maximised at $x = 0$ for $x \in [-\pi, \pi)$.  This assumption asserts that $\abs{G(x)} \leq \abs{G(0)}$ for all $x \in [-\pi, \pi)$ and that if $\{x_i\}$ is a sequence of numbers from $[-\pi,\pi)$ such that $\abs{G(x_i)} \rightarrow \sabs{G(0)}$ as $i \rightarrow \infty$ then $x_i \rightarrow 0$ as $i \rightarrow \infty$.  Although we will not prove it here, this assumption is not only sufficient, but also necessary, for if $\abs{G(x)}$ is uniquely maximised at some point $x \neq 0$ then $\sfracpart{\theta_0 - \hat{\theta}}_\pi \rightarrow x$ almost surely as $L\rightarrow\infty$, while if $\abs{G(x)}$ is not uniquely maximised then $\sfracpart{\theta_0 - \hat{\theta}}_\pi$ will not converge.  The next Lemma describes a class of circularly symmetric distributions for which $\abs{G(x)}$ is uniquely maximised at $x = 0$.  The zero mean complex Gaussian distribution with independent real and imaginary parts is apart of this class.
+A key assumption in Theorem~\ref{thm:consistency} is that $\abs{G(x)}$ is uniquely maximised at $x = 0$ for $x \in [-\pi, \pi)$.  This assumption asserts that $\abs{G(x)} \leq \abs{G(0)}$ for all $x \in [-\pi, \pi)$ and that if $\{x_i\}$ is a sequence of numbers from $[-\pi,\pi)$ such that $\abs{G(x_i)} \rightarrow \sabs{G(0)}$ as $i \rightarrow \infty$ then $x_i \rightarrow 0$ as $i \rightarrow \infty$.  Although we will not prove it here, this assumption is not only sufficient, but also necessary, for if $\abs{G(x)}$ is uniquely maximised at some point $x \neq 0$ then $\sfracpart{\theta_0 - \hat{\theta}}_\pi \rightarrow x$ almost surely as $L\rightarrow\infty$, while if $\abs{G(x)}$ is not uniquely maximised then $\sfracpart{\theta_0 - \hat{\theta}}_\pi$ will not converge.  The next proposition describes a class of circularly symmetric distributions for which $\abs{G(x)}$ is uniquely maximised at $x = 0$.  The zero mean complex Gaussian distribution with independent real and imaginary parts is in this class.
 
 \begin{proposition}\label{prop:contgg2}
 Let $W = X + jY$ be a circularly symmetric complex random variable, the real and imaginary parts having pdf $f_{X,Y}(x,y)$ that is nonincreasing with $x^2 + y^2$.  Let $R > 0$ and $\Phi \in [0, 2\pi)$ be random variables satisfying $R e^{j\Phi} = 1 + W$.  Let,
@@ -416,7 +416,7 @@ Theorem~\ref{thm:consistency} defines real numbers $p$ and $d$ to represent the 
 \[
 \frac{\abs{P}}{L} = p + o(L^{-1/2}) \qquad \text{and} \qquad \frac{\abs{D}}{L} = d + o(L^{-1/2})
 \] 
-where $o(L^{-1/2})$ denotes a number such that $\sqrt{L} o(L^{-1/2})$ goes to zero as $L\rightarrow \infty$.  This stronger condition is required to prove the asymptotic normality of $\sqrt{L}\hat{m}_L$.
+where $o(L^{-1/2})$ denotes a number such that $\sqrt{L} o(L^{-1/2})$ goes to zero as $L\rightarrow \infty$.  This stronger condition is required to prove the asymptotic normality of $\sqrt{L}\hat{m}_L$.  The next two sections give proofs for Theorems~\ref{thm:consistency}~and~\ref{thm:normality}.  The proofs make use of various lemmas.  The lemmas are proved in the appendix.
 
 % \begin{IEEEproof}
 % We only give a proof for $g_2$, the proof for $g$ begin similar.  From~\eqref{eq:pdfRPhi},
@@ -517,11 +517,11 @@ It remains to prove part 2 of the theorem regarding the convergence of the ampli
 \begin{equation}\label{eq:rhoGLZ}
 \hat{\rho} = \frac{1}{L}\Re(Z(\hat{\theta})) = \rho_0 G_L(\hat{\lambda}_L).
 \end{equation}  
-Lemma~\ref{lem:GLtoG0} shows that $G_L(\hat{\lambda}_L)$ converges almost surely to $G(0)$ as $L\rightarrow\infty$, and $\hat{\rho}$ consequently converges almost surely to $\rho_0 G(0)$ as required.  It remains to prove Lemmas~\ref{lem:convtoexpGlamL} and~\ref{lem:GLtoG0}.  These are proved in Section~\ref{sec:proof-almost-sureappendix} of \cite{McKilliam_leastsqPSKpilotsdata_2012appendix}.
+Lemma~\ref{lem:GLtoG0} in the appendix shows that $G_L(\hat{\lambda}_L)$ converges almost surely to $G(0)$ as $L\rightarrow\infty$, and $\hat{\rho}$ consequently converges almost surely to $\rho_0 G(0)$ as required.  It remains to prove Lemmas~\ref{lem:convtoexpGlamL} and~\ref{lem:GLtoG0}.  These are proved in Section~\ref{sec:proof-almost-sureappendix} of the appendix.
 
 \section{Proof of asymptotic normality (Theorem~\ref{thm:normality}) } \label{sec:proof-asympt-norm}
 
-We first prove the asymptotic normality of $\sqrt{L} \hat{\lambda}_L$.  Once this is done we will be able to prove the normality of $\sqrt{L} m_L$.  Recall that $\hat{\lambda}_L$ is the maximiser of the function $G_L$ defined in~\eqref{eq:GLdefn}.  The proof is complicated by the fact that $G_L$ is not differentiable everywhere due to the function $\fracpart{\cdot}$ not being differentiable at multiples of $\tfrac{\pi}{M}$.  This prevents the use of ``standard approaches'' to proving normality that are based on the mean value theorem~\cite{vonMises_diff_stats_1947,vanDerVart1971_asymptotic_stats,Pollard_new_ways_clts_1986,Pollard_conv_stat_proc_1984,Pollard_asymp_empi_proc_1989}.  However, we show in Lemma~\ref{lem:diffatlambdaL} that the derivative $G_L^\prime$ does exist, and is equal to zero, at $\hat{\lambda}_L$. Define the function
+We first prove the asymptotic normality of $\sqrt{L} \hat{\lambda}_L$.  Once this is done we will be able to prove the normality of $\sqrt{L} m_L$.  Recall that $\hat{\lambda}_L$ is the maximiser of the function $G_L$ defined in~\eqref{eq:GLdefn}.  The proof is complicated by the fact that $G_L$ is not differentiable everywhere due to the function $\fracpart{\cdot}$ not being differentiable at multiples of $\tfrac{\pi}{M}$.  This prevents the use of ``standard approaches'' to proving normality that are based on the mean value theorem~\cite{vonMises_diff_stats_1947,vanDerVart1971_asymptotic_stats,Pollard_new_ways_clts_1986,Pollard_conv_stat_proc_1984,Pollard_asymp_empi_proc_1989}.  However, Lemma~\ref{lem:diffatlambdaL} shows that the derivative $G_L^\prime$ does exist, and is equal to zero, at $\hat{\lambda}_L$. Define the function
 \begin{equation}\label{eq:RLdef}
 R_L(\lambda) = \frac{1}{L} \sum_{i \in P} R_i \sin(\lambda + \Phi_i) + \frac{1}{L} \sum_{i \in D} R_i \sin\sfracpart{\lambda + \Phi_i}.
 \end{equation}
@@ -569,7 +569,7 @@ It follows that $\sqrt{L} m_L =  \rho_0 X_L + o_P(1)$.  Lemma~\ref{lem:XL} shows
 \[
 \covar(\sqrt{L}\hat{m}_L, \sqrt{L}\hat{\lambda}_L) = \covar(\rho_0 X_L + o_P(1), \sqrt{L}\hat{\lambda}_L) \rightarrow 0
 \]
-as $L \rightarrow \infty$.  It remains to prove the lemmas that we have used.  These lemmas are proved in Section~\ref{sec:proof-asympt-normappendix} of~\cite{McKilliam_leastsqPSKpilotsdata_2012appendix}.
+as $L \rightarrow \infty$.  It remains to prove the lemmas that we have used.  These lemmas are proved in Section~\ref{sec:proof-asympt-normappendix} of the appendix.
 
 
 
@@ -609,7 +609,7 @@ This behaviour suggests modifying the objective function to give the pilots symb
 \[
 SS_{\beta}(a, \{d_i, i \in D\}) = \sum_{i \in P} \abs{ y_i - a s_i }^2 + \beta \sum_{i \in D} \abs{ y_i - a d_i }^2,
 \]
-where the weight $\beta$ would be small when SNR is small and near $1$ when SNR is large.  For fixed $\beta$ the asymptotic properties of this weighted estimator could be derived using the techniques we have developed in Sections~\ref{sec:stat-prop-least},~\ref{sec:proof-almost-sure} and~\ref{sec:proof-asympt-norm} and also in~\cite{McKilliam_leastsqPSKpilotsdata_2012appendix}.  This would enable a rigorous theory for selection of $\beta$ at the receiver.  One caveat is that the receiver would require knowledge about the noise distribution in order to advantageously choose $\beta$.  We do not investigate this further here.
+where the weight $\beta$ would be small when SNR is small and near $1$ when SNR is large.  For fixed $\beta$ the asymptotic properties of this weighted estimator could be derived using the techniques we have developed in Sections~\ref{sec:stat-prop-least},~\ref{sec:proof-almost-sure} and~\ref{sec:proof-asympt-norm}.  This would enable a rigorous theory for selection of $\beta$ at the receiver.  One caveat is that the receiver would require knowledge about the noise distribution in order to advantageously choose $\beta$.  We do not investigate this further here.
 
 \begin{figure}[p]
 	\centering
@@ -681,6 +681,1359 @@ Monte Carlo simulations were used to assess the performance of the least squares
 \small
 \bibliography{bib}
 
+
+\appendix
+
+
+\subsection{Lemmas required for the proof of almost sure convergence (Theorem~\ref{thm:consistency}) } \label{sec:proof-almost-sureappendix}
+
+\begin{lemma}\label{lem:convtoexpGlamL} 
+$\sabs{G(\hat{\lambda}_L)} \rightarrow \sabs{G(0)}$ almost surely as $L \rightarrow \infty$.
+\end{lemma}
+\begin{IEEEproof}
+Since $\sabs{G(x)}$ is uniquely maximised at $x=0$,
+\[
+0 \leq \sabs{G(0)} - \sabs{G(\hat{\lambda}_L)},
+\]
+and since $\hat{\lambda}_L$ is the maximiser of $\abs{G_L(x)}$,
+\[ 
+0 \leq \sabs{G_L(\hat{\lambda}_L)} - \sabs{G_L(0)}.
+\]
+Thus,
+\begin{align*}
+0 &\leq \sabs{G(0)} - \sabs{G(\hat{\lambda}_L)} \\ 
+& \leq \sabs{G(0)} - \sabs{G(\hat{\lambda}_L)} + \sabs{G_L(\hat{\lambda}_L)} - \sabs{G_L(0)}\\
+& \leq |G(0) - G_L(0)| + |G_L(\hat{\lambda}_L) - G(\hat{\lambda}_L)| \\
+&\leq 2\sup_{\lambda \in [-\pi, \pi)} \sabs{G_L(\lambda) - G(\lambda)},
+\end{align*}
+and the last line converges almost surely to zero by Lemma~\ref{lem:uniflawGGL}.
+\end{IEEEproof}
+
+% \begin{lemma}\label{lem:Zconunif}
+% \[
+% \prob\left\{\sup_{\lambda \in [-\pi, \pi)}\abs{G_L(\lambda) - G(\lambda)} > \epsilon \right\} = O(e^{-\epsilon^2 L}).
+% \]
+% \end{lemma}
+% \begin{IEEEproof}
+% \end{IEEEproof}
+
+\begin{lemma}\label{lem:GLtoG0}
+$G_L(\hat{\lambda}_L) \rightarrow G(0)$ almost surely as $L \rightarrow \infty$.
+\end{lemma}
+\begin{IEEEproof}
+By the triangle inequality,
+\[
+\sabs{G_L(\hat{\lambda}_L) - G(0)} \leq \sabs{G_L(\hat{\lambda}_L) - G(\hat{\lambda}_L)} + \sabs{G(\hat{\lambda}_L) - G(0)}.
+\]
+Now $\sabs{G_L(\hat{\lambda}_L) - G(\hat{\lambda}_L)} \rightarrow 0$ as $L \rightarrow \infty$ as a result of Lemma~\ref{lem:uniflawGGL}, and $\sabs{G(\hat{\lambda}_L) - G(0)} \rightarrow 0$ almost surely as $L \rightarrow \infty$ because $G$ is continuous and $\hat{\lambda}_L \rightarrow 0$ almost surely as $L \rightarrow \infty$.
+\end{IEEEproof}
+ 
+
+\begin{lemma}\label{lem:uniflawGGL}
+The function $G_L$ converges almost surely and uniformly on $[-\pi, \pi)$ to the function $G$, that is,
+\[
+\sup_{\lambda \in [-\pi, \pi)}\sabs{G_L(\lambda) - G(\lambda)} \rightarrow 0
+\] 
+almost surely as $L \rightarrow \infty$.
+\end{lemma}
+\begin{IEEEproof}
+Put $T_L(\lambda) = \expect G_L(\lambda)$ and write
+\begin{align*}
+&\sup_{\lambda \in [-\pi, \pi)}\sabs{G_L(\lambda) - G(\lambda)} \\
+&\leq \sup_{\lambda \in [-\pi, \pi)}\sabs{G_L(\lambda) - T_L(\lambda) + T_L(\lambda) - G(\lambda)} \\
+&\leq \sup_{\lambda \in [-\pi, \pi)}\sabs{G_L(\lambda) - T_L(\lambda)} +  \sup_{\lambda \in [-\pi, \pi)}\sabs{T_L(\lambda) - G(\lambda)}.
+\end{align*}
+Now,
+\begin{align*}
+T_L(\lambda) - G(\lambda) &= \big(\tfrac{\abs{P}}{L} - p\big)h_1(\lambda) + \big(\tfrac{\abs{D}}{L} - d\big)h_2(\lambda) \\
+&= o(1) h_1(\lambda) + o(1) h_2(\lambda)
+\end{align*}
+where $o(1)$ denotes a number converging to zero as $L \rightarrow \infty$.  Since 
+\[
+h_1(\lambda) = \expect R_1\cos(\lambda + \Phi_1) \leq \expect R_1,
+\]
+and 
+\[
+h_2(\lambda) = \expect R_1\cos\fracpart{\lambda + \Phi_1} \leq \expect R_1
+\] 
+for all $\lambda \in [-\pi, \pi)$, it follows that 
+\[
+\sup_{\lambda \in [-\pi, \pi)}\sabs{T_L(\lambda) - G(\lambda)} \leq o(1) \expect R_1 \rightarrow 0
+\]  
+as $L\rightarrow \infty$.  Lemma~\ref{lem:uniflawTGL} shows that 
+\[
+\sup_{\lambda \in [-\pi, \pi)}\sabs{G_L(\lambda) - T_L(\lambda)} \rightarrow 0
+\]
+almost surely as $L\rightarrow \infty$.
+\end{IEEEproof}
+
+
+\begin{lemma}\label{lem:uniflawTGL} 
+Put $T_L(\lambda) = \expect G_L(\lambda)$, then
+\[
+\sup_{\lambda \in [-\pi, \pi)}\sabs{G_L(\lambda) - T_L(\lambda)} \rightarrow 0
+\] 
+almost surely as $L \rightarrow \infty$.
+\end{lemma}
+\begin{IEEEproof}
+Put $D_L(\lambda) = G_L(\lambda) - T_L(\lambda)$ and let
+\[
+\lambda_n = \tfrac{2\pi}{N}(n-1) - \pi, \qquad n = 1, \dots, N
+\]
+be $N$ points uniformly spaced on the interval $[-\pi, \pi)$.  Let $L_n$ be the interval $[\lambda_n, \lambda_n + \tfrac{2\pi}{N})$ and observe that $L_1, \dots, L_N$ partition $[-\pi, \pi)$.  Now
+\begin{align*}
+\sup_{\lambda \in [-\pi, \pi)}&\sabs{D_L(\lambda)} \\
+&= \sup_{n = 1,\dots,N}\sup_{\lambda \in L_n}\sabs{D_L(\lambda) - D_L(\lambda_n) + D_L(\lambda_n)} \\
+&\leq U_L + V_L,
+\end{align*}
+where 
+\[
+U_L = \sup_{n = 1,\dots,N}\sabs{D_L(\lambda_n)},
+\]
+\[
+V_L = \sup_{n = 1,\dots,N}\sup_{\lambda \in L_n}\sabs{D_L(\lambda) - D_L(\lambda_n)}.
+\]
+Lemma~\ref{lem:supDLlambdan} shows that for any finite $N$, and any $\epsilon > 0$, 
+\[
+\prob\left\{ \lim_{L\rightarrow\infty} U_L > \epsilon \right\} = 0,
+\]
+i.e., $U_L \rightarrow 0$ almost surely as $L\rightarrow\infty$.  Lemma~\ref{lem:supsupDLlambda} shows that for any $\epsilon > 0$,
+\[
+\prob\left\{ \lim_{L \rightarrow \infty} V_L > \epsilon + \tfrac{4\pi }{N}\expect R_i \right\} = 0.
+\] 
+Choose $N$ large enough that $4\pi\expect R_i < \epsilon N$ and
+\begin{align*}
+\prob& \left\{ \lim_{L\rightarrow\infty} \sup_{\lambda \in [-\pi, \pi)}\sabs{D_L(\lambda)} > 3\epsilon \right\} \\
+&\leq \prob\left\{\lim_{L\rightarrow\infty}(U_L + V_L) > 3\epsilon \right\} \\
+&\leq \prob\left\{\lim_{L\rightarrow\infty} (U_L + V_L) > \epsilon + \epsilon + \tfrac{4\pi }{N}\expect R_i \right\} \\
+&\leq \prob\left\{\lim_{L\rightarrow\infty} U_L > \epsilon\right\} +  \prob\left\{ \lim_{L\rightarrow\infty} V_L > \epsilon + \tfrac{4\pi }{N}\expect R_i \right\} \\
+&= 0.
+\end{align*}
+Thus, $\sup_{\lambda \in [-\pi, \pi)}\sabs{D_L(\lambda)} \rightarrow 0$ almost surely as $L\rightarrow\infty$.
+\end{IEEEproof}
+
+
+\begin{lemma}\label{lem:supDLlambdan}
+If $N$ is finite then $U_L \rightarrow 0$ almost surely as $L \rightarrow \infty$.
+\end{lemma}
+\begin{IEEEproof}
+Put
+\[
+Z_i(\lambda) = \begin{cases}
+R_i\cos(\lambda + \Phi_i) , & i \in P \\
+R_i\cos\sfracpart{\lambda + \Phi_i} , & i \in D
+\end{cases}
+\]
+so that
+\[
+D_L(\lambda) = G_L(\lambda) - T_L(\lambda) = \frac{1}{L}\sum_{i\in P \cup D} \big( Z_i(\lambda) - \expect Z_i(\lambda) \big).
+\]
+Now $Z_1(\lambda_n), \dots,Z_L(\lambda_n)$ are independent with finite variance (because $\expect R_i^2$ is finite), so for each $n =1, \dots, N$,
+\[
+\abs{D_L(\lambda_n)} = \abs{\frac{1}{L}\sum_{i\in P \cup D} \big( Z_i(\lambda_n) - \expect Z_i(\lambda)\big)} \rightarrow 0
+\]
+almost surely as $L\rightarrow\infty$ by the Kolmogorov's strong law of large numbers~\cite[Theorem 2.3.10]{SenSinger_large_sample_stats_1993}.  Now, since $N$ is finite,
+\[
+U_L = \sup_{n=1,\dots,N}\sabs{D_L(\lambda_n)} \leq \sum_{n=1}^N \sabs{D_L(\lambda_n)} \rightarrow 0
+\]
+almost surely to zero as $L \rightarrow \infty$.
+\end{IEEEproof}
+
+\begin{lemma}\label{lem:supsupDLlambda} For any $\epsilon > 0$,
+\[
+\prob\left\{ \lim_{L \rightarrow \infty} V_L > \epsilon + \tfrac{4\pi}{N}\expect R_i \right\} = 0.
+\]
+\end{lemma}
+\begin{IEEEproof}
+Observe that
+\begin{align*}
+&\sabs{D_L(\lambda) - D_L(\lambda_n)} \\
+&=  \abs{G_L(\lambda) - T_L(\lambda) - G_L(\lambda_n) + T_L(\lambda_n)} \\
+&\leq  \abs{G_L(\lambda) - G_L(\lambda_n)} + \abs{\expect G_L(\lambda) - \expect G_L(\lambda_n)} \\
+&\leq \abs{G_L(\lambda) - G_L(\lambda_n) } + \expect \abs{G_L(\lambda) - G_L(\lambda_n)},
+\end{align*}
+the last line following from Jensen's inequality.  Put
+\[
+C_L = \sup_{n = 1,\dots,N}\sup_{\lambda \in L_n} \abs{G_L(\lambda) - G_L(\lambda_n) },
+\]
+so that
+\begin{align*}
+V_L &= \sup_{n = 1,\dots,N}\sup_{\lambda \in L_n}\sabs{D_L(\lambda) - D_L(\lambda_n)} \\
+&\leq  C_L +  \sup_{n = 1,\dots,N}\sup_{\lambda \in L_n} \expect\abs{G_L(\lambda) - G_L(\lambda_n) } \\
+&\leq C_L + \expect C_L,
+\end{align*}
+where the last line follows because $\sup \expect\vert \dots\vert \leq \expect \sup \vert \dots \vert$.  Lemma~\ref{lem:CL} shows that $\expect C_L \leq \tfrac{2\pi}{N}\expect R_1$ and also that
+\[
+\prob\left\{ \lim_{L \rightarrow \infty} C_L > \epsilon + \tfrac{2\pi}{N}\expect R_1 \right\} = 0.
+\]
+Thus,
+\begin{align*}
+\prob&\left\{ \lim_{L \rightarrow \infty} V_L > \epsilon + \tfrac{4\pi}{N}\expect R_1 \right\} \\
+&\leq \prob\left\{ \lim_{L \rightarrow \infty} (C_L + \expect C_L) > \epsilon + \tfrac{4\pi}{N}\expect R_1 \right\} \\
+&\leq \prob\left\{ \lim_{L \rightarrow \infty} C_L > \epsilon + \tfrac{2\pi}{N}\expect R_1 \right\} = 0.
+\end{align*}
+\end{IEEEproof}
+
+\begin{lemma}\label{lem:CL} The following statements hold:
+\begin{enumerate}
+\item $\expect C_L \leq \tfrac{2\pi}{N}\expect R_1$,
+\item for any $\epsilon > 0$, $\prob\left\{ \lim_{L \rightarrow \infty} C_L > \epsilon + \tfrac{2\pi}{N}\expect R_1 \right\} = 0$.
+\end{enumerate}
+\end{lemma}
+\begin{IEEEproof}
+If $\lambda \in L_n$, then $\lambda = \lambda_n + \delta$ with $\delta < \tfrac{2\pi}{N}$, and from Lemma~\ref{lem:coslipshitz},
+\begin{align*}
+&\abs{\cos(\lambda + \Phi_i) - \cos(\lambda_n + \Phi_i)} \leq \tfrac{2\pi}{N}, \;\;\; \text{and} \\
+&\abs{\cos\sfracpart{\lambda + \Phi_i} - \cos\sfracpart{\lambda_n + \Phi_i}} \leq \tfrac{2\pi}{N}.
+\end{align*}
+Because this results does not depend on $n$,
+\[
+\sup_{n=1,\dots,N}\sup_{\lambda \in L_n} \abs{Z_i(\lambda) - Z_i(\lambda_n)} \leq R_i \frac{2\pi}{N}
+\]
+for all $i = P \cup D$.  Now,
+\begin{align*}
+C_L &= \sup_{n=1,\dots,N}\sup_{\lambda \in L_n}\abs{\frac{1}{L}\sum_{i \in P \cup D} Z_i(\lambda) - Z_i(\lambda_n)} \\
+&\leq \frac{1}{L}\sum_{i \in P \cup D} \sup_{n=1,\dots,N}\sup_{\lambda \in L_n} \abs{Z_i(\lambda) - Z_i(\lambda_n)} \\
+&\leq \frac{2\pi}{N L}\sum_{i \in P \cup D} R_i .
+\end{align*}
+Thus, 
+\[
+\expect C_L \leq \expect \frac{2\pi}{N L}\sum_{i \in P \cup D} R_i = \frac{2\pi}{N}\expect R_1
+\]
+and the first statement holds.  Now, 
+\[
+\frac{2\pi}{N L}\sum_{i \in P \cup D} R_i \rightarrow \frac{2\pi}{N}\expect R_1
+\] 
+almost surely to $\frac{2\pi}{N}\expect R_1$ as $L \rightarrow\infty$ by the strong law of large numbers, and so, for any $\epsilon > 0$,
+\begin{align*}
+\prob&\left\{ \lim_{L \rightarrow \infty} C_L > \epsilon + \tfrac{2\pi}{N}\expect R_1 \right\} \\
+&\leq \prob\left\{ \lim_{L \rightarrow \infty} \frac{2\pi}{N L}\sum_{i \in P \cup D} R_i > \epsilon + \tfrac{2\pi}{N}\expect R_1 \right\} = 0.
+\end{align*}
+\end{IEEEproof}
+
+
+
+\begin{lemma}\label{lem:coslipshitz}
+Let $x$ and $\delta$ be real numbers.  Then
+\begin{align*}
+&\abs{\cos(x + \delta) - \cos(x)} \leq \abs{\delta}, \;\;\; \text{and} \\
+&\abs{\cos\fracpart{x + \delta} - \cos\fracpart{x}} \leq \abs{\delta}.
+\end{align*}
+\end{lemma}
+\begin{IEEEproof}
+Both $\cos(x)$ and $\cos\fracpart{x}$ are Lipshitz continuous functions from $\reals$ to $\reals$ with constant $K=1$.  That is, for any $x$ and $y$ in $\reals$,
+\begin{align*}
+&\abs{\cos(y) - \cos(x)} \leq K\abs{x-y} = \abs{x-y}, \;\;\; \text{and} \\
+&\abs{\cos\fracpart{y} - \cos\fracpart{x}} \leq K\abs{x-y} = \abs{x-y}.
+\end{align*}
+ The lemma follows by putting $y = x + \delta$.
+\end{IEEEproof}
+
+\subsection{Lemmas required for the proof of asymptotic normality (Theorem~\ref{thm:normality}) } \label{sec:proof-asympt-normappendix}
+
+\begin{lemma}~\label{lem:diffatlambdaL}
+The derivative of $G_L$ exists, and is equal to zero, at $\hat{\lambda}_L$.  That is,
+\[
+G_L^\prime(\hat{\lambda}_L) = \frac{d G_L}{d \lambda}(\hat{\lambda}_L) = 0.
+\]
+\end{lemma}
+\begin{IEEEproof}
+Observe that 
+\[
+G_L(\lambda) = \frac{1}{L}\sum_{i \in P} R_i \cos(\lambda + \Phi_i) + \frac{1}{L} \sum_{i \in D} R_i \cos\sfracpart{\lambda + \Phi_i}
+\] 
+is differentiable everywhere except when $\fracpart{\lambda + \Phi_i} = -\tfrac{\pi}{M}$ for any $i \in D$ with $R_i > 0$.  Let $q_i$ be the smallest number from the interval $[-\tfrac{\pi}{M}, 0]$ such that
+\[
+ \sin(q_i) > -\frac{\rho_o \sabs{\eta}^2 R_i}{4 L \hat{\rho} \sin(\pi/M)}
+\]
+where $\eta = e^{-j2\pi/M} - 1$.  Observe that if $R_i > 0$ then $q_i < 0$.  Lemma~\ref{lem:fracpartlambdahatnotpi} shows that,
+\[
+\sabs{\sfracpart{\hat{\lambda}_L + \Phi_i}} \leq \frac{\pi}{M} + q_i
+\]
+for all $i \in D$.  Thus, $\sfracpart{\hat{\lambda}_L + \Phi_i} \neq -\tfrac{\pi}{M}$ for $i \in D$ when $R_i > 0$ and therefore $G_L$ is differentiable at $\hat{\lambda}_L$.  
+
+It remains to show that $G_L^\prime(\hat{\lambda}_L) = 0$.  If $\sabs{G_L(\hat{\lambda}_L)} > 0$ then $\sabs{G_L(\lambda)}$ is differentiable at $\hat{\lambda}_L$ and, since $\hat{\lambda}_L$ is a maximiser of $\sabs{G_L(\lambda)}$,
+\[
+0 = \frac{d \sabs{G_L(\lambda)}}{d \lambda}(\hat{\lambda}_L) = \begin{cases} 
+G_L^\prime(\hat{\lambda}_L), & G_L(\hat{\lambda}_L) > 0\\
+-G_L^\prime(\hat{\lambda}_L), & G_L(\hat{\lambda}_L) < 0.
+\end{cases}
+\]
+Thus, $G_L^\prime(\hat{\lambda}_L) = 0$ if $\sabs{G_L(\hat{\lambda}_L)} > 0$.  On the other hand $\sabs{G_L(\hat{\lambda}_L)} = 0$ only if $G_L(\lambda) = 0$ for all $\lambda \in \reals$, and in this case $G_L^\prime(\hat{\lambda}_L) = 0$ also. 
+\end{IEEEproof}
+
+\begin{lemma}\label{lem:fracpartlambdahatnotpi} Let $q_i, i \in D$ be defined as in Lemma~\ref{lem:diffatlambdaL}.  Then $\sabs{\sfracpart{\hat{\lambda}_L + \Phi_i}} \leq \frac{\pi}{M} + q_i$ for all $i \in D$.
+\end{lemma}
+\begin{IEEEproof}
+Recall that $\{\hat{d}_i = \hat{d}_i(\hat{\theta}), i \in D\}$ defined in \eqref{eq:hatdfinxtheta} are the minimisers of the function 
+\[
+SS(\{d_i, i \in D\}) = A - \frac{1}{L}\sabs{Y(\{d_i, i \in D\})}^2,
+\]
+defined in~\eqref{eq:SSdatasymbols}. The proof now proceeds by contradiction.  Assume that 
+\begin{equation}\label{eq:fraclambassumption}
+\sfracpart{\hat{\lambda}_L + \Phi_k} > \frac{\pi}{M} + q_k
+\end{equation}
+for some $k \in D$.  Recalling the notation $e_k$ defined in Section~\ref{sec:least-squar-estim}, put $r_i = \hat{d}_i e_k$.  We will show that 
+\[
+SS(\{r_i, i \in D\}) < SS(\{\hat{d}_i, i \in D\}),
+\]
+violating the fact that $\{\hat{d}_i, i \in D\}$ are minimisers of $SS$.  First observe that,
+\begin{align*}
+Y(\{ r_i, i \in D\}) = \sum_{i \in P} y_ip_i^* + \sum_{i \in D} y_i\hat{r}_i^* = \hat{Y} + \eta y_k\hat{d}_k^*,
+\end{align*}
+where $\eta = e^{-j2\pi/M} - 1$ and $\hat{Y} = Y(\{ \hat{d}_i, i \in D\})$.  Now,
+\begin{align*}
+SS&(\{r_i, i \in D\}) \\
+&= A - \frac{1}{L} \sabs{ Y(\{ r_i, i \in D\}) }^2 \\
+&= A - \frac{1}{L} \sabs{ \hat{Y} + \eta y_k\hat{d}_k^* }^2 \\
+&= A - \frac{1}{L}\sabs{\hat{Y}}^2 - \frac{2}{L}\Re\left(\eta \hat{Y}^* y_k \hat{d}_k^* \right) -  \frac{1}{L}\sabs{ \eta y_k}^2\\
+&= SS(\{\hat{d}_i, i \in D\}) - D,
+\end{align*}
+where 
+\[
+D = \frac{2}{L}\Re\left(\eta \hat{Y}^* y_k \hat{d}_k^* \right) +  \frac{1}{L}\sabs{ \eta y_k }^2.
+\]
+Now $\frac{1}{L}\hat{Y} = \hat{a} = \hat{\rho} e^{j\hat{\theta}}$ from~\eqref{eq:hata} and using~\eqref{eq:yethetadhat},
+\[
+\frac{1}{L} \hat{Y}^* y_k \hat{d}_k^* = \hat{\rho} \rho_0 R_k e^{j\sfracpart{\hat{\lambda}_L + \Phi_k}},
+\]
+so that
+\begin{equation}\label{eq:Ddefn}
+D = 2 \hat{\rho} \rho_0 R_k \Re\left( \eta e^{j\sfracpart{\hat{\lambda}_L + \Phi_k}}\right) + \frac{1}{L}\sabs{\eta}^2\rho_0^2 R_k^2.
+\end{equation}
+Let $v = \sfracpart{\hat{\lambda}_L + \Phi_k} - \tfrac{\pi}{M}$ so that
+\begin{align*}
+\eta e^{j\sfracpart{\hat{\lambda}_L + \Phi_k}} &= (e^{-j2\pi/M} - 1) e^{j \pi/M} e^{jv} \\
+&= (e^{-j\pi/M} - e^{j\pi/M}) e^{jv} \\
+&= -2 \sin(\tfrac{\pi}{M}) e^{j ( v + \pi/2) },
+\end{align*}
+and
+\begin{align*}
+\Re\left( \eta e^{j\sfracpart{\hat{\lambda}_L + \Phi_k}}\right) &= -2 \sin(\tfrac{\pi}{M}) \cos(v + \tfrac{\pi}{2}) \\
+ &= 2 \sin(\tfrac{\pi}{M}) \sin(v),
+\end{align*}
+Because we assumed~\eqref{eq:fraclambassumption}, it follows that $0 > v > q_k$ and, from the definition of $q_k$,
+\[
+0 > \sin(v) > -\frac{\rho_o \sabs{\eta}^2 R_i}{4 L \hat{\rho} \sin(\pi/M)}.
+\]
+Substituting this into~\eqref{eq:Ddefn} gives $D > 0$, but then $SS(\{r_i, i \in D\}) < SS(\{\hat{d}_i, i \in D\})$, violating the fact that $\{\hat{d}_i, i \in D\}$ are minimisers of $SS$.  Thus,~\eqref{eq:fraclambassumption} is false.
+
+To show that $\sfracpart{\hat{\lambda}_L + \Phi_k} \geq -\frac{\pi}{M} - q_k$ we use contradiction again.  Assume that $\sfracpart{\hat{\lambda}_L + \Phi_k} < -\frac{\pi}{M} - q_k$.  Recalling the notation $e_k^*$ defined in Section~\ref{sec:least-squar-estim}, put $r_i = \hat{d}_i e_k^*$.  Now an analogous argument can be used to show that $SS(\{r_i, i \in D\}) < SS(\{\hat{d}_i, i \in D\})$ again.
+
+\end{IEEEproof}
+
+
+\begin{lemma}\label{lem:Qconv}
+Let $Q_L(\lambda) = \expect R_L(\lambda) - \expect R_L(0)$ where the function $R_L$ is defined in~\eqref{eq:RLdef}.  Then,
+\[ 
+\sqrt{L} Q_L(\hat{\lambda}_L) = \sqrt{L} \hat{\lambda}_L\big( p + Hd  + o_P(1) \big)
+\]
+where $p, d$ and $H$ are real numbers defined in the statements of Theorems~\ref{thm:consistency}~and~\ref{thm:normality} and $o_P(1)$ denotes a number converging in probability to zero as $L\rightarrow\infty$.
+\end{lemma}
+\begin{IEEEproof}
+We have
+\[
+Q_L(\lambda) = \expect R_L(\lambda) - \expect R_L(0) = \tfrac{\sabs{P}}{L} k_1(\lambda) + \tfrac{\sabs{D}}{L} k_2(\lambda)
+\]
+where
+\begin{align}
+k_1(\lambda) &= \expect R_1\big( \sin(\lambda + \Phi_1) - \sin(\Phi_1) \big), \;\;\; \text{and} \nonumber\\
+k_2(\lambda) &= \expect R_1\big( \sin\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} \big). \label{eq:k2def}
+\end{align}
+We analyse $k_1(\lambda)$ first.  By a Taylor expansion of $\sin(\lambda + \Phi_1)$ about $\lambda = 0$,
+\[
+\sin(\lambda + \Phi_1) - \sin(\Phi_1) = \lambda \big( \cos(\Phi_1) + \zeta(\lambda) \big),
+\]
+where $\zeta$ is a continuous function with $\zeta(0) = 0$.  So,
+\begin{align*}
+k_1(\lambda) &= \expect R_1\lambda(\cos(\Phi_1) \; + \; \zeta(\lambda)) \\
+&= \lambda \big( 1 \; + \; \zeta(\lambda) \expect R_1 \big) 
+\end{align*}
+since $h_1(0) = \expect R_1\cos(\Phi_1) = 1$ as a result of~\eqref{eq:expectRepartRphi}.  Because $\hat{\lambda}_L$ converges almost surely to zero as $L \rightarrow\infty$, then $\zeta(\hat{\lambda}_L)$ converges almost surely (and therefore also in probability) to zero as $L \rightarrow\infty$, i.e. $\zeta(\hat{\lambda}_L) = o_P(1)$.  So, 
+\[
+k_1(\hat{\lambda}_L) = \hat{\lambda}_L \big( 1 \; + \; \zeta(\hat{\lambda}_L) \expect R_1 \big) = \hat{\lambda}_L \big( 1  + o_P(1)\big)
+\]
+because $\expect R_1$ is finite.  Lemma~\ref{lem:k2conv} shows that $k_2(\hat{\lambda}_L) = \hat{\lambda}_L ( H + o_P(1) )$.  So,
+\begin{align*}
+Q_L(\hat{\lambda}_L) &=  \tfrac{\sabs{P}}{L} \hat{\lambda}_L \big( 1  + o_P(1)\big)  + \tfrac{\sabs{D}}{L} \hat{\lambda}_L ( H + o_P(1) ) \\
+&= \hat{\lambda}_L \left( \tfrac{\sabs{P}}{L}  + \tfrac{\sabs{D}}{L} H + o_P(1) \right) \\
+&= \hat{\lambda}_L \left( p  + d H + o_P(1) \right),
+\end{align*}
+since $\frac{\sabs{P}}{L} \rightarrow p$ and $\frac{\sabs{D}}{L} \rightarrow d$ as $L \rightarrow \infty$.  The lemma follows by multiplying both sides of the above equation by $\sqrt{L}$.
+\end{IEEEproof}
+
+\begin{lemma}\label{lem:k2conv}
+$k_2(\hat{\lambda}_L) = \hat{\lambda}_L ( H + o_P(1) ).$
+\end{lemma}
+\begin{IEEEproof}
+Because $\hat{\lambda}_L \rightarrow 0$ almost surely as $L\rightarrow\infty$, it is only the behaviour of $k_2(\lambda)$ around $\lambda = 0$ that is relevant.  We will analyse $k_2(\lambda)$ for $0 \leq \lambda < \tfrac{\pi}{M}$.  An analogous argument follows when $-\tfrac{\pi}{M} < \lambda < 0$.  To keep our notation clean put
+\[
+\psi_k = \tfrac{2\pi}{M}k + \tfrac{\pi}{M}.
+\]
+For each integer $k$, if $\Phi_1 \in [\psi_{k-1}, \psi_k)$, then
+\[
+\fracpart{\Phi_1} = \Phi_1 - \round{\Phi_1} = \Phi_1 - \tfrac{2\pi}{M}k.
+\]
+Similarly, if $\Phi_1 \in  [\psi_{k-1}, \psi_{k} - \lambda)$, then
+\[
+\fracpart{\Phi_1 + \lambda} = \Phi_1 + \lambda - \tfrac{2\pi}{M}k,
+\]
+whilst, if $\Phi_1 \in [\psi_{k} - \lambda, \psi_{k})$, then
+\[
+\fracpart{\Phi_1 + \lambda} = \Phi_1 + \lambda - \tfrac{2\pi}{M}k - \tfrac{2\pi}{M}.
+\]
+So, when $\Phi_1 \in [\psi_{k-1}, \psi_{k} - \lambda )$,
+\begin{align*}
+\sin\fracpart{\lambda + \Phi_1} - &\sin\fracpart{\Phi_1} \\
+&= \sin(\lambda + \Phi_1 - \tfrac{2\pi}{M}k) - \sin(\Phi_1 - \tfrac{2\pi}{M}k),
+\end{align*}
+and by a Taylor expansion of $\sin(\lambda + \Phi_1 - \tfrac{2\pi}{M}k)$ about $\lambda = 0$, 
+\begin{align*}
+\sin\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} &= \lambda\big(\cos(\Phi_1 - \tfrac{2\pi}{M}k) + \zeta_k(\lambda)\big) \\
+&= \lambda\big(\cos\fracpart{\Phi_1} + \zeta_k(\lambda)\big).
+\end{align*}
+where, for each $k$, the function $\zeta_k$ is continuous with $\zeta_k(0) = 0$.  Alternatively, when $\Phi_1 \in [ \psi_{k} - \lambda,\psi_{k})$,
+\begin{align*}
+\sin\fracpart{\lambda + \Phi_1} &- \sin\fracpart{\Phi_1} \\
+&= \sin(\lambda + \Phi_1 - \tfrac{2\pi}{M}k - \tfrac{2\pi}{M}) - \sin(\Phi_1 - \tfrac{2\pi}{M}k)
+\end{align*}
+and by a Taylor expansion of $\sin(\lambda + \Phi_1 - \tfrac{2\pi}{M}k - \tfrac{2\pi}{M})$ about $\lambda = 0$,
+\begin{align*}
+\sin&\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} \\
+&= s_k(\Phi_1) + \lambda\big(\cos\fracpart{\Phi_1} + \eta_k(\lambda, \Phi_1)  )\big)
+\end{align*}
+where
+\[
+s_k(\Phi_1) = \sin(\Phi_1 - \tfrac{2\pi}{M}k - \tfrac{2\pi}{M}) - \sin(\Phi_1 - \tfrac{2\pi}{M}k),
+\]
+and
+\[
+\eta_k(\lambda, \Phi_1) = \cos(\Phi_1 - \tfrac{2\pi}{M}k - \tfrac{2\pi}{M}) - \cos\fracpart{\Phi_1} + \zeta_{k+1}(\lambda).
+\]
+Observe that both $s_k$ and $\eta_k$ are continuous and that 
+\[
+s_k(\psi_{k}) = -2\sin(\tfrac{\pi}{M}) \;\;\; \text{and} \;\;\; \eta_k(\lambda,\psi_k) = \zeta_{k+1}(\lambda).
+\]
+
+Let us now collate what we have.  For each integer $k$, if $\Phi_1 \in [\psi_{k-1}, \psi_{k} - \lambda )$, then
+\[
+\sin\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} = \lambda\cos\fracpart{\Phi_1} + \lambda\zeta_k(\lambda),
+\]
+whilst, if $\Phi_1 \in [ \psi_{k} - \lambda,\psi_{k})$, then
+\[
+\sin\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} = \lambda \cos\fracpart{\Phi_1} + s_k(\Phi_1) + \lambda\eta_k(\lambda, \Phi_1).
+\]
+Since the intervals $[\psi_{k-1}, \psi_{k})$ partition the real line, that is $\reals = \cup_{k\in\ints}[\psi_{k-1}, \psi_{k})$, it follows that for all $\Phi_1 \in \reals$,
+\[
+\sin\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} = \lambda\cos\fracpart{\Phi_1} +  v(\lambda, \Phi_1),
+\]
+where $v(\lambda, \Phi_1) = \sum_{k\in\ints} v_k(\lambda, \Phi_1)$ and
+\begin{equation}\label{eq:vk}
+v_k(\lambda,\Phi_1) = \begin{cases}
+s_k(\Phi_1) + \lambda\eta_k(\lambda, \Phi_1) &  \Phi_1 \in [ \psi_{k} - \lambda,\psi_{k} ) \\
+\lambda\zeta_k(\lambda) & \Phi_1 \in [\psi_{k-1}, \psi_{k} - \lambda ) \\
+0 & \text{otherwise}.
+\end{cases} 
+\end{equation}
+Now,
+\begin{align*}
+k_2(\lambda) &=  \expect R_1\big( \sin\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} \big) \\
+&= \expect R_1\big( \lambda\cos\fracpart{\Phi_1} + v(\lambda, \Phi_1)  \big) \\
+&= \lambda h_2(0) + \expect R_1 v(\lambda, \Phi_1).
+\end{align*}
+Let $W(\lambda) = \expect R_1 v(\lambda, \Phi_1)$ so that $k_2(\lambda) = \lambda h_2(0) + W(\lambda).$  Lemma~\ref{lem:expRvlamphi} shows that $W(\lambda) =  \lambda(H_1 + \gamma(\lambda))$ where $\gamma(\lambda)$ is a continuous function with $\gamma(0) = 0$, and
+\[
+H_1 = - 2 \sin(\tfrac{\pi}{M}) \sum_{k = 0}^{M-1} g(\psi_k) = H - h_2(0),
+\]
+where $H$ is defined in the statement of Theorem~\ref{thm:normality}.  Because $\hat{\lambda}_L$ converges almost surely to zero as $L \rightarrow\infty$, it follows that $\gamma(\hat{\lambda}_L) = o_P(1)$, and so
+\[
+k_2(\hat{\lambda}_L) = \hat{\lambda}_L ( h_2(0) + H_1 + o_P(1) ) = \hat{\lambda}_L ( H + o_P(1) )
+\]
+as required.  It remains to prove Lemma~\ref{lem:expRvlamphi}.
+\end{IEEEproof}
+
+\begin{lemma}\label{lem:expRvlamphi}
+$W(\lambda) =  \lambda(H_1 + \gamma(\lambda))$ where $\gamma$ is a continuous function with $\gamma(0) = 0$.
+\end{lemma}
+\begin{IEEEproof}
+In this lemma, as in Lemma~\ref{lem:k2conv}, we work under the assumption that $0 \leq \lambda < \frac{\pi}{M}$.  An analogous argument follows when $-\tfrac{\pi}{M} \leq \lambda < 0$.  Recalling that $f(r,\phi)$ is the joint pdf of $R_1$ and $\Phi_1$, 
+\begin{align}
+W(\lambda) &= \expect R_1 v(\lambda, \Phi_1) \nonumber  \\
+&= \int_0^{2\pi}\int_{0}^\infty r v(\lambda, \phi) f(r,\phi) dr d\phi \nonumber  \\ 
+&= \int_0^{2\pi} v(\lambda, \phi) g(\phi) d\phi \nonumber \\
+&= \sum_{k \in \ints} \int_0^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi, \label{eq:Winfsum}
+\end{align}
+where $g$ is defined in the statement of Theorem~\ref{thm:normality}
+Now, for $k = 1, \dots, M-1$ we have $0 < \psi_{k-1} < \psi_k < 2\pi$, and so, using~\eqref{eq:vk},
+\begin{align*}
+\int_0^{2\pi} v_k(\lambda, \phi) &g(\phi) d\phi = \int_{\psi_{k-1}}^{\psi_{k}} v_k(\lambda, \phi) g(\phi) d\phi \\
+&= \lambda a_k(\lambda) + \lambda b_k(\lambda) + \lambda c_k(\lambda),
+\end{align*}
+where, for $k = 1, \dots, M-1$,
+\begin{equation}\label{eq:ak}
+a_k(\lambda) = \int_{\psi_k-\lambda}^{\psi_k}\eta_k(\lambda, \phi) g(\phi) d\phi,
+\end{equation}
+\[
+b_k(\lambda) = \zeta_k(\lambda) \int_{\psi_{k-1}}^{\psi_k -\lambda}g(\phi) d\phi,
+\]
+\begin{equation}\label{eq:ck}
+c_k(\lambda) = \frac{1}{\lambda} \int_{\psi_{k} - \lambda}^{\psi_{k}} s_k(\phi) g(\phi) d\phi.
+\end{equation}
+Both $a_k(\lambda)$ and $b_k(\lambda)$ converge to zero as $\lambda$ goes to zero, and, since $g$ is continuous at $\psi_k = \tfrac{2\pi}{M}k + \tfrac{\pi}{M}$ for each $k = 0, 1, \dots, M-1$ by Proposition~\ref{prop:gg2cont}, it follows that $c_k(\lambda)$ converges to 
+\[
+s_k(\psi_k)g(\psi_k) = -2\sin(\tfrac{\pi}{M}) g(\tfrac{2\pi}{M}k + \tfrac{\pi}{M})
+\]
+as $\lambda$ goes to zero from above.  We are only interested in the limit from above because we are working under the assumption that $0 \leq \lambda < \frac{\pi}{M}$.  The analogous argument when $-\tfrac{\pi}{M} \leq \lambda < 0$ would involve limits as $\lambda$ approaches zero from below.
+
+Now, when $k = 0$, we have $\psi_{-1} < 0 < \psi_0 - \lambda < \psi_0 < 2\pi$, so that
+\[
+\int_0^{2\pi} v_0(\lambda, \phi) g(\phi) d\phi = \lambda a_0(\lambda) + \lambda b_0(\lambda) +  \lambda c_0(\lambda),
+\]
+where $a_0(\lambda)$ and $c_0(\lambda)$ are defined as in~\eqref{eq:ak}~and~\eqref{eq:ck}, and
+\[
+b_0(\lambda) = \zeta_0(\lambda) \int_{0}^{\psi_k-\lambda} g(\phi) d\phi.
+\]
+When $k = M$, we have $0 < \psi_{M-1} < 2\pi < \psi_{M} - \lambda$, so that
+\[
+\int_0^{2\pi} v_{M}(\lambda, \phi) g(\phi) d\phi = \lambda b_{M}(\lambda)
+\]
+where 
+\[
+b_{M}(\lambda) = \zeta_{M}(\lambda) \int_{\psi_{M-1}}^{2\pi}g(\phi) d\phi.
+\]
+Both $b_0(\lambda)$ and $b_M(\lambda)$ are functions that converge to zero as $\lambda$ converges to zero.
+ 
+Finally, when $k < 0$ or $k > M$, 
+\[
+\int_0^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi = 0.
+\]
+So the infinite sum in~\eqref{eq:Winfsum} can be written as the finite sum,
+\begin{align*}
+W(\lambda) &= \sum_{k=0}^{M} \int_{0}^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi \\
+&= \sum_{k=0}^{M-1} \lambda c_k(\lambda) + \sum_{k=0}^{M-1} \lambda a_k(\lambda) + \sum_{k=0}^{M} \lambda b_k(\lambda) \\
+&= \lambda \left( C(\lambda)  + A(\lambda) + B(\lambda) \right),
+\end{align*}
+where 
+\[
+A(\lambda) = \sum_{k=0}^{M-1} a_k(\lambda), \;\;\; B(\lambda) = \sum_{k=0}^{M} b_k(\lambda), \;\;\; \text{and},
+\]
+\[
+C(\lambda) = \sum_{k=0}^{M-1} c_k(\lambda).
+\]
+Both $A(\lambda)$ and $B(\lambda)$ converge to zero as $\lambda$ goes to zero, whilst $C(\lambda)$ converges to $H_1$ as $\lambda$ converges to zero.  Put
+\[
+\gamma(\lambda) = A(\lambda) + B(\lambda) + C(\lambda) - H_1.
+\]
+Then $\gamma(\lambda)$ converges to zero as $\lambda$ goes to zero and $W(\lambda) = \lambda(H_1 + \gamma(\lambda))$ as required.
+\end{IEEEproof}
+
+\begin{lemma}\label{lem:empiricprocc} Let $Q_L(\lambda) = \expect R_L(\lambda) - \expect R_L(0)$ where the function $R_L$ is defined in~\eqref{eq:RLdef}.  Then,
+\[
+\sqrt{L}\big( R_L(\hat{\lambda}_L) - Q_L(\hat{\lambda}_L) \big) = o_P(1) + \sqrt{L} R_L(0).
+\]
+\end{lemma}
+\begin{IEEEproof}
+Put 
+\begin{equation}\label{eq:WLdef}
+W_L(\lambda) = \sqrt{L}\big( R_L(\lambda) - Q_L(\lambda) - R_L(0) \big)
+\end{equation}
+so that
+\[
+\sqrt{L}\big( R_L(\hat{\lambda}_L) - Q_L(\hat{\lambda}_L) \big) = W_L(\hat{\lambda}_L) + \sqrt{L} R_L(0)
+\]
+Lemma~\ref{lem:ZYLempiricproc} in Section~\ref{sec:an-empirical-process} shows that for any $\delta > 0$ and $\nu > 0$, there exists $\epsilon > 0$ such that
+\[
+\Pr\left\{ \sup_{\sabs{\lambda}<\epsilon}\sabs{W_L(\lambda)} > \delta  \right\} < \nu
+\]
+for all positive integers $L$.  Since $\hat{\lambda}_L$ converges almost surely to zero, it follows that for any $\epsilon > 0$,
+\[
+\lim_{L\rightarrow\infty}\prob\left\{ \sabs{\hat{\lambda}_L} \geq \epsilon \right\} = 0
+\] 
+and therefore $\prob\{ \sabs{\hat{\lambda}_L} \geq \epsilon \} < \nu$ for all sufficiently large $L$.  Now
+\begin{align*}
+  \prob&\left\{\sabs{ W_L(\hat{\lambda}_L) } > \delta \right\} \\
+&= \prob\left\{ \sabs{W_L(\hat{\lambda}_L)} > \delta \;\text{and} \; \sabs{\hat{\lambda}_L} < \epsilon \right\} \\
+&\hspace{0.7cm} + \prob\left\{ \sabs{W_L(\lambda_L)} > \delta  \;\text{and} \; \sabs{\hat{\lambda}_L} \geq \epsilon \right\} \\
+&\leq \prob\left\{  \sup_{\lambda < \epsilon} \sabs{ W_L(\lambda) } > \delta \right\} + \prob\left\{ \sabs{\hat{\lambda}_L} \geq \epsilon \right\} \\
+&\leq 2\nu.
+\end{align*}
+for all sufficiently large $L$.  Since $\nu$ and $\delta$ can be chosen arbitrarily small, it follows that $W_L(\hat{\lambda}_L)$ converges in probability to zero as $N\rightarrow\infty$.
+\end{IEEEproof}
+
+
+
+
+\begin{lemma}\label{lem:convdistGLdash}
+The distribution of $\sqrt{L}R_L(0)$ converges to the normal with zero mean and variance $pA_1 + dA_2$.
+\end{lemma}
+\begin{IEEEproof}
+Observe that $\sqrt{L} R_L(0) = C_L + D_L$ where
+\[
+C_L = \frac{1}{\sqrt{L}} \sum_{i \in P} R_i \sin(\Phi_i), \qquad D_L = \frac{1}{\sqrt{L}} \sum_{i \in D} R_i \sin\sfracpart{\Phi_i}.
+\]
+From the standard central limit theorem the distribution of $C_L$ converges to the normal with mean $\sqrt{p}\expect R_1 \sin(\Phi_1) = 0$ as a result of~\eqref{eq:expectImpartRphi}, and variance
+\[
+p A_1 = p \expect R_1^2 \sin^2(\Phi_1).
+\]
+Similarly, the distribution of $D_L$ converges to the normal with mean $\sqrt{d}\expect R_1 \sin\fracpart{\Phi_1} = 0$ as a result of Lemma~\ref{lem:expectImRfracpart}, and variance
+\[
+d A_2 = d \expect R_1^2 \sin^2\fracpart{\Phi_1}.
+\]
+The lemma holds because $C_L$ and $D_L$ are independent. 
+\end{IEEEproof}
+
+\begin{lemma}\label{lem:expectImRfracpart}
+$\expect R_1 \sin\fracpart{\Phi_1} = 0$.
+\end{lemma}
+\begin{IEEEproof}
+Recalling that $f(r,\phi)$ is the joint pdf of $R_1$ and $\Phi_1$, we have
+\begin{align*}
+\expect R_1 \sin\fracpart{\Phi_1} &= \int_{0}^{2\pi} \int_{0}^\infty r \sin\fracpart{\phi} f(r,\phi) dr d\phi \\
+&= \int_{-\pi}^{\pi} \sin\fracpart{\phi} g(\phi) d\phi,
+\end{align*}
+where $g$ is defined in the statement of Theorem~\ref{thm:normality} and the change in bounds from $0, 2\pi$ to $-\pi,\pi$ is valid because both $\sin\fracpart{\phi}$ and $g(\phi)$ have period $2\pi$.  Proposition~\ref{prop:gg2cont} shows that $g$ is even on $(-\pi,\pi)$.  Also $\sin\fracpart{\cdot}$ has period $\tfrac{2\pi}{M}$ and is odd on $(-\frac{\pi}{M}, \tfrac{\pi}{M})$.  So, for any $k \in \ints$ and $\phi \in (-\tfrac{\pi}{M}, 0)$,
+\[
+g(-\phi + k \tfrac{\pi}{M}) = g(\phi - k \tfrac{\pi}{M})
+\]
+and
+\[
+\sin\fracpart{-\phi + k \tfrac{\pi}{M}} = -\sin\fracpart{\phi - k \tfrac{\pi}{M}}.
+\]
+Now,
+\begin{align*}
+I_k &= \int_{-(k+1)\tfrac{\pi}{M}}^{-k\tfrac{\pi}{M}}\sin\fracpart{\phi} g(\phi) d\phi + \int_{k\tfrac{\pi}{M}}^{(k+1)\tfrac{\pi}{M}}\sin\fracpart{\phi} g(\phi) d\phi \\
+&= \int_{-\tfrac{\pi}{M}}^{0}\sin\fracpart{\phi -  k\tfrac{\pi}{M}} g(\phi - k\tfrac{\pi}{M}) d\phi \\
+&\hspace{1cm}+ \int_{0}^{\tfrac{\pi}{M}}\sin\fracpart{\phi + k\tfrac{\pi}{M}} g(\phi + k\tfrac{\pi}{M}) d\phi \\
+&= 0
+\end{align*}
+for all integers $k$ because
+\begin{align*}
+\int_{0}^{\tfrac{\pi}{M}}&\sin\fracpart{\phi + k\tfrac{\pi}{M}} g(\phi + k\tfrac{\pi}{M}) d\phi \\
+&= \int_{-\tfrac{\pi}{M}}^{0}\sin\fracpart{-\phi + k\tfrac{\pi}{M}} g(-\phi + k\tfrac{\pi}{M}) d\phi \\
+&= -\int_{-\tfrac{\pi}{M}}^{0}\sin\fracpart{\phi - k\tfrac{\pi}{M}} g(\phi - k\tfrac{\pi}{M}) d\phi.
+\end{align*}
+Observe that the sets
+\[
+ [-(k+1)\tfrac{\pi}{M},-k\tfrac{\pi}{M}] \cup [k\tfrac{\pi}{M},(k+1)\tfrac{\pi}{M}], \;\;\; k = 0, \dots, M-1
+\]
+partition $[-\pi, \pi]$, and so
+\[
+\expect R_1 \sin\fracpart{\Phi_1} = \int_{-\pi}^{\pi} \sin\fracpart{\phi} g(\phi) d\phi = \sum_{k=0}^{M-1} I_k = 0.
+\]
+\end{IEEEproof}
+
+\begin{lemma}\label{lem:empiricprocforrho} Let $T_L(\lambda) = \expect G_L(\lambda)$.  Then
+\[
+\sqrt{L}\big( G_L(\hat{\lambda}_L) - T_L(\hat{\lambda}_L) \big) = o_P(1) + X_L,
+\]
+where $X_L = \sqrt{L} \big( G_L(0) - T_L(0) \big)$.
+\end{lemma}
+\begin{IEEEproof}
+Let
+\begin{equation}\label{eq:YLdef}
+Y_L(\lambda) = \sqrt{L}\big( G_L(\hat{\lambda}_L) - T_L(\hat{\lambda}_L) \big) - X_L
+\end{equation}
+so that
+\[
+\sqrt{L}\big( G_L(\hat{\lambda}_L) - T_L(\hat{\lambda}_L) \big) = Y_L(\hat{\lambda}_L) + X_L
+\]
+Lemma~\ref{lem:ZYLempiricproc} in Section~\ref{sec:an-empirical-process} shows that for any $\delta > 0$ and $\nu > 0$, there exists $\epsilon > 0$ such that
+\[
+\Pr\left\{ \sup_{\sabs{\lambda}<\epsilon}\sabs{Y_L(\lambda)} > \delta  \right\} < \nu.
+\]
+The proof now follows by an argument analogous to that in Lemma~\ref{lem:empiricprocc}.
+\end{IEEEproof}
+
+\begin{lemma}\label{lem:HLtoG} $\sqrt{L}\big( T_L(\hat{\lambda}_L) - G(0) \big) = o_P(1)$.
+\end{lemma}
+\begin{IEEEproof}
+The argument is similar to that used in Lemma~\ref{lem:Qconv}.  First observe that
+\begin{align*}
+T_L(\lambda) &= \frac{\sabs{P}}{L}\expect R_1\cos(\lambda + \Phi_1) + \frac{\sabs{D}}{L} \expect R_1\cos\fracpart{\lambda + \Phi_1} \\
+%&= \big( p + o(1) \big) \expect R_1\cos(\lambda + \Phi_1) \\
+%& \hspace{2cm} + \big( d + o(1) \big) \expect R_1\cos\fracpart{\lambda + \Phi_1} \\
+&=  \big( p + o(L^{-1/2}) \big) \expect R_1\cos(\lambda + \Phi_1) \\
+&\hspace{2cm} + \big( d + o(L^{-1/2}) \big) \expect R_1\cos\fracpart{\lambda + \Phi_1},
+\end{align*}
+because $\tfrac{\abs{P}}{L} = p + o(L^{-1/2})$ and $\tfrac{\abs{D}}{L} = d + o(L^{-1/2})$ is an assumption in the statement of Theorem~\ref{thm:normality}.  Now,
+\begin{align*}
+\sqrt{L}\big( T_L(\lambda) - G(0) \big) = p q_1(\lambda) + d q_2(\lambda) + o(1),
+\end{align*}
+where
+\[
+q_1(\lambda) = \expect R_1\big( \cos(\lambda + \Phi_1) - \cos(\Phi_1) \big),
+\]
+\begin{equation}
+q_2(\lambda) = \expect R_1\big( \cos\fracpart{\lambda + \Phi_1} - \cos\fracpart{\Phi_1} \big). \label{eq:q2def}
+\end{equation}
+We analyse $q_1(\lambda)$ first.  By a Taylor expansion of $\cos(\lambda + \Phi_1)$ about $\lambda = 0$,
+\[
+\cos(\lambda + \Phi_1) - \cos(\Phi_1) = -\lambda \big( \sin(\Phi_1) + \zeta(\lambda) \big),
+\]
+where $\zeta$ is a continuous function with $\zeta(0) = 0$. So,
+\begin{align*}
+q_1(\lambda) &= -\expect R_1\lambda(\sin(\Phi_1) +  \zeta(\lambda)) \\
+&= -\lambda \big( \expect R_1\sin(\Phi_1) +  \zeta(\lambda) \expect R_1 \big) \\
+&= -\lambda \zeta(\lambda) \expect R_1,
+\end{align*}
+since $\expect R_1\sin(\Phi_1) = 0$ as a result of~\eqref{eq:expectImpartRphi}.  Now, 
+\begin{align*}
+\sqrt{L} q_1(\hat{\lambda}_L) = -\sqrt{L} \hat{\lambda}_L \zeta(\hat{\lambda}_L) \expect R_1 = o_P(1)
+\end{align*}
+because $\sqrt{L} \hat{\lambda}_L$ converges in distribution and $\zeta(\hat{\lambda}_L) = o_P(1)$.  An argument analogous to that used in Lemma~\ref{lem:k2conv} shows that $\sqrt{L} q_2(\hat{\lambda}_L) = o_P(1)$.  Thus, 
+\[
+\sqrt{L}\big( T_L(\lambda) - G(0) \big) = p q_1(\lambda) + d q_2(\lambda) + o(1) = o_P(1)
+\]
+as required.
+\end{IEEEproof}
+
+
+% \begin{lemma}\label{lem:XL} 
+% $\sqrt{L} q_2(\hat{\lambda}_L) = o_P(1)$.
+% \end{lemma}
+% \begin{IEEEproof}
+% The argument is similar to that used in Lemma~\ref{lem:k2conv}.  As $\hat{\lambda}_L \in [-\pi, \pi)$ it is only the behaviour of the function $q_2(\lambda)$ for $\lambda\in [-\pi, \pi)$ that is relevant.  We will analyse $q_2(\lambda)$ for $0 \leq \lambda < \tfrac{\pi}{M}$.  An analagous argument follows when $-\tfrac{\pi}{M} \leq \lambda < 0$.  Recall that
+% \[
+% \psi_k = \tfrac{2\pi}{M}k + \tfrac{\pi}{M}.
+% \]
+% when $\Phi_1 \in [\psi_{k-1}, \psi_{k} - \lambda )$,
+% \begin{align*}
+% \cos\fracpart{\lambda + \Phi_1} - &\cos\fracpart{\Phi_1} \\
+% &= \cos(\lambda + \Phi_1 - \tfrac{2\pi}{M}k) - \cos(\Phi_1 - \tfrac{2\pi}{M}k),
+% \end{align*}
+% and by a Taylor expansion of $\cos(\lambda + \Phi_1 - \tfrac{2\pi}{M}k)$ about $\lambda = 0$, 
+% \begin{align*}
+% \cos\fracpart{\lambda + \Phi_1} - \cos\fracpart{\Phi_1} &= -\lambda\big(\sin(\Phi_1 - \tfrac{2\pi}{M}k) + \zeta_k(\lambda)\big) \\
+% &= -\lambda\big(\sin\fracpart{\Phi_1} + \zeta_k(\lambda)\big).
+% \end{align*}
+% where, for each integer $k$, the function $\zeta_k$ is continuous with $\zeta_k(0) = 0$.   Alternatively, when $\Phi_1 \in [ \psi_{k} - \lambda,\psi_{k})$,
+% \begin{align*}
+% \cos\fracpart{\lambda + \Phi_1} &- \cos\fracpart{\Phi_1} \\
+% &= \cos(\lambda + \Phi_1 - \tfrac{2\pi}{M}k - \tfrac{2\pi}{M}) - \cos(\Phi_1 - \tfrac{2\pi}{M}k)
+% \end{align*}
+% and by a Taylor expansion of $\cos(\lambda + \Phi_1 - \tfrac{2\pi}{M}k - \tfrac{2\pi}{M})$ about $\lambda = 0$,
+% \begin{align*}
+% \cos&\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} \\
+% &= c_k(\Phi_1) - \lambda\big(\sin\fracpart{\Phi_1} + \eta_k(\lambda, \Phi_1)  )\big)
+% \end{align*}
+% where
+% \[
+% c_k(\Phi_1) = \cos(\Phi_1 - \tfrac{2\pi}{M}k - \tfrac{2\pi}{M}) - \cos(\Phi_1 - \tfrac{2\pi}{M}k),
+% \]
+% and
+% \[
+% \eta_k(\lambda, \Phi_1) = \sin(\Phi_1 - \tfrac{2\pi}{M}k - \tfrac{2\pi}{M}) - \sin(\Phi_1 - \tfrac{2\pi k}{M}) + \zeta_{k+1}(\lambda).
+% \]
+% Observe that $c_k$ is continuous and $c_k(\psi_{k}) = 0$.
+
+% Let us now collate what we have.  For each integer $k$, if $\Phi_1 \in [\psi_{k-1}, \psi_{k} - \lambda )$, then
+% \[
+% \cos\fracpart{\lambda + \Phi_1} - \cos\fracpart{\Phi_1} = -\lambda\sin\fracpart{\Phi_1} + \lambda\zeta_k(\lambda),
+% \]
+% whilst, if $\Phi_1 \in [ \psi_{k} - \lambda,\psi_{k})$, then
+% \[
+% \cos\fracpart{\lambda + \Phi_1} - \cos\fracpart{\Phi_1} = -\lambda \sin\fracpart{\Phi_1} + c_k(\Phi_1) + \lambda\eta_k(\lambda, \Phi_1).
+% \]
+% Since the intervals $[\psi_{k-1}, \psi_{k})$ partion the real line, that is $\reals = \cup_{k\in\ints}[\psi_{k-1}, \psi_{k})$, it follows that for all $\Phi_1 \in \reals$,
+% \[
+% \cos\fracpart{\lambda + \Phi_1} - \cos\fracpart{\Phi_1} = -\lambda\sin\fracpart{\Phi_1} +  v(\lambda, \Phi_1),
+% \]
+% where $v(\lambda, \Phi_1) = \sum_{k\in\ints} v_k(\lambda, \Phi_1)$ and
+% \begin{equation}\label{eq:cvk}
+% v_k(\lambda,\Phi_1) = \begin{cases}
+% c_k(\Phi_1) - \lambda\eta_k(\lambda, \Phi_1) &  \Phi_1 \in [ \psi_{k} - \lambda,\psi_{k} ) \\
+% \lambda\zeta_k(\lambda) & \Phi_1 \in [\psi_{k-1}, \psi_{k} - \lambda ) \\
+% 0 & \text{otherwise}.
+% \end{cases}
+% \end{equation}
+% \end{IEEEproof}
+
+
+
+\begin{lemma}\label{lem:XL} 
+The distribution of 
+\[
+X_L = \sqrt{L} \big( G_L(0) - T_L(0) \big) = \sqrt{L} \big( G_L(0) - \expect G_L(0) \big)
+\] 
+converges to the normal with zero mean and covariance 
+\[
+pB_1 + d B_2
+\] 
+as $L \rightarrow\infty$.
+\end{lemma}
+\begin{IEEEproof}
+Observe that $X_L = C_L + D_L$ where
+\[
+C_L = \frac{1}{\sqrt{L}} \sum_{i \in P} \big( R_i \cos(\Phi_i) - h_1(0) \big),
+\]
+\[
+D_L = \frac{1}{\sqrt{L}} \sum_{i \in D} (R_i \cos\fracpart{\Phi_i} - h_2(0) ),
+\]
+where $h_1$ and $h_2$ are defined in the statement of Theorem~\ref{thm:consistency}.  From the standard central limit theorem the distribution of $C_L$ converges to the normal with zero mean and variance
+\[
+p B_1 = p \expect R_1^2 \cos^2(\Phi_1) - p h_1^2(0) =  p \expect R_1^2 \cos^2(\Phi_1) - p 
+\]
+since $h_1(0) = 1$.  Similarly the distribution of $D_L$ converges to the normal with zero mean and variance
+\[
+d B_2 = d \expect R_1^2 \cos^2\fracpart{\Phi_1} - d h_2^2(0).
+\]
+The lemma follows since $C_L$ and $D_L$ are independent.
+\end{IEEEproof}
+
+%\section{Tricks with fractional parts}
+%Throughout the paper, and particularly in  have made use of a number of results involving the fractional part function
+
+\subsection{An empirical process result}\label{sec:an-empirical-process}
+
+During the proof of asymptotic normality in Section~\ref{sec:proof-asympt-norm} we made use of the following result regarding the functions $W_L(\lambda)$ and $Y_L(\lambda)$ defined in~\eqref{eq:WLdef}~and~\eqref{eq:YLdef}.
+
+\begin{lemma}\label{lem:ZYLempiricproc}
+For any $\delta > 0$ and $\nu > 0$, there exists $\epsilon > 0$ such that:
+\begin{enumerate}
+\item $\Pr\left\{ \sup_{\sabs{\lambda}<\epsilon}\sabs{W_L(\lambda)} > \delta  \right\} < \nu$, and,
+\item $\Pr\left\{ \sup_{\sabs{\lambda}<\epsilon}\sabs{Y_L(\lambda)} > \delta  \right\} < \nu$,
+\end{enumerate}
+for all positive integers $L$.
+\end{lemma}
+\begin{IEEEproof}
+These results are related to what is called \emph{tightness} in the literature on empirical processes and weak convergence on metric spaces~\cite{Billingsley1999_convergence_of_probability_measures,Dudley_unif_central_lim_th_1999,Shorak_emp_proc_stat_2009}.  The proof is based on a technique called \emph{symmetrisation} and another technique called \emph{chaining} (also known as \emph{bracketing})~\cite{Pollard_asymp_empi_proc_1989,Gine_Zinn_symmetrisation_1984,Ossiander_clt_bracketing_1984}.  We will only give a proof of the first statement regarding the function $W_L$.  The proof for the second statement regarding $Y_L$ is similar.  
+
+Put 
+\[
+f_i(\lambda, R_i, \Phi_i) = \begin{cases}
+R_i( \sin(\lambda + \Phi_i) - \sin(\Phi_i)), & i \in P \\
+R_i( \sin\sfracpart{\lambda + \Phi_i} - \sin\sfracpart{\Phi_i}), & i \in D \\
+\end{cases}
+\]
+so that
+\[
+W_L(\lambda) = \frac{1}{\sqrt{L}} \sum_{i \in P \cup D} \big( f_i(\lambda, R_i, \Phi_i) - \expect f_i(\lambda, R_i, \Phi_i) \big).
+\]
+Let $\{g_i\}$ be a sequence of independent standard normal random variables, independent of $\{R_i\}$ and $\{\Phi_i\}$.  Lemma~\ref{lem:symmetrisation} shows that
+\[
+\expect \sup_{\sabs{\lambda} < \epsilon} \abs{ W_L(\lambda)} \leq \sqrt{2\pi} \; \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{ X(\lambda) },
+\]
+where 
+\begin{equation}\label{eq:ZpsiCondGaussProc}
+X(\lambda) = \frac{1}{\sqrt{L}} \sum_{i \in P \cup D} g_i f_i(\lambda, R_i, \Phi_i),
+\end{equation}
+and where $\expect$ runs over all of $\{g_i\}$, $\{R_i\}$ and $\{\Phi_i\}$.  Conditionally on $\{\Phi_i\}$ and $\{R_i\}$, $\{X(\lambda), \lambda \in \reals \}$ is a \emph{Gaussian process}, and numerous techniques exist for its analysis.  Lemma~\ref{lem:chaining} shows that for any $\kappa > 0$ there exists $\epsilon > 0$ such that
+\[
+\expect \sup_{\sabs{\lambda} < \epsilon} \abs{ X(\lambda) } < \kappa.
+\]
+It follows that,
+\[
+\expect \sup_{\sabs{\lambda} < \epsilon} \abs{ W_L(\lambda)}  <  \sqrt{2\pi} \; \kappa,
+\]
+and by Markov's inequality,
+\[
+\prob \cubr{  \sup_{\sabs{\lambda} < \epsilon} \abs{ W_L(\lambda)} > \delta } \leq  \sqrt{2\pi} \; \frac{\kappa}{\delta},
+\]
+for any $\delta > 0$.  The proof follows by choosing $\nu =  \sqrt{2\pi} \kappa/\delta$.  It remains to prove Lemmas~\ref{lem:symmetrisation}~and~\ref{lem:chaining}.
+\end{IEEEproof}
+
+
+\begin{lemma}\label{lem:symmetrisation} (Symmetrisation)
+\[
+\expect \sup_{\sabs{\lambda} < \epsilon} \abs{ W_L(\lambda)} \leq \sqrt{2\pi} \; \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{ X(\lambda) }
+\]
+\end{lemma}
+\begin{IEEEproof}
+Let $\{R_i'\}$ be a sequence identically distributed to $\{R_i\}$ and let $\{\Phi_i'\}$ be a sequence identically distributed to $\{\Phi_i\}$.  Both $\{R_i'\}$ and $\{\Phi_i'\}$ are chosen independently of $\{R_i\}$ and $\{\Phi_i\}$.  Let $\expect_{R,\Phi}$ denote expectation conditional on $\{R_i\}$ and $\{\Phi_i\}$.  Now,
+\begin{align*}
+W_L(\lambda) &= \frac{1}{\sqrt{L}} \sum_{i \in P \cup D} \big( f_i(\lambda, R_i, \Phi_i) - \expect_{R,\Phi} f_i(\lambda, R_i', \Phi_i') \big) \\
+&= \expect_{R,\Phi} \frac{1}{\sqrt{L}} \sum_{i \in P \cup D} ( f_{i} - f_{i}^\prime ),
+\end{align*}
+where, for notational convenience, we put 
+\[
+f_{i} = f_i(\lambda, R_i, \Phi_i) \qquad \text{and} \qquad  f_{i}^\prime = f_i(\lambda, R_i', \Phi_i').
+\] 
+Taking absolute values followed by supremums,
+\begin{align*}
+ \sup_{\sabs{\lambda} < \epsilon} \abs{ W_L(\lambda)} &= \sup_{\sabs{\lambda} < \epsilon}  \abs{\frac{1}{\sqrt{L}} \expect_{R,\Phi} \sum_{i \in P \cup D} (f_{i} - f_{i}^\prime )} \\
+&\leq \sup_{\sabs{\lambda} < \epsilon} \expect_{R,\Phi}  \abs{ \frac{1}{\sqrt{L}} \sum_{i \in P \cup D}  (f_{i} - f_{i}^\prime) },
+\end{align*}
+the upper bound following from Jensen's inequality.  Since $\sup \expect \abs{\dots} \leq \expect \sup \abs{\dots}$, the bound can be increased by moving $\expect_{R,\Phi}$ outside the supremum,
+\begin{equation}\label{eq:Eoutsidesup}
+ \sup_{\sabs{\lambda} < \epsilon} \abs{ W_L(\lambda)} \leq \expect_{R,\Phi} \sup_{\sabs{\lambda} < \epsilon} \abs{ \frac{1}{\sqrt{L}}\sum_{i \in P \cup D} ( f_{i} - f_{i}^\prime ) }.
+\end{equation}
+Applying $\expect$ to both sides gives the inequality
+\begin{equation}\label{eq:Gninequfin}
+ \expect \sup_{\sabs{\lambda} < \epsilon} \abs{ W_L(\lambda)} \leq  \expect \sup_{\sabs{\lambda} < \epsilon} \abs{ \frac{1}{\sqrt{L}}\sum_{i \in P \cup D} (f_{i} - f_{i}^\prime) },
+\end{equation}
+since $\expect \expect_{R,\Phi}$ is equivalent to $\expect$.   Let
+\[
+\sigma_i = \frac{g_i}{\abs{g_i}},
+\]
+and put $\sigma_i = 1$ if $g_i = 0$.  The $\sigma_i$ are thus independent with 
+\[
+\prob\{ \sigma_i = -1 \} = \tfrac{1}{2} \qquad \text{and} \qquad  \prob\{ \sigma_i = 1 \} = \tfrac{1}{2}.
+\]  
+As $R_i$ and $\Phi_i$ are independent and identically distributed to $R_i^\prime$ and $\Phi_i^\prime$, the random variable $f_{i} - f_{i}^\prime$ is symmetrically distributed about zero, and is therefore distributed identically to $\sigma_i( f_{i} - f_{i}^\prime)$.  Thus,
+%\[
+%\sum_{n=1}^{N}  (f_{nN} - f_{nN}^\prime) \qquad \text{and} \qquad \sum_{n=1}^{N}  \sigma_n(f_{nN} - f_{nN}^\prime)
+%\]
+%are identically distributed, and therefore
+\begin{align*}
+ \expect \sup_{\sabs{\lambda} < \epsilon}  &\abs{  \frac{1}{\sqrt{L}}\sum_{i \in P \cup D}  (f_{i} - f_{i}^\prime) } \\
+&= \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{  \frac{1}{\sqrt{L}}\sum_{i \in P \cup D} \sigma_i ( f_{i} - f_{i}^\prime) }.
+\end{align*}
+By the triangle inequality,
+\[
+\abs{ \sum_{i\in P \cup D} \sigma_i (f_{i} - f_{i}^\prime)} \leq \abs{ \sum_{i \in P \cup D} \sigma_i f_{i} } + \abs{ \sum_{i\in P \cup D}  \sigma_i f_{i}^\prime },
+\]
+and it follows from~\eqref{eq:Gninequfin}, that
+\begin{align*}
+ \expect \sup_{\sabs{\lambda} < \epsilon} \abs{ W_L(\lambda)} &\leq \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{ \frac{1}{\sqrt{L}}\sum_{i\in P \cup D} \sigma_i f_{i} } \\
+&\hspace{1cm} + \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{\frac{1}{\sqrt{L}} \sum_{i \in P \cup D}  \sigma_i  f_{i}^\prime } \\
+&= 2 \; \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{ \frac{1}{\sqrt{L}}\sum_{i \in P \cup D} \sigma_i f_{i} }.
+\end{align*}
+Because $g_i$ is a standard normal random variable it follows that $\expect \abs{g_i} = \expect_{R,\Phi} \abs{g_i} = \sqrt{2/\pi}$, and
+\begin{align*}
+\expect \sup_{\sabs{\lambda} < \epsilon}  &\abs{ \frac{1}{\sqrt{L}}\sum_{i \in P \cup D} \sigma_i f_{i} } \\
+&= \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{ \frac{1}{\sqrt{L}}\sum_{i \in P \cup D} \sigma_i f_{i} \sqrt{\frac{\pi}{2}}\expect_{R,\Phi} \abs{g_i}} \\
+&\leq \sqrt{\frac{\pi}{2}} \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{ \frac{1}{ \sqrt{L}}\sum_{i \in P \cup D} \sigma_i \abs{g_i}  f_{i}},
+\end{align*}
+the last line following from Jensen's inequality and by moving $\expect_{R,\Phi}$ outside the supremum similarly to~\eqref{eq:Eoutsidesup}. As $g_i = \sigma_i \abs{g_i}$,
+\begin{align*}
+\expect \sup_{\sabs{\lambda} < \epsilon} \abs{W_L(\lambda)}  &\leq 2\sqrt{\frac{\pi}{2}} \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{ \frac{1}{\sqrt{L}}\sum_{i\in P \cup D} g_i  f_{i}} \\
+&= \sqrt{2\pi} \; \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{ X(\lambda) } 
+\end{align*}
+as required.
+\end{IEEEproof}
+
+\begin{lemma} \label{lem:chaining}
+For any $\kappa > 0$ there exists $\epsilon > 0$ such that
+\[
+\expect \sup_{\sabs{\lambda} < \epsilon} \abs{ X(\lambda) } < \kappa,
+\]
+where $X(\lambda)$ is the Gaussian process defined in~\eqref{eq:ZpsiCondGaussProc}.
+\end{lemma}
+\begin{IEEEproof}
+Without loss of generality, assume that $\epsilon < \tfrac{\pi}{M}$.  Lemma~\ref{lem:chaining2} shows that
+\begin{equation}\label{eq:supZCK1} 
+\expect_{R,\Phi} \sup_{\sabs{\lambda} < \epsilon} \abs{ X(\lambda) } \leq K_1 \sqrt{C_\epsilon}
+\end{equation}
+where $K_1$ is a finite, positive constant, and
+\begin{equation}\label{eq:Cepsdefn}
+C_\epsilon = \frac{2}{L}\epsilon\sum_{i\in P \cup D}R_i^2 + \frac{4}{L}\sum_{i\in P \cup D}R_i^2 I_{\epsilon}(\Phi_i)
+\end{equation}
+where $I_\epsilon$ is the indicator function
+\[
+I_{\epsilon}(x) = \begin{cases}
+1, & x \in \cup_{k\in\ints}[\psi_k - \epsilon, \psi_k + \epsilon] \\
+0, & \text{otherwise},
+\end{cases}
+\] 
+and $\psi_k = \tfrac{2\pi}{M}k + \tfrac{\pi}{M}$.  Now,
+\[
+\expect C_\epsilon =  2\epsilon\expect R_1^2 + 4 \expect R_i^2 I_{\epsilon}(\Phi_i).
+\]
+Recalling that $f(r,\phi)$ is the joint probability density function of $R_i$ and $\Phi_i$,
+\begin{align*}
+\expect R_i^2 I_\epsilon(\Phi_i) &= \int_0^{2\pi} \int_{0}^\infty  r^2 f(r,\phi) I_\epsilon(\phi) dr d\phi \\ 
+&= \int_0^{2\pi}g_2(\phi) I_\epsilon(\phi) d\phi 
+\end{align*}
+where the function
+\[
+g_2(\phi) = \int_{0}^\infty  r^2 f(r,\phi) dr d\phi 
+\]
+is continuous at $\psi_k = \tfrac{2\pi}{M}k + \tfrac{\pi}{M}$ for each $k = 0, 1, \dots, M-1$ by Proposition~\ref{prop:gg2cont}.  From the definition of $I_\epsilon$,
+\begin{align*}
+\expect R_i^2 I_\epsilon(\Phi_i) &= \sum_{k=0}^{M-1}\int_{\psi_k-\epsilon}^{\psi_k-\epsilon}g_2(\phi) d\phi \\
+&= 2\epsilon \sum_{k=0}^{M-1} (g_2(\psi_k) + o(1))
+\end{align*}
+where $o(1)$ goes to zero as $\epsilon$ goes to zero, by the mean value theorem.  Thus $\expect R_i^2 I_\epsilon(\Phi_i) \leq K_2\epsilon$ for some constant $K_2$. Since $\sqrt{\cdot}$ is a concave function on the positive real line, and since $C_{\epsilon}$ is always positive,
+\[
+\expect \sqrt{C_\epsilon} \leq  \sqrt{\expect  C_\epsilon} < \sqrt{\epsilon( K_2 + 2\expect R_1^2)  }
+\]
+by Jensen's inequality.  Applying $\expect$ to both sides of~\eqref{eq:supZCK1},
+\[
+\expect \sup_{\sabs{\lambda} < \epsilon} \abs{ X(\lambda) } \leq K_1 \sqrt{\tfrac{1}{L}\expect C_\epsilon} < K_1 \sqrt{\epsilon( K_2 + 2\expect R_1^2)}.
+\]
+Choosing 
+\[
+\epsilon = \frac{\kappa^2}{ K_1^2 ( K_2 + 2\expect R_1^2)}
+\] 
+completes the proof.  It remains to prove Lemma~\ref{lem:chaining2}.
+\end{IEEEproof}
+
+The proofs of Lemmas~\ref{lem:chaining2}~and~\ref{lem:chaining3} are based on a technique called \emph{chaining} (or \emph{bracketing})~\cite{Dudley_unif_central_lim_th_1999,Ossiander_clt_bracketing_1984,Pollard_asymp_empi_proc_1989,Pollard_new_ways_clts_1986}.  The proofs here follow those of Pollard~\cite[Section 3]{Pollard_asymp_empi_proc_1989}.  %Within the remaining proofs, we are interested in expectations conditional on the phase noise sequence $\{\Phi_n\}$, so for the purpose of these lemmas, $\{\Phi_n\}$ is treated as a fixed realisation.  
+For notational convenience we use the abbreviation 
+\[
+f_{i}(\lambda) = f_{i}(\lambda, R_i, \Phi_i)
+\]
+in what follows.  As in Lemma~\ref{lem:chaining} we assume, without loss of generality, that $\epsilon < \tfrac{\pi}{M}$.  %This comes at no loss since Lemma~\ref{lem:chaining} only asks for the existence of an $\epsilon > 0$.
+
+\begin{lemma}\label{lem:chaining2}
+There exists a positive constant $K_1$ such that
+\[
+\expect_{R,\Phi} \sup_{\sabs{\lambda} < \epsilon} \abs{ X(\lambda) } \leq K_1 \sqrt{C_\epsilon}.
+\]
+where $C_\epsilon$ is defined in~\eqref{eq:Cepsdefn}
+\end{lemma}
+\begin{IEEEproof}
+Let $B_\epsilon = \{x \in \reals \mid \abs{x} < \epsilon\}$ be the set of real numbers with magnitude less than $\epsilon$.  For each non negative integer $k$, let $T_\epsilon(k)$ be a discrete subset of $B_\epsilon$ with the property that for every $\lambda \in B_\epsilon$ there exists $\lambda_1$ and $\lambda_2$ in $T_\epsilon(k)$ such that the pseudometric
+\[
+d_1(\lambda, \lambda_1) = \sum_{i \in P \cup D} \big( f_{i}(\lambda) - f_{i}(\lambda_1) \big)^2 \leq 2^{-k} C_\epsilon L,
+\]
+and the pseudometric
+\[
+d_2(\lambda, \lambda_2) = \sum_{i \in P \cup D} \sabs{f_{i}(\lambda) - f_{i}(\lambda_2)} \leq 2^{-k} D_\epsilon L
+\]
+where 
+\begin{equation}\label{eq:Depsdefn}
+D_\epsilon = \frac{1}{L}\epsilon\sum_{i\in P \cup D}R_i + \frac{2}{L}\sum_{i\in P \cup D}R_i I_{\epsilon}(\Phi_i).
+\end{equation}
+We specifically define $T_\epsilon(0)$ to contain only zero.  Defined this way, $T_\epsilon(0)$ satisfies the inequality above because $d_1(\lambda, 0) \leq C_\epsilon L $ and $d_2(\lambda, 0) \leq D_\epsilon L$ for all $\lambda \in B_\epsilon$, as a result of Lemma~\ref{lem:epslmlemma}.  
+The existence of $T_\epsilon(k)$ for every positive integer $k$ will be proved by construction in Lemma~\ref{lem:metricentropy}.  Lemma~\ref{lem:metricentropy} also shows that the number of elements in $T_\epsilon(k)$ is no more that $K_3 2^k$ where $K_3$ is a constant, independent of $L$, $\epsilon$ and $k$.
+
+Lemma~\ref{lem:limexpTk} shows that
+\[
+\lim_{k\rightarrow\infty}\expect_{R,\Phi}\sup_{\lambda \in T_\epsilon(k)} \sabs{X(\lambda)} = \expect_{R,\Phi} \sup_{\sabs{\lambda} < \epsilon} \sabs{X(\lambda)}.
+\]
+Lemma~\ref{lem:chaining3} shows that
+\[
+\expect_{R,\Phi} \sup_{\lambda \in T_\epsilon(k)} \sabs{X(\lambda)} \leq \sqrt{C_\epsilon} \sum_{i=1}^k \frac{5\sqrt{i \log 2 + \log K_3}}{2^{i/2}}
+\]
+The sum above converges as $k\rightarrow\infty$ so lemma holds with
+\[
+K_1 = \sum_{i=1}^\infty \frac{5\sqrt{i \log 2 + \log K_3}}{2^{i/2}}.
+\]
+\end{IEEEproof}
+
+\begin{lemma}\label{lem:epslmlemma}
+Both $d_1(\lambda, 0) \leq C_\epsilon L $ and $d_2(\lambda, 0) \leq D_\epsilon L$ for all $\lambda \in B_\epsilon$.
+\end{lemma}
+\begin{IEEEproof}
+We prove the lemma for $d_2$.  The proof for $d_1$ is similar.  Observe that $d_2(\lambda, 0) = c_1 + c_2$ where 
+ \[
+ c_1 = \sum_{i \in P} R_i\sabs{\sin(\lambda + \Phi_i) - \sin(\Phi_i) },
+ \] 
+ \[
+ c_2 = \sum_{i \in D} R_i \sabs{\sin\fracpart{\lambda + \Phi_i} - \sin\fracpart{\Phi_i}}.
+ \]
+ As $\sin(\cdot)$ is Lipshitz continuous with constant $K=1$,
+ \[
+ \sabs{\sin(\lambda + \Phi_i) - \sin(\Phi_i)} \leq K\sabs{\lambda} = \sabs{\lambda} < \epsilon
+ \]
+ for all $i \in P \cup D$, and therefore $c_1 \leq \epsilon \sum_{i \in P} R_i$.  Let 
+\[
+S = \{ i \in D \mid I_\epsilon(\Phi_i) = 1\}.
+\] 
+Now $c_2 = c_3 + c_4$ where 
+ \[
+ c_3 = \sum_{i \in D, i \in S} R_i \sabs{\sin\fracpart{\lambda + \Phi_i} - \sin\fracpart{\Phi_i}},
+ \]
+ \[
+ c_4 =  \sum_{i \in D, i \notin S} R_i \sabs{\sin\fracpart{\lambda + \Phi_i} - \sin\fracpart{\Phi_i}}.
+ \]
+Observe that $I_\epsilon(\Phi_i) = 1$ if and only if $\abs{\fracpart{\Phi_i}} \geq \tfrac{\pi}{M} - \epsilon$.  So, if $i \notin S$ and $\sabs{\lambda} < \epsilon$, then
+\begin{align*}
+\round{\lambda + \Phi_i} &= \round{\lambda + \fracpart{\Phi_i} + \round{\Phi_i}} \\ 
+&= \round{\lambda + \fracpart{\Phi_i}} + \round{\Phi_i} = \round{\Phi_i}
+\end{align*}
+because
+\[
+\sabs{\lambda + \fracpart{\Phi_i}} < \epsilon + \tfrac{\pi}{M} - \epsilon = \tfrac{\pi}{M}
+\] 
+and therefore $\round{\lambda + \fracpart{\Phi_i}} = 0$.  Now,
+ \begin{align*}
+ \vert\sin&\fracpart{\lambda + \Phi_i} - \sin\fracpart{\Phi_i}\vert \\
+ &= \sabs{\sin(\lambda + \Phi_i - \round{\Phi_i}) - \sin(\Phi_i - \round{\Phi_i})} \\
+ &\leq \sabs{\lambda} < \epsilon
+ \end{align*}
+and so, 
+\[
+c_4 \leq \epsilon \sum_{i \in D, i \notin S} R_i \leq \epsilon \sum_{i \in D} R_i.
+\]
+Otherwise, if $i \in S$, then $\sabs{\sin\fracpart{\lambda + \Phi_i} - \sin\fracpart{\Phi_i}} \leq 2$ because $\sin(\cdot) \leq 1$.  Thus 
+\[
+c_3 \leq 2 \sum_{i \in D, i \in S} R_i \leq 2 \sum_{i \in P \cup D} R_i I_\epsilon(\Phi_i).
+\]
+Now,
+\begin{align*}
+d_2(\lambda, 0) &= c_1 + c_2 = c_1 + c_3 + c_4 \\
+&\leq \epsilon \sum_{i \in P \cup D} R_i + 2 \sum_{i \in P \cup D} R_i I_\epsilon(\Phi_i) = D_\epsilon L
+\end{align*}
+as required
+\end{IEEEproof}
+
+
+\begin{lemma}\label{lem:limexpTk} With $T_\epsilon(k)$ defined as in Lemma~\ref{lem:chaining2},
+\[
+\lim_{k\rightarrow\infty}\expect_{R,\Phi}\sup_{\lambda \in T_\epsilon(k)} \sabs{X(\lambda)} = \expect_{R,\Phi} \sup_{\sabs{\lambda} < \epsilon} \sabs{X(\lambda)}
+\]
+\end{lemma}
+\begin{IEEEproof}
+Let $b_2(\lambda)$ be a function that maps $\lambda \in B_\epsilon$ to a point in $T_\epsilon(k)$ such that  $d_2(\lambda,b_2(\lambda)) \leq 2^{-k}D_\epsilon L$.  The existence of $b_2$ is guaranteed by the definition of $T_\epsilon(k-1)$.  So, for all $\lambda \in B_\epsilon$,
+\begin{align*}
+\sabs{X(\lambda) - X(b_2(\lambda))} &= \abs{\frac{1}{\sqrt{L}}\sum_{i\in P \cup D}g_i(f_i(\lambda) - f_i(b_2(\lambda)))} \\
+&\leq  \frac{1}{\sqrt{L}}\sum_{i\in P \cup D}\abs{g_i}\sabs{f_i(\lambda) - f_i(b_2(\lambda))} \\
+&\leq \frac{1}{\sqrt{L}} \sum_{i\in P \cup D} g_\text{max} \sabs{f_i(\lambda) - f_i(b_2(\lambda))} \\
+&\leq \frac{g_\text{max}}{\sqrt{L}} d_2(\lambda,b_2(\lambda)) \\
+&\leq \frac{g_\text{max}}{\sqrt{L}} 2^{-k} D_\epsilon L,
+\end{align*}
+where $g_\text{max} = \sup_{i\in P\cup D} \abs{g_i}$. The bound applies uniformly over $\lambda \in B_\epsilon$, so
+\[
+\sup_{\sabs{\lambda} < \epsilon} \sabs{X(\lambda) - X(b_2(\lambda))} \leq \frac{g_\text{max}}{\sqrt{L}} 2^{-k} D_\epsilon L.
+\]
+Applying $\expect_{R,\Phi}$ to both sides,
+\[
+\expect_{R,\Phi} \sup_{\sabs{\lambda} < \epsilon} \sabs{X(\lambda) - X(b_2(\lambda))} \leq K_4 2^{-k} D_\epsilon L,
+\]
+where, as a result of Lemma~\ref{lem:maxineq},
+\[
+K_4 = \tfrac{1}{\sqrt{L}}\expect_{R,\Phi} g_\text{max} \leq 3 \sqrt{\frac{\log L}{L}}
+\]
+is independent of $\epsilon$ and $k$.  Because $T_\epsilon(k)$ is a subset of $B_\epsilon$,
+\[
+\sup_{\lambda \in T_\epsilon(k)} \expect_{R,\Phi} \sabs{X(\lambda)} \leq \sup_{\sabs{\lambda} < \epsilon} \expect_{R,\Phi} \sabs{X(\lambda)},
+\]
+and so,
+\begin{align*}
+0 &\leq \sup_{\sabs{\lambda} < \epsilon} \expect_{R,\Phi} \sabs{X(\lambda)} - \sup_{\lambda \in T_\epsilon(k)} \expect_{R,\Phi} \sabs{X(\lambda)} \nonumber \\
+&\leq \sup_{\sabs{\lambda} < \epsilon} \expect_{R,\Phi} \sabs{X(\lambda)} - \sup_{\sabs{\lambda} < \epsilon} \expect_{R,\Phi} \sabs{X(b_2(\lambda))} \nonumber \\
+&\leq \sup_{\sabs{\lambda} < \epsilon} \expect_{R,\Phi} \big( \sabs{X(\lambda)} - \sabs{X(b_2(\lambda))} \big) \nonumber \\
+&\leq \sup_{\sabs{\lambda} < \epsilon} \expect_{R,\Phi} \sabs{X(\lambda) - X(b_2(\lambda))} \nonumber \\
+&\leq K_4 2^{-k} D_\epsilon L. \label{eq:Deps2nktozero}
+\end{align*}
+The second line in the inequality above follows because,
+\[
+\sup_{\sabs{\lambda} < \epsilon} \expect_{R,\Phi} \sabs{X(b_2(\lambda))} \leq \sup_{\lambda \in T_\epsilon(k)} \expect_{R,\Phi} \sabs{X(\lambda)},
+\]
+since $b_2(\lambda) \in T_\epsilon(k)$.  The lemma follows because $K_4 2^{-k} D_\epsilon L$ goes to zero as $k\rightarrow\infty$.
+\end{IEEEproof}
+
+
+% \begin{lemma}\label{lem:epslmlemma}
+% Suppose $\sabs{\lambda} < \epsilon$ and $\sabs{\lambda^*} < \epsilon$ with $\epsilon < \tfrac{\pi}{M}$. Then
+% \begin{align*}
+% d(\lambda, \lambda^*) &= \sum_{i \in P \cup D} \big( f_{i}(\lambda) - f_{i}(\lambda^*) \big)^2 \\
+% &\leq R_i^2 L \left( (\lambda - \lambda^*)^2 + 4 C_\epsilon \right).
+% \end{align*}
+% \end{lemma}
+
+
+% \begin{lemma}
+% If $i \in P$, then $\big(f_{i}(\lambda) - f_{i}(\lambda^*)\big)^2 \leq R_i^2(\lambda - \lambda^*)^2.$
+% \end{lemma}
+% \begin{IEEEproof} 
+% We have
+% \[
+% \big(f_{i}(\lambda) - f_{i}(\lambda^*)\big)^2 = R_i^2\sabs{\sin(\lambda + \Phi_i) - \sin(\lambda^* + \Phi_i)}^2
+% \]
+% and, since $\sin(\cdot)$ is Lipshitz continuous with constant $K=1$,
+% \[
+% \sabs{\sin(\lambda + \Phi_i) - \sin(\lambda^* + \Phi_i)} \leq K\sabs{\lambda - \lambda^*} = \sabs{\lambda - \lambda^*}.
+% \]
+% \end{IEEEproof}
+
+% \begin{lemma}
+% Suppose $\sabs{\lambda} < \epsilon$ and $\sabs{\lambda^*} < \epsilon$ with $\epsilon < \tfrac{\pi}{M}$.  If $i \in D$, then
+% \begin{equation}\label{eq:fismall}
+% \big(f_{i}(\lambda) - f_{i}(\lambda^*)\big)^2 \leq R_i^2(\lambda - \lambda^*)^2
+% \end{equation}
+% when $\Phi_i \notin S_\epsilon$, otherwise,
+% \begin{equation}\label{eq:fibig}
+% \big(f_{i}(\lambda) - f_{i}(\lambda^*)\big)^2 \leq 4 R_i^2.
+% \end{equation}
+% \end{lemma}
+% \begin{IEEEproof}
+% Because $\sin(\cdot) \leq 1$ it follows that
+% \begin{align*}
+% \big(f_{i}(\lambda) - f_{i}(\lambda^*)\big)^2 &= R_i^2\sabs{\sin\fracpart{\lambda + \Phi_i} - \sin\fracpart{\lambda^* + \Phi_i}}^2 \\
+% &\leq 4 R_i^2
+% \end{align*}
+% for any $\Phi_i \in \reals$, and so~\eqref{eq:fibig} holds.  If $\Phi_i \notin S_\epsilon$ then $\Phi_i \in (\psi_{k-1} + \epsilon, \psi_{k} - \epsilon)$ for some $k\in\ints$ and 
+% \[
+% \fracpart{\Phi_i + \lambda} = \Phi_i + \lambda - \tfrac{2\pi}{M}k
+% \] 
+% and
+% \[
+% \fracpart{\Phi_i + \lambda^*} = \Phi_i + \lambda^* - \tfrac{2\pi}{M}k 
+% \]
+% and, since $\sin(\cdot)$ is Lipshitz continuous with constant $K=1$,
+% \begin{align*}
+% \vert \sin&\fracpart{\Phi_i + \lambda} - \sin\fracpart{\Phi_i + \lambda^*}\vert \\
+% &=  \sabs{\sin(\Phi_i + \lambda - \tfrac{2\pi}{M}k) - \sin(\Phi_i + \lambda^* - \tfrac{2\pi}{M}k)} \\
+% &\leq K \sabs{\lambda - \lambda^*} \\
+% &= \sabs{\lambda - \lambda^*}.
+% \end{align*}
+% Thus~\eqref{eq:fismall} holds. 
+% \end{IEEEproof}
+
+
+\begin{lemma}\label{lem:chaining3}(Chaining)
+For all positive integers $k$,
+\[
+\expect_{R,\Phi} \sup_{\lambda \in T_\epsilon(k) } \abs{ X(\lambda) } \leq \sqrt{C_\epsilon} \sum_{i=1}^k \frac{5\sqrt{i \log 2 + \log K_3}}{2^{i/2}}.
+\]
+\end{lemma}
+\begin{IEEEproof}
+Let $b_1(\lambda)$ map each $\lambda \in T_\epsilon(k)$ to an element in $T_\epsilon(k-1)$ such that $d(\lambda, b_1(\lambda)) \leq 2^{1-k}C_\epsilon L$.  The existence of $b_1$ is guaranteed by the definition of $T_\epsilon(k)$.  By the triangle inequality
+\[
+\sabs{X(\lambda)} \leq \sabs{X(b_2(\lambda))} + \sabs{X(\lambda) - X(b_2(\lambda))}  
+\]
+and taking supremums on both sides,
+\begin{align}
+&\sup_{\lambda \in T_\epsilon(k)}\sabs{X(\lambda)} \nonumber \\
+&\leq \sup_{\lambda \in T_\epsilon(k)}\sabs{X(b_2(\lambda))} + \sup_{\lambda \in T_\epsilon(k)} \sabs{X(\lambda) - X(b_2(\lambda))}   \nonumber \\
+&\leq \sup_{\lambda \in T_\epsilon(k-1)}\sabs{X(\lambda)} + \sup_{\lambda \in T_\epsilon(k)} \sabs{X(\lambda) - X(b_2(\lambda))}, \label{eq:Xb2recpreexp}
+\end{align}
+the last line because $b_2(\lambda) \in T_\epsilon(k-1)$ and so
+\[
+\sup_{\lambda \in T_\epsilon(k)}\sabs{X(b_2(\lambda))} \leq \sup_{\lambda \in T_\epsilon(k-1)}\sabs{X(\lambda)}.
+\]
+Conditional on $\{R_i\}$ and $\{\Phi_i\}$ the random variable
+\[
+U(\lambda) = X(\lambda) - X(b_2(\lambda))
+\]
+has zero mean and is normally distributed with variance
+\begin{align*}
+\sigma_U^2 &= \expect_{R,\Phi} \frac{1}{L} \sum_{i \in P \cup D} g_i^2 \big( f_i(\lambda) - f_i(b_2(\lambda)) \big)^2 \\
+&=  \frac{1}{L} \sum_{i \in P \cup D} \big( f_i(\lambda) - f_i(b_2(\lambda)) \big)^2 \\
+&= d(\lambda, b_2(\lambda)) \leq 2^{1-k} C_\epsilon,
+\end{align*}
+since $\expect_{R,\Phi}g_i^2 = 1$.  So, from Lemma~\ref{lem:maxineq},
+\begin{align*}
+\expect_{R,\Phi} \sup_{\lambda \in T_\epsilon(k)} \sabs{U(\lambda)} &\leq 3 \sqrt{ 2^{1-k} C_\epsilon \log \abs{T_\epsilon(k)} } \\
+&\leq \sqrt{C_\epsilon} \frac{5\sqrt{k \log 2 + \log K_3}}{2^{k/2}}.
+\end{align*}
+Taking expectations on both sides of~\eqref{eq:Xb2recpreexp},
+\begin{align*}
+\expect_{R,\Phi}&\sup_{\lambda \in T_\epsilon(k)}\sabs{X(\lambda)} \\
+&\leq \expect_{R,\Phi}\sup_{\lambda \in T_\epsilon(k-1)}\sabs{X(\lambda)} + \sqrt{C_\epsilon} \frac{5\sqrt{k \log 2 + \log K_3}}{2^{k/2}} ,
+\end{align*}
+which involves a recursion in $k$.  By unravelling the recursion and using that $T_\epsilon(k)$ contains only zero, and therefore
+\[
+\expect_{R,\Phi} \sup_{\lambda \in T_k(0)} \sabs{X(\lambda)} = \expect_{R,\Phi} \sabs{X(0)} = 0
+\]
+we obtain,
+\[
+\expect_{R,\Phi}\sup_{\lambda \in T_\epsilon(k)}\sabs{X(\lambda)} \leq  \sqrt{C_\epsilon} \sum_{i=1}^k \frac{5\sqrt{i \log 2 + \log K_3}}{2^{i/2}}  
+\]
+as required.
+\end{IEEEproof}
+
+\begin{lemma}\label{lem:maxineq}(Maximal inequalities)
+Suppose $X_1, \dots, X_N$ are zero mean Gaussian random variables each with variance less than some positive constant $K$, then
+\[
+\expect \sup_{n = 1, \dots, N} \abs{X_n} \leq 3  \sqrt{K \log N}
+\]
+where $\log N$ is the natural logarithm of $N$.
+\end{lemma}
+\begin{IEEEproof}
+This result is well known, see for example~\cite[Section 3]{Pollard_asymp_empi_proc_1989}  
+\end{IEEEproof}
+
+
+\begin{lemma}\label{lem:metricentropy}(Covering numbers)
+For $k \in \ints$ there exists a discrete set $T_\epsilon(k) \subset B_\epsilon$ with the property that, for every $\lambda \in B_\epsilon$, there is a $\lambda_1$ and $\lambda_2$ in $T_\epsilon(k)$ such that the pseudometric
+\[
+d_1(\lambda, \lambda_1) = \sum_{i \in P \cup D} \big( f_{i}(\lambda) - f_{i}(\lambda_1) \big)^2 \leq 2^{-k} C_\epsilon L,
+\]
+and the pseudometric
+\[
+d_2(\lambda, \lambda_2) = \sum_{i \in P \cup D} \sabs{f_{i}(\lambda) - f_{i}(\lambda_2)} \leq 2^{-k} D_\epsilon L,
+\]
+where $C_\epsilon$ and $D_\epsilon$ are defined in~\eqref{eq:Cepsdefn} and~\eqref{eq:Depsdefn}.  The number of elements in $T_\epsilon(k)$ is no more than $K_3 2^{k}$ where $K_3$ is a positive constant, independent of $L$, $\epsilon$ and $k$.
+\end{lemma}
+\begin{IEEEproof}
+% We will first construct a set $T^2_\epsilon(k)$ containing no more than $K_{23}2^{k}$ elements and so that for every $\lambda \in B_\epsilon$ there exists $\lambda_2 \in T^2_\epsilon(k)$ such that $d_2(\lambda, \lambda_2) \leq 2^{-k} D_\epsilon L$ with $K_{23}$ a constant, independent of $L$, $\epsilon$ and $k$.  Using a similar construction we find a set $T^1_\epsilon(k)$ containing no more than $K_{13}2^{k}$ elements and so that for every $\lambda \in B_\epsilon$ there exists $\lambda_1 \in T^1_\epsilon(k)$ such that $d_1(\lambda, \lambda_2) \leq 2^{-k} D_\epsilon L$ with $K_{13}$ a constant, independent of $L$, $\epsilon$ and $k$.  Puting $T_\epsilon(k) = T^1_\epsilon(k) \cup T^2_\epsilon(k)$ will then complete the proof with $K_3 = K_{13} + K_{23}$.
+
+% We will only give a construction for $T^2_\epsilon(k)$, the construction for $T^1_\epsilon(k)$ being similar.  First observe that
+% \[
+% f_{i}(\lambda) - f_{i}(\lambda_2) = \begin{cases}
+% R_i\big( \sin(\lambda + \Phi_i) - \sin(\lambda_2 + \Phi_i) \big) & i \in P \\
+% R_i\big(\sin\fracpart{\lambda + \Phi_i} - \sin\fracpart{\lambda_2 + \Phi_i}\big) & i \in D
+% \end{cases}
+% \]
+% Let 
+% \[
+% U = \{\epsilon(\ell 2^{-k} - 1) \mid \ell = 0, 1, \dots, 2^{k+1} \} 
+% \]
+% be a set containing $2^{k+1} + 1$ elements uniformly spaced over $B_\epsilon$.  For every $\lambda \in B_\epsilon$ there exists a $\lambda^* \in U$ such that $\abs{\lambda - \lambda^*} < \epsilon 2^{-k}$.  Since $\sin(\cdot)$ is Lipshitz continuous with constant $K=1$, it follows that if $i \in P$ then,
+% Let 
+% \begin{align*}
+% \abs{f_{i}(\lambda) - f_{i}(\lambda_2)} &= R_i\abs{ \sin(\lambda + \Phi_i) - \sin(\lambda^* + \Phi_i) } \\
+% &\leq R_i\sabs{\lambda - \lambda^*} \\
+% &< \epsilon 2^{-k} R_i.
+% \end{align*}
+% Thus
+% \[
+% \sum_{i \in P} \sabs{f_{i}(\lambda) - f_{i}(\lambda^*)} < \epsilon 2^{-k} \sum_{i\in P} R_i.
+% \]
+% As in Lemma~\ref{lem:epslmlemma} let $S = \{ i \in D \mid I_\epsilon(\Phi_i) \}$. Now, if $i \in D$ but $i \notin S$ then 
+% \[
+% \round{\lambda + \Phi_i} = \round{\lambda^* + \Phi_i} = \round{\Phi_i},
+% \] 
+% so
+%  \begin{align*}
+%  \vert f_{i}(\lambda) - &f_{i}(\lambda^*)\vert \\
+% &= R_i\vert\sin\fracpart{\lambda + \Phi_i} - \sin\fracpart{\lambda^* + \Phi_i}\vert \\
+%  &= R_i\vert\sin(\lambda + \Phi_i - \round{\Phi_i}) - \sin(\lambda^* + \Phi_i - \round{\Phi_i})\vert  \\
+%  &\leq R_i \sabs{\lambda - \lambda^*} \\
+% &< \epsilon 2^{-k} R_i.
+%  \end{align*}
+% Thus,
+% \[
+% \sum_{i \in D, i \notin S} \sabs{f_{i}(\lambda) - f_{i}(\lambda^*)} < \epsilon 2^{-k} \sum_{i \in D, i \notin S} R_i 
+% \]
+
+% To handle the case when $i \in S$ we need to add some extra elements to the set $U$.  Let 
+% \[
+% r_i = \begin{cases}
+% \tfrac{\pi}{M} - \fracpart{\Phi_i} & \fracpart{\Phi_i} > 0 \\
+% -\tfrac{\pi}{M} - \fracpart{\Phi_i} & \fracpart{\Phi_i} \leq 0
+% \end{cases}
+% \]
+% and let $\sigma$ be a permutation of the indices in $S$ such that $r_i$ are in ascending order, that is,
+% \begin{equation}\label{eq:sigmasortind}
+% r_{\sigma(i)} \leq r_{\sigma(k)}
+% \end{equation}
+% whenever $i < k $ where $i, k \in \{0, 1, \dots, \abs{S}-1\}$.  Now,
+% \begin{align*}
+% \sum_{i\in S} \sabs{f_{i}(\lambda) - f_{i}(\lambda^*)} = \sum_{i = 0}^{\abs{S}-1} \sabs{ f_{\sigma(i)}(\lambda) - f_{\sigma(i)}(\lambda^*)}.
+% \end{align*}
+% If $\epsilon > \lambda \geq r_{\sigma(k)} > 0$ for some $k$, then
+% \[
+% \round{\lambda + \fracpart{\Phi_{\sigma(i)}}} = \round{\lambda + \tfrac{\pi}{M} - r_{\sigma(i)}} = \tfrac{\pi}{M}
+% \]
+% for all $i \leq k$, whilst
+% \[
+% \round{\lambda + \fracpart{\Phi_{\sigma(i)}}} = \round{\lambda + \tfrac{\pi}{M} - r_{\sigma(i)}} = 0
+% \]
+% for all $i > k$.  Otherwise if $-\epsilon < \lambda < r_{\sigma(k)} \leq 0$ for some $k$, then
+% \[
+% \round{\lambda + \fracpart{\Phi_{\sigma(i)}}} = \round{\lambda + -\tfrac{\pi}{M} - r_{\sigma(i)}} = -\tfrac{\pi}{M}
+% \]
+% for all $i \leq k$, whilst
+% \[
+% \round{\lambda + \fracpart{\Phi_{\sigma(i)}}} = \round{\lambda + \tfrac{\pi}{M} - r_{\sigma(i)}} = 0
+% \]
+% for all $i > k$.
+
+% Let $R = \sum_{i \in S} R_i$ and let $d(\ell)$ be the largest integer such that
+% \[
+% \sum_{i=0}^{d(\ell)} R_{\sigma(i)} \leq \frac{\ell}{2^k} R.
+% \]
+% for integers $\ell = 1, \dots, 2^k$.  Define the intervals
+% \[
+% L_\ell = \in [r_{d(\ell)}, r_{d(\ell+1)})
+% \]
+% where $r_{0} = -\epsilon$ and $r_{2^k+1} = \epsilon$.  Then $L_0, L_1, \dots, L_{2^k}$ partition the closure of $B_\epsilon$.  If $\lambda$ and $\lambda^*$ are from interval $L_\ell$, then for all $i \in \{0, 1, \dots, \abs{S}-1\}$ less than $d(\ell)$,
+% \begin{align*}
+% \fracpart{\lambda + \Phi_{\sigma(i)}} &= \fracpart{\lambda + \fracpart{\Phi_{\sigma(i)}}} \\
+% &= \fracpart{\lambda + \fracpart{\Phi_{\sigma(i)}}}
+% \end{align*}
+% \begin{align*}
+% \vert f_{\sigma(i)}(\lambda) - &f_{\sigma(i)}(\lambda^*) \vert \\
+% &= R_{\sigma(i)}\vert\sin\fracpart{\lambda + \Phi_{\sigma(i)}} - \sin\fracpart{\lambda^* + \Phi_{\sigma(i)}}\vert 
+% \end{align*}
+BLERG
+
+\end{IEEEproof}
 
  
 \end{document}
