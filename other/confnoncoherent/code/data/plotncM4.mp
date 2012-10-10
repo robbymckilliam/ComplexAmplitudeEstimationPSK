@@ -41,10 +41,11 @@ picture times; times := cross rotated 45;
 %%%%%%%%%%%%%
 %%%%%Legend picture
 
-picture legend;
 sx = 0.2cm;
 sh = 0.2cm;
 ups = 0.35cm;
+
+picture legendphase;
 
 ls:=0;
 label.rt(btex Unmodulated Carrier etex, (1cm,sh + ls*ups));
@@ -53,7 +54,7 @@ draw (sx,sh + ls*ups)--(1cm,sh + ls*ups) dashed evenly;
 
 ls:=1;
 label.rt(btex Viterbi and Viterbi etex, (1cm,sh + ls*ups));
-draw (sx,sh + ls*ups)--(1cm,sh + ls*ups);
+%draw (sx,sh + ls*ups)--(1cm,sh + ls*ups);
 draw circle shifted 1/2[(sx,sh + ls*ups),(1cm,sh + ls*ups)];
 
 ls:=2;
@@ -66,7 +67,31 @@ label.rt(btex Least squares (Simulation) etex, (1cm,sh + ls*ups));
 %draw (sx,sh + ls*ups)--(1cm,sh + ls*ups);
 draw dot shifted 1/2[(sx,sh + ls*ups),(1cm,sh + ls*ups)];
 
-legend := currentpicture; currentpicture := ORIGINAL_PICTURE;
+legendphase := currentpicture; currentpicture := ORIGINAL_PICTURE;
+
+picture legendamp;
+
+ls:=0;
+label.rt(btex Unmodulated Carrier etex, (1cm,sh + ls*ups));
+draw (sx,sh + ls*ups)--(1cm,sh + ls*ups) dashed evenly;
+%draw square shifted 1/2[(sx,sh + ls*ups),(1cm,sh + ls*ups)];
+
+%ls:=1;
+%label.rt(btex Viterbi and Viterbi etex, (1cm,sh + ls*ups));
+%draw (sx,sh + ls*ups)--(1cm,sh + ls*ups);
+%draw circle shifted 1/2[(sx,sh + ls*ups),(1cm,sh + ls*ups)];
+
+ls:=1;
+label.rt(btex Least squares (Theory) etex, (1cm,sh + ls*ups));
+draw (sx,sh + ls*ups)--(1cm,sh + ls*ups);
+%draw circle shifted 1/2[(sx,sh + ls*ups),(1cm,sh + ls*ups)];
+
+ls:=2;
+label.rt(btex Least squares (Simulation) etex, (1cm,sh + ls*ups));
+%draw (sx,sh + ls*ups)--(1cm,sh + ls*ups);
+draw dot shifted 1/2[(sx,sh + ls*ups),(1cm,sh + ls*ups)];
+
+legendamp := currentpicture; currentpicture := ORIGINAL_PICTURE;
 
 
 plotheight = 13cm;
@@ -109,7 +134,7 @@ draw begingraph(plotwidth, plotheight);
   gdraw "MackenthunCoherentM4L16a" dashed evenly; 
 
 
-draw legend shifted(legendx,legendy);
+draw legendamp shifted(legendx,legendy);
 
 endgraph;
 
@@ -148,7 +173,7 @@ draw begingraph(plotwidth, plotheight);
   gdraw "MackenthunCoherentM4L256absP256p" dashed evenly; 
   gdraw "MackenthunCoherentM4L16absP16p" dashed evenly;
 
-draw legend shifted(legendx,legendy);
+draw legendphase shifted(legendx,legendy);
 
 endgraph;
 
