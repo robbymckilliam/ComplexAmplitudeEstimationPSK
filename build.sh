@@ -7,11 +7,7 @@ mpost plotncM4.mp
 mpost plotncM8.mp
 cd ../..
 
-pdflatex paper1.tex
-pdflatex paper2.tex
-bibtex paper1
-bibtex paper2
-pdflatex paper1.tex
-pdflatex paper2.tex
-pdflatex paper1.tex
-pdflatex paper2.tex
+pdflatex paper.tex
+bibtex paper
+pdflatex paper.tex
+pdflatex paper.tex
