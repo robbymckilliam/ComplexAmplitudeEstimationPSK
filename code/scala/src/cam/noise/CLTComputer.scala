@@ -1,5 +1,5 @@
 /*
- * Classes that wraps noise distributions with functions relavant to computing the asymptotic
+ * Classes that wrap noise distributions with functions relavant to computing the asymptotic
  * variance the least squares estimator.
  * @author Robby McKilliam
  */

@@ -15,7 +15,7 @@
 
 %opening
 \title{Noncoherent least squares estimators of carrier phase and amplitude}
-\author{Robby McKilliam$^{1}$, Andre Pollok$^{1}$, Bill Cowley$^{1}$, Vaughan Clarkson$^{2}$ and Barry Quinn$^{3}$ \vspace{0.2cm} \\
+\author{Robby McKilliam$^{1}$, Andr\'{e} Pollok$^{1}$, Bill Cowley$^{1}$, Vaughan Clarkson$^{2}$ and Barry Quinn$^{3}$ \vspace{0.2cm} \\
 \small $^{1}$Institute for Telecommunications Research, University of South Australia, SA, \textsc{Australia} \vspace{0.1cm} \\
 \small $^{2}$School of Information Technology \& Electrical Engineering, The University of Queensland, QLD 4067, \textsc{Australia} \vspace{0.1cm} \\
 \small $^{3}$Department of Statistics, Macquarie University, Sydney, \textsc{Australia} 
@@ -66,9 +66,10 @@ where $\calC$ is the set of symbols from the $M$-PSK constellation.  The least s
 % \]
 % Various choices for $F$ are suggested in~\cite{ViterbiViterbi_phase_est_1983} and a statistical analysis is presented.
 
-In the literature it has been common to assume that the symbols $s_1, \dots, s_L$ are of primary interest and the complex amplitude $a_0$ is a nuisance parameter.  The metric of performance is correspondingly \emph{symbol error rate}, or \emph{bit error rate}.  Whilst estimating the symbols (or more precisely the transmitted bits) is ultimately the goal, we take the opposite approach here.  Our aim is to estimate $a_0$, and we treat the unknown symbols as nuisance parameters.  This is motivated by the fact that in many modern communication systems the data symbols are \emph{coded}.  For this reason raw symbol error rate is not of interest at this stage.  Instead, we desire an accurate estimator $\hat{a}$ of $a_0$, so that the compensated received symbols $\hat{a}^{-1}y_i$ can be accurately modelled using an additive noise channel.  The additive noise channel is a common assumption for subsequent receiver operations, such as decoding.  Consequently, our metric of performance is mean square error (MSE) between complex amplitude $a_0$ and its estimator $\hat{a}$, that is, our metric is $\expect\abs{a_0 - \hat{a}}^2$ where $\expect$ denotes the expected value. It will be informative to consider the carrier phase and amplitude estimators separately, that is, if $\hat{a} = \hat{\rho}e^{j\hat{\theta}}$ where $\hat{\rho}$ is a positive real number, then we consider $\expect\langle\theta_0 - \hat{\theta}\rangle^2$ and $\expect(\rho_0 - \hat{\rho})^2$.  The function $\fracpart{\cdot}$ denotes its argument taken `modulo $\tfrac{2\pi}{M}$' into the interval $[-\tfrac{\pi}{M}, \tfrac{\pi}{M})$.  It will become apparent why $\expect\langle\theta_0 - \hat{\theta}\rangle^2$ rather than $\expect(\theta_0 - \hat{\theta})^2$ is the appropriate error for the phase parameter.
+In the literature it has been common to assume that the symbols $s_1, \dots, s_L$ are of primary interest and the complex amplitude $a_0$ is a nuisance parameter.  The metric of performance is correspondingly \emph{symbol error rate}, or \emph{bit error rate}.  Whilst estimating the symbols (or more precisely the transmitted bits) is ultimately the goal, we take the opposite approach here.  Our aim is to estimate $a_0$, and we treat the unknown symbols as nuisance parameters.  This is motivated by the fact that in many modern communication systems the data symbols are \emph{coded}.  For this reason raw symbol error rate is not of interest at this stage.  Instead, we desire an accurate estimator $\hat{a}$ of $a_0$, so that the compensated recieved symbols $\hat{a}^{-1}y_i$ can be accurately modelled using an additive noise channel.  The additive noise channel is a common assumption for subsequent reciever operations, such as decoding.  The estimator $\hat{a}$ is also used in the computation of decoder metrics for modern decoders, and for interference cancellation in multiuser systems.  Consequently, our metric of performance will not be symbol or bit error rate, it will be $\abs{a_0 - \hat{a}}^2$. It will actually be informative to consider the carrier phase and amplitude estimators separately, that is, if $\hat{a} = \hat{\rho}e^{j\hat{\theta}}$ where $\hat{\rho}$ is a positive real number, then we consider $\langle\theta_0 - \hat{\theta}\rangle^2$ and $(\rho_0 - \hat{\rho})^2$.  The function $\fracpart{\cdot}$ denotes its argument taken `modulo $\tfrac{2\pi}{M}$' into the interval $[-\pi/M, \pi/M)$.  It will become apparent why $\langle\theta_0 - \hat{\theta}\rangle^2$ rather than $(\theta_0 - \hat{\theta})^2$ is the appropriate measure of error for the phase parameter.
 
-The paper is organised in the following way.  Section~\ref{sec:circ-symm-compl} describes properties of complex random variables that we need.  Section~\ref{sec:stat-prop-least} describes the statistical properties of the least squares estimator of carrier phase $\hat{\theta}$ and amplitude $\hat{\rho}$.  We show, under some assumptions about the distribution of the noise $w_1,\dots,w_L$, that $\langle\theta_0 - \hat{\theta}\rangle^2$ converges almost surely to zero and that $\sqrt{L}\langle\theta_0 - \hat{\theta}\rangle^2$ is asymptotically normally distributed as $L\rightarrow \infty$.  However, $\hat{\rho_0}$ is not a consistent estimator of the amplitude $\rho_0$.  The bias of $\hat{\rho}$ is small when the signal to noise ratio (SNR) is large, but the bias is significant when the SNR is small.  %In Section~\ref{sec:gaussian-noise-case} we consider the special case when the noise is Gaussian.  In this case, our formula for the asymptotic variance of can be simplified.  
+
+The paper is organised in the following way.  Section~\ref{sec:circ-symm-compl} describes properties of complex random variables that we need.  Section~\ref{sec:stat-prop-least} describes the statistical properties of the least squares estimators of carrier phase $\hat{\theta}$ and amplitude $\hat{\rho}$.  We show, under some assumptions about the distribution of the noise $w_1,\dots,w_L$, that $\langle\theta_0 - \hat{\theta}\rangle^2$ converges almost surely to zero and that $\sqrt{L}\langle\theta_0 - \hat{\theta}\rangle^2$ is asymptotically normally distributed as $L\rightarrow \infty$.  However, $\hat{\rho}$ is not a consistent estimator of the amplitude $\rho_0$.  The bias of $\hat{\rho}$ is small when the signal to noise ratio (SNR) is large, but the bias is significant when the SNR is small.  %In Section~\ref{sec:gaussian-noise-case} we consider the special case when the noise is Gaussian.  In this case, our formula for the asymptotic variance of can be simplified.  
 Section~\ref{sec:simulations} presents the results of Monte-Carlo simulations.  These simulations agree with the derived asymptotic properties. 
 
 
@@ -192,39 +193,17 @@ A = \expect R_1^2\sin^2\fracpart{\Phi_1}, \;\;\; B = \expect R_1^2 \cos^2\fracpa
 \]
 \end{theorem}
 
-\begin{corollary}\label{cor:ampmse}
-The mean square error of the amplitude estimator $\hat{\rho}$ is 
-\[
-\expect (\rho_0 - \hat{\rho})^2 = \frac{B}{L} + \rho_0^2(1 - G(0))^2 + o(1)
-\] 
-where $o(1)$ goes to zero as $L \rightarrow \infty$.
-\end{corollary}
-\begin{IEEEproof} Write
-\begin{align*}
-\expect (\rho_0 - \hat{\rho})^2 &= \expect \big( \rho_0(1 - G(0)) + G(0)\rho_0 - \hat{\rho} \big)^2 \\
-&= \expect \big( \rho_0(1 - G(0)) - \hat{m}_L \big)^2 \\
-&= \rho_0^2(1 - G(0))^2 + \expect \hat{m}_L^2 - 2\rho_0(1 - G(0))\expect\hat{m}_L,
-\end{align*} 
-and the corollary holds since $\expect \hat{m}_L^2 = B/L + o(1)$ and $\expect\hat{m}_L = o(1)$ from Theorem~\ref{thm:normality}.
-\end{IEEEproof}
-
-%BLERG discuss assumptions.  We have that $h_1$ is uniquely maximised at $0$ over the interval $[-\pi,\pi)$ since $\{w_i\}$ has zero mean.  The requirement that $h_2$ is uniquely maximised at 0 is stronger that we need.  We actually only require that the sum $p h_1(x) + dh_2(x)$ is maximised uniquely at 0 over the interval $[-\pi, \pi)$.  However, we have stated the theorem in this stronger form as it makes the proof in the noncoherent case (i.e. when there are no pilot symbols) follow more transparently.
-
-%BLERG $\hat{a}$ is a biased estimator, particularly when the SNR is low, we show firs that $\hat{\theta}$ is strongly consistent, we are then able to analyse the behaviour of $\hat{a}$.
-
 We now discuss the assumptions made by these theorems.  The assumption that $w_1, \dots w_L$ are circularly symmetric can be relaxed, but this comes at the expense of making the theorem statements more complicated.  If $w_i$ is not circularly symmetric then the distribution of $R_i$ and $\Phi_i$ may depend on $a_0$ and also on the transmitted symbols $s_1, \dots, s_L$.  In result, the asymptotic variance described in Theorem~\ref{thm:normality} depends on $a_0$ and $s_1, \dots, s_L$, rather than just $\rho_0$.  The circularly symmetric assumption may not always hold in practice, but we feel it provides a sensible trade off between simplicity and generality.
 
-A key assumption in Theorem~\ref{thm:consistency} is that $\abs{G(x)}$ is uniquely maximised at $x = 0$.  The next Lemma describes a class of circularly symmetric distributions that satisfy this property.  We omit the proof due to space constraints.
+A key assumption in Theorem~\ref{thm:consistency} is that $\abs{G(x)}$ is uniquely maximised at $x = 0$.  The next proposition describes a class of circularly symmetric distributions for which $\abs{G(x)}$ is uniquely maximised at $x = 0$.  The zero mean complex Gaussian distribution with independent real and imaginary parts is in this class.  We omit the proof due to space constraints.
 
-\begin{lemma}
-Let $X = Z e^{j\Theta}$ be a circularly symmetric complex random variable with pdf $\tfrac{1}{2\pi}f_Z(z)$ such that $z^{-1} f_Z(z)$ is nonincreasing with $z$.  Let $R > 0$ and $\Phi \in [0, 2\pi)$ be random variables satisfying $R e^{j\Phi} = 1 + X$.  Let,
+\begin{proposition}\label{prop:contgg2}
+Let $W = X + jY$ be a circularly symmetric complex random variable, the real and imaginary parts having pdf $f_{X,Y}(x,y)$ that is nonincreasing with $x^2 + y^2$.  Let $R > 0$ and $\Phi \in [0, 2\pi)$ be random variables satisfying $R e^{j\Phi} = 1 + W$.  Let,
 \[
-G(x) = \expect R \cos\sfracpart{x + \Phi}.
+G(x) =  \expect R \cos\sfracpart{x + \Phi}.
 \]
-Then $\abs{G(x)}$ is uniquely maximised at $x=0$ over the interval $[-\tfrac{\pi}{M},\tfrac{\pi}{M})$.
-\end{lemma}
-
-The requirement that $z^{-1}f_{Z}(z)$ be non increasing implies that the probability density function of $X$ decreases as we move away from the origin. That is, the pdf of $X$ in rectangular coordinates is $p(x,y) = z^{-1}f_{Z}(z)$, where $z = \sqrt{x^2 + y^2}$, and this is required to be non increasing with $z$.  For example, the zero mean complex Gaussian distribution with independent real and imaginary parts satisfies this requirement.
+Then $\abs{G(x)}$ is uniquely maximised at $x=0$ over the interval $[-\tfrac{\pi}{M},\tfrac{\pi}{M}]$.
+\end{proposition}
 
 The theorems place conditions on $\sfracpart{\hat{\theta} - \theta_0}$ rather than directly on $\hat{\theta} - \theta_0$.  This makes practical sense, and to see why let $s_i' = e^{j2\pi k/M}s_i$ be $M$-PSK symbols obtained by rotating $s_1, \dots, s_L$ by $e^{j2\pi k/M}$ for some integer $k$.  Then
 \[
@@ -254,17 +233,20 @@ where $\kappa = \rho_0/\sigma$ and
 \[
 \Psi(\phi) = 1 + \erf(\kappa \cos(\phi)) = 1 + \frac{2}{\sqrt{\pi}}\int_0^{\kappa \cos(\phi)} e^{-t^2} dt.
 \]
-Each of $A$, $B$ and $H$ can be computed efficiently by numerical integration using the above formula for $g(\phi)$.
+Each of $A$, $B$ and $H$ can be computed by numerical integration using the above formula for $g(\phi)$.
 
 
 \section{Simulations}\label{sec:simulations}
 
-We present the results of Monte-Carlo simulations with the least squares estimator.  In all simulations the noise $w_1,\dots,w_L$ is independent and identically distributed circularly symmetric and Gaussian with real and imaginary parts having variance $\sigma^2$.  Simulations are run with $M=2,4$ (BPSK and QPSK) and $L=16,256,4096$ with signal to noise ratio $\text{SNR} = \tfrac{\rho_0^2}{2\sigma^2}$ between \unit[-20]{dB} and \unit[20]{dB}.  The amplitude $\rho_0=1$ and $\theta_0$ is uniformly distributed on $[-\pi, \pi)$.  For each value of SNR $T = 5000$ replications are performed to obtain $T$ estimates $\hat{\rho}_1, \dots, \hat{\rho}_T$ and $\hat{\theta}_1, \dots, \hat{\theta}_T$.  
+We present the results of Monte-Carlo simulations with the least squares estimator.  In all simulations the noise $w_1,\dots,w_L$ is independent and identically distributed circularly symmetric and Gaussian with real and imaginary parts having variance $\sigma^2$.  Simulations are run with $M=2,4$ (BPSK and QPSK) and $L=16,256,4096$ with signal to noise ratio $\text{SNR} = \tfrac{\rho_0^2}{2\sigma^2}$ between \unit[-20]{dB} and \unit[20]{dB} in steps of \unit[1]{dB}.  The amplitude $\rho_0=1$ and $\theta_0$ is uniformly distributed on $[-\pi, \pi)$.  For each value of SNR $T = 10000$ replications are performed to obtain $T$ estimates $\hat{\rho}_1, \dots, \hat{\rho}_T$ and $\hat{\theta}_1, \dots, \hat{\theta}_T$.  
 
-Figures~\ref{fig:plotphaseM2}~and~\ref{fig:plotphaseM4} show the mean square error (MSE) of the phase estimator $\hat{\theta}$ computed as $\tfrac{1}{T}\sum_{i=1}^T\sfracpart{\hat{\theta}_i - \theta_0}^2$.  The dots are the Monte-Carlo simulations of the least square estimator.  The dashed line the performance of the unmodulated carrier estimator~\eqref{eq:hataumod} that has a priori knowledge of the transmitted symbols $s_1, \dots, s_L$.  %The dashed line acts as a lower bound on performance.  
+Figures~\ref{fig:plotphaseM2}~and~\ref{fig:plotphaseM4} show the mean square error (MSE) of the phase estimator $\hat{\theta}$ computed as $\tfrac{1}{T}\sum_{i=1}^T\sfracpart{\hat{\theta}_i - \theta_0}^2$.  The dots are the Monte-Carlo simulations of the least square estimator.  The dashed line the MSE of the unmodulated carrier estimator~\eqref{eq:hataumod} that has a priori knowledge of the transmitted symbols $s_1, \dots, s_L$.  %The dashed line acts as a lower bound on performance.  
 The solid line is the MSE predicted by Theorem~\ref{thm:normality}.  The theorem accurately predicts the behaviour of the phase estimator when $L$ is sufficiently large and when the SNR is not too small.  As the SNR decreases the variance of the phase estimator approaches that of the uniform distribution on $[-\tfrac{\pi}{M}, \tfrac{\pi}{M})$, and Theorem~\ref{thm:normality} does not model this behaviour.  %An interesting feature is that the phase estimator is not accurate at low SNR unless $L$ is very large.
 
-Figures~\ref{fig:plotphaseM2}~and~\ref{fig:plotphaseM4} show the MSE of the amplitude estimator $\hat{\rho}$.  The dots are again the Monte-Carlo simulations, and the dashed line is the unmodulated carrier.  The solid line is the asymptotic MSE predicted by Corollary~\ref{cor:ampmse}.  The corollary accurately models the behaviour of $\hat{\rho}$ when $L$ is sufficiently large.  The estimator is biased, and as $L\rightarrow\infty$, the MSE converges to $\rho_0^2(1 - G(0))^2$.  The bias is clearly seen in the figures when the SNR is small.
+Figures~\ref{fig:plotphaseM2}~and~\ref{fig:plotphaseM4} also display the MSE of the phase estimator of Viterbi and Viterbi~\cite{ViterbiViterbi_phase_est_1983}.  This estimator requires the selection of a function $F : \reals \mapsto \reals$.  We have chosen $F(x) = 1$.  The MSE of the least squares estimator and the Viterbi and Viterbi estimator is similar.  The least squares estimator appears slightly more accurate at low SNR.
+
+
+Figures~\ref{fig:plotampM2}~and~\ref{fig:plotampM4} show the variance of the amplitude estimator $\hat{\rho}$.   The solid line is the asymptotic variance predicted by Theorem~\ref{thm:normality}.  The dots are again the Monte-Carlo simulations, and the dashed line is the unmodulated carrier.  Each point is computed as $\tfrac{1}{T}\sum_{i=1}^T\big(\hat{\rho}_i - \rho_0G(0)\big)^2$.  This requires $G(0)$ to be known.  In practice $G(0)$ may not be known at the receiver, so Figures~\ref{fig:plotampM2}~and~\ref{fig:plotampM4} serve to validate the correctness of our asymptotic theory, rather than to suggest the practical performance of the amplitude estimator.  When SNR is large $G(0)$ is close to $1$ and the bias of the amplitude estimator is small.  However, $G(0)$ grows without bound as the variance of the noise increases, so the bias is significant when SNR is small.
 
 
 %\section{Discussion}
@@ -303,7 +285,7 @@ We have studied the least squares estimator of carrier phase and amplitude from 
 	\centering
 		\includegraphics[width=\linewidth]{code/data/plotncM4-1.mps}
 		\caption{Amplitude error for QPSK}
-		\label{fig:plotampM}
+		\label{fig:plotampM4}
 \end{figure}
 
 %\begin{figure}[tp]
