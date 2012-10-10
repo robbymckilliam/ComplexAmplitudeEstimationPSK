@@ -2033,18 +2033,31 @@ BLERG
 \subsection{Proof of Proposition~\ref{prop:gg2cont}} \label{appendix:prop1proof}
 
 \begin{lemma}
-Let $W$ be a circularly symmetric random variable with constant magnitude $\abs{W} = c > 0$ and phase uniformly distributed on $[-\pi,pi)$.  Let $R \geq 0$ and $\Phi$ be real random variables such that $Re^{-j2\pi \Phi} = 1 + W$.  Then the pdf of $\Phi$ is
-\[
+Let $W$ be a circularly symmetric random variable with constant magnitude $Z = \abs{W} = c > 0$ and phase uniformly distributed on $[-\pi,pi)$.  Let $R \geq 0$ and $\Phi \in $ be real random variables such that $Re^{-j2\pi \Phi} = 1 + W$.  Then the pdf of $\Phi$ is
+\begin{equation} \label{eq:fphicleq1}
 f_{\Phi}(\phi) = \begin{cases} 
-
+\frac{\cos(\Phi)}{\pi c} &  [-\tfrac{\pi}{2}, \tfrac{\pi}{2}] \\
+0 & \text{otherwise}
 \end{cases}
-\] 
-for $0 < c \leq 1$ and
-\[
+\end{equation}
+when $0 < c \leq 1$ and
+\begin{equation} \label{eq:fphicg1}
 f_{\Phi}(\phi) = 
-\]
+\end{equation}
 when $c > 1$.
 \end{lemma}
+\begin{IEEEproof}
+We make use of delta `function' notation and write the `pdf' of $Z$ as $\delta(z - c)$.  The pdf of $\Phi$ is then
+\[
+f_{\Phi}(\phi) = \int_{0}^{\infty} r \frac{\delta(z - c)}{ 2\pi z} dr = \sum_{r} \frac{r}{2\pi c}
+\]
+where $z^2 = r^2 - 2r\cos(\phi) + 1$ and the sum is over the positive real solutions of $c^2 = r^2 - 2r\cos(\phi) + 1$.  If $0 < c \leq 1$ and $phi \in [-\tfrac{\pi}{2}, \tfrac{\pi}{2}]$ there are two positive real solutions, these being
+\[
+r = \cos(\phi) \pm \sqrt{c^2 - 1 + \cos^2(\phi)},
+\]
+whilst if $\phi \notin [-\tfrac{\pi}{2}, \tfrac{\pi}{2}]$ there are no real solutions.  Thus~\eqref{eq:fphicleq1} holds.
+\end{IEEEproof}
+
 
 \subsection{Proof of Proposition~\ref{prop:contgg2}} \label{appendix:prop2proof}
 
