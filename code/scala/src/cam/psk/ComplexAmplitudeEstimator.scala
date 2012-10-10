@@ -1,3 +1,7 @@
+/*
+ * @author Robby McKilliam
+ */
+
 package cam.psk
 
 import numbers.finite.Complex
