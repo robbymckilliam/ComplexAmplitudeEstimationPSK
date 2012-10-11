@@ -269,7 +269,7 @@ The joint pdf of $R$ and $\Phi$ can be shown to be
 \begin{equation}\label{eq:pdfRPhi}
 f(r,\phi) = \frac{r f_Z(\sqrt{\abs{r^2 - 2r\cos\phi + 1}})}{2\pi\sqrt{\abs{r^2 - 2r\cos\phi + 1}}}.
 \end{equation}
-The mean of $R e^{j\Phi}$ is equal to one because the mean of $W$ is zero.  So,
+Since $\cos\phi$ has period $2\pi$ and is even on $[-\pi,\pi]$ it follows that $f(r,\phi)$ has period $2\pi$ and is even on $[-\pi,\pi]$ with respect to $\phi$.  The mean of $R e^{j\Phi}$ is equal to one because the mean of $W$ is zero.  So,
 \begin{equation}\label{eq:expectRepartRphi}
 \expect \Re(R e^{j\Phi}) = \expect R \cos(\Phi) = 1,
 \end{equation}
@@ -337,11 +337,11 @@ If $p > 0$ and if $\abs{G(x)}$ is uniquely maximised at $x = 0$ over the interva
 \begin{theorem}\label{thm:normality} (Asymptotic normality)
 Under the same conditions as Theorem~\ref{thm:consistency}, let $f(r,\phi)$ be the joint probability density function of $R_1$ and $\Phi_1$, let
 \[
-g(\phi) = \int_{0}^{\infty} r f(r,\phi) dr,
+g(\phi) = \int_{0}^{\infty} r f(r,\phi) dr, \qquad g_2(\phi) = \int_{0}^{\infty} r^2 f(r,\phi) dr,
 \]
 and assume that $\frac{\abs{P}}{L} = p + o(L^{-1/2})$ and $\frac{\abs{D}}{L} = d + o(L^{-1/2})$.
 Put $\hat{\lambda}_L = \sfracpart{\theta_0 - \hat{\theta}}_\pi$ and $\hat{m}_L = \hat{\rho} - \rho_0 G(0)$. %If $g(\phi)$ is continuous at $\phi = \tfrac{2\pi}{M}k+\tfrac{\pi}{M}$ for each $k = 0, 1, \dots M-1$, then 
-Then the distribution of $(\sqrt{L}\hat{\lambda}_L, \sqrt{L}\hat{m}_L)$ converges to the bivariate normal with zero mean and covariance
+If the functions $g$ and $g_2$ are continuous at $\tfrac{2\pi}{M}k + \tfrac{\pi}{M}$ for each $k = 0, \dots, M-1$, then the distribution of $(\sqrt{L}\hat{\lambda}_L, \sqrt{L}\hat{m}_L)$ converges to the bivariate normal with zero mean and covariance
 \[
 \left( \begin{array}{cc} 
 \frac{pA_1 + dA_2}{(p + H d)^2} & 0 \\
@@ -379,27 +379,35 @@ The proof of Theorem~\ref{thm:consistency} is in Section~\ref{sec:proof-almost-s
 
 The assumption that $\expect \sabs{w_1}^2 = \expect \sabs{w_i}^2$ is finite implies that $R_i$ has finite variance since $\expect R_i^2 = 1 + \expect \abs{w_i}^2$.  This is required in Theorem~\ref{thm:normality} so that the constants $A_1$, $A_2$, $B_1$ and $B_2$ exist.  We will also use that $R_i$ has finite variance to simplify the proof of Theorem~\ref{thm:consistency} by use of Kolmogorov's strong law of large numbers~\cite[Theorem 2.3.10]{SenSinger_large_sample_stats_1993}
 
-
 The theorems place conditions on $\sfracpart{\hat{\theta} - \theta_0}_\pi$ rather than directly on $\hat{\theta} - \theta_0$.  This makes sense because the phases $\theta_0$ and $\theta_0 + 2\pi k$ are equivalent for any integer $k$. So, for example, we expect the phases $0.49\pi$ and $-0.49\pi$ to be close together, the difference between them being $\vert\sfracpart{-0.49\pi - 0.49\pi}_\pi\vert = 0.02\pi$, and not $\vert -0.49\pi - 0.49\pi\vert = 0.98\pi$.
 
-For Theorem~\ref{thm:normality} the integral defining $g(\phi)$ must exist at $\phi = \tfrac{2\pi}{M}k + \frac{\pi}{M}$ for $k = 0, \dots, M-1$ so that the constant $H$ exists.  The next proposition shows that the assumptions made in Theorem~\ref{thm:normality} are strong enough to ensure that the integral does exist at these points.  At the same time we derive some properties that will be useful during the proof of Theorem~\ref{thm:normality}.  The proof is given in Appendix~\ref{appendix:prop1proof}.
+Theorem~\ref{thm:normality} requires functions $g$ and $g_2$ to be continuous at $\tfrac{2\pi}{M}k + \tfrac{\pi}{M}$ for each $k = 0, \dots, M-1$.  This places mild restrictions on the distribution of the noise $w_i$.  For example, the requirements are satisfied if the joint pdf of the real and imaginary parts of $w_i$ is continuous, since in this case $f(r,\phi)$ is continuous.  Because $f(r,\phi)$ has period $2\pi$ and is even on $[-\pi,\pi]$ with respect to $\phi$ it follows that both $g$ and $g_2$ have period $2\pi$ and are even on $[-\pi, \pi]$.
 
-\begin{proposition}\label{prop:gg2cont}
-Let $W$ be a circularly symmetric complex random variable with $\expect\abs{W}^2$ finite.  Let $R > 0$ and $\Phi \in [0, 2\pi)$ be random variables satisfying $R e^{j\Phi} = 1 + W$.  Let $f(r,\phi)$ be the joint pdf of $R$ and $\Phi$.  Then
-\[
-g(\phi) = \int_{0}^\infty r f(r, \phi) dr,
-\]
-and
-\[
-g_2(\phi) = \int_{0}^\infty r^2 f(r, \phi) dr
-\]
-are even functions on $(-\pi,\pi)$ and are continuous at $\phi = \tfrac{2\pi}{M}k + \frac{\pi}{M}$ for $k = 0, \dots, M-1$.
-\end{proposition}
+%must exist at $\phi = \tfrac{2\pi}{M}k + \frac{\pi}{M}$ for $k = 0, \dots, M-1$ so that the constant $H$ exists.  The next proposition shows that the assumptions made in Theorem~\ref{thm:normality} are strong enough to ensure that the integral does exist at these points.  At the same time we derive some properties that will be useful during the proof of Theorem~\ref{thm:normality}.  %The proof is given in Appendix~\ref{appendix:prop1proof}.
+
+% \begin{proposition}\label{prop:gg2cont}
+% Let $W$ be a circularly symmetric complex random variable with $\expect\abs{W}^2$ finite.  Let $R > 0$ and $\Phi \in [0, 2\pi)$ be random variables satisfying $R e^{j\Phi} = 1 + W$.  Let $f(r,\phi)$ be the joint pdf of $R$ and $\Phi$.  Then
+% \[
+% g_1(\phi) = \int_{0}^\infty r f(r, \phi) dr,
+% \]
+% and
+% \[
+% g_2(\phi) = \int_{0}^\infty r^2 f(r, \phi) dr
+% \]
+% are even functions on $(-\pi,\pi)$ and are continuous at $\phi = \tfrac{2\pi}{M}k + \frac{\pi}{M}$ for $k = 0, \dots, M-1$.
+% \end{proposition}
+% \begin{IEEEproof}
+% Let $f_Z(z)$ be the cumulative distribution function of $Z = \abs{W}$.  Now $g_1$ and $g_2$ can be written as
+% \[
+% g_k(\phi) = \int_{0}^{\infty} \frac{\beta(\phi))^{k+1}}{z} f_Z(z) dz
+% \]
+% where $k = 1, 2$ and $\beta(\phi) = \cos(\phi) + \sqrt{z^2 - 1 + \cos^2(\phi)}$.  Since $\expect \abs{Z}^2$ is finite and non-zero $\int_0^\infty z^c dF(z)$ is finite for all $c = -1,0,1,2$.
+% \end{IEEEproof}
 
 A key assumption in Theorem~\ref{thm:consistency} is that $\abs{G(x)}$ is uniquely maximised at $x = 0$ for $x \in [-\pi, \pi)$.  This assumption asserts that $\abs{G(x)} \leq \abs{G(0)}$ for all $x \in [-\pi, \pi)$ and that if $\{x_i\}$ is a sequence of numbers from $[-\pi,\pi)$ such that $\abs{G(x_i)} \rightarrow \sabs{G(0)}$ as $i \rightarrow \infty$ then $x_i \rightarrow 0$ as $i \rightarrow \infty$.  Although we will not prove it here, this assumption is not only sufficient, but also necessary, for if $\abs{G(x)}$ is uniquely maximised at some point $x \neq 0$ then $\sfracpart{\theta_0 - \hat{\theta}}_\pi \rightarrow x$ almost surely as $L\rightarrow\infty$, while if $\abs{G(x)}$ is not uniquely maximised then $\sfracpart{\theta_0 - \hat{\theta}}_\pi$ will not converge.  The next proposition describes a class of circularly symmetric distributions for which $\abs{G(x)}$ is uniquely maximised at $x = 0$.  The zero mean complex Gaussian distribution with independent real and imaginary parts is in this class.  The proof is given in Appendix~\ref{appendix:prop2proof}.
 
 \begin{proposition}\label{prop:contgg2}
-Let $W = X + jY$ be a circularly symmetric complex random variable, the real and imaginary parts having pdf $f_{X,Y}(x,y)$ that is nonincreasing with $x^2 + y^2$.  Let $R \geq 0$ and $\Phi \in [0, 2\pi)$ be random variables satisfying $R e^{j\Phi} = 1 + W$.  Let,
+Let $W = X + jY$ be a circularly symmetric complex random variable, the real and imaginary parts having continuous and differentiable joint pdf $f_{X,Y}(x,y)$ that is nonincreasing with $x^2 + y^2$.  Let $R \geq 0$ and $\Phi \in [0, 2\pi)$ be random variables satisfying $R e^{j\Phi} = 1 + W$.  Let,
 \[
 h_1(x) = \expect R \cos(x + \Phi) \;\;\; \text{and} \;\;\; h_2(x) =  \expect R \cos\sfracpart{x + \Phi}.
 \]
@@ -2030,33 +2038,57 @@ BLERG
 \end{IEEEproof}
 
 
-\subsection{Proof of Proposition~\ref{prop:gg2cont}} \label{appendix:prop1proof}
+% \subsection{Proof of Proposition~\ref{prop:gg2cont}} \label{appendix:prop1proof}
 
-\begin{lemma}
-Let $W$ be a circularly symmetric random variable with constant magnitude $Z = \abs{W} = c > 0$ and phase uniformly distributed on $[-\pi,pi)$.  Let $R \geq 0$ and $\Phi \in $ be real random variables such that $Re^{-j2\pi \Phi} = 1 + W$.  Then the pdf of $\Phi$ is
-\begin{equation} \label{eq:fphicleq1}
-f_{\Phi}(\phi) = \begin{cases} 
-\frac{\cos(\Phi)}{\pi c} &  [-\tfrac{\pi}{2}, \tfrac{\pi}{2}] \\
-0 & \text{otherwise}
-\end{cases}
-\end{equation}
-when $0 < c \leq 1$ and
-\begin{equation} \label{eq:fphicg1}
-f_{\Phi}(\phi) = 
-\end{equation}
-when $c > 1$.
-\end{lemma}
-\begin{IEEEproof}
-We make use of delta `function' notation and write the `pdf' of $Z$ as $\delta(z - c)$.  The pdf of $\Phi$ is then
-\[
-f_{\Phi}(\phi) = \int_{0}^{\infty} r \frac{\delta(z - c)}{ 2\pi z} dr = \sum_{r} \frac{r}{2\pi c}
-\]
-where $z^2 = r^2 - 2r\cos(\phi) + 1$ and the sum is over the positive real solutions of $c^2 = r^2 - 2r\cos(\phi) + 1$.  If $0 < c \leq 1$ and $phi \in [-\tfrac{\pi}{2}, \tfrac{\pi}{2}]$ there are two positive real solutions, these being
-\[
-r = \cos(\phi) \pm \sqrt{c^2 - 1 + \cos^2(\phi)},
-\]
-whilst if $\phi \notin [-\tfrac{\pi}{2}, \tfrac{\pi}{2}]$ there are no real solutions.  Thus~\eqref{eq:fphicleq1} holds.
-\end{IEEEproof}
+% \begin{lemma}
+% Let $W$ be a circularly symmetric random variable with constant magnitude $Z = \abs{W} = c > 0$ and phase uniformly distributed on $[-\pi,\pi)$.  Let $R \geq 0$ and $\Phi \in [-\pi, \pi)$ be real random variables such that $Re^{j\Phi} = 1 + W$.  Then the pdf of $\Phi$ is
+% \begin{equation} \label{eq:fphicleq1}
+% f_{\Phi}(\phi) = \begin{cases} 
+% \frac{\cos(\Phi)}{\pi c} &  [-\tfrac{\pi}{2}, \tfrac{\pi}{2}] \\
+% 0 & \text{otherwise}
+% \end{cases}
+% \end{equation}
+% when $0 < c \leq 1$, and
+% \begin{equation} \label{eq:fphicg1}
+% f_{\Phi}(\phi) = \frac{\cos(\phi) + \sqrt{c^2 - 1 + \cos^2(\phi)}}{2\pi c}
+% \end{equation}
+% when $c > 1$.
+% \end{lemma}
+% \begin{IEEEproof}
+% We make use of delta `function' notation and write the `pdf' of $Z$ as $\delta(z - c)$.  Using~\eqref{eq:pdfRPhi} the pdf of $\Phi$ is
+% \[
+% f_{\Phi}(\phi) = \int_{0}^{\infty} r \frac{\delta(z - c)}{ 2\pi z} dr = \sum_{r} \frac{r}{2\pi c}
+% \]
+% where $z^2 = r^2 - 2r\cos(\phi) + 1$ and the sum is over the positive real solutions of $c^2 = r^2 - 2r\cos(\phi) + 1$.  If $0 < c \leq 1$ and $\phi \in [-\tfrac{\pi}{2}, \tfrac{\pi}{2}]$ there are two positive real solutions, these being
+% \[
+% r = \cos(\phi) \pm \sqrt{c^2 - 1 + \cos^2(\phi)},
+% \]
+% whilst if $\phi \notin [-\tfrac{\pi}{2}, \tfrac{\pi}{2}]$ there are no real solutions.  Thus~\eqref{eq:fphicleq1} holds.  If $c > 1$ there is a single real solution
+% \[
+% r = \cos(\phi) + \sqrt{c^2 - 1 + \cos^2(\phi)}
+% \]
+% so that~\eqref{eq:fphicg1} holds.
+% \end{IEEEproof}
+
+% Now if $W$ is a circularly symmetric complex random variable with $Z = \abs{W}$ having pdf $f_Z$ and let $R \geq 0$ and $\Phi \in [-\pi, \pi)$ be real random variables such that $Re^{j\Phi} = 1 + W$.  The pdf of $\Phi$ is 
+% \[
+% f_{\Phi}(\phi) = \int_{0}^{\infty} r\frac{f_Z(z)}{ 2\pi z} dr.
+% \]
+% Let
+% \[
+% I_{N,c}(z) = \begin{cases}
+% N \frac{f_Z(z)}{ 2\pi z} & z \in [cN, c(N-1)) \\
+% 0 & \text{otherwise}.
+% \end{cases}
+% \]
+% Now
+% \[
+% \frac{f_Z(z)}{ 2\pi z} = \frac{1}{N} \sum_{c = 0}^{\infty}I_{N,c}(z)
+% \]
+% so that
+% \[
+% f_{\Phi}(\phi) = \int_{0}^{\infty} r\frac{1}{N} \sum_{c = 0}^{\infty}I_{N,c}(z) dr = \frac{1}{N} \sum_{c = 0}^{\infty} \int_{0}^{\infty} r I_{N,c}(z) dr 
+% \]
 
 
 \subsection{Proof of Proposition~\ref{prop:contgg2}} \label{appendix:prop2proof}
