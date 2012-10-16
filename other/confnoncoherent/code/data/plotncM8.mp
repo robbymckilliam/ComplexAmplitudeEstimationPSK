@@ -92,9 +92,9 @@ draw begingraph(plotwidth, plotheight);
 
 %  gdraw (0, "1e-13")--(0, 2) dashed evenly; %glabel.bot(btex AWGN channel capacity etex, 0) rotated 90;
 
-  gdraw "MackenthunNonCoherentM8L1000a" plot(dot); glabel.llft(btex $L = 1000$ etex, 1000);
-  gdraw "MackenthunNonCoherentM8L100a" plot(dot); glabel.llft(btex $L = 100$ etex, 1000);
-  gdraw "MackenthunNonCoherentM8L10a" plot(dot); glabel.llft(btex $L = 10$ etex, 1000);
+  gdraw "cltM8L1000absP0a"; gdraw "MackenthunNonCoherentM8L1000a" plot(dot); glabel.llft(btex $L = 1000$ etex, 1000);
+  gdraw "cltM8L100absP0a" gdraw "MackenthunNonCoherentM8L100a" plot(dot); glabel.llft(btex $L = 100$ etex, 1000);
+  gdraw "cltM8L10absP0a" gdraw "MackenthunNonCoherentM8L10a" plot(dot); glabel.llft(btex $L = 10$ etex, 1000);
   %gdraw "MackenthunNonCoherentM8L10000a"; gdraw "MackenthunNonCoherentM8L10000a" plot(dot); glabel.llft(btex $L = 10000$ etex, 1000);
 
   gdraw "ViterbiViterbiM8L1000a" plot(circle); 
