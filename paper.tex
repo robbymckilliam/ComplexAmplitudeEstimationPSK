@@ -690,21 +690,21 @@ Monte Carlo simulations were used to assess the performance of the least squares
 \subsection{Lemmas required for the proof of almost sure convergence (Theorem~\ref{thm:consistency}) } \label{sec:proof-almost-sureappendix}
 
 \begin{lemma}\label{lem:convtoexpGlamL} 
-$\sabs{G(\hat{\lambda}_L)} \rightarrow \sabs{G(0)}$ almost surely as $L \rightarrow \infty$.
+$G(\hat{\lambda}_L) \rightarrow G(0)$ almost surely as $L \rightarrow \infty$.
 \end{lemma}
 \begin{IEEEproof}
-Since $\sabs{G(x)}$ is uniquely maximised at $x=0$,
+Since $G(x)$ is uniquely maximised at $x=0$,
 \[
-0 \leq \sabs{G(0)} - \sabs{G(\hat{\lambda}_L)},
+0 \leq G(0) - G(\hat{\lambda}_L),
 \]
-and since $\hat{\lambda}_L$ is the maximiser of $\abs{G_L(x)}$,
+and since $\hat{\lambda}_L$ is the maximiser of $G_L(x)$,
 \[ 
-0 \leq \sabs{G_L(\hat{\lambda}_L)} - \sabs{G_L(0)}.
+0 \leq G_L(\hat{\lambda}_L) - G_L(0).
 \]
 Thus,
 \begin{align*}
-0 &\leq \sabs{G(0)} - \sabs{G(\hat{\lambda}_L)} \\ 
-& \leq \sabs{G(0)} - \sabs{G(\hat{\lambda}_L)} + \sabs{G_L(\hat{\lambda}_L)} - \sabs{G_L(0)}\\
+0 &\leq G(0) - G(\hat{\lambda}_L) \\ 
+& \leq G(0) - G(\hat{\lambda}_L) + G_L(\hat{\lambda}_L) - G_L(0) \\
 & \leq |G(0) - G_L(0)| + |G_L(\hat{\lambda}_L) - G(\hat{\lambda}_L)| \\
 &\leq 2\sup_{\lambda \in [-\pi, \pi)} \sabs{G_L(\lambda) - G(\lambda)},
 \end{align*}
@@ -795,11 +795,11 @@ U_L = \sup_{n = 1,\dots,N}\sabs{D_L(\lambda_n)},
 \[
 V_L = \sup_{n = 1,\dots,N}\sup_{\lambda \in L_n}\sabs{D_L(\lambda) - D_L(\lambda_n)}.
 \]
-Lemma~\ref{lem:supDLlambdan} shows that for any finite $N$, and any $\epsilon > 0$, 
+Lemma~\ref{lem:supDLlambdan} shows that for any finite constant $N$, and any $\epsilon > 0$, 
 \[
 \prob\left\{ \lim_{L\rightarrow\infty} U_L > \epsilon \right\} = 0,
 \]
-i.e., $U_L \rightarrow 0$ almost surely as $L\rightarrow\infty$.  Lemma~\ref{lem:supsupDLlambda} shows that for any $\epsilon > 0$,
+that is, $U_L \rightarrow 0$ almost surely as $L\rightarrow\infty$.  Lemma~\ref{lem:supsupDLlambda} shows that for any $\epsilon > 0$,
 \[
 \prob\left\{ \lim_{L \rightarrow \infty} V_L > \epsilon + \tfrac{4\pi }{N}\expect R_i \right\} = 0.
 \] 
@@ -816,7 +816,7 @@ Thus, $\sup_{\lambda \in [-\pi, \pi)}\sabs{D_L(\lambda)} \rightarrow 0$ almost s
 
 
 \begin{lemma}\label{lem:supDLlambdan}
-If $N$ is finite then $U_L \rightarrow 0$ almost surely as $L \rightarrow \infty$.
+With $N$ a finite constant $U_L \rightarrow 0$ almost surely as $L \rightarrow \infty$.
 \end{lemma}
 \begin{IEEEproof}
 Put
@@ -834,7 +834,7 @@ Now $Z_1(\lambda_n), \dots,Z_L(\lambda_n)$ are independent with finite variance 
 \[
 \abs{D_L(\lambda_n)} = \abs{\frac{1}{L}\sum_{i\in P \cup D} \big( Z_i(\lambda_n) - \expect Z_i(\lambda)\big)} \rightarrow 0
 \]
-almost surely as $L\rightarrow\infty$ by the Kolmogorov's strong law of large numbers~\cite[Theorem 2.3.10]{SenSinger_large_sample_stats_1993}.  Now, since $N$ is finite,
+almost surely as $L\rightarrow\infty$ by the Kolmogorov's strong law of large numbers~\cite[Theorem 2.3.10]{SenSinger_large_sample_stats_1993}.  Since $N$ is a constant,
 \[
 U_L = \sup_{n=1,\dots,N}\sabs{D_L(\lambda_n)} \leq \sum_{n=1}^N \sabs{D_L(\lambda_n)} \rightarrow 0
 \]
