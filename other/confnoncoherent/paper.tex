@@ -156,7 +156,7 @@ f(r,\phi) = \frac{r f_Z(\sqrt{r^2 - 2r\cos\phi + 1})}{2\pi\sqrt{r^2 - 2r\cos\phi
 The next two theorems describe the asymptotic properties of the least squares estimator.  We omit the proofs due to space constraints.  Proofs will be provided in an upcoming paper.
 
 \begin{theorem}\label{thm:consistency} (Almost sure convergence)
-Let $\{w_i\}$ be a sequence of independent and identically distributed, circularly symmetric complex random variables with $\expect \abs{w_1}^2$ finite, and let $y_1,\dots, y_L$ be given by~\eqref{eq:sigmod}.   Let $\hat{a} = \hat{\rho}e^{j\hat{\theta}}$ be the least squares estimator of $a_0 = \rho_0e^{j\theta_0}$.  Let $R_i \geq 0$ and $\Phi_i \in [0,2\pi)$ be real random variables satisfying
+Let $\{w_i\}$ be a sequence of independent and identically distributed, circularly symmetric complex random variables with $w_1$ having finite variance and continuous pdf.  Let $y_1,\dots, y_L$ be given by~\eqref{eq:sigmod} and let $\hat{a} = \hat{\rho}e^{j\hat{\theta}}$ be the least squares estimator of $a_0 = \rho_0e^{j\theta_0}$.  Let $R_i \geq 0$ and $\Phi_i \in [0,2\pi)$ be real random variables satisfying
 \begin{equation}\label{eq:RiandPhii}
 R_ie^{j\Phi_i} = 1 + \frac{w_i}{a_0 s_i},
 \end{equation}
@@ -164,7 +164,7 @@ and define the continuous function
 \[
 G(x) = \expect R_1 \cos\sfracpart{ x + \Phi_1}.
 \] 
-If $\abs{G(x)}$ is uniquely maximised at $x = 0$ over the interval $[-\tfrac{\pi}{M},\tfrac{\pi}{M})$, then:
+If $G(x)$ is uniquely maximised at $x = 0$ over the interval $[-\tfrac{\pi}{M},\tfrac{\pi}{M})$, then:
 \begin{enumerate}
 \item $\sfracpart{\theta_0 - \hat{\theta}} \rightarrow 0$ almost surely as $L \rightarrow \infty$,
 \item $\hat{\rho} \rightarrow \rho_0 G(0)$ almost surely as $L \rightarrow \infty$.
@@ -195,14 +195,14 @@ A = \expect R_1^2\sin^2\fracpart{\Phi_1}, \;\;\; B = \expect R_1^2 \cos^2\fracpa
 
 We now discuss the assumptions made by these theorems.  The assumption that $w_1, \dots w_L$ are circularly symmetric can be relaxed, but this comes at the expense of making the theorem statements more complicated.  If $w_i$ is not circularly symmetric then the distribution of $R_i$ and $\Phi_i$ may depend on $a_0$ and also on the transmitted symbols $s_1, \dots, s_L$.  In result, the asymptotic variance described in Theorem~\ref{thm:normality} depends on $a_0$ and $s_1, \dots, s_L$, rather than just $\rho_0$.  The circularly symmetric assumption may not always hold in practice, but we feel it provides a sensible trade off between simplicity and generality.
 
-A key assumption in Theorem~\ref{thm:consistency} is that $\abs{G(x)}$ is uniquely maximised at $x = 0$.  The next proposition describes a class of circularly symmetric distributions for which $\abs{G(x)}$ is uniquely maximised at $x = 0$.  The zero mean complex Gaussian distribution with independent real and imaginary parts is in this class.  We omit the proof due to space constraints.
+A key assumption in Theorem~\ref{thm:consistency} is that $G(x)$ is uniquely maximised at $x = 0$.  The next proposition describes a class of circularly symmetric distributions for which $G(x)$ is uniquely maximised at $x = 0$.  The zero mean complex Gaussian distribution with independent real and imaginary parts is in this class.  We omit the proof due to space constraints.
 
 \begin{proposition}\label{prop:contgg2}
 Let $W = X + jY$ be a circularly symmetric complex random variable, the real and imaginary parts having pdf $f_{X,Y}(x,y)$ that is nonincreasing with $x^2 + y^2$.  Let $R \geq 0$ and $\Phi \in [0, 2\pi)$ be random variables satisfying $R e^{j\Phi} = 1 + W$.  Let,
 \[
 G(x) =  \expect R \cos\sfracpart{x + \Phi}.
 \]
-Then $\abs{G(x)}$ is uniquely maximised at $x=0$ over the interval $[-\tfrac{\pi}{M},\tfrac{\pi}{M}]$.
+Then $G(x)$ is uniquely maximised at $x=0$ over the interval $[-\tfrac{\pi}{M},\tfrac{\pi}{M}]$.
 \end{proposition}
 
 The theorems place conditions on $\sfracpart{\hat{\theta} - \theta_0}$ rather than directly on $\hat{\theta} - \theta_0$.  This makes practical sense, and to see why let $s_i' = e^{j2\pi k/M}s_i$ be $M$-PSK symbols obtained by rotating $s_1, \dots, s_L$ by $e^{j2\pi k/M}$ for some integer $k$.  Then
@@ -240,10 +240,10 @@ Each of $A$, $B$ and $H$ can be computed by numerical integration using the abov
 
 We present the results of Monte-Carlo simulations with the least squares estimator.  In all simulations the noise $w_1,\dots,w_L$ is independent and identically distributed circularly symmetric and Gaussian with real and imaginary parts having variance $\sigma^2$.  Simulations are run with $M=2,4$ (BPSK and QPSK) and $L=16,256,4096$ with signal to noise ratio $\text{SNR} = \tfrac{\rho_0^2}{2\sigma^2}$ between \unit[-20]{dB} and \unit[20]{dB} in steps of \unit[1]{dB}.  The amplitude $\rho_0=1$ and $\theta_0$ is uniformly distributed on $[-\pi, \pi)$.  For each value of signal to noise ratio $T = 10000$ replications are performed to obtain $T$ estimates $\hat{\rho}_1, \dots, \hat{\rho}_T$ and $\hat{\theta}_1, \dots, \hat{\theta}_T$.  
 
-Figures~\ref{fig:plotphaseM2}~and~\ref{fig:plotphaseM4} show the mean square error (MSE) of the phase estimator $\hat{\theta}$ computed as $\tfrac{1}{T}\sum_{i=1}^T\sfracpart{\hat{\theta}_i - \theta_0}^2$.  The dots show the simulated MSE of the least square estimator.  The dashed line is the simulated MSE of the unmodulated carrier estimator~\eqref{eq:hataumod} that has a priori knowledge of the transmitted symbols $s_1, \dots, s_L$.  %The dashed line acts as a lower bound on performance.  
+Figures~\ref{fig:plotphaseM2}~and~\ref{fig:plotphaseM4} show the sample mean square error (MSE) of the phase estimator $\hat{\theta}$ computed as $\tfrac{1}{T}\sum_{i=1}^T\sfracpart{\hat{\theta}_i - \theta_0}^2$.  The dots show the sample MSE of the least square estimator.  The dashed line is the sample MSE of the unmodulated carrier estimator~\eqref{eq:hataumod} that has a priori knowledge of the transmitted symbols $s_1, \dots, s_L$.  %The dashed line acts as a lower bound on performance.  
 The solid line is the MSE predicted by Theorem~\ref{thm:normality}.  The theorem accurately predicts the behaviour of the phase estimator when $L$ is sufficiently large and when the SNR is not too small.  As the SNR decreases the variance of the phase estimator approaches that of the uniform distribution on $[-\tfrac{\pi}{M}, \tfrac{\pi}{M})$, and Theorem~\ref{thm:normality} does not model this behaviour.  %An interesting feature is that the phase estimator is not accurate at low SNR unless $L$ is very large.
 
-Figures~\ref{fig:plotphaseM2}~and~\ref{fig:plotphaseM4} also display the simulated MSE of the phase estimator of Viterbi and Viterbi~\cite{ViterbiViterbi_phase_est_1983}.  This estimator requires the selection of a function $F : \reals \mapsto \reals$.  We have chosen $F(x) = 1$.  The MSE of the least squares estimator and the Viterbi and Viterbi estimator is similar.  The least squares estimator appears slightly more accurate at low SNR.
+Figures~\ref{fig:plotphaseM2}~and~\ref{fig:plotphaseM4} also display the sample MSE of the phase estimator of Viterbi and Viterbi~\cite{ViterbiViterbi_phase_est_1983}.  This estimator requires the selection of a function $F : \reals \mapsto \reals$.  We have chosen $F(x) = 1$.  The sample MSE of the least squares estimator and the Viterbi and Viterbi estimator is similar.  The least squares estimator appears slightly more accurate at low SNR.
 
 
 Figures~\ref{fig:plotampM2}~and~\ref{fig:plotampM4} show the variance of the amplitude estimator $\hat{\rho}$.   The solid line is the asymptotic variance predicted by Theorem~\ref{thm:normality}, the dots are the Monte-Carlo simulations with the least squares estimator, and the dashed line the simulations with the unmodulated carrier estimator.  Each point is computed as $\tfrac{1}{T}\sum_{i=1}^T\big(\hat{\rho}_i - \rho_0G(0)\big)^2$.  This requires $G(0)$ to be known.  In practice $G(0)$ may not be known at the receiver, so Figures~\ref{fig:plotampM2}~and~\ref{fig:plotampM4} serve to validate the correctness of our asymptotic theory, rather than to suggest the practical performance of the amplitude estimator.  When SNR is large $G(0)$ is close to $1$ and the bias of the amplitude estimator is small.  However, $G(0)$ grows without bound as the variance of the noise increases, so the bias is significant when SNR is small.
