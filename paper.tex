@@ -834,7 +834,7 @@ Now $Z_1(\lambda_n), \dots,Z_L(\lambda_n)$ are independent with finite variance 
 \[
 \abs{D_L(\lambda_n)} = \abs{\frac{1}{L}\sum_{i\in P \cup D} \big( Z_i(\lambda_n) - \expect Z_i(\lambda)\big)} \rightarrow 0
 \]
-almost surely as $L\rightarrow\infty$ by the Kolmogorov's strong law of large numbers~\cite[Theorem 2.3.10]{SenSinger_large_sample_stats_1993}.  Since $N$ is a constant,
+almost surely as $L\rightarrow\infty$ by Kolmogorov's strong law of large numbers~\cite[Theorem 2.3.10]{SenSinger_large_sample_stats_1993}.  Since $N$ is a constant,
 \[
 U_L = \sup_{n=1,\dots,N}\sabs{D_L(\lambda_n)} \leq \sum_{n=1}^N \sabs{D_L(\lambda_n)} \rightarrow 0
 \]
@@ -952,19 +952,10 @@ where $\eta = e^{-j2\pi/M} - 1$.  Observe that if $R_i > 0$ then $q_i < 0$.  Lem
 \[
 \sabs{\sfracpart{\hat{\lambda}_L + \Phi_i}} \leq \frac{\pi}{M} + q_i
 \]
-for all $i \in D$.  Thus, $\sfracpart{\hat{\lambda}_L + \Phi_i} \neq -\tfrac{\pi}{M}$ for $i \in D$ when $R_i > 0$ and therefore $G_L$ is differentiable at $\hat{\lambda}_L$.  
-
-It remains to show that $G_L^\prime(\hat{\lambda}_L) = 0$.  If $\sabs{G_L(\hat{\lambda}_L)} > 0$ then $\sabs{G_L(\lambda)}$ is differentiable at $\hat{\lambda}_L$ and, since $\hat{\lambda}_L$ is a maximiser of $\sabs{G_L(\lambda)}$,
-\[
-0 = \frac{d \sabs{G_L(\lambda)}}{d \lambda}(\hat{\lambda}_L) = \begin{cases} 
-G_L^\prime(\hat{\lambda}_L), & G_L(\hat{\lambda}_L) > 0\\
--G_L^\prime(\hat{\lambda}_L), & G_L(\hat{\lambda}_L) < 0.
-\end{cases}
-\]
-Thus, $G_L^\prime(\hat{\lambda}_L) = 0$ if $\sabs{G_L(\hat{\lambda}_L)} > 0$.  On the other hand $\sabs{G_L(\hat{\lambda}_L)} = 0$ only if $G_L(\lambda) = 0$ for all $\lambda \in \reals$, and in this case $G_L^\prime(\hat{\lambda}_L) = 0$ also. 
+for all $i \in D$.  Thus, $\sfracpart{\hat{\lambda}_L + \Phi_i} \neq -\tfrac{\pi}{M}$ for $i \in D$ when $R_i > 0$ and therefore $G_L$ is differentiable at $\hat{\lambda}_L$.  That $G_L^\prime(\hat{\lambda}_L) = 0$ follows since $\hat{\lambda}_L$ is a maximiser of $G_L$.
 \end{IEEEproof}
 
-\begin{lemma}\label{lem:fracpartlambdahatnotpi} Let $q_i, i \in D$ be defined as in Lemma~\ref{lem:diffatlambdaL}.  Then $\sabs{\sfracpart{\hat{\lambda}_L + \Phi_i}} \leq \frac{\pi}{M} + q_i$ for all $i \in D$.
+\begin{lemma}\label{lem:fracpartlambdahatnotpi} Let $q_i$ be defined as in Lemma~\ref{lem:diffatlambdaL}.  Then $\sabs{\sfracpart{\hat{\lambda}_L + \Phi_i}} \leq \frac{\pi}{M} + q_i$ for all $i \in D$.
 \end{lemma}
 \begin{IEEEproof}
 Recall that $\{\hat{d}_i = \hat{d}_i(\hat{\theta}), i \in D\}$ defined in \eqref{eq:hatdfinxtheta} are the minimisers of the function 
