@@ -10,7 +10,7 @@ import numbers.finite.PolarComplex
 import pubsim.distributions.complex.ComplexRandomVariable
 import pubsim.Util
 
-val Ms = List(2,4) //BPSK, QPSK, 8-PSK
+val Ms = List(2,4,8) //BPSK, QPSK, 8-PSK
 val Ls = List(16,256,4096)
 val a0 = new PolarComplex(1,2*scala.math.Pi*(new scala.util.Random).nextDouble)
 
