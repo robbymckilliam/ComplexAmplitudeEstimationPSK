@@ -111,7 +111,7 @@ beginfig(1);
 draw begingraph(plotwidth, plotheight);
  setcoords(linear,log);
  glabel.bot(btex SNR (dB) etex, OUT) shifted (2cm,1.3cm);
-  glabel.lft(btex MSE amplitude etex, OUT) rotated 90 shifted (1.5cm,0cm);
+  glabel.lft(btex variance $\hat{\rho}$ etex, OUT) rotated 90 shifted (1.5cm,0cm);
   
   %setrange(whatever,whatever, whatever,whatever);
   %setrange(4.9,"1e-13", 22,2);
@@ -150,7 +150,7 @@ beginfig(2);
 draw begingraph(plotwidth, plotheight);
  setcoords(linear,log);
  glabel.bot(btex SNR (dB) etex, OUT) shifted (2cm,1.3cm);
-  glabel.lft(btex MSE phase etex, OUT) rotated 90 shifted (1.5cm,1cm);
+  glabel.lft(btex variance $\hat{\theta}$ etex, OUT) rotated 90 shifted (1.5cm,1cm);
 
   setrange(whatever,whatever, whatever,ymax);
   %setrange(-11,whatever, whatever,whatever);
