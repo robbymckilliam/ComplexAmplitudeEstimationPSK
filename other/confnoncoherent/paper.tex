@@ -14,7 +14,7 @@
 
 %NOTE: If you use the natbib package, you should use natbibspacing.sty instead, and be sure to load it after natbib:
 \usepackage[square,comma,numbers,sort&compress]{natbib}
-\usepackage{natbibspacing}
+\usepackage{bibspacing}
 \setlength{\bibspacing}{0cm}
 
 \newcommand{\sgn}{\operatorname{sgn}}
@@ -115,7 +115,7 @@ Section~\ref{sec:simulations} presents the results of Monte-Carlo simulations.  
 
 \section{Circularly symmetric complex random variables}\label{sec:circ-symm-compl}
 
-%Before describing the statistical properties of the least squares estimator, we first require some properties of complex valued random variables.  
+Before describing the statistical properties of the least squares estimator, we first require some properties of complex valued random variables.  
 A complex random variable $X$ is said to be \emph{circularly symmetric} if the distribution of its phase $\angle{X}$ is uniform on $[0,2\pi)$ and is independent of the distribution of its magnitude $\abs{X}$.  That is, if $Z \geq 0$ and $\Theta \in [0,2\pi)$ are real random variables such that $Ze^{j\Theta} = X$, then $\Theta$ is uniformly distributed on $[0,2\pi)$ and is independent of $Z$.  If the probability density function (pdf) of $Z$ is $f_Z(z)$, then the joint pdf of $\Theta$ and $Z$ is 
 \[
 f_{Z,\Theta}(z,\theta) = \frac{1}{2\pi}f_Z(z).
@@ -127,14 +127,14 @@ If $X$ is circularly symmetric, then for any real number $\phi$, the distributio
 % &= \frac{1}{2\pi}\expect Z \int_{0}^{2\pi} e^{j\theta} d\theta = 0.
 % \end{align*}
 
-We will have particular use of complex random variables of the form $1 + X$ where $X$ is circularly symmetric.  Let $R \geq 0$ and $\Phi \in [0,2\pi)$ be real random variables satisfying, 
-\[
-R e^{j\Phi} = 1 + X.
-\]
-The joint distribution of $R$ and $\Phi$ can be shown to be
-\[
-f(r,\phi) = \frac{r f_Z(\sqrt{r^2 - 2r\cos\phi + 1})}{2\pi\sqrt{r^2 - 2r\cos\phi + 1}}.
-\]
+% We will have particular use of complex random variables of the form $1 + X$ where $X$ is circularly symmetric.  Let $R \geq 0$ and $\Phi \in [0,2\pi)$ be real random variables satisfying, 
+% \[
+% R e^{j\Phi} = 1 + X.
+% \]
+% The joint distribution of $R$ and $\Phi$ can be shown to be
+% \[
+% f(r,\phi) = \frac{r f_Z(\sqrt{r^2 - 2r\cos\phi + 1})}{2\pi\sqrt{r^2 - 2r\cos\phi + 1}}.
+% \]
 
 % The mean of $R e^{j\Phi}$ is equal to one because the mean of $X$ is zero.  So,
 % \[
@@ -270,8 +270,9 @@ Figures~\ref{fig:plotampM2}~and~\ref{fig:plotampM4} show the variance of the amp
 
 \section{RELATION TO PRIOR WORK}
 
-We have studied the least squares estimator of carrier phase and amplitude from the observation of $L$ noisy $M$-PSK symbols.  The estimator can be computed in $O(L\log L)$ operations using the algorithm of Mackenthun~\cite{Mackenthun1994}, and is the maximum likelihood estimator in the case that the noise is additive white and Gaussian.  We show that the phase estimator $\hat{\theta}$ is strongly consistent and asymptotically normally distributed.  However, the amplitude estimator $\hat{\rho}$ is biased, and converges to $G(0)\rho_0$.  This bias is large when the signal to noise ratio is small.  It would be interesting to investigate methods for correcting this bias. 
+The problem of estimating carrier phase and amplitude from the observation of $L$ noisy $M$-PSK symbols has undergone extensive prior study~\cite{ViterbiViterbi_phase_est_1983,Cowley_ref_sym_carr_1998,Wilson1989,Makrakis1990,Liu1991,Mackenthun1994,Sweldens2001,McKilliamLinearTimeBlockPSK2009,Divsalar1990}.  The least squares estimator can be computed in $O(L\log L)$ operations using the algorithm of Mackenthun~\cite{Mackenthun1994}, and this is the maximum likelihood estimator in the case that the noise is additive white and Gaussian.  The algorithm was later rediscovered by Sweldens~\cite{Sweldens2001}.  In this paper we described the statistical properties of the least squares estimator. We showed that the phase estimator $\hat{\theta}$ is strongly consistent and asymptotically normally distributed.  However, the amplitude estimator $\hat{\rho}$ is biased, and converges to $G(0)\rho_0$.  This bias is large when the signal to noise ratio is small.  It would be interesting to investigate methods for correcting this bias. 
 
+%\newpage
 \begin{figure}[p]
 	\centering
 		\includegraphics[width=\linewidth]{code/data/plotncM2-2.mps}
@@ -286,6 +287,8 @@ We have studied the least squares estimator of carrier phase and amplitude from 
 		\label{fig:plotphaseM4}
 \end{figure}
 
+%\pagebreak
+%\newpage
 \begin{figure}[p]
 	\centering
 		\includegraphics[width=\linewidth]{code/data/plotncM2-1.mps}
@@ -301,7 +304,10 @@ We have studied the least squares estimator of carrier phase and amplitude from 
 \end{figure}
 
 
-\small
+%\vfill\pagebreak
+\vfill\pagebreak
+%\newpage
+%\small
 \bibliography{bib}
 
 

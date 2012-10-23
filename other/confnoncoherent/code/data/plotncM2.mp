@@ -94,8 +94,8 @@ draw dot shifted 1/2[(sx,sh + ls*ups),(1cm,sh + ls*ups)];
 legendamp := currentpicture; currentpicture := ORIGINAL_PICTURE;
 
 
-plotheight = 13cm;
-plotwidth = 10cm;
+plotheight = 11cm;
+plotwidth = 9cm;
 
 legendx = 0.1cm;
 legendy = 0.1cm;
