@@ -149,7 +149,7 @@ beginfig(2);
 draw begingraph(plotwidth, plotheight);
  setcoords(linear,log);
  glabel.bot(btex SNR (dB) etex, OUT) shifted (2cm,1.3cm);
-  glabel.lft(btex variance $\hat{\theta}$ etex, OUT) rotated 90 shifted (1.5cm,1cm);
+  glabel.lft(btex MSE $\hat{\theta}$ etex, OUT) rotated 90 shifted (1.5cm,1cm);
 
   %setrange(-16,whatever, whatever,ymax);
   setrange(whatever,whatever, whatever,ymax);

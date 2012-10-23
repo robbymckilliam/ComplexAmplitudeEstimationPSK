@@ -1156,7 +1156,7 @@ W(\lambda) &= \expect R_1 v(\lambda, \Phi_1) \nonumber  \\
 &= \int_0^{2\pi} v(\lambda, \phi) g(\phi) d\phi \nonumber \\
 &= \sum_{k \in \ints} \int_0^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi, \label{eq:Winfsum}
 \end{align}
-where $g$ is defined in the statement of Theorem~\ref{thm:normality}
+where $g$ is defined in the statement of Theorem~\ref{thm:normality}.
 Now, for $k = 1, \dots, M-1$ we have $0 < \psi_{k-1} < \psi_k < 2\pi$, and so, using~\eqref{eq:vk},
 \begin{align*}
 \int_0^{2\pi} v_k(\lambda, \phi) &g(\phi) d\phi = \int_{\psi_{k-1}}^{\psi_{k}} v_k(\lambda, \phi) g(\phi) d\phi \\
@@ -1257,7 +1257,7 @@ for all sufficiently large $L$.  Since $\nu$ and $\delta$ can be chosen arbitrar
 
 
 \begin{lemma}\label{lem:convdistGLdash}
-The distribution of $\sqrt{L}R_L(0)$ converges to the normal with zero mean and variance $pA_1 + dA_2$.
+The distribution of $\sqrt{L}R_L(0)$ converges to the normal with zero mean and variance $pA_1 + dA_2$ as $L\rightarrow\infty$.
 \end{lemma}
 \begin{IEEEproof}
 Observe that $\sqrt{L} R_L(0) = C_L + D_L$ where
@@ -1448,11 +1448,7 @@ The distribution of
 \[
 X_L = \sqrt{L} \big( G_L(0) - T_L(0) \big) = \sqrt{L} \big( G_L(0) - \expect G_L(0) \big)
 \] 
-converges to the normal with zero mean and covariance 
-\[
-pB_1 + d B_2
-\] 
-as $L \rightarrow\infty$.
+converges, as $L \rightarrow\infty$,  to the normal with zero mean and covariance $pB_1 + d B_2.$
 \end{lemma}
 \begin{IEEEproof}
 Observe that $X_L = C_L + D_L$ where
@@ -2085,5 +2081,52 @@ BLERG
 \subsection{Proof of Proposition~\ref{prop:contgg2}} \label{appendix:prop2proof}
 
 
+\begin{IEEEproof}
+We first prove the result for $h_1$.  Write
+\begin{align*}
+h_1(x) &= \int_{-\pi}^{\pi} \int_{0}^\infty r \cos(\phi + x) f(r,\phi) dr d\phi \\
+&= \int_{-\pi}^{\pi}  \cos(\phi + x) g(\phi) d\phi,
+\end{align*}
+where $f(r,\phi)$ is the joint pdf of $R$ and $\Phi$, and 
+\[
+g(\phi) = \int_{0}^{\infty} r f(r,\phi) dr.
+\]
+Since the pdf of $X$ is circularly symmetric, $f(r,\phi)$ and $g(\phi)$ are even in $\phi$ on $[-\pi,\pi]$.
+
+Write $\cos(\phi + x)$ as a sum of even and odd parts,
+\[
+\cos(\phi + x) = \cos(\phi)\cos(x) - \sin(\phi)\sin(x).
+\]
+Now
+\[
+h_1(x) = \cos(x) \int_{-\pi}^{\pi} \cos(\phi) g(\phi) d\phi
+\]
+since $\int_{-\pi}^{\pi} \sin(\phi) g(\phi) d\phi = 0$ because $\sin(\phi)g(\phi)$ is odd.  Now 
+\[
+K = \int_{-\pi}^{0} \cos(\phi) g(\phi) d\phi > 0
+\] 
+because $g(\phi) > 0$ is increasing on $[-\pi,0]$ and $\cos(\phi)$ is odd and increasing on $[-\pi,0]$.  Thus $h_1(x) = 2K \cos(x)$ is uniquely maximised at zero because $\cos(x)$ is.
+\end{IEEEproof}
+
+\begin{lemma}
+Under the assumptions in Proposition~\ref{prop:contgg2} let $f_Z$ be the pdf of $\abs{W}$.  Then $z^{-1} f_Z(z)$ is differentiable and nonincreasing in $z > 0$ and the function $g(\phi) = \int_{0}^{\infty} r f(r,\phi) dr$ is symmetric and unimodal with mode at $\phi = 0$.
+\end{lemma}
+We have
+\[
+f_{X,Y}(x,y) = \frac{f_Z(\sqrt{x^2 + y^2})}{\sqrt{x^2 + y^2}}.
+\]
+Put $z = \sqrt{x^2 + y^2}$ and, since $X$ is circularly symmetric,
+\[
+f_{X,Y}(x,y) = f_{X,Y}(z,0) = \frac{f_Z(z)}{z}.
+\]
+Since $f_{X,Y}(z,0)$ is differentiable and nonincreasing in $z = \sqrt{x^2 + y^2}$ (by assumption in the proposition statement) we have that $z^{-1} f_Z(z)$ is differentiable and nonincreasing in $z > 0$.  So the derivative $\frac{d}{dz} \big( z^{-1} f_Z(z) \big) \geq 0$ for all $z > 0$.   Using~\eqref{eq:pdfRPhi},
+\[
+g(\phi) = \int_{0}^\infty r^2 \frac{f_Z(z)}{2\pi z } dr
+\]
+where $z = \sqrt{r^2 - 2r\cos\phi + 1}$.  Differentiating with respect to $\phi$,
+\[
+g^\prime(\phi) = \sin(\phi) \int_{0}^\infty \frac{r^3}{\pi} \frac{d}{dz}\left( \frac{f_Z(z)}{z} \right) dr
+\]
+and since the term inside the integral is always positive,
  
 \end{document}
