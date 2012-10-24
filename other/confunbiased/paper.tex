@@ -10,15 +10,15 @@
 
 %NOTE: If you use the natbib package, you should use natbibspacing.sty instead, and be sure to load it after natbib:
 \usepackage[square,comma,numbers,sort&compress]{natbib}
-\usepackage{bibspacing}
-\setlength{\bibspacing}{0cm}
+%\usepackage{bibspacing}
+%\setlength{\bibspacing}{0cm}
 
 \newcommand{\sgn}{\operatorname{sgn}}
 \newcommand{\sinc}{\operatorname{sinc}}
 \newcommand{\rect}[1]{\operatorname{rect}\left(#1\right)}
 
 %opening
-\title{An unbiased noncoherent estimator amplitude}
+\title{Unbiased noncoherent amplitude estimation}
 \author{Robby McKilliam, Andr\'{e} Pollok, Bill Cowley \vspace{0.2cm} \\
 \small Institute for Telecommunications Research, University of South Australia, SA, \textsc{Australia} \vspace{0.1cm} \\
 \thanks{Supported under the Australian Government’s Australian Space Research Program.}
@@ -31,7 +31,7 @@
 \maketitle
 
 \begin{abstract}
-We consider the problem of estimating the amplitude of communications signal when the observations are pertubed by additive white Gaussian noise.  We focus on signaling constellations that have symbols evenly distributed on the complex unit circle, i.e., $M$-ary phase shift keying.  Recently, the asymptotic properties of the maximum likelihood estimator of the amplitude were derived.  The estimator is asymptotically biased, and the bias is large when the signal to noise ratio is small.  In this paper we consider methods for correcting this bias.  This involves first observing a period of silence within which the statistical properties (i.e. the variance) of the noise is estimated.  This technique strongly hinges on the assumption that the underlying noise distribution is indeed Gaussian.  We discuss how this method could be extended to handle the situation when the distribution of the noise is not known.
+We consider the problem of estimating the amplitude of communications signal when the observations are pertubed by additive white Gaussian noise.  We focus on signaling constellations that have symbols evenly distributed on the complex unit circle, i.e., $M$-ary phase shift keying.  Recently, the asymptotic properties of the maximum likelihood estimator of the amplitude were derived.  The estimator is asymptotically biased, and the bias is large when the signal to noise ratio is small.  We consider a method for correcting this bias.  This involves the reciever observing a period of `silence' which is used to estimate the statistical properties (i.e. the variance) of the noise.  This approach strongly hinges on the assumption that the underlying noise distribution is indeed Gaussian.  We discuss how this approach could be extended to handle the situation when the distribution of the noise is not assumed.
 \end{abstract}
 \begin{keywords}
 Noncoherent detection, phase shift keying, asymptotic statistics
