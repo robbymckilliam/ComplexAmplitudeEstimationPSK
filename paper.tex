@@ -258,8 +258,13 @@ Observe that for any real number $\phi$, the pdf of $W$ and $e^{j\phi}W$ are the
  \end{align*}
 If $X$ and $Y$ are real random variables equal to the real and imaginary parts of $W = X + jY$ then the joint pdf of $X$ and $Y$ is
 \[
-f_{X,Y}(x,y) = \frac{f_Z(\sqrt{x^2 + y^2})}{2\pi \sqrt{x^2 + y^2}}.
+f_{X,Y}(x,y) = \frac{f_Z(\sqrt{x^2 + y^2})}{2\pi \sqrt{x^2 + y^2}},
 \]
+from which follows
+\begin{equation}\label{eq:fzandfZYwithz}
+f_Z(z) = 2\pi z f_{X,Y}(z,0) = 2\pi z f_{X,Y}(0,z)
+\end{equation}
+for all $z > 0$.
 
 We will have particular use of complex random variables of the form $1 + W$ where $W$ is circularly symmetric.  Let $R \geq 0$ and $\Phi \in [0,2\pi)$ be real random variables satisfying, 
 \[
@@ -404,15 +409,15 @@ Theorem~\ref{thm:normality} requires functions $g$ and $g_2$ to be continuous at
 % where $k = 1, 2$ and $\beta(\phi) = \cos(\phi) + \sqrt{z^2 - 1 + \cos^2(\phi)}$.  Since $\expect \abs{Z}^2$ is finite and non-zero $\int_0^\infty z^c dF(z)$ is finite for all $c = -1,0,1,2$.
 % \end{IEEEproof}
 
-A key assumption in Theorem~\ref{thm:consistency} is that $G(x)$ is uniquely maximised at $x = 0$ for $x \in [-\pi, \pi)$.  This assumption asserts that $G(x) \leq G(0)$ for all $x \in [-\pi, \pi)$ and that if $\{x_i\}$ is a sequence of numbers from $[-\pi,\pi)$ such that $G(x_i) \rightarrow G(0)$ as $i \rightarrow \infty$ then $x_i \rightarrow 0$ as $i \rightarrow \infty$.  Although we will not prove it here, this assumption is not only sufficient, but also necessary, for if $G(x)$ is uniquely maximised at some $x \neq 0$ then $\sfracpart{\theta_0 - \hat{\theta}}_\pi \rightarrow x$ almost surely as $L\rightarrow\infty$, while if $G(x)$ is not uniquely maximised then $\sfracpart{\theta_0 - \hat{\theta}}_\pi$ will not converge.  The next proposition describes a class of circularly symmetric distributions for which $G(x)$ is uniquely maximised at $x = 0$.  The zero mean complex Gaussian distribution with independent real and imaginary parts is in this class.  The proof is given in Appendix~\ref{appendix:prop2proof}.
+A key assumption in Theorem~\ref{thm:consistency} is that $G(x)$ is uniquely maximised at $x = 0$ for $x \in [-\pi, \pi)$.  This assumption asserts that $G(x) \leq G(0)$ for all $x \in [-\pi, \pi)$ and that if $\{x_i\}$ is a sequence of numbers from $[-\pi,\pi)$ such that $G(x_i) \rightarrow G(0)$ as $i \rightarrow \infty$ then $x_i \rightarrow 0$ as $i \rightarrow \infty$.  Although we will not prove it here, this assumption is not only sufficient, but also necessary, for if $G(x)$ is uniquely maximised at some $x \neq 0$ then $\sfracpart{\theta_0 - \hat{\theta}}_\pi \rightarrow x$ almost surely as $L\rightarrow\infty$, while if $G(x)$ is not uniquely maximised then $\sfracpart{\theta_0 - \hat{\theta}}_\pi$ will not converge.  %The next proposition describes a class of circularly symmetric distributions for which $G(x)$ is uniquely maximised at $x = 0$.  The zero mean complex Gaussian distribution with independent real and imaginary parts is in this class.  The proof is given in Appendix~\ref{appendix:prop2proof}.
 
-\begin{proposition}\label{prop:contgg2}
-Let $W = X + jY$ be a circularly symmetric complex random variable, the real and imaginary parts having continuous and differentiable joint pdf $f_{X,Y}(x,y)$ that is nonincreasing with $x^2 + y^2$.  Let $R \geq 0$ and $\Phi \in [0, 2\pi)$ be random variables satisfying $R e^{j\Phi} = 1 + W$.  Let,
-\[
-h_1(x) = \expect R \cos(x + \Phi) \;\;\; \text{and} \;\;\; h_2(x) =  \expect R \cos\sfracpart{x + \Phi}.
-\]
-Then $h_1(x)$ is uniquely maximised at $x=0$ over the interval $[-\pi,\pi]$ and $h_2(x)$ is uniquely maximised at $x = 0$ over the interval $[-\tfrac{\pi}{M},\tfrac{\pi}{M}]$.
-\end{proposition}
+% \begin{proposition}\label{prop:contgg2}
+% Let $W = X + jY$ be a circularly symmetric complex random variable, the real and imaginary parts having continuous and differentiable joint pdf $f_{X,Y}(x,y)$ that is decreasing with $x^2 + y^2$.  Let $R \geq 0$ and $\Phi \in [0, 2\pi)$ be random variables satisfying $R e^{j\Phi} = 1 + W$.  Let,
+% \[
+% h_1(x) = \expect R \cos(x + \Phi) \;\;\; \text{and} \;\;\; h_2(x) =  \expect R \cos\sfracpart{x + \Phi}.
+% \]
+% Then $h_1(x)$ is uniquely maximised at $x=0$ over the interval $[-\pi,\pi]$ and $h_2(x)$ is uniquely maximised at $x = 0$ over the interval $[-\tfrac{\pi}{M},\tfrac{\pi}{M}]$.
+% \end{proposition}
 
 Theorem~\ref{thm:consistency} defines real numbers $p$ and $d$ to represent the proportion of pilot symbols and data symbols in the limit as $L$ goes to infinity.  For Theorem~\ref{thm:normality} we need the slightly stronger condition that 
 \[
@@ -2078,55 +2083,47 @@ BLERG
 % \]
 
 
-\subsection{Proof of Proposition~\ref{prop:contgg2}} \label{appendix:prop2proof}
+% \subsection{Proof of Proposition~\ref{prop:contgg2}} \label{appendix:prop2proof}
 
 
-\begin{IEEEproof}
-We first prove the result for $h_1$.  Write
-\begin{align*}
-h_1(x) &= \int_{-\pi}^{\pi} \int_{0}^\infty r \cos(\phi + x) f(r,\phi) dr d\phi \\
-&= \int_{-\pi}^{\pi}  \cos(\phi + x) g(\phi) d\phi,
-\end{align*}
-where $f(r,\phi)$ is the joint pdf of $R$ and $\Phi$, and 
-\[
-g(\phi) = \int_{0}^{\infty} r f(r,\phi) dr.
-\]
-Since the pdf of $X$ is circularly symmetric, $f(r,\phi)$ and $g(\phi)$ are even in $\phi$ on $[-\pi,\pi]$.
+% \begin{IEEEproof}
+% We first prove the result for $h_1$.  Write
+% \begin{align*}
+% h_1(x) &= \int_{-\pi}^{\pi} \int_{0}^\infty r \cos(\phi + x) f(r,\phi) dr d\phi \\
+% &= \int_{-\pi}^{\pi}  \cos(\phi + x) g(\phi) d\phi,
+% \end{align*}
+% where $f(r,\phi)$ is the joint pdf of $R$ and $\Phi$, and 
+% \[
+% g(\phi) = \int_{0}^{\infty} r f(r,\phi) dr.
+% \]
+% Since the pdf of $X$ is circularly symmetric, $f(r,\phi)$ and $g(\phi)$ are even in $\phi$ on $[-\pi,\pi]$ (see the discussion after~\eqref{eq:pdfRPhi}).  It is also the case that $g(\phi)$ is unimodal with mode at zero, as a result of Lemma~\ref{lem:gunimodmodzero}.  Write $\cos(\phi + x)$ as a sum of even and odd parts,
+% \[
+% \cos(\phi + x) = \cos(\phi)\cos(x) - \sin(\phi)\sin(x).
+% \]
+% Now
+% \[
+% h_1(x) = \cos(x) \int_{-\pi}^{\pi} \cos(\phi) g(\phi) d\phi
+% \]
+% since $\int_{-\pi}^{\pi} \sin(\phi) g(\phi) d\phi = 0$ because $\sin(\phi)g(\phi)$ is odd.  Now 
+% \[
+% K = \int_{-\pi}^{0} \cos(\phi) g(\phi) d\phi > 0
+% \] 
+% because $g(\phi) > 0$ is increasing on $(-\pi,0)$ and $\cos(\phi)$ is odd and increasing on $(-\pi,0)$.  Thus $h_1(x) = 2K \cos(x)$ is uniquely maximised at zero because $\cos(x)$ is uniquely maximised at zero.
+% \end{IEEEproof}
 
-Write $\cos(\phi + x)$ as a sum of even and odd parts,
-\[
-\cos(\phi + x) = \cos(\phi)\cos(x) - \sin(\phi)\sin(x).
-\]
-Now
-\[
-h_1(x) = \cos(x) \int_{-\pi}^{\pi} \cos(\phi) g(\phi) d\phi
-\]
-since $\int_{-\pi}^{\pi} \sin(\phi) g(\phi) d\phi = 0$ because $\sin(\phi)g(\phi)$ is odd.  Now 
-\[
-K = \int_{-\pi}^{0} \cos(\phi) g(\phi) d\phi > 0
-\] 
-because $g(\phi) > 0$ is increasing on $[-\pi,0]$ and $\cos(\phi)$ is odd and increasing on $[-\pi,0]$.  Thus $h_1(x) = 2K \cos(x)$ is uniquely maximised at zero because $\cos(x)$ is.
-\end{IEEEproof}
+% \begin{lemma}\label{lem:gunimodmodzero}
+% Under the assumptions in Proposition~\ref{prop:contgg2} let $f_Z$ be the pdf of $\abs{W}$.  Then $z^{-1} f_Z(z)$ is differentiable and decreasing for $z > 0$ and the function $g(\phi) = \int_{0}^{\infty} r f(r,\phi) dr$ is unimodal on $[-\pi,\pi]$ with mode at $\phi = 0$.
+% \end{lemma}
+% \begin{IEEEproof}
+% From~\eqref{eq:fzandfZYwithz} it follows that $2\pi f_{X,Y}(z,0) = z^{-1} f_Z(z)$ for all $z>0$, and since $f_{X,Y}(z,0)$ is differentiable and nonincreasing in $z$ (by assumption in the statement of Proposition~\ref{prop:contgg2}) we have that $z^{-1} f_Z(z)$ is differentiable and decreasing for $z > 0$.  So the derivative $\frac{d}{dz} \big( z^{-1} f_Z(z) \big) > 0$ for all $z > 0$.   Using~\eqref{eq:pdfRPhi},
+% \[
+% g(\phi) = \int_{0}^\infty r^2 \frac{f_Z(z)}{2\pi z } dr
+% \]
+% where $z = \sqrt{r^2 - 2r\cos\phi + 1}$.  Differentiating with respect to $\phi$,
+% \[
+% g^\prime(\phi) = \sin(\phi) \int_{0}^\infty \frac{r^3}{\pi} \frac{d}{dz}\left( \frac{f_Z(z)}{z} \right) dr
+% \]
+% and since the term inside the integral is negative, the integral is negative.  Since $\sin(\phi)$ is negative on $(-\pi,0)$ and positive on $(0,\pi)$ it follows that the derivative $g^\prime(\phi)$ is positive on $(-\pi,0)$ and negative on $(0,\pi)$.  Thus $g(\phi)$ is unimodal with mode at $\phi = 0$.
+% \end{IEEEproof}
 
-\begin{lemma}
-Under the assumptions in Proposition~\ref{prop:contgg2} let $f_Z$ be the pdf of $\abs{W}$.  Then $z^{-1} f_Z(z)$ is differentiable and nonincreasing in $z > 0$ and the function $g(\phi) = \int_{0}^{\infty} r f(r,\phi) dr$ is symmetric and unimodal with mode at $\phi = 0$.
-\end{lemma}
-We have
-\[
-f_{X,Y}(x,y) = \frac{f_Z(\sqrt{x^2 + y^2})}{\sqrt{x^2 + y^2}}.
-\]
-Put $z = \sqrt{x^2 + y^2}$ and, since $X$ is circularly symmetric,
-\[
-f_{X,Y}(x,y) = f_{X,Y}(z,0) = \frac{f_Z(z)}{z}.
-\]
-Since $f_{X,Y}(z,0)$ is differentiable and nonincreasing in $z = \sqrt{x^2 + y^2}$ (by assumption in the proposition statement) we have that $z^{-1} f_Z(z)$ is differentiable and nonincreasing in $z > 0$.  So the derivative $\frac{d}{dz} \big( z^{-1} f_Z(z) \big) \geq 0$ for all $z > 0$.   Using~\eqref{eq:pdfRPhi},
-\[
-g(\phi) = \int_{0}^\infty r^2 \frac{f_Z(z)}{2\pi z } dr
-\]
-where $z = \sqrt{r^2 - 2r\cos\phi + 1}$.  Differentiating with respect to $\phi$,
-\[
-g^\prime(\phi) = \sin(\phi) \int_{0}^\infty \frac{r^3}{\pi} \frac{d}{dz}\left( \frac{f_Z(z)}{z} \right) dr
-\]
-and since the term inside the integral is always positive,
- 
 \end{document}

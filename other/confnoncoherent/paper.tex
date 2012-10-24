@@ -116,10 +116,7 @@ Section~\ref{sec:simulations} presents the results of Monte-Carlo simulations.  
 \section{Circularly symmetric complex random variables}\label{sec:circ-symm-compl}
 
 Before describing the statistical properties of the least squares estimator, we first require some properties of complex valued random variables.  
-A complex random variable $X$ is said to be \emph{circularly symmetric} if the distribution of its phase $\angle{X}$ is uniform on $[0,2\pi)$ and is independent of the distribution of its magnitude $\abs{X}$.  That is, if $Z \geq 0$ and $\Theta \in [0,2\pi)$ are real random variables such that $Ze^{j\Theta} = X$, then $\Theta$ is uniformly distributed on $[0,2\pi)$ and is independent of $Z$.  If the probability density function (pdf) of $Z$ is $f_Z(z)$, then the joint pdf of $\Theta$ and $Z$ is 
-\[
-f_{Z,\Theta}(z,\theta) = \frac{1}{2\pi}f_Z(z).
-\]  
+A complex random variable $X$ is said to be \emph{circularly symmetric} if the distribution of its phase $\angle{X}$ is uniform on $[0,2\pi)$ and is independent of the distribution of its magnitude $\abs{X}$.  That is, if $Z \geq 0$ and $\Theta \in [0,2\pi)$ are real random variables such that $Ze^{j\Theta} = X$, then $\Theta$ is uniformly distributed on $[0,2\pi)$ and is independent of $Z$.  If the probability density function (pdf) of $Z$ is $f_Z(z)$, then the joint pdf of $\Theta$ and $Z$ is $f_{Z,\Theta}(z,\theta) = \frac{1}{2\pi}f_Z(z)$.
 If $X$ is circularly symmetric, then for any real number $\phi$, the distribution of $X$ is the same as that of $e^{j\phi}X$.  %If $\expect\abs{X} = \expect Z$ is finite, then $X$ has zero mean because
 % \begin{align*}
 % \expect X &= \int_{0}^{2\pi} \int_{0}^\infty z e^{j\theta} f_{Z,\Theta}(z,\theta) dz d\theta \\
@@ -127,14 +124,14 @@ If $X$ is circularly symmetric, then for any real number $\phi$, the distributio
 % &= \frac{1}{2\pi}\expect Z \int_{0}^{2\pi} e^{j\theta} d\theta = 0.
 % \end{align*}
 
-% We will have particular use of complex random variables of the form $1 + X$ where $X$ is circularly symmetric.  Let $R \geq 0$ and $\Phi \in [0,2\pi)$ be real random variables satisfying, 
-% \[
-% R e^{j\Phi} = 1 + X.
-% \]
-% The joint distribution of $R$ and $\Phi$ can be shown to be
-% \[
-% f(r,\phi) = \frac{r f_Z(\sqrt{r^2 - 2r\cos\phi + 1})}{2\pi\sqrt{r^2 - 2r\cos\phi + 1}}.
-% \]
+We will have particular use of complex random variables of the form $1 + X$ where $X$ is circularly symmetric.  Let $R \geq 0$ and $\Phi \in [0,2\pi)$ be real random variables satisfying 
+\[
+R e^{j\Phi} = 1 + X.
+\]
+The joint distribution of $R$ and $\Phi$ can be shown to be
+\[
+f(r,\phi) = \frac{r f_Z(\sqrt{r^2 - 2r\cos\phi + 1})}{2\pi\sqrt{r^2 - 2r\cos\phi + 1}}.
+\]
 
 % The mean of $R e^{j\Phi}$ is equal to one because the mean of $X$ is zero.  So,
 % \[
@@ -173,9 +170,11 @@ The next two theorems describe the asymptotic properties of the least squares es
 
 \begin{theorem}\label{thm:consistency} (Almost sure convergence)
 Let $\{w_i\}$ be a sequence of independent and identically distributed, circularly symmetric complex random variables with $w_1$ having finite variance and continuous pdf.  Let $y_1,\dots, y_L$ be given by~\eqref{eq:sigmod} and let $\hat{a} = \hat{\rho}e^{j\hat{\theta}}$ be the least squares estimator of $a_0 = \rho_0e^{j\theta_0}$.  Let $R_i \geq 0$ and $\Phi_i \in [0,2\pi)$ be real random variables satisfying
-\begin{equation}\label{eq:RiandPhii}
+%\begin{equation}\label{eq:RiandPhii}
+\[
 R_ie^{j\Phi_i} = 1 + \frac{w_i}{a_0 s_i},
-\end{equation}
+\]
+%\end{equation}
 and define the continuous function
 \[
 G(x) = \expect R_1 \cos\sfracpart{ x + \Phi_1}.
@@ -211,15 +210,17 @@ A = \expect R_1^2\sin^2\fracpart{\Phi_1}, \;\;\; B = \expect R_1^2 \cos^2\fracpa
 
 We now discuss the assumptions made by these theorems.  The assumption that $w_1, \dots w_L$ are circularly symmetric can be relaxed, but this comes at the expense of making the theorem statements more complicated.  If $w_i$ is not circularly symmetric then the distribution of $R_i$ and $\Phi_i$ may depend on $a_0$ and also on the transmitted symbols $s_1, \dots, s_L$.  In result, the asymptotic variance described in Theorem~\ref{thm:normality} depends on $a_0$ and $s_1, \dots, s_L$, rather than just $\rho_0$.  The circularly symmetric assumption may not always hold in practice, but we feel it provides a sensible trade off between simplicity and generality.
 
-A key assumption in Theorem~\ref{thm:consistency} is that $G(x)$ is uniquely maximised at $x = 0$.  The next proposition describes a class of circularly symmetric distributions for which $G(x)$ is uniquely maximised at $x = 0$.  The zero mean complex Gaussian distribution with independent real and imaginary parts is in this class.  We omit the proof due to space constraints.
+A key assumption in Theorem~\ref{thm:consistency} is that $G(x)$ is uniquely maximised at $x = 0$ for $x \in [-\pi, \pi)$.  %This assumption asserts that $G(x) \leq G(0)$ for all $x \in [-\pi, \pi)$ and that if $\{x_i\}$ is a sequence of numbers from $[-\pi,\pi)$ such that $G(x_i) \rightarrow G(0)$ as $i \rightarrow \infty$ then $x_i \rightarrow 0$ as $i \rightarrow \infty$.  
+Although we will not prove it here, this assumption is not only sufficient, but also necessary, for if $G(x)$ is uniquely maximised at some $x \neq 0$ then $\sfracpart{\theta_0 - \hat{\theta}}_\pi \rightarrow x$ almost surely as $L\rightarrow\infty$, while if $G(x)$ is not uniquely maximised then $\sfracpart{\theta_0 - \hat{\theta}}_\pi$ will not converge.  
+%The next proposition describes a class of circularly symmetric distributions for which $G(x)$ is uniquely maximised at $x = 0$.  The zero mean complex Gaussian distribution with independent real and imaginary parts is in this class.  We omit the proof due to space constraints.
 
-\begin{proposition}\label{prop:contgg2}
-Let $W = X + jY$ be a circularly symmetric complex random variable, the real and imaginary parts having continuous and differentiable pdf $f_{X,Y}(x,y)$ that is nonincreasing with $x^2 + y^2$.  Let $R \geq 0$ and $\Phi \in [0, 2\pi)$ be random variables satisfying $R e^{j\Phi} = 1 + W$.  Let,
-\[
-G(x) =  \expect R \cos\sfracpart{x + \Phi}.
-\]
-Then $G(x)$ is uniquely maximised at $x=0$ over the interval $[-\tfrac{\pi}{M},\tfrac{\pi}{M}]$.
-\end{proposition}
+% \begin{proposition}\label{prop:contgg2}
+% Let $W = X + jY$ be a circularly symmetric complex random variable, the real and imaginary parts having continuous and differentiable pdf $f_{X,Y}(x,y)$ that is nonincreasing with $x^2 + y^2$.  Let $R \geq 0$ and $\Phi \in [0, 2\pi)$ be random variables satisfying $R e^{j\Phi} = 1 + W$.  Let,
+% \[
+% G(x) =  \expect R \cos\sfracpart{x + \Phi}.
+% \]
+% Then $G(x)$ is uniquely maximised at $x=0$ over the interval $[-\tfrac{\pi}{M},\tfrac{\pi}{M}]$.
+% \end{proposition}
 
 The theorems place conditions on $\sfracpart{\hat{\theta} - \theta_0}$ rather than directly on $\hat{\theta} - \theta_0$.  This makes practical sense, and to see why let $s_i' = e^{j2\pi k/M}s_i$ be $M$-PSK symbols obtained by rotating $s_1, \dots, s_L$ by $e^{j2\pi k/M}$ for some integer $k$.  Then
 \[
@@ -270,7 +271,7 @@ Figures~\ref{fig:plotampM2}~and~\ref{fig:plotampM4} show the variance of the amp
 
 \section{RELATION TO PRIOR WORK}
 
-The problem of estimating carrier phase and amplitude from the observation of $L$ noisy $M$-PSK symbols has undergone extensive prior study~\cite{ViterbiViterbi_phase_est_1983,Cowley_ref_sym_carr_1998,Wilson1989,Makrakis1990,Liu1991,Mackenthun1994,Sweldens2001,McKilliamLinearTimeBlockPSK2009,Divsalar1990}.  The least squares estimator can be computed in $O(L\log L)$ operations using the algorithm of Mackenthun~\cite{Mackenthun1994}, and this is the maximum likelihood estimator in the case that the noise is additive white and Gaussian.  The algorithm was later rediscovered by Sweldens~\cite{Sweldens2001}.  In this paper we described the statistical properties of the least squares estimator. We showed that the phase estimator $\hat{\theta}$ is strongly consistent and asymptotically normally distributed.  However, the amplitude estimator $\hat{\rho}$ is biased, and converges to $G(0)\rho_0$.  This bias is large when the signal to noise ratio is small.  It would be interesting to investigate methods for correcting this bias. 
+The problem of estimating carrier phase and amplitude from the observation of $L$ noisy $M$-PSK symbols has undergone extensive prior study~\cite{ViterbiViterbi_phase_est_1983,Cowley_ref_sym_carr_1998,Wilson1989,Makrakis1990,Liu1991,Mackenthun1994,Sweldens2001,McKilliamLinearTimeBlockPSK2009,Divsalar1990}.  The least squares estimator can be computed in $O(L\log L)$ operations using the algorithm of Mackenthun~\cite{Mackenthun1994}, and this is the maximum likelihood estimator in the case that the noise is additive white and Gaussian.  The algorithm was later rediscovered by Sweldens~\cite{Sweldens2001}.  In this paper we described the statistical properties of the least squares estimator. The phase estimator $\hat{\theta}$ is strongly consistent and asymptotically normally distributed.  However, the amplitude estimator $\hat{\rho}$ is biased, and converges to $G(0)\rho_0$.  This bias is large when the signal to noise ratio is small.  It would be interesting to investigate methods for correcting this bias. 
 
 %\newpage
 \begin{figure}[p]
