@@ -124,11 +124,7 @@ If $X$ is circularly symmetric, then for any real number $\phi$, the distributio
 % &= \frac{1}{2\pi}\expect Z \int_{0}^{2\pi} e^{j\theta} d\theta = 0.
 % \end{align*}
 
-We will have particular use of complex random variables of the form $1 + X$ where $X$ is circularly symmetric.  Let $R \geq 0$ and $\Phi \in [0,2\pi)$ be real random variables satisfying 
-\[
-R e^{j\Phi} = 1 + X.
-\]
-The joint distribution of $R$ and $\Phi$ can be shown to be
+We will have particular use of complex random variables of the form $1 + X$ where $X$ is circularly symmetric.  Let $R \geq 0$ and $\Phi \in [0,2\pi)$ be real random variables satisfying $R e^{j\Phi} = 1 + X$.  The joint distribution of $R$ and $\Phi$ can be shown to be
 \[
 f(r,\phi) = \frac{r f_Z(\sqrt{r^2 - 2r\cos\phi + 1})}{2\pi\sqrt{r^2 - 2r\cos\phi + 1}}.
 \]
@@ -211,7 +207,7 @@ A = \expect R_1^2\sin^2\fracpart{\Phi_1}, \;\;\; B = \expect R_1^2 \cos^2\fracpa
 We now discuss the assumptions made by these theorems.  The assumption that $w_1, \dots w_L$ are circularly symmetric can be relaxed, but this comes at the expense of making the theorem statements more complicated.  If $w_i$ is not circularly symmetric then the distribution of $R_i$ and $\Phi_i$ may depend on $a_0$ and also on the transmitted symbols $s_1, \dots, s_L$.  In result, the asymptotic variance described in Theorem~\ref{thm:normality} depends on $a_0$ and $s_1, \dots, s_L$, rather than just $\rho_0$.  The circularly symmetric assumption may not always hold in practice, but we feel it provides a sensible trade off between simplicity and generality.
 
 A key assumption in Theorem~\ref{thm:consistency} is that $G(x)$ is uniquely maximised at $x = 0$ for $x \in [-\pi, \pi)$.  %This assumption asserts that $G(x) \leq G(0)$ for all $x \in [-\pi, \pi)$ and that if $\{x_i\}$ is a sequence of numbers from $[-\pi,\pi)$ such that $G(x_i) \rightarrow G(0)$ as $i \rightarrow \infty$ then $x_i \rightarrow 0$ as $i \rightarrow \infty$.  
-Although we will not prove it here, this assumption is not only sufficient, but also necessary, for if $G(x)$ is uniquely maximised at some $x \neq 0$ then $\sfracpart{\theta_0 - \hat{\theta}}_\pi \rightarrow x$ almost surely as $L\rightarrow\infty$, while if $G(x)$ is not uniquely maximised then $\sfracpart{\theta_0 - \hat{\theta}}_\pi$ will not converge.  
+Although we will not prove it here, this assumption is not only sufficient, but also necessary, for if $G(x)$ is uniquely maximised at some $x \neq 0$ then $\sfracpart{\theta_0 - \hat{\theta}}_\pi \rightarrow x$ almost surely as $L\rightarrow\infty$, while if $G(x)$ is not uniquely maximised then $\sfracpart{\theta_0 - \hat{\theta}}_\pi$ will not converge.  One can check that the assumption holds when $w_1$ is circularly symmetric and normally distributed.  %We will not attempt to further classify those distributions for which the assumption holds here.
 %The next proposition describes a class of circularly symmetric distributions for which $G(x)$ is uniquely maximised at $x = 0$.  The zero mean complex Gaussian distribution with independent real and imaginary parts is in this class.  We omit the proof due to space constraints.
 
 % \begin{proposition}\label{prop:contgg2}
@@ -231,11 +227,11 @@ and so, if $a = \hat{\rho}e^{j\hat{\theta}}$ minimises~\eqref{eq:hatadef}, then 
 
 \section{The Gaussian noise case}\label{sec:gaussian-noise-case}
 
-Let the noise sequence $\{w_i\}$ be complex Gaussian with independent real and imaginary parts having zero mean and variance $\sigma^2$.  The joint pdf of the real and imaginary parts is
+Let the noise sequence $\{w_i\}$ be complex Gaussian with independent real and imaginary parts having zero mean and variance $\sigma^2$.  The joint density function of the real and imaginary parts is
 \[
-p(x,y) = \frac{1}{2\pi\sigma^2}e^{-(x^2 + y^2)/\sigma^2}.
+\frac{1}{2\pi\sigma^2}e^{-\frac{1}{2\sigma^2}(x^2 + y^2)}.
 \]
-Theorem~\ref{thm:consistency}~and~\ref{thm:normality} hold and, since the distribution of $w_1$ is circularly symmetric, the distribution of $R_1e^{j\Phi_1}$ is identical to the distribution of $1 + \frac{1}{\rho_0} w_1$.
+Theorem~\ref{thm:consistency}~and~\ref{thm:normality} hold, and since the distribution of $w_1$ is circularly symmetric, the distribution of $R_1e^{j\Phi_1}$ is identical to the distribution of $1 + \frac{1}{\rho_0} w_1$.
 %and the joint density function of the real and imaginary parts of $Z$ is
 %\[
 %p_Z(x,y) = \rho_0^2 p( \rho_0 (x - 1), \rho_0 y ) = \frac{\kappa^2}{2\pi}e^{-\kappa^2(x ^2 - 2x + 1 + y^2) }
@@ -243,14 +239,14 @@ Theorem~\ref{thm:consistency}~and~\ref{thm:normality} hold and, since the distri
 %where $\kappa = \tfrac{\rho_0}{\sigma}$.  
 It can be shown that
 \[
-g(\phi) = \frac{\cos^2(\phi)}{4\sqrt{\pi}}\left( \frac{e^{-\kappa^2} }{\sqrt{\pi}} + \kappa \Psi(\phi)  e^{-\kappa^2\sin^2(\phi)}\cos(\phi) \right)
+%g(\phi) = \frac{\cos^2(\phi)}{4\sqrt{\pi}}\left( \frac{e^{-\kappa^2} }{\sqrt{\pi}} + \kappa \Psi(\phi)  e^{-\kappa^2\sin^2(\phi)}\cos(\phi) \right)
+g(\phi) = \frac{\cos(\phi)}{2\pi}e^{-\frac{1}{2}\kappa^2} + \frac{\Psi(\phi)}{\kappa\sqrt{2\pi}}  e^{-\frac{1}{2}\kappa^2\sin^2(\phi)} \big(1 + \kappa^2\cos^2(\phi) \big)
 \]
 where $\kappa = \rho_0/\sigma$ and
-\vspace{-0.1cm}
 \[
-\Psi(\phi) = 1 + \erf(\kappa \cos(\phi)) = 1 + \frac{2}{\sqrt{\pi}}\int_0^{\kappa \cos(\phi)} e^{-t^2} dt.
+\Psi(\phi) = \frac{1}{2} + \frac{1}{2} \erf\left(\frac{\kappa \cos(\phi)}{\sqrt{2}}\right)
 \]
-Each of $A$, $B$ and $H$ can be computed by numerical integration using the above formula for $g(\phi)$.
+and $\erf(x) = \frac{2}{\sqrt{\pi}}\int_0^{x} e^{-t^2} dt$ is the error function.  The value of $A_1, A_2, B_1$ and $B_2$ can be efficiently computed by numerical integration using these formula.
 
 
 \section{Simulations}\label{sec:simulations}

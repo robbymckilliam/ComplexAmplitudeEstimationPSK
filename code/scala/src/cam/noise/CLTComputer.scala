@@ -54,14 +54,14 @@ abstract class AbstractCLTComputer(val M : Int, val p : Double) extends CLTCompu
   protected val d = 1 - p
   def fracpart(x : Double) = x - 2*pi/M*scala.math.round(M*x/2/pi)
   
-  override lazy val A1 = trapezoidal( x => sqr(sin(x))*g2(x), -pi, pi, 1000) - sqr(m1(0))
-  override lazy val A2 = trapezoidal( x => sqr(sin(fracpart(x)))*g2(x), -pi, pi, 1000) - sqr(m2(0))
-  override lazy val B1 = trapezoidal( x => sqr(cos(x))*g2(x), -pi, pi, 1000) - 1.0
-  override lazy val B2 = trapezoidal( x => sqr(cos(fracpart(x)))*g2(x), -pi, pi, 1000) - sqr(h2(0))
-  override def h2(x : Double) = trapezoidal( phi => cos(fracpart(x + phi))*g(phi), -pi, pi, 1000)
-  override def h1(x : Double) = trapezoidal( phi => cos(x + phi)*g(phi), -pi, pi, 1000)
-  override def m2(x : Double) = trapezoidal( phi => sin(fracpart(x + phi))*g(phi), -pi, pi, 1000)
-  override def m1(x : Double) = trapezoidal( phi => sin(x + phi)*g(phi), -pi, pi, 1000)
+  override lazy val A1 = trapezoidal( x => sqr(sin(x))*g2(x), -pi, pi, 2000) - sqr(m1(0))
+  override lazy val A2 = trapezoidal( x => sqr(sin(fracpart(x)))*g2(x), -pi, pi, 2000) - sqr(m2(0))
+  override lazy val B1 = trapezoidal( x => sqr(cos(x))*g2(x), -pi, pi, 2000) - 1.0
+  override lazy val B2 = trapezoidal( x => sqr(cos(fracpart(x)))*g2(x), -pi, pi, 2000) - sqr(h2(0))
+  override def h2(x : Double) = trapezoidal( phi => cos(fracpart(x + phi))*g(phi), -pi, pi, 2000)
+  override def h1(x : Double) = trapezoidal( phi => cos(x + phi)*g(phi), -pi, pi, 2000)
+  override def m2(x : Double) = trapezoidal( phi => sin(fracpart(x + phi))*g(phi), -pi, pi, 2000)
+  override def m1(x : Double) = trapezoidal( phi => sin(x + phi)*g(phi), -pi, pi, 2000)
   override lazy val H =  h2(0) - 2*sin(pi/M) * (0 to M-1).map(k => g((2*k+1)*pi/M)).foldLeft(0.0){ (s : Double ,v : Double) => s + v }
   override def G(x : Double) = p*h1(x) + d*h2(x)
   
@@ -110,11 +110,16 @@ class GaussianCLT(override val M : Int, override val p : Double, val sigma : Dou
   
   //Compute g using known formula
   override def g(phi : Double) : Double = {
-    val a = cos(phi)
-    val mult = exp(-k*k/2)/(2*k)
-    val s1 = 2*a*k
-    val s2 = exp(sqr(a*k)/2)*sqrt(2*pi)*(1+sqr(a*k))*(1 + erf(a*k/sqrt(2)))
-    return mult*(s1+s2)/2/pi
+    //val a = cos(phi)
+    //val mult = exp(-k*k/2)/(2*k)
+    //val s1 = 2*a*k
+    //val s2 = exp(sqr(a*k)/2)*sqrt(2*pi)*(1+sqr(a*k))*(1 + erf(a*k/sqrt(2)))
+    //return mult*(s1+s2)/2/pi
+    
+    val a = cos(phi)  //equivalent formula from Barry
+    val b = sin(phi)
+    val PHI = (1 + erf(a*k/sqrt(2)))/2
+    return a*exp(-k*k/2)/2/pi + 1/k/sqrt(2*pi) * exp(-k*k/2*b*b) * PHI * (1 + k*k*a*a)
   }
   
   //Compute g2 using known formula
