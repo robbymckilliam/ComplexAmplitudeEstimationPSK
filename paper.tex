@@ -29,7 +29,7 @@ Robby McKilliam, Andr\'{e} Pollok and Bill Cowley are with the Institute for Tel
 \maketitle
 
 \begin{abstract}
-We consider least squares estimators of carrier phase and amplitude from a noisy communications signal that contains both pilot signals, known to the receiver, and data signals, unknown to the receiver.  We focus on signaling constellations that have symbols evenly distributed on the complex unit circle, i.e., $M$-ary phase shift keying.  We show, under reasonably mild conditions on the distribution of the noise, that the least squares estimator of carrier phase is strongly consistent and asymptotically normally distributed.  However, the amplitude estimator is not consistent, it converges to a positive real number that is a function of the true carrier amplitude, the noise distribution, and the size of the constellation.  Our theoretical results can also be applied to the case where no pilot symbols exist, i.e., noncoherent detection.  The results of Monte Carlo simulations are provided and these agree with the theoretical results.   
+We consider least squares estimators of carrier phase and amplitude from a noisy communications signal that contains both pilot signals, known to the receiver, and data signals, unknown to the receiver.  We focus on signaling constellations that have symbols evenly distributed on the complex unit circle, i.e., $M$-ary phase shift keying.  We show, under reasonably mild conditions on the distribution of the noise, that the least squares estimator of carrier phase is strongly consistent and asymptotically normally distributed.  However, the amplitude estimator is not consistent, but converges to a positive real number that is a function of the true carrier amplitude, the noise distribution and the size of the constellation.  Our theoretical results can also be applied to the case where no pilot symbols exist, i.e., noncoherent detection.  The results of Monte Carlo simulations are provided and these agree with the theoretical results.   
 \end{abstract}
 \begin{IEEEkeywords}
 Coherent detection, noncoherent detection, phase shift keying, asymptotic statistics
@@ -61,7 +61,7 @@ SS(a, &\{d_i, i \in D\}) = \sum_{i \in P \cup D} \abs{ y_i - a s_i }^2  \\
 &= \sum_{i \in P} \abs{ y_i - a s_i }^2 + \sum_{i \in D} \abs{ y_i - a d_i }^2,
 \end{split}
 \end{equation}
-where $\abs{x}$ denotes the magnitude of the complex number $x$.  The least squares estimator is also the maximum likelihood estimator under the assumption that the noise sequence $\{w_i, i \in \ints\}$ is additive white and Gaussian.  However, as we will show, the estimator works well under less stringent assumptions.  %It is the least squares estimator that we primarily study in this paper.
+where $\abs{x}$ denotes the magnitude of the complex number $x$.  The least squares estimator is also the maximum likelihood estimator under the assumption that the noise sequence $\{w_i, i \in \ints\}$ is additive white and Gaussian.  However, as we show, the estimator works well under less stringent assumptions.  %It is the least squares estimator that we primarily study in this paper.
 
 The existing literature~\cite{Mackenthun1994,Cowley_ref_sym_carr_1998,ViterbiViterbi_phase_est_1983,Sweldens2001,Wilson1989,Makrakis1990,Liu1991} mostly considers what is called \emph{noncoherent detection} where no pilot symbols exist ($P = \emptyset$ where $\emptyset$ is the empty set).  In the nocoherent setting \emph{differential encoding} is often used, and for this reason the estimation problem has been called \emph{multiple symbol differential detection}.  A popular approach is the so called \emph{non-data aided}, sometimes also called \emph{non-decision directed}, estimator based on the paper of Viterbi and Viterbi~\cite{ViterbiViterbi_phase_est_1983}.  The idea is to `strip' the modulation from the recieved signal by taking $y_i / \abs{y_i}$ to the power of $M$.  A function $F: \reals \mapsto \reals$ is chosen and the estimator of the carrier phase $\theta_0$ is taken to be $\tfrac{1}{M}\angle{A}$ where $\angle$ denotes the complex argument and
 \[
@@ -71,9 +71,9 @@ Various choices for $F$ are suggested in~\cite{ViterbiViterbi_phase_est_1983} an
 
 An important paper is by Mackenthun~\cite{Mackenthun1994} who described an algorithm to compute the least squares estimator requiring only $O(L \log L)$ arithmetic operations.  Sweldens~\cite{Sweldens2001} rediscovered Mackenthun's algorithm in 2001.  Both Mackenthun and Swelden's considered only the noncoherent setting, but we show in Section~\ref{sec:least-squar-estim}~that Mackenthun's algorithm can be modified to include pilot symbols. Our model includes the noncoherent case by setting the number of pilot symbols to zero, that is, putting $P = \emptyset$.  
 
-In the literature it has been common to assume that the data symbols $\{d_i, i \in D\}$ are of primary interest and that the complex amplitude $a_0$ is a nuisance parameter.  The metric of performance is correspondingly \emph{symbol error rate}, or \emph{bit error rate}.  Whilst estimating the symbols (or more precisely the transmitted bits) is ultimately the goal, we take the opposite approach here.  Our aim is to estimate $a_0$, and we treat the unknown data symbols as nuisance parameters.  This is motivated by the fact that in many modern communication systems the data symbols are \emph{coded}.  For this reason raw symbol error rate is not of interest at this stage.  Instead, we desire an accurate estimator $\hat{a}$ of $a_0$, so that the compensated recieved symbols $\hat{a}^{-1}y_i$ can be accurately modelled using an additive noise channel.  The additive noise channel is a common assumption for subsequent reciever operations, such as decoding.  The estimator $\hat{a}$ is also used in the computation of decoder metrics for modern decoders, and for interference cancellation in multiuser systems.  Consequently, our metric of performance will not be symbol or bit error rate, it will be $\abs{a_0 - \hat{a}}^2$. It will actually be informative to consider the carrier phase and amplitude estimators separately, that is, if $\hat{a} = \hat{\rho}e^{j\hat{\theta}}$ where $\hat{\rho}$ is a positive real number, then we consider $\langle\theta_0 - \hat{\theta}\rangle_\pi^2$ and $(\rho_0 - \hat{\rho})^2$.  The function $\fracpart{\cdot}_\pi$ denotes its argument taken `modulo $2\pi$' into the interval $[-\pi, \pi)$.  It will become apparent why $\langle\theta_0 - \hat{\theta}\rangle_\pi^2$ rather than $(\theta_0 - \hat{\theta})^2$ is the appropriate measure of error for the phase parameter.
+In the literature it has been common to assume that the data symbols $\{d_i, i \in D\}$ are of primary interest and that the complex amplitude $a_0$ is a nuisance parameter.  The metric of performance is correspondingly the \emph{symbol error rate}, or \emph{bit error rate}.  While estimating the symbols (or more precisely the transmitted bits) is ultimately the goal, we take the opposite point of view here.  Our aim is to estimate $a_0$, and we treat the unknown data symbols as nuisance parameters.  This is motivated by the fact that in many modern communication systems the data symbols are \emph{coded}.  For this reason raw symbol error rate is not of interest at this stage.  Instead, we desire an accurate estimator $\hat{a}$ of $a_0$, so that the compensated recieved symbols $\hat{a}^{-1}y_i$ can be accurately modelled using an additive noise channel.  The additive noise channel is a common assumption for subsequent reciever operations, such as decoding.  The estimator $\hat{a}$ is also used in the computation of decoder metrics for modern decoders, and for interference cancellation in multiuser systems.  Consequently, our metric of performance will not be symbol or bit error rate, but $\abs{a_0 - \hat{a}}^2$. It will be informative to consider the carrier phase and amplitude estimators separately, that is, if $\hat{a} = \hat{\rho}e^{j\hat{\theta}}$ where $\hat{\rho}$ is a positive real number, then we consider $\langle\theta_0 - \hat{\theta}\rangle_\pi^2$ and $(\rho_0 - \hat{\rho})^2$.  The function $\fracpart{\cdot}_\pi$ denotes its argument taken `modulo $2\pi$' into the interval $[-\pi, \pi)$.  It will become apparent why $\langle\theta_0 - \hat{\theta}\rangle_\pi^2$ rather than $(\theta_0 - \hat{\theta})^2$ is the appropriate measure of error for the phase parameter.
 
-The paper is organised in the following way.  Section~\ref{sec:least-squar-estim} extends Mackenthun's algorithm for the coherent case, when both pilot symbols and data symbols exist.  Section~\ref{sec:circ-symm-compl} describes properties of complex random variables that we need.  Section~\ref{sec:stat-prop-least} states two theorems that describe the statistical properties of the least squares estimator of carrier phase $\hat{\theta}$ and amplitude $\hat{\rho}$.  We show, under some assumptions about the distribution of the noise $w_1,\dots,w_L$, that $\langle\theta_0 - \hat{\theta}\rangle^2$ converges almost surely to zero and that $\sqrt{L}\langle\theta_0 - \hat{\theta}\rangle^2$ is asymptotically normally distributed as $L\rightarrow \infty$.  However, $\hat{\rho}$ is not a consistent estimator of the amplitude $\rho_0$.  The bias of $\hat{\rho}$ is small when the signal to noise ratio (SNR) is large, but the bias is significant when the SNR is small.  Sections~\ref{sec:proof-almost-sure} and~\ref{sec:proof-asympt-norm} provide proofs of the theorems stated in Section~\ref{sec:stat-prop-least}.  In Section~\ref{sec:gaussian-noise-case} we consider the special case when the noise is Gaussian.  In this case, our expressions for the asymptotic distribution can be simplified.  Section~\ref{sec:simulations} presents the results of Monte-Carlo simulations.  These simulations agree with the derived asymptotic properties. 
+The paper is organised in the following way.  Section~\ref{sec:least-squar-estim} extends Mackenthun's algorithm for the coherent case, when both pilot symbols and data symbols exist.  Section~\ref{sec:circ-symm-compl} describes properties of complex random variables that we need.  Section~\ref{sec:stat-prop-least} states two theorems that describe the statistical properties of the least squares estimator of carrier phase $\hat{\theta}$ and amplitude $\hat{\rho}$.  We show, under some assumptions about the distribution of the noise $w_1,\dots,w_L$, that $\langle\theta_0 - \hat{\theta}\rangle^2$ converges almost surely to zero and that $\sqrt{L}\langle\theta_0 - \hat{\theta}\rangle^2$ is asymptotically normally distributed as $L\rightarrow \infty$.  However, $\hat{\rho}$ is not a consistent estimator of the amplitude $\rho_0$.  The asymptotic bias of $\hat{\rho}$ is small when the signal to noise ratio (SNR) is large, but the asymptotic bias is significant when the SNR is small.  Sections~\ref{sec:proof-almost-sure} and~\ref{sec:proof-asympt-norm} provide proofs of the theorems stated in Section~\ref{sec:stat-prop-least}.  In Section~\ref{sec:gaussian-noise-case} we consider the special case when the noise is Gaussian.  In this case, our expressions for the asymptotic distribution can be simplified.  Section~\ref{sec:simulations} presents the results of Monte-Carlo simulations.  These simulations agree with the derived asymptotic properties. 
 
 %It is worth commenting on our use of $\prob$ rather than the more usual $\expect$ or $E$ for the expected value operator.  The notation comes from Pollard~\cite[Ch 1]{Pollard_users_guide_prob_2002}.  The notation is good because it removes unecessary distinction between `probability' and expectation.  Given a random variable $X$ with cumulative density function $F$, the probability of an event, say $X \in S$, where $S$ is some subset of the range of $X$, is 
 %\[
@@ -246,7 +246,7 @@ $Q = \frac{1}{L}\abs{Y}^2$\;
 
 \section{Circularly symmetric complex random variables}\label{sec:circ-symm-compl}
 
-Before describing the statistical properties of the least squares estimator, we first require some properties of complex valued random variables.  A complex random variable $W$ is said to be \emph{circularly symmetric} if the distribution of its phase $\angle{W}$ is uniform on $[0,2\pi)$ and is independent of the distribution of its magnitude $\abs{W}$.  That is, if $Z \geq 0$ and $\Theta \in [0,2\pi)$ are real random variables such that $Ze^{j\Theta} = W$, then $\Theta$ is uniformly distributed on $[0,2\pi)$ and is independent of $Z$.  If the probability density function (pdf) of $Z$ is $f_Z(z)$, then the joint pdf of $\Theta$ and $Z$ is 
+Before describing the statistical properties of the least squares estimator, we first require some properties of complex valued random variables.  A complex random variable $W$ is said to be \emph{circularly symmetric} if its phase $\angle{W}$ is independent of its magnitude $\abs{W}$ and if the distribution of $\angle{W}$ is uniform on $[0,2\pi)$.  That is, if $Z \geq 0$ and $\Theta \in [0,2\pi)$ are real random variables such that $Ze^{j\Theta} = W$, then $\Theta$ is uniformly distributed on $[0,2\pi)$ and is independent of $Z$.  If the probability density function (pdf) of $Z$ is $f_Z(z)$, then the joint pdf of $\Theta$ and $Z$ is 
 \[
 f_{Z,\Theta}(z,\theta) = \frac{1}{2\pi}f_Z(z).
 \]
@@ -342,11 +342,11 @@ If $p > 0$ and if $G(x)$ is uniquely maximised at $x = 0$ over the interval $[-\
 \begin{theorem}\label{thm:normality} (Asymptotic normality)
 Under the same conditions as Theorem~\ref{thm:consistency}, let $f(r,\phi)$ be the joint probability density function of $R_1$ and $\Phi_1$, let
 \[
-g(\phi) = \int_{0}^{\infty} r f(r,\phi) dr, \qquad g_2(\phi) = \int_{0}^{\infty} r^2 f(r,\phi) dr,
+g(\phi) = \int_{0}^{\infty} r f(r,\phi) dr %\qquad g_2(\phi) = \int_{0}^{\infty} r^2 f(r,\phi) dr,
 \]
 and assume that $\frac{\abs{P}}{L} = p + o(L^{-1/2})$ and $\frac{\abs{D}}{L} = d + o(L^{-1/2})$.
 Put $\hat{\lambda}_L = \sfracpart{\theta_0 - \hat{\theta}}_\pi$ and $\hat{m}_L = \hat{\rho} - \rho_0 G(0)$. %If $g(\phi)$ is continuous at $\phi = \tfrac{2\pi}{M}k+\tfrac{\pi}{M}$ for each $k = 0, 1, \dots M-1$, then 
-If the functions $g$ and $g_2$ are continuous at $\tfrac{2\pi}{M}k + \tfrac{\pi}{M}$ for each $k = 0, \dots, M-1$, then the distribution of $(\sqrt{L}\hat{\lambda}_L, \sqrt{L}\hat{m}_L)$ converges to the bivariate normal with zero mean and covariance
+If the function $g$ is continuous at $\tfrac{2\pi}{M}k + \tfrac{\pi}{M}$ for each $k = 0, \dots, M-1$, then the distribution of $(\sqrt{L}\hat{\lambda}_L, \sqrt{L}\hat{m}_L)$ converges to the bivariate normal with zero mean and covariance matrix
 \[
 \left( \begin{array}{cc} 
 \frac{pA_1 + dA_2}{(p + H d)^2} & 0 \\
@@ -386,7 +386,7 @@ The assumption that $\expect \sabs{w_1}^2 = \expect \sabs{w_i}^2$ is finite impl
 
 The theorems place conditions on $\sfracpart{\hat{\theta} - \theta_0}_\pi$ rather than directly on $\hat{\theta} - \theta_0$.  This makes sense because the phases $\theta_0$ and $\theta_0 + 2\pi k$ are equivalent for any integer $k$. So, for example, we expect the phases $0.49\pi$ and $-0.49\pi$ to be close together, the difference between them being $\vert\sfracpart{-0.49\pi - 0.49\pi}_\pi\vert = 0.02\pi$, and not $\vert -0.49\pi - 0.49\pi\vert = 0.98\pi$.
 
-Theorem~\ref{thm:normality} requires functions $g$ and $g_2$ to be continuous at $\tfrac{2\pi}{M}k + \tfrac{\pi}{M}$ for each $k = 0, \dots, M-1$.  This places mild restrictions on the distribution of the noise $w_i$.  For example, the requirements are satisfied if the joint pdf of the real and imaginary parts of $w_i$ is continuous, since in this case $f(r,\phi)$ is continuous.  Because $f(r,\phi)$ has period $2\pi$ and is even on $[-\pi,\pi]$ with respect to $\phi$ it follows that both $g$ and $g_2$ have period $2\pi$ and are even on $[-\pi, \pi]$.
+Theorem~\ref{thm:normality} requires the function $g$ to be continuous at $\tfrac{2\pi}{M}k + \tfrac{\pi}{M}$ for each $k = 0, \dots, M-1$.  This places mild restrictions on the distribution of the noise $w_i$.  For example, the requirements are satisfied if the joint pdf of the real and imaginary parts of $w_i$ is continuous, since in this case $f(r,\phi)$ is continuous.  Because $f(r,\phi)$ has period $2\pi$ and is even on $[-\pi,\pi]$ with respect to $\phi$ it follows that $g$ has period $2\pi$ and is even on $[-\pi, \pi]$.
 
 %must exist at $\phi = \tfrac{2\pi}{M}k + \frac{\pi}{M}$ for $k = 0, \dots, M-1$ so that the constant $H$ exists.  The next proposition shows that the assumptions made in Theorem~\ref{thm:normality} are strong enough to ensure that the integral does exist at these points.  At the same time we derive some properties that will be useful during the proof of Theorem~\ref{thm:normality}.  %The proof is given in Appendix~\ref{appendix:prop1proof}.
 
@@ -1231,21 +1231,25 @@ Both $A(\lambda)$ and $B(\lambda)$ converge to zero as $\lambda \rightarrow 0$, 
 \]
 \end{lemma}
 \begin{IEEEproof}
-Put 
-\begin{equation}\label{eq:WLdef}
-W_L(\lambda) = \sqrt{L}\big( R_L(\lambda) - Q_L(\lambda) - R_L(0) \big)
-\end{equation}
-so that
+Write
 \[
 \sqrt{L}\big( R_L(\hat{\lambda}_L) - Q_L(\hat{\lambda}_L) \big) = W_L(\hat{\lambda}_L) + \sqrt{L} R_L(0)
 \]
-Lemma~\ref{lem:ZYLempiricproc} 
+where
+\begin{equation}\label{eq:WLdef}
+W_L(\lambda) = \sqrt{L}\big( R_L(\lambda) - Q_L(\lambda) - R_L(0) \big)
+\end{equation}
+is what is called an \emph{empirical process} indexed by $\lambda$~\cite{Pollard_asymp_empi_proc_1989,Pollard_new_ways_clts_1986,van2009empirical,Pollard_conv_stat_proc_1984}.  Techniques from this literature can be used to show that
+%Lemma~\ref{lem:ZYLempiricproc} 
 %in Section~\ref{sec:an-empirical-process} 
-shows that for any $\delta > 0$ and $\nu > 0$, there exists $\epsilon > 0$ such that
+%shows that 
+for any $\delta > 0$ and $\nu > 0$, there exists $\epsilon > 0$ such that
 \[
 \Pr\left\{ \sup_{\sabs{\lambda}<\epsilon}\sabs{W_L(\lambda)} > \delta  \right\} < \nu
 \]
-for all positive integers $L$.  Since $\hat{\lambda}_L$ converges almost surely to zero, it follows that for any $\epsilon > 0$,
+for all positive integers $L$.  This type of result is typically called \emph{tightness} or \emph{asymptotic continuity}~\cite{Pollard_asymp_empi_proc_1989,van2009empirical,Billingsley1999_convergence_of_probability_measures}.  We ommit the proof which follows in a straightforward, but lengthy manner using an argument called \emph{symmetrisation} followed by an argument called \emph{chaining}~\cite{Pollard_asymp_empi_proc_1989,van2009empirical}.
+
+Since $\hat{\lambda}_L$ converges almost surely to zero, it follows that for any $\epsilon > 0$,
 \[
 \lim_{L\rightarrow\infty}\prob\left\{ \sabs{\hat{\lambda}_L} \geq \epsilon \right\} = 0
 \] 
@@ -1330,17 +1334,19 @@ The proof is immediate since $g(\phi)$ is even and $\sin\fracpart{\phi}$ is odd.
 where $X_L = \sqrt{L} \big( G_L(0) - T_L(0) \big)$.
 \end{lemma}
 \begin{IEEEproof}
-Let
-\begin{equation}\label{eq:YLdef}
-Y_L(\lambda) = \sqrt{L}\big( G_L(\hat{\lambda}_L) - T_L(\hat{\lambda}_L) \big) - X_L
-\end{equation}
-so that
+Write
 \[
 \sqrt{L}\big( G_L(\hat{\lambda}_L) - T_L(\hat{\lambda}_L) \big) = Y_L(\hat{\lambda}_L) + X_L
 \]
-Lemma~\ref{lem:ZYLempiricproc} 
+where
+\begin{equation}\label{eq:YLdef}
+Y_L(\lambda) = \sqrt{L}\big( G_L(\hat{\lambda}_L) - T_L(\hat{\lambda}_L) \big) - X_L.
+\end{equation}
+is an empirical process indexed by $\lambda$, similar to $W_L$ from~\eqref{eq:WLdef}.  As with $W_L$ results from the literature on empirical processes can be used to show that  
+%Lemma~\ref{lem:ZYLempiricproc} 
 %in Section~\ref{sec:an-empirical-process} 
-shows that for any $\delta > 0$ and $\nu > 0$, there exists $\epsilon > 0$ such that
+%shows that 
+for any $\delta > 0$ and $\nu > 0$, there exists $\epsilon > 0$ such that
 \[
 \Pr\left\{ \sup_{\sabs{\lambda}<\epsilon}\sabs{Y_L(\lambda)} > \delta  \right\} < \nu.
 \]
@@ -1482,653 +1488,654 @@ The lemma follows since $C_L$ and $D_L$ are independent.
 %\section{Tricks with fractional parts}
 %Throughout the paper, and particularly in  have made use of a number of results involving the fractional part function
 
-\subsection{An empirical process result}\label{sec:an-empirical-process}
+% \subsection{An empirical process result}\label{sec:an-empirical-process}
 
-During the proof of asymptotic normality in Section~\ref{sec:proof-asympt-norm} we made use of the following result regarding the functions $W_L(\lambda)$ and $Y_L(\lambda)$ defined in~\eqref{eq:WLdef}~and~\eqref{eq:YLdef}.
+% During the proof of asymptotic normality in Section~\ref{sec:proof-asympt-norm} we made use of the following result regarding the functions $W_L(\lambda)$ and $Y_L(\lambda)$ defined in~\eqref{eq:WLdef}~and~\eqref{eq:YLdef}.
 
-\begin{lemma}\label{lem:ZYLempiricproc}
-For any $\delta > 0$ and $\nu > 0$, there exists $\epsilon > 0$ such that:
-\begin{enumerate}
-\item $\Pr\left\{ \sup_{\sabs{\lambda}<\epsilon}\sabs{W_L(\lambda)} > \delta  \right\} < \nu$, and,
-\item $\Pr\left\{ \sup_{\sabs{\lambda}<\epsilon}\sabs{Y_L(\lambda)} > \delta  \right\} < \nu$,
-\end{enumerate}
-for all positive integers $L$.
-\end{lemma}
-\begin{IEEEproof}
-These results are related to what is called \emph{tightness} in the literature on empirical processes and weak convergence on metric spaces~\cite{Billingsley1999_convergence_of_probability_measures,Dudley_unif_central_lim_th_1999,Shorak_emp_proc_stat_2009}.  The proof is based on a technique called \emph{symmetrisation} and another technique called \emph{chaining} (also known as \emph{bracketing})~\cite{Pollard_asymp_empi_proc_1989,Gine_Zinn_symmetrisation_1984,Ossiander_clt_bracketing_1984}.  We will only give a proof of the first statement regarding the function $W_L$.  The proof for the second statement regarding $Y_L$ is similar.  
-
-Put 
-\[
-f_i(\lambda, R_i, \Phi_i) = \begin{cases}
-R_i( \sin(\lambda + \Phi_i) - \sin(\Phi_i)), & i \in P \\
-R_i( \sin\sfracpart{\lambda + \Phi_i} - \sin\sfracpart{\Phi_i}), & i \in D \\
-\end{cases}
-\]
-so that
-\[
-W_L(\lambda) = \frac{1}{\sqrt{L}} \sum_{i \in P \cup D} \big( f_i(\lambda, R_i, \Phi_i) - \expect f_i(\lambda, R_i, \Phi_i) \big).
-\]
-Let $\{g_i\}$ be a sequence of independent standard normal random variables, independent of $\{R_i\}$ and $\{\Phi_i\}$.  Lemma~\ref{lem:symmetrisation} shows that
-\[
-\expect \sup_{\sabs{\lambda} < \epsilon} \abs{ W_L(\lambda)} \leq \sqrt{2\pi} \; \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{ X(\lambda) },
-\]
-where 
-\begin{equation}\label{eq:ZpsiCondGaussProc}
-X(\lambda) = \frac{1}{\sqrt{L}} \sum_{i \in P \cup D} g_i f_i(\lambda, R_i, \Phi_i),
-\end{equation}
-and where $\expect$ runs over all of $\{g_i\}$, $\{R_i\}$ and $\{\Phi_i\}$.  Conditionally on $\{\Phi_i\}$ and $\{R_i\}$, $\{X(\lambda), \lambda \in \reals \}$ is a \emph{Gaussian process}, and numerous techniques exist for its analysis.  Lemma~\ref{lem:chaining} shows that for any $\kappa > 0$ there exists $\epsilon > 0$ such that
-\[
-\expect \sup_{\sabs{\lambda} < \epsilon} \abs{ X(\lambda) } < \kappa.
-\]
-It follows that,
-\[
-\expect \sup_{\sabs{\lambda} < \epsilon} \abs{ W_L(\lambda)}  <  \sqrt{2\pi} \; \kappa,
-\]
-and by Markov's inequality,
-\[
-\prob \cubr{  \sup_{\sabs{\lambda} < \epsilon} \abs{ W_L(\lambda)} > \delta } \leq  \sqrt{2\pi} \; \frac{\kappa}{\delta},
-\]
-for any $\delta > 0$.  The proof follows by choosing $\nu =  \sqrt{2\pi} \kappa/\delta$.  It remains to prove Lemmas~\ref{lem:symmetrisation}~and~\ref{lem:chaining}.
-\end{IEEEproof}
-
-
-\begin{lemma}\label{lem:symmetrisation} (Symmetrisation)
-\[
-\expect \sup_{\sabs{\lambda} < \epsilon} \abs{ W_L(\lambda)} \leq \sqrt{2\pi} \; \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{ X(\lambda) }
-\]
-\end{lemma}
-\begin{IEEEproof}
-Let $\{R_i'\}$ be a sequence identically distributed to $\{R_i\}$ and let $\{\Phi_i'\}$ be a sequence identically distributed to $\{\Phi_i\}$.  Both $\{R_i'\}$ and $\{\Phi_i'\}$ are chosen independently of $\{R_i\}$ and $\{\Phi_i\}$.  Let $\expect_{R,\Phi}$ denote expectation conditional on $\{R_i\}$ and $\{\Phi_i\}$.  Now,
-\begin{align*}
-W_L(\lambda) &= \frac{1}{\sqrt{L}} \sum_{i \in P \cup D} \big( f_i(\lambda, R_i, \Phi_i) - \expect_{R,\Phi} f_i(\lambda, R_i', \Phi_i') \big) \\
-&= \expect_{R,\Phi} \frac{1}{\sqrt{L}} \sum_{i \in P \cup D} ( f_{i} - f_{i}^\prime ),
-\end{align*}
-where, for notational convenience, we put 
-\[
-f_{i} = f_i(\lambda, R_i, \Phi_i) \qquad \text{and} \qquad  f_{i}^\prime = f_i(\lambda, R_i', \Phi_i').
-\] 
-Taking absolute values followed by supremums,
-\begin{align*}
- \sup_{\sabs{\lambda} < \epsilon} \abs{ W_L(\lambda)} &= \sup_{\sabs{\lambda} < \epsilon}  \abs{\frac{1}{\sqrt{L}} \expect_{R,\Phi} \sum_{i \in P \cup D} (f_{i} - f_{i}^\prime )} \\
-&\leq \sup_{\sabs{\lambda} < \epsilon} \expect_{R,\Phi}  \abs{ \frac{1}{\sqrt{L}} \sum_{i \in P \cup D}  (f_{i} - f_{i}^\prime) },
-\end{align*}
-the upper bound following from Jensen's inequality.  Since $\sup \expect \abs{\dots} \leq \expect \sup \abs{\dots}$, the bound can be increased by moving $\expect_{R,\Phi}$ outside the supremum,
-\begin{equation}\label{eq:Eoutsidesup}
- \sup_{\sabs{\lambda} < \epsilon} \abs{ W_L(\lambda)} \leq \expect_{R,\Phi} \sup_{\sabs{\lambda} < \epsilon} \abs{ \frac{1}{\sqrt{L}}\sum_{i \in P \cup D} ( f_{i} - f_{i}^\prime ) }.
-\end{equation}
-Applying $\expect$ to both sides gives the inequality
-\begin{equation}\label{eq:Gninequfin}
- \expect \sup_{\sabs{\lambda} < \epsilon} \abs{ W_L(\lambda)} \leq  \expect \sup_{\sabs{\lambda} < \epsilon} \abs{ \frac{1}{\sqrt{L}}\sum_{i \in P \cup D} (f_{i} - f_{i}^\prime) },
-\end{equation}
-since $\expect \expect_{R,\Phi}$ is equivalent to $\expect$.   Let
-\[
-\sigma_i = \frac{g_i}{\abs{g_i}},
-\]
-and put $\sigma_i = 1$ if $g_i = 0$.  The $\sigma_i$ are thus independent with 
-\[
-\prob\{ \sigma_i = -1 \} = \tfrac{1}{2} \qquad \text{and} \qquad  \prob\{ \sigma_i = 1 \} = \tfrac{1}{2}.
-\]  
-As $R_i$ and $\Phi_i$ are independent and identically distributed to $R_i^\prime$ and $\Phi_i^\prime$, the random variable $f_{i} - f_{i}^\prime$ is symmetrically distributed about zero, and is therefore distributed identically to $\sigma_i( f_{i} - f_{i}^\prime)$.  Thus,
-%\[
-%\sum_{n=1}^{N}  (f_{nN} - f_{nN}^\prime) \qquad \text{and} \qquad \sum_{n=1}^{N}  \sigma_n(f_{nN} - f_{nN}^\prime)
-%\]
-%are identically distributed, and therefore
-\begin{align*}
- \expect \sup_{\sabs{\lambda} < \epsilon}  &\abs{  \frac{1}{\sqrt{L}}\sum_{i \in P \cup D}  (f_{i} - f_{i}^\prime) } \\
-&= \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{  \frac{1}{\sqrt{L}}\sum_{i \in P \cup D} \sigma_i ( f_{i} - f_{i}^\prime) }.
-\end{align*}
-By the triangle inequality,
-\[
-\abs{ \sum_{i\in P \cup D} \sigma_i (f_{i} - f_{i}^\prime)} \leq \abs{ \sum_{i \in P \cup D} \sigma_i f_{i} } + \abs{ \sum_{i\in P \cup D}  \sigma_i f_{i}^\prime },
-\]
-and it follows from~\eqref{eq:Gninequfin}, that
-\begin{align*}
- \expect \sup_{\sabs{\lambda} < \epsilon} \abs{ W_L(\lambda)} &\leq \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{ \frac{1}{\sqrt{L}}\sum_{i\in P \cup D} \sigma_i f_{i} } \\
-&\hspace{1cm} + \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{\frac{1}{\sqrt{L}} \sum_{i \in P \cup D}  \sigma_i  f_{i}^\prime } \\
-&= 2 \; \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{ \frac{1}{\sqrt{L}}\sum_{i \in P \cup D} \sigma_i f_{i} }.
-\end{align*}
-Because $g_i$ is a standard normal random variable it follows that $\expect \abs{g_i} = \expect_{R,\Phi} \abs{g_i} = \sqrt{2/\pi}$, and
-\begin{align*}
-\expect \sup_{\sabs{\lambda} < \epsilon}  &\abs{ \frac{1}{\sqrt{L}}\sum_{i \in P \cup D} \sigma_i f_{i} } \\
-&= \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{ \frac{1}{\sqrt{L}}\sum_{i \in P \cup D} \sigma_i f_{i} \sqrt{\frac{\pi}{2}}\expect_{R,\Phi} \abs{g_i}} \\
-&\leq \sqrt{\frac{\pi}{2}} \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{ \frac{1}{ \sqrt{L}}\sum_{i \in P \cup D} \sigma_i \abs{g_i}  f_{i}},
-\end{align*}
-the last line following from Jensen's inequality and by moving $\expect_{R,\Phi}$ outside the supremum similarly to~\eqref{eq:Eoutsidesup}. As $g_i = \sigma_i \abs{g_i}$,
-\begin{align*}
-\expect \sup_{\sabs{\lambda} < \epsilon} \abs{W_L(\lambda)}  &\leq 2\sqrt{\frac{\pi}{2}} \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{ \frac{1}{\sqrt{L}}\sum_{i\in P \cup D} g_i  f_{i}} \\
-&= \sqrt{2\pi} \; \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{ X(\lambda) } 
-\end{align*}
-as required.
-\end{IEEEproof}
-
-\begin{lemma} \label{lem:chaining}
-For any $\kappa > 0$ there exists $\epsilon > 0$ such that
-\[
-\expect \sup_{\sabs{\lambda} < \epsilon} \abs{ X(\lambda) } < \kappa,
-\]
-where $X(\lambda)$ is the Gaussian process defined in~\eqref{eq:ZpsiCondGaussProc}.
-\end{lemma}
-\begin{IEEEproof}
-Without loss of generality, assume that $\epsilon < \tfrac{\pi}{M}$.  Lemma~\ref{lem:chaining2} shows that
-\begin{equation}\label{eq:supZCK1} 
-\expect_{R,\Phi} \sup_{\sabs{\lambda} < \epsilon} \abs{ X(\lambda) } \leq K_1 \sqrt{C_\epsilon}
-\end{equation}
-where $K_1$ is a finite, positive constant, and
-\begin{equation}\label{eq:Cepsdefn}
-C_\epsilon = \frac{2}{L}\epsilon\sum_{i\in P \cup D}R_i^2 + \frac{4}{L}\sum_{i\in P \cup D}R_i^2 I_{\epsilon}(\Phi_i)
-\end{equation}
-where $I_\epsilon$ is the indicator function
-\[
-I_{\epsilon}(x) = \begin{cases}
-1, & x \in \cup_{k\in\ints}[\psi_k - \epsilon, \psi_k + \epsilon] \\
-0, & \text{otherwise},
-\end{cases}
-\] 
-and $\psi_k = \tfrac{2\pi}{M}k + \tfrac{\pi}{M}$.  Now,
-\[
-\expect C_\epsilon =  2\epsilon\expect R_1^2 + 4 \expect R_i^2 I_{\epsilon}(\Phi_i).
-\]
-Recalling that $f(r,\phi)$ is the joint probability density function of $R_i$ and $\Phi_i$,
-\begin{align*}
-\expect R_i^2 I_\epsilon(\Phi_i) &= \int_0^{2\pi} \int_{0}^\infty  r^2 f(r,\phi) I_\epsilon(\phi) dr d\phi \\ 
-&= \int_0^{2\pi}g_2(\phi) I_\epsilon(\phi) d\phi 
-\end{align*}
-where the function
-\[
-g_2(\phi) = \int_{0}^\infty  r^2 f(r,\phi) dr d\phi 
-\]
-is continuous at $\psi_k = \tfrac{2\pi}{M}k + \tfrac{\pi}{M}$ for each $k = 0, 1, \dots, M-1$ by Proposition~\ref{prop:gg2cont}.  From the definition of $I_\epsilon$,
-\begin{align*}
-\expect R_i^2 I_\epsilon(\Phi_i) &= \sum_{k=0}^{M-1}\int_{\psi_k-\epsilon}^{\psi_k-\epsilon}g_2(\phi) d\phi \\
-&= 2\epsilon \sum_{k=0}^{M-1} (g_2(\psi_k) + o(1))
-\end{align*}
-where $o(1)$ goes to zero as $\epsilon$ goes to zero, by the mean value theorem.  Thus $\expect R_i^2 I_\epsilon(\Phi_i) \leq K_2\epsilon$ for some constant $K_2$. Since $\sqrt{\cdot}$ is a concave function on the positive real line, and since $C_{\epsilon}$ is always positive,
-\[
-\expect \sqrt{C_\epsilon} \leq  \sqrt{\expect  C_\epsilon} < \sqrt{\epsilon( K_2 + 2\expect R_1^2)  }
-\]
-by Jensen's inequality.  Applying $\expect$ to both sides of~\eqref{eq:supZCK1},
-\[
-\expect \sup_{\sabs{\lambda} < \epsilon} \abs{ X(\lambda) } \leq K_1 \sqrt{\tfrac{1}{L}\expect C_\epsilon} < K_1 \sqrt{\epsilon( K_2 + 2\expect R_1^2)}.
-\]
-Choosing 
-\[
-\epsilon = \frac{\kappa^2}{ K_1^2 ( K_2 + 2\expect R_1^2)}
-\] 
-completes the proof.  It remains to prove Lemma~\ref{lem:chaining2}.
-\end{IEEEproof}
-
-The proofs of Lemmas~\ref{lem:chaining2}~and~\ref{lem:chaining3} are based on a technique called \emph{chaining} (or \emph{bracketing})~\cite{Dudley_unif_central_lim_th_1999,Ossiander_clt_bracketing_1984,Pollard_asymp_empi_proc_1989,Pollard_new_ways_clts_1986}.  The proofs here follow those of Pollard~\cite[Section 3]{Pollard_asymp_empi_proc_1989}.  %Within the remaining proofs, we are interested in expectations conditional on the phase noise sequence $\{\Phi_n\}$, so for the purpose of these lemmas, $\{\Phi_n\}$ is treated as a fixed realisation.  
-For notational convenience we use the abbreviation 
-\[
-f_{i}(\lambda) = f_{i}(\lambda, R_i, \Phi_i)
-\]
-in what follows.  As in Lemma~\ref{lem:chaining} we assume, without loss of generality, that $\epsilon < \tfrac{\pi}{M}$.  %This comes at no loss since Lemma~\ref{lem:chaining} only asks for the existence of an $\epsilon > 0$.
-
-\begin{lemma}\label{lem:chaining2}
-There exists a positive constant $K_1$ such that
-\[
-\expect_{R,\Phi} \sup_{\sabs{\lambda} < \epsilon} \abs{ X(\lambda) } \leq K_1 \sqrt{C_\epsilon}.
-\]
-where $C_\epsilon$ is defined in~\eqref{eq:Cepsdefn}
-\end{lemma}
-\begin{IEEEproof}
-Let $B_\epsilon = \{x \in \reals \mid \abs{x} < \epsilon\}$ be the set of real numbers with magnitude less than $\epsilon$.  For each non negative integer $k$, let $T_\epsilon(k)$ be a discrete subset of $B_\epsilon$ with the property that for every $\lambda \in B_\epsilon$ there exists $\lambda_1$ and $\lambda_2$ in $T_\epsilon(k)$ such that the pseudometric
-\[
-d_1(\lambda, \lambda_1) = \sum_{i \in P \cup D} \big( f_{i}(\lambda) - f_{i}(\lambda_1) \big)^2 \leq 2^{-k} C_\epsilon L,
-\]
-and the pseudometric
-\[
-d_2(\lambda, \lambda_2) = \sum_{i \in P \cup D} \sabs{f_{i}(\lambda) - f_{i}(\lambda_2)} \leq 2^{-k} D_\epsilon L
-\]
-where 
-\begin{equation}\label{eq:Depsdefn}
-D_\epsilon = \frac{1}{L}\epsilon\sum_{i\in P \cup D}R_i + \frac{2}{L}\sum_{i\in P \cup D}R_i I_{\epsilon}(\Phi_i).
-\end{equation}
-We specifically define $T_\epsilon(0)$ to contain only zero.  Defined this way, $T_\epsilon(0)$ satisfies the inequality above because $d_1(\lambda, 0) \leq C_\epsilon L $ and $d_2(\lambda, 0) \leq D_\epsilon L$ for all $\lambda \in B_\epsilon$, as a result of Lemma~\ref{lem:epslmlemma}.  
-The existence of $T_\epsilon(k)$ for every positive integer $k$ will be proved by construction in Lemma~\ref{lem:metricentropy}.  Lemma~\ref{lem:metricentropy} also shows that the number of elements in $T_\epsilon(k)$ is no more that $K_3 2^k$ where $K_3$ is a constant, independent of $L$, $\epsilon$ and $k$.
-
-Lemma~\ref{lem:limexpTk} shows that
-\[
-\lim_{k\rightarrow\infty}\expect_{R,\Phi}\sup_{\lambda \in T_\epsilon(k)} \sabs{X(\lambda)} = \expect_{R,\Phi} \sup_{\sabs{\lambda} < \epsilon} \sabs{X(\lambda)}.
-\]
-Lemma~\ref{lem:chaining3} shows that
-\[
-\expect_{R,\Phi} \sup_{\lambda \in T_\epsilon(k)} \sabs{X(\lambda)} \leq \sqrt{C_\epsilon} \sum_{i=1}^k \frac{5\sqrt{i \log 2 + \log K_3}}{2^{i/2}}
-\]
-The sum above converges as $k\rightarrow\infty$ so lemma holds with
-\[
-K_1 = \sum_{i=1}^\infty \frac{5\sqrt{i \log 2 + \log K_3}}{2^{i/2}}.
-\]
-\end{IEEEproof}
-
-\begin{lemma}\label{lem:epslmlemma}
-Both $d_1(\lambda, 0) \leq C_\epsilon L $ and $d_2(\lambda, 0) \leq D_\epsilon L$ for all $\lambda \in B_\epsilon$.
-\end{lemma}
-\begin{IEEEproof}
-We prove the lemma for $d_2$.  The proof for $d_1$ is similar.  Observe that $d_2(\lambda, 0) = c_1 + c_2$ where 
- \[
- c_1 = \sum_{i \in P} R_i\sabs{\sin(\lambda + \Phi_i) - \sin(\Phi_i) },
- \] 
- \[
- c_2 = \sum_{i \in D} R_i \sabs{\sin\fracpart{\lambda + \Phi_i} - \sin\fracpart{\Phi_i}}.
- \]
- As $\sin(\cdot)$ is Lipshitz continuous with constant $K=1$,
- \[
- \sabs{\sin(\lambda + \Phi_i) - \sin(\Phi_i)} \leq K\sabs{\lambda} = \sabs{\lambda} < \epsilon
- \]
- for all $i \in P \cup D$, and therefore $c_1 \leq \epsilon \sum_{i \in P} R_i$.  Let 
-\[
-S = \{ i \in D \mid I_\epsilon(\Phi_i) = 1\}.
-\] 
-Now $c_2 = c_3 + c_4$ where 
- \[
- c_3 = \sum_{i \in D, i \in S} R_i \sabs{\sin\fracpart{\lambda + \Phi_i} - \sin\fracpart{\Phi_i}},
- \]
- \[
- c_4 =  \sum_{i \in D, i \notin S} R_i \sabs{\sin\fracpart{\lambda + \Phi_i} - \sin\fracpart{\Phi_i}}.
- \]
-Observe that $I_\epsilon(\Phi_i) = 1$ if and only if $\abs{\fracpart{\Phi_i}} \geq \tfrac{\pi}{M} - \epsilon$.  So, if $i \notin S$ and $\sabs{\lambda} < \epsilon$, then
-\begin{align*}
-\round{\lambda + \Phi_i} &= \round{\lambda + \fracpart{\Phi_i} + \round{\Phi_i}} \\ 
-&= \round{\lambda + \fracpart{\Phi_i}} + \round{\Phi_i} = \round{\Phi_i}
-\end{align*}
-because
-\[
-\sabs{\lambda + \fracpart{\Phi_i}} < \epsilon + \tfrac{\pi}{M} - \epsilon = \tfrac{\pi}{M}
-\] 
-and therefore $\round{\lambda + \fracpart{\Phi_i}} = 0$.  Now,
- \begin{align*}
- \vert\sin&\fracpart{\lambda + \Phi_i} - \sin\fracpart{\Phi_i}\vert \\
- &= \sabs{\sin(\lambda + \Phi_i - \round{\Phi_i}) - \sin(\Phi_i - \round{\Phi_i})} \\
- &\leq \sabs{\lambda} < \epsilon
- \end{align*}
-and so, 
-\[
-c_4 \leq \epsilon \sum_{i \in D, i \notin S} R_i \leq \epsilon \sum_{i \in D} R_i.
-\]
-Otherwise, if $i \in S$, then $\sabs{\sin\fracpart{\lambda + \Phi_i} - \sin\fracpart{\Phi_i}} \leq 2$ because $\sin(\cdot) \leq 1$.  Thus 
-\[
-c_3 \leq 2 \sum_{i \in D, i \in S} R_i \leq 2 \sum_{i \in P \cup D} R_i I_\epsilon(\Phi_i).
-\]
-Now,
-\begin{align*}
-d_2(\lambda, 0) &= c_1 + c_2 = c_1 + c_3 + c_4 \\
-&\leq \epsilon \sum_{i \in P \cup D} R_i + 2 \sum_{i \in P \cup D} R_i I_\epsilon(\Phi_i) = D_\epsilon L
-\end{align*}
-as required
-\end{IEEEproof}
-
-
-\begin{lemma}\label{lem:limexpTk} With $T_\epsilon(k)$ defined as in Lemma~\ref{lem:chaining2},
-\[
-\lim_{k\rightarrow\infty}\expect_{R,\Phi}\sup_{\lambda \in T_\epsilon(k)} \sabs{X(\lambda)} = \expect_{R,\Phi} \sup_{\sabs{\lambda} < \epsilon} \sabs{X(\lambda)}
-\]
-\end{lemma}
-\begin{IEEEproof}
-Let $b_2(\lambda)$ be a function that maps $\lambda \in B_\epsilon$ to a point in $T_\epsilon(k)$ such that  $d_2(\lambda,b_2(\lambda)) \leq 2^{-k}D_\epsilon L$.  The existence of $b_2$ is guaranteed by the definition of $T_\epsilon(k-1)$.  So, for all $\lambda \in B_\epsilon$,
-\begin{align*}
-\sabs{X(\lambda) - X(b_2(\lambda))} &= \abs{\frac{1}{\sqrt{L}}\sum_{i\in P \cup D}g_i(f_i(\lambda) - f_i(b_2(\lambda)))} \\
-&\leq  \frac{1}{\sqrt{L}}\sum_{i\in P \cup D}\abs{g_i}\sabs{f_i(\lambda) - f_i(b_2(\lambda))} \\
-&\leq \frac{1}{\sqrt{L}} \sum_{i\in P \cup D} g_\text{max} \sabs{f_i(\lambda) - f_i(b_2(\lambda))} \\
-&\leq \frac{g_\text{max}}{\sqrt{L}} d_2(\lambda,b_2(\lambda)) \\
-&\leq \frac{g_\text{max}}{\sqrt{L}} 2^{-k} D_\epsilon L,
-\end{align*}
-where $g_\text{max} = \sup_{i\in P\cup D} \abs{g_i}$. The bound applies uniformly over $\lambda \in B_\epsilon$, so
-\[
-\sup_{\sabs{\lambda} < \epsilon} \sabs{X(\lambda) - X(b_2(\lambda))} \leq \frac{g_\text{max}}{\sqrt{L}} 2^{-k} D_\epsilon L.
-\]
-Applying $\expect_{R,\Phi}$ to both sides,
-\[
-\expect_{R,\Phi} \sup_{\sabs{\lambda} < \epsilon} \sabs{X(\lambda) - X(b_2(\lambda))} \leq K_4 2^{-k} D_\epsilon L,
-\]
-where, as a result of Lemma~\ref{lem:maxineq},
-\[
-K_4 = \tfrac{1}{\sqrt{L}}\expect_{R,\Phi} g_\text{max} \leq 3 \sqrt{\frac{\log L}{L}}
-\]
-is independent of $\epsilon$ and $k$.  Because $T_\epsilon(k)$ is a subset of $B_\epsilon$,
-\[
-\sup_{\lambda \in T_\epsilon(k)} \expect_{R,\Phi} \sabs{X(\lambda)} \leq \sup_{\sabs{\lambda} < \epsilon} \expect_{R,\Phi} \sabs{X(\lambda)},
-\]
-and so,
-\begin{align*}
-0 &\leq \sup_{\sabs{\lambda} < \epsilon} \expect_{R,\Phi} \sabs{X(\lambda)} - \sup_{\lambda \in T_\epsilon(k)} \expect_{R,\Phi} \sabs{X(\lambda)} \nonumber \\
-&\leq \sup_{\sabs{\lambda} < \epsilon} \expect_{R,\Phi} \sabs{X(\lambda)} - \sup_{\sabs{\lambda} < \epsilon} \expect_{R,\Phi} \sabs{X(b_2(\lambda))} \nonumber \\
-&\leq \sup_{\sabs{\lambda} < \epsilon} \expect_{R,\Phi} \big( \sabs{X(\lambda)} - \sabs{X(b_2(\lambda))} \big) \nonumber \\
-&\leq \sup_{\sabs{\lambda} < \epsilon} \expect_{R,\Phi} \sabs{X(\lambda) - X(b_2(\lambda))} \nonumber \\
-&\leq K_4 2^{-k} D_\epsilon L. \label{eq:Deps2nktozero}
-\end{align*}
-The second line in the inequality above follows because,
-\[
-\sup_{\sabs{\lambda} < \epsilon} \expect_{R,\Phi} \sabs{X(b_2(\lambda))} \leq \sup_{\lambda \in T_\epsilon(k)} \expect_{R,\Phi} \sabs{X(\lambda)},
-\]
-since $b_2(\lambda) \in T_\epsilon(k)$.  The lemma follows because $K_4 2^{-k} D_\epsilon L$ goes to zero as $k\rightarrow\infty$.
-\end{IEEEproof}
-
-
-% \begin{lemma}\label{lem:epslmlemma}
-% Suppose $\sabs{\lambda} < \epsilon$ and $\sabs{\lambda^*} < \epsilon$ with $\epsilon < \tfrac{\pi}{M}$. Then
-% \begin{align*}
-% d(\lambda, \lambda^*) &= \sum_{i \in P \cup D} \big( f_{i}(\lambda) - f_{i}(\lambda^*) \big)^2 \\
-% &\leq R_i^2 L \left( (\lambda - \lambda^*)^2 + 4 C_\epsilon \right).
-% \end{align*}
+% \begin{lemma}\label{lem:ZYLempiricproc}
+% For any $\delta > 0$ and $\nu > 0$, there exists $\epsilon > 0$ such that:
+% \begin{enumerate}
+% \item $\Pr\left\{ \sup_{\sabs{\lambda}<\epsilon}\sabs{W_L(\lambda)} > \delta  \right\} < \nu$, and,
+% \item $\Pr\left\{ \sup_{\sabs{\lambda}<\epsilon}\sabs{Y_L(\lambda)} > \delta  \right\} < \nu$,
+% \end{enumerate}
+% for all positive integers $L$.
 % \end{lemma}
+% These results are related to what is called \emph{tightness} (or \emph{asymptotic continuity}) in the literature on empirical processes and weak convergence on metric spaces~\cite{Billingsley1999_convergence_of_probability_measures,Dudley_unif_central_lim_th_1999,Shorak_emp_proc_stat_2009}.  The proof is based on a technique called \emph{symmetrisation} and another technique called \emph{chaining} (also known as \emph{bracketing})~\cite{Pollard_asymp_empi_proc_1989,Gine_Zinn_symmetrisation_1984,Ossiander_clt_bracketing_1984,van2009empirical}.  These techniques are well studied in the statistics and probability literature, but do not appear well known to engineers, so we give the arguments in full here.  We will only give a proof of the first statement regarding the function $W_L$.  The proof for the second statement regarding $Y_L$ is similar.
 
 
-% \begin{lemma}
-% If $i \in P$, then $\big(f_{i}(\lambda) - f_{i}(\lambda^*)\big)^2 \leq R_i^2(\lambda - \lambda^*)^2.$
-% \end{lemma}
-% \begin{IEEEproof} 
-% We have
-% \[
-% \big(f_{i}(\lambda) - f_{i}(\lambda^*)\big)^2 = R_i^2\sabs{\sin(\lambda + \Phi_i) - \sin(\lambda^* + \Phi_i)}^2
-% \]
-% and, since $\sin(\cdot)$ is Lipshitz continuous with constant $K=1$,
-% \[
-% \sabs{\sin(\lambda + \Phi_i) - \sin(\lambda^* + \Phi_i)} \leq K\sabs{\lambda - \lambda^*} = \sabs{\lambda - \lambda^*}.
-% \]
-% \end{IEEEproof}
 
-% \begin{lemma}
-% Suppose $\sabs{\lambda} < \epsilon$ and $\sabs{\lambda^*} < \epsilon$ with $\epsilon < \tfrac{\pi}{M}$.  If $i \in D$, then
-% \begin{equation}\label{eq:fismall}
-% \big(f_{i}(\lambda) - f_{i}(\lambda^*)\big)^2 \leq R_i^2(\lambda - \lambda^*)^2
-% \end{equation}
-% when $\Phi_i \notin S_\epsilon$, otherwise,
-% \begin{equation}\label{eq:fibig}
-% \big(f_{i}(\lambda) - f_{i}(\lambda^*)\big)^2 \leq 4 R_i^2.
-% \end{equation}
-% \end{lemma}
 % \begin{IEEEproof}
-% Because $\sin(\cdot) \leq 1$ it follows that
-% \begin{align*}
-% \big(f_{i}(\lambda) - f_{i}(\lambda^*)\big)^2 &= R_i^2\sabs{\sin\fracpart{\lambda + \Phi_i} - \sin\fracpart{\lambda^* + \Phi_i}}^2 \\
-% &\leq 4 R_i^2
-% \end{align*}
-% for any $\Phi_i \in \reals$, and so~\eqref{eq:fibig} holds.  If $\Phi_i \notin S_\epsilon$ then $\Phi_i \in (\psi_{k-1} + \epsilon, \psi_{k} - \epsilon)$ for some $k\in\ints$ and 
+% Put 
 % \[
-% \fracpart{\Phi_i + \lambda} = \Phi_i + \lambda - \tfrac{2\pi}{M}k
-% \] 
-% and
-% \[
-% \fracpart{\Phi_i + \lambda^*} = \Phi_i + \lambda^* - \tfrac{2\pi}{M}k 
-% \]
-% and, since $\sin(\cdot)$ is Lipshitz continuous with constant $K=1$,
-% \begin{align*}
-% \vert \sin&\fracpart{\Phi_i + \lambda} - \sin\fracpart{\Phi_i + \lambda^*}\vert \\
-% &=  \sabs{\sin(\Phi_i + \lambda - \tfrac{2\pi}{M}k) - \sin(\Phi_i + \lambda^* - \tfrac{2\pi}{M}k)} \\
-% &\leq K \sabs{\lambda - \lambda^*} \\
-% &= \sabs{\lambda - \lambda^*}.
-% \end{align*}
-% Thus~\eqref{eq:fismall} holds. 
-% \end{IEEEproof}
-
-
-\begin{lemma}\label{lem:chaining3}(Chaining)
-For all positive integers $k$,
-\[
-\expect_{R,\Phi} \sup_{\lambda \in T_\epsilon(k) } \abs{ X(\lambda) } \leq \sqrt{C_\epsilon} \sum_{i=1}^k \frac{5\sqrt{i \log 2 + \log K_3}}{2^{i/2}}.
-\]
-\end{lemma}
-\begin{IEEEproof}
-Let $b_1(\lambda)$ map each $\lambda \in T_\epsilon(k)$ to an element in $T_\epsilon(k-1)$ such that $d(\lambda, b_1(\lambda)) \leq 2^{1-k}C_\epsilon L$.  The existence of $b_1$ is guaranteed by the definition of $T_\epsilon(k)$.  By the triangle inequality
-\[
-\sabs{X(\lambda)} \leq \sabs{X(b_2(\lambda))} + \sabs{X(\lambda) - X(b_2(\lambda))}  
-\]
-and taking supremums on both sides,
-\begin{align}
-&\sup_{\lambda \in T_\epsilon(k)}\sabs{X(\lambda)} \nonumber \\
-&\leq \sup_{\lambda \in T_\epsilon(k)}\sabs{X(b_2(\lambda))} + \sup_{\lambda \in T_\epsilon(k)} \sabs{X(\lambda) - X(b_2(\lambda))}   \nonumber \\
-&\leq \sup_{\lambda \in T_\epsilon(k-1)}\sabs{X(\lambda)} + \sup_{\lambda \in T_\epsilon(k)} \sabs{X(\lambda) - X(b_2(\lambda))}, \label{eq:Xb2recpreexp}
-\end{align}
-the last line because $b_2(\lambda) \in T_\epsilon(k-1)$ and so
-\[
-\sup_{\lambda \in T_\epsilon(k)}\sabs{X(b_2(\lambda))} \leq \sup_{\lambda \in T_\epsilon(k-1)}\sabs{X(\lambda)}.
-\]
-Conditional on $\{R_i\}$ and $\{\Phi_i\}$ the random variable
-\[
-U(\lambda) = X(\lambda) - X(b_2(\lambda))
-\]
-has zero mean and is normally distributed with variance
-\begin{align*}
-\sigma_U^2 &= \expect_{R,\Phi} \frac{1}{L} \sum_{i \in P \cup D} g_i^2 \big( f_i(\lambda) - f_i(b_2(\lambda)) \big)^2 \\
-&=  \frac{1}{L} \sum_{i \in P \cup D} \big( f_i(\lambda) - f_i(b_2(\lambda)) \big)^2 \\
-&= d(\lambda, b_2(\lambda)) \leq 2^{1-k} C_\epsilon,
-\end{align*}
-since $\expect_{R,\Phi}g_i^2 = 1$.  So, from Lemma~\ref{lem:maxineq},
-\begin{align*}
-\expect_{R,\Phi} \sup_{\lambda \in T_\epsilon(k)} \sabs{U(\lambda)} &\leq 3 \sqrt{ 2^{1-k} C_\epsilon \log \abs{T_\epsilon(k)} } \\
-&\leq \sqrt{C_\epsilon} \frac{5\sqrt{k \log 2 + \log K_3}}{2^{k/2}}.
-\end{align*}
-Taking expectations on both sides of~\eqref{eq:Xb2recpreexp},
-\begin{align*}
-\expect_{R,\Phi}&\sup_{\lambda \in T_\epsilon(k)}\sabs{X(\lambda)} \\
-&\leq \expect_{R,\Phi}\sup_{\lambda \in T_\epsilon(k-1)}\sabs{X(\lambda)} + \sqrt{C_\epsilon} \frac{5\sqrt{k \log 2 + \log K_3}}{2^{k/2}} ,
-\end{align*}
-which involves a recursion in $k$.  By unravelling the recursion and using that $T_\epsilon(k)$ contains only zero, and therefore
-\[
-\expect_{R,\Phi} \sup_{\lambda \in T_k(0)} \sabs{X(\lambda)} = \expect_{R,\Phi} \sabs{X(0)} = 0
-\]
-we obtain,
-\[
-\expect_{R,\Phi}\sup_{\lambda \in T_\epsilon(k)}\sabs{X(\lambda)} \leq  \sqrt{C_\epsilon} \sum_{i=1}^k \frac{5\sqrt{i \log 2 + \log K_3}}{2^{i/2}}  
-\]
-as required.
-\end{IEEEproof}
-
-\begin{lemma}\label{lem:maxineq}(Maximal inequalities)
-Suppose $X_1, \dots, X_N$ are zero mean Gaussian random variables each with variance less than some positive constant $K$, then
-\[
-\expect \sup_{n = 1, \dots, N} \abs{X_n} \leq 3  \sqrt{K \log N}
-\]
-where $\log N$ is the natural logarithm of $N$.
-\end{lemma}
-\begin{IEEEproof}
-This result is well known, see for example~\cite[Section~3]{Pollard_asymp_empi_proc_1989}  
-\end{IEEEproof}
-
-
-\begin{lemma}\label{lem:metricentropy}(Covering numbers)
-For $k \in \ints$ there exists a discrete set $T_\epsilon(k) \subset B_\epsilon$ with the property that, for every $\lambda \in B_\epsilon$, there is a $\lambda_1$ and $\lambda_2$ in $T_\epsilon(k)$ such that the pseudometric
-\[
-d_1(\lambda, \lambda_1) = \sum_{i \in P \cup D} \big( f_{i}(\lambda) - f_{i}(\lambda_1) \big)^2 \leq 2^{-k} C_\epsilon L,
-\]
-and the pseudometric
-\[
-d_2(\lambda, \lambda_2) = \sum_{i \in P \cup D} \sabs{f_{i}(\lambda) - f_{i}(\lambda_2)} \leq 2^{-k} D_\epsilon L,
-\]
-where $C_\epsilon$ and $D_\epsilon$ are defined in~\eqref{eq:Cepsdefn} and~\eqref{eq:Depsdefn}.  The number of elements in $T_\epsilon(k)$ is no more than $K_3 2^{k}$ where $K_3$ is a positive constant, independent of $L$, $\epsilon$ and $k$.
-\end{lemma}
-\begin{IEEEproof}
-% We will first construct a set $T^2_\epsilon(k)$ containing no more than $K_{23}2^{k}$ elements and so that for every $\lambda \in B_\epsilon$ there exists $\lambda_2 \in T^2_\epsilon(k)$ such that $d_2(\lambda, \lambda_2) \leq 2^{-k} D_\epsilon L$ with $K_{23}$ a constant, independent of $L$, $\epsilon$ and $k$.  Using a similar construction we find a set $T^1_\epsilon(k)$ containing no more than $K_{13}2^{k}$ elements and so that for every $\lambda \in B_\epsilon$ there exists $\lambda_1 \in T^1_\epsilon(k)$ such that $d_1(\lambda, \lambda_2) \leq 2^{-k} D_\epsilon L$ with $K_{13}$ a constant, independent of $L$, $\epsilon$ and $k$.  Puting $T_\epsilon(k) = T^1_\epsilon(k) \cup T^2_\epsilon(k)$ will then complete the proof with $K_3 = K_{13} + K_{23}$.
-
-% We will only give a construction for $T^2_\epsilon(k)$, the construction for $T^1_\epsilon(k)$ being similar.  First observe that
-% \[
-% f_{i}(\lambda) - f_{i}(\lambda_2) = \begin{cases}
-% R_i\big( \sin(\lambda + \Phi_i) - \sin(\lambda_2 + \Phi_i) \big) & i \in P \\
-% R_i\big(\sin\fracpart{\lambda + \Phi_i} - \sin\fracpart{\lambda_2 + \Phi_i}\big) & i \in D
+% f_i(\lambda, R_i, \Phi_i) = \begin{cases}
+% R_i( \sin(\lambda + \Phi_i) - \sin(\Phi_i)), & i \in P \\
+% R_i( \sin\sfracpart{\lambda + \Phi_i} - \sin\sfracpart{\Phi_i}), & i \in D \\
 % \end{cases}
-% \]
-% Let 
-% \[
-% U = \{\epsilon(\ell 2^{-k} - 1) \mid \ell = 0, 1, \dots, 2^{k+1} \} 
-% \]
-% be a set containing $2^{k+1} + 1$ elements uniformly spaced over $B_\epsilon$.  For every $\lambda \in B_\epsilon$ there exists a $\lambda^* \in U$ such that $\abs{\lambda - \lambda^*} < \epsilon 2^{-k}$.  Since $\sin(\cdot)$ is Lipshitz continuous with constant $K=1$, it follows that if $i \in P$ then,
-% Let 
-% \begin{align*}
-% \abs{f_{i}(\lambda) - f_{i}(\lambda_2)} &= R_i\abs{ \sin(\lambda + \Phi_i) - \sin(\lambda^* + \Phi_i) } \\
-% &\leq R_i\sabs{\lambda - \lambda^*} \\
-% &< \epsilon 2^{-k} R_i.
-% \end{align*}
-% Thus
-% \[
-% \sum_{i \in P} \sabs{f_{i}(\lambda) - f_{i}(\lambda^*)} < \epsilon 2^{-k} \sum_{i\in P} R_i.
-% \]
-% As in Lemma~\ref{lem:epslmlemma} let $S = \{ i \in D \mid I_\epsilon(\Phi_i) \}$. Now, if $i \in D$ but $i \notin S$ then 
-% \[
-% \round{\lambda + \Phi_i} = \round{\lambda^* + \Phi_i} = \round{\Phi_i},
-% \] 
-% so
-%  \begin{align*}
-%  \vert f_{i}(\lambda) - &f_{i}(\lambda^*)\vert \\
-% &= R_i\vert\sin\fracpart{\lambda + \Phi_i} - \sin\fracpart{\lambda^* + \Phi_i}\vert \\
-%  &= R_i\vert\sin(\lambda + \Phi_i - \round{\Phi_i}) - \sin(\lambda^* + \Phi_i - \round{\Phi_i})\vert  \\
-%  &\leq R_i \sabs{\lambda - \lambda^*} \\
-% &< \epsilon 2^{-k} R_i.
-%  \end{align*}
-% Thus,
-% \[
-% \sum_{i \in D, i \notin S} \sabs{f_{i}(\lambda) - f_{i}(\lambda^*)} < \epsilon 2^{-k} \sum_{i \in D, i \notin S} R_i 
-% \]
-
-% To handle the case when $i \in S$ we need to add some extra elements to the set $U$.  Let 
-% \[
-% r_i = \begin{cases}
-% \tfrac{\pi}{M} - \fracpart{\Phi_i} & \fracpart{\Phi_i} > 0 \\
-% -\tfrac{\pi}{M} - \fracpart{\Phi_i} & \fracpart{\Phi_i} \leq 0
-% \end{cases}
-% \]
-% and let $\sigma$ be a permutation of the indices in $S$ such that $r_i$ are in ascending order, that is,
-% \begin{equation}\label{eq:sigmasortind}
-% r_{\sigma(i)} \leq r_{\sigma(k)}
-% \end{equation}
-% whenever $i < k $ where $i, k \in \{0, 1, \dots, \abs{S}-1\}$.  Now,
-% \begin{align*}
-% \sum_{i\in S} \sabs{f_{i}(\lambda) - f_{i}(\lambda^*)} = \sum_{i = 0}^{\abs{S}-1} \sabs{ f_{\sigma(i)}(\lambda) - f_{\sigma(i)}(\lambda^*)}.
-% \end{align*}
-% If $\epsilon > \lambda \geq r_{\sigma(k)} > 0$ for some $k$, then
-% \[
-% \round{\lambda + \fracpart{\Phi_{\sigma(i)}}} = \round{\lambda + \tfrac{\pi}{M} - r_{\sigma(i)}} = \tfrac{\pi}{M}
-% \]
-% for all $i \leq k$, whilst
-% \[
-% \round{\lambda + \fracpart{\Phi_{\sigma(i)}}} = \round{\lambda + \tfrac{\pi}{M} - r_{\sigma(i)}} = 0
-% \]
-% for all $i > k$.  Otherwise if $-\epsilon < \lambda < r_{\sigma(k)} \leq 0$ for some $k$, then
-% \[
-% \round{\lambda + \fracpart{\Phi_{\sigma(i)}}} = \round{\lambda + -\tfrac{\pi}{M} - r_{\sigma(i)}} = -\tfrac{\pi}{M}
-% \]
-% for all $i \leq k$, whilst
-% \[
-% \round{\lambda + \fracpart{\Phi_{\sigma(i)}}} = \round{\lambda + \tfrac{\pi}{M} - r_{\sigma(i)}} = 0
-% \]
-% for all $i > k$.
-
-% Let $R = \sum_{i \in S} R_i$ and let $d(\ell)$ be the largest integer such that
-% \[
-% \sum_{i=0}^{d(\ell)} R_{\sigma(i)} \leq \frac{\ell}{2^k} R.
-% \]
-% for integers $\ell = 1, \dots, 2^k$.  Define the intervals
-% \[
-% L_\ell = \in [r_{d(\ell)}, r_{d(\ell+1)})
-% \]
-% where $r_{0} = -\epsilon$ and $r_{2^k+1} = \epsilon$.  Then $L_0, L_1, \dots, L_{2^k}$ partition the closure of $B_\epsilon$.  If $\lambda$ and $\lambda^*$ are from interval $L_\ell$, then for all $i \in \{0, 1, \dots, \abs{S}-1\}$ less than $d(\ell)$,
-% \begin{align*}
-% \fracpart{\lambda + \Phi_{\sigma(i)}} &= \fracpart{\lambda + \fracpart{\Phi_{\sigma(i)}}} \\
-% &= \fracpart{\lambda + \fracpart{\Phi_{\sigma(i)}}}
-% \end{align*}
-% \begin{align*}
-% \vert f_{\sigma(i)}(\lambda) - &f_{\sigma(i)}(\lambda^*) \vert \\
-% &= R_{\sigma(i)}\vert\sin\fracpart{\lambda + \Phi_{\sigma(i)}} - \sin\fracpart{\lambda^* + \Phi_{\sigma(i)}}\vert 
-% \end{align*}
-BLERG
-
-\end{IEEEproof}
-
-
-% \subsection{Proof of Proposition~\ref{prop:gg2cont}} \label{appendix:prop1proof}
-
-% \begin{lemma}
-% Let $W$ be a circularly symmetric random variable with constant magnitude $Z = \abs{W} = c > 0$ and phase uniformly distributed on $[-\pi,\pi)$.  Let $R \geq 0$ and $\Phi \in [-\pi, \pi)$ be real random variables such that $Re^{j\Phi} = 1 + W$.  Then the pdf of $\Phi$ is
-% \begin{equation} \label{eq:fphicleq1}
-% f_{\Phi}(\phi) = \begin{cases} 
-% \frac{\cos(\Phi)}{\pi c} &  [-\tfrac{\pi}{2}, \tfrac{\pi}{2}] \\
-% 0 & \text{otherwise}
-% \end{cases}
-% \end{equation}
-% when $0 < c \leq 1$, and
-% \begin{equation} \label{eq:fphicg1}
-% f_{\Phi}(\phi) = \frac{\cos(\phi) + \sqrt{c^2 - 1 + \cos^2(\phi)}}{2\pi c}
-% \end{equation}
-% when $c > 1$.
-% \end{lemma}
-% \begin{IEEEproof}
-% We make use of delta `function' notation and write the `pdf' of $Z$ as $\delta(z - c)$.  Using~\eqref{eq:pdfRPhi} the pdf of $\Phi$ is
-% \[
-% f_{\Phi}(\phi) = \int_{0}^{\infty} r \frac{\delta(z - c)}{ 2\pi z} dr = \sum_{r} \frac{r}{2\pi c}
-% \]
-% where $z^2 = r^2 - 2r\cos(\phi) + 1$ and the sum is over the positive real solutions of $c^2 = r^2 - 2r\cos(\phi) + 1$.  If $0 < c \leq 1$ and $\phi \in [-\tfrac{\pi}{2}, \tfrac{\pi}{2}]$ there are two positive real solutions, these being
-% \[
-% r = \cos(\phi) \pm \sqrt{c^2 - 1 + \cos^2(\phi)},
-% \]
-% whilst if $\phi \notin [-\tfrac{\pi}{2}, \tfrac{\pi}{2}]$ there are no real solutions.  Thus~\eqref{eq:fphicleq1} holds.  If $c > 1$ there is a single real solution
-% \[
-% r = \cos(\phi) + \sqrt{c^2 - 1 + \cos^2(\phi)}
-% \]
-% so that~\eqref{eq:fphicg1} holds.
-% \end{IEEEproof}
-
-% Now if $W$ is a circularly symmetric complex random variable with $Z = \abs{W}$ having pdf $f_Z$ and let $R \geq 0$ and $\Phi \in [-\pi, \pi)$ be real random variables such that $Re^{j\Phi} = 1 + W$.  The pdf of $\Phi$ is 
-% \[
-% f_{\Phi}(\phi) = \int_{0}^{\infty} r\frac{f_Z(z)}{ 2\pi z} dr.
-% \]
-% Let
-% \[
-% I_{N,c}(z) = \begin{cases}
-% N \frac{f_Z(z)}{ 2\pi z} & z \in [cN, c(N-1)) \\
-% 0 & \text{otherwise}.
-% \end{cases}
-% \]
-% Now
-% \[
-% \frac{f_Z(z)}{ 2\pi z} = \frac{1}{N} \sum_{c = 0}^{\infty}I_{N,c}(z)
 % \]
 % so that
 % \[
-% f_{\Phi}(\phi) = \int_{0}^{\infty} r\frac{1}{N} \sum_{c = 0}^{\infty}I_{N,c}(z) dr = \frac{1}{N} \sum_{c = 0}^{\infty} \int_{0}^{\infty} r I_{N,c}(z) dr 
+% W_L(\lambda) = \frac{1}{\sqrt{L}} \sum_{i \in P \cup D} \big( f_i(\lambda, R_i, \Phi_i) - \expect f_i(\lambda, R_i, \Phi_i) \big).
 % \]
-
-
-% \subsection{Proof of Proposition~\ref{prop:contgg2}} \label{appendix:prop2proof}
-
-
-% \begin{IEEEproof}
-% We first prove the result for $h_1$.  Write
-% \begin{align*}
-% h_1(x) &= \int_{-\pi}^{\pi} \int_{0}^\infty r \cos(\phi + x) f(r,\phi) dr d\phi \\
-% &= \int_{-\pi}^{\pi}  \cos(\phi + x) g(\phi) d\phi,
-% \end{align*}
-% where $f(r,\phi)$ is the joint pdf of $R$ and $\Phi$, and 
+% Let $\{g_i\}$ be a sequence of independent standard normal random variables, independent of $\{R_i\}$ and $\{\Phi_i\}$.  Using symmetrisation, Lemma~\ref{lem:symmetrisation} shows that
 % \[
-% g(\phi) = \int_{0}^{\infty} r f(r,\phi) dr.
+% \expect \sup_{\sabs{\lambda} < \epsilon} \abs{ W_L(\lambda)} \leq \sqrt{2\pi} \; \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{ X(\lambda) },
 % \]
-% Since the pdf of $X$ is circularly symmetric, $f(r,\phi)$ and $g(\phi)$ are even in $\phi$ on $[-\pi,\pi]$ (see the discussion after~\eqref{eq:pdfRPhi}).  It is also the case that $g(\phi)$ is unimodal with mode at zero, as a result of Lemma~\ref{lem:gunimodmodzero}.  Write $\cos(\phi + x)$ as a sum of even and odd parts,
+% where 
+% \begin{equation}\label{eq:ZpsiCondGaussProc}
+% X(\lambda) = \frac{1}{\sqrt{L}} \sum_{i \in P \cup D} g_i f_i(\lambda, R_i, \Phi_i),
+% \end{equation}
+% and where $\expect$ runs over all of $\{g_i\}$, $\{R_i\}$ and $\{\Phi_i\}$.  Conditionally on $\{\Phi_i\}$ and $\{R_i\}$, $\{X(\lambda), \lambda \in \reals \}$ is a \emph{Gaussian process}, and numerous techniques exist for its analysis.  Using chaining, Lemma~\ref{lem:chaining} shows that for any $\kappa > 0$ there exists $\epsilon > 0$ such that
 % \[
-% \cos(\phi + x) = \cos(\phi)\cos(x) - \sin(\phi)\sin(x).
+% \expect \sup_{\sabs{\lambda} < \epsilon} \abs{ X(\lambda) } < \kappa.
 % \]
-% Now
+% It follows that,
 % \[
-% h_1(x) = \cos(x) \int_{-\pi}^{\pi} \cos(\phi) g(\phi) d\phi
+% \expect \sup_{\sabs{\lambda} < \epsilon} \abs{ W_L(\lambda)}  <  \sqrt{2\pi} \; \kappa,
 % \]
-% since $\int_{-\pi}^{\pi} \sin(\phi) g(\phi) d\phi = 0$ because $\sin(\phi)g(\phi)$ is odd.  Now 
+% and by Markov's inequality,
 % \[
-% K = \int_{-\pi}^{0} \cos(\phi) g(\phi) d\phi > 0
-% \] 
-% because $g(\phi) > 0$ is increasing on $(-\pi,0)$ and $\cos(\phi)$ is odd and increasing on $(-\pi,0)$.  Thus $h_1(x) = 2K \cos(x)$ is uniquely maximised at zero because $\cos(x)$ is uniquely maximised at zero.
+% \prob \cubr{  \sup_{\sabs{\lambda} < \epsilon} \abs{ W_L(\lambda)} > \delta } \leq  \sqrt{2\pi} \; \frac{\kappa}{\delta},
+% \]
+% for any $\delta > 0$.  The proof follows by choosing $\nu =  \sqrt{2\pi} \kappa/\delta$.  It remains to prove Lemmas~\ref{lem:symmetrisation}~and~\ref{lem:chaining}.
 % \end{IEEEproof}
 
-% \begin{lemma}\label{lem:gunimodmodzero}
-% Under the assumptions in Proposition~\ref{prop:contgg2} let $f_Z$ be the pdf of $\abs{W}$.  Then $z^{-1} f_Z(z)$ is differentiable and decreasing for $z > 0$ and the function $g(\phi) = \int_{0}^{\infty} r f(r,\phi) dr$ is unimodal on $[-\pi,\pi]$ with mode at $\phi = 0$.
+
+% \begin{lemma}\label{lem:symmetrisation} (Symmetrisation \cite{Pollard_asymp_empi_proc_1989,van2009empirical,Gine_Zinn_symmetrisation_1984})
+% \[
+% \expect \sup_{\sabs{\lambda} < \epsilon} \abs{ W_L(\lambda)} \leq \sqrt{2\pi} \; \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{ X(\lambda) }
+% \]
 % \end{lemma}
 % \begin{IEEEproof}
-% From~\eqref{eq:fzandfZYwithz} it follows that $2\pi f_{X,Y}(z,0) = z^{-1} f_Z(z)$ for all $z>0$, and since $f_{X,Y}(z,0)$ is differentiable and nonincreasing in $z$ (by assumption in the statement of Proposition~\ref{prop:contgg2}) we have that $z^{-1} f_Z(z)$ is differentiable and decreasing for $z > 0$.  So the derivative $\frac{d}{dz} \big( z^{-1} f_Z(z) \big) > 0$ for all $z > 0$.   Using~\eqref{eq:pdfRPhi},
+% Let $\{R_i'\}$ be a sequence identically distributed to $\{R_i\}$ and let $\{\Phi_i'\}$ be a sequence identically distributed to $\{\Phi_i\}$.  Both $\{R_i'\}$ and $\{\Phi_i'\}$ are chosen independently of $\{R_i\}$ and $\{\Phi_i\}$.  Let $\expect_{R\Phi}$ denote expectation conditional on $\{R_i\}$ and $\{\Phi_i\}$.  Now,
+% \begin{align*}
+% W_L(\lambda) &= \frac{1}{\sqrt{L}} \sum_{i \in P \cup D} \big( f_i(\lambda, R_i, \Phi_i) - \expect_{R\Phi} f_i(\lambda, R_i', \Phi_i') \big) \\
+% &= \expect_{R\Phi} \frac{1}{\sqrt{L}} \sum_{i \in P \cup D} ( f_{i} - f_{i}^\prime ),
+% \end{align*}
+% where, for notational convenience, we put 
 % \[
-% g(\phi) = \int_{0}^\infty r^2 \frac{f_Z(z)}{2\pi z } dr
-% \]
-% where $z = \sqrt{r^2 - 2r\cos\phi + 1}$.  Differentiating with respect to $\phi$,
+% f_{i} = f_i(\lambda, R_i, \Phi_i) \qquad \text{and} \qquad  f_{i}^\prime = f_i(\lambda, R_i', \Phi_i').
+% \] 
+% Taking absolute values followed by supremums,
+% \begin{align*}
+%  \sup_{\sabs{\lambda} < \epsilon} \abs{ W_L(\lambda)} &= \sup_{\sabs{\lambda} < \epsilon}  \abs{\frac{1}{\sqrt{L}} \expect_{R\Phi} \sum_{i \in P \cup D} (f_{i} - f_{i}^\prime )} \\
+% &\leq \sup_{\sabs{\lambda} < \epsilon} \expect_{R,\Phi}  \abs{ \frac{1}{\sqrt{L}} \sum_{i \in P \cup D}  (f_{i} - f_{i}^\prime) },
+% \end{align*}
+% the upper bound following from Jensen's inequality.  Since $\sup \expect \abs{\dots} \leq \expect \sup \abs{\dots}$, the bound can be increased by moving $\expect_{R,\Phi}$ outside the supremum,
+% \begin{equation}\label{eq:Eoutsidesup}
+%  \sup_{\sabs{\lambda} < \epsilon} \abs{ W_L(\lambda)} \leq \expect_{R,\Phi} \sup_{\sabs{\lambda} < \epsilon} \abs{ \frac{1}{\sqrt{L}}\sum_{i \in P \cup D} ( f_{i} - f_{i}^\prime ) }.
+% \end{equation}
+% Applying $\expect$ to both sides gives the inequality
+% \begin{equation}\label{eq:Gninequfin}
+%  \expect \sup_{\sabs{\lambda} < \epsilon} \abs{ W_L(\lambda)} \leq  \expect \sup_{\sabs{\lambda} < \epsilon} \abs{ \frac{1}{\sqrt{L}}\sum_{i \in P \cup D} (f_{i} - f_{i}^\prime) },
+% \end{equation}
+% since $\expect \expect_{R\Phi}$ is equivalent to $\expect$.   Let
 % \[
-% g^\prime(\phi) = \sin(\phi) \int_{0}^\infty \frac{r^3}{\pi} \frac{d}{dz}\left( \frac{f_Z(z)}{z} \right) dr
+% \sigma_i = \frac{g_i}{\abs{g_i}},
 % \]
-% and since the term inside the integral is negative, the integral is negative.  Since $\sin(\phi)$ is negative on $(-\pi,0)$ and positive on $(0,\pi)$ it follows that the derivative $g^\prime(\phi)$ is positive on $(-\pi,0)$ and negative on $(0,\pi)$.  Thus $g(\phi)$ is unimodal with mode at $\phi = 0$.
+% and put $\sigma_i = 1$ if $g_i = 0$.  The $\sigma_i$ are thus independent with 
+% \[
+% \prob\{ \sigma_i = -1 \} = \tfrac{1}{2} \qquad \text{and} \qquad  \prob\{ \sigma_i = 1 \} = \tfrac{1}{2}.
+% \]  
+% The symmetry of the distribution of $g_i$ implies that $g_i$ and $\sigma_i$ are independent.  As $R_i$ and $\Phi_i$ are independent and identically distributed to $R_i^\prime$ and $\Phi_i^\prime$, the random variable $f_{i} - f_{i}^\prime$ is symmetrically distributed about zero, and is therefore distributed identically to $\sigma_i( f_{i} - f_{i}^\prime)$.  Thus,
+% %\[
+% %\sum_{n=1}^{N}  (f_{nN} - f_{nN}^\prime) \qquad \text{and} \qquad \sum_{n=1}^{N}  \sigma_n(f_{nN} - f_{nN}^\prime)
+% %\]
+% %are identically distributed, and therefore
+% \begin{align*}
+%  \expect \sup_{\sabs{\lambda} < \epsilon}  &\abs{  \frac{1}{\sqrt{L}}\sum_{i \in P \cup D}  (f_{i} - f_{i}^\prime) } \\
+% &= \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{  \frac{1}{\sqrt{L}}\sum_{i \in P \cup D} \sigma_i ( f_{i} - f_{i}^\prime) }.
+% \end{align*}
+% By the triangle inequality,
+% \[
+% \abs{ \sum_{i\in P \cup D} \sigma_i (f_{i} - f_{i}^\prime)} \leq \abs{ \sum_{i \in P \cup D} \sigma_i f_{i} } + \abs{ \sum_{i\in P \cup D}  \sigma_i f_{i}^\prime },
+% \]
+% and it follows from~\eqref{eq:Gninequfin}, that
+% \begin{align*}
+%  \expect \sup_{\sabs{\lambda} < \epsilon} \abs{ W_L(\lambda)} &\leq \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{ \frac{1}{\sqrt{L}}\sum_{i\in P \cup D} \sigma_i f_{i} } \\
+% &\hspace{1cm} + \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{\frac{1}{\sqrt{L}} \sum_{i \in P \cup D}  \sigma_i  f_{i}^\prime } \\
+% &= 2 \; \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{ \frac{1}{\sqrt{L}}\sum_{i \in P \cup D} \sigma_i f_{i} }.
+% \end{align*}
+% Write $\expect_{R\Phi\sigma}$ to denote expectation conditional on $\{R_i\}$, $\{\Phi_i\}$ and $\{\sigma_i\}$.  Because $g_i$ is a standard normal random variable it follows that $\expect \abs{g_i} = \expect_{R\Phi\sigma} \abs{g_i} = \sqrt{2/\pi}$, and
+% \begin{align*}
+% \expect \sup_{\sabs{\lambda} < \epsilon}  &\abs{ \frac{1}{\sqrt{L}}\sum_{i \in P \cup D} \sigma_i f_{i} } \\
+% &= \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{ \frac{1}{\sqrt{L}}\sum_{i \in P \cup D} \sigma_i f_{i} \sqrt{\frac{\pi}{2}}\expect_{R\Phi\sigma} \abs{g_i}} \\
+% &\leq \sqrt{\frac{\pi}{2}} \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{ \frac{1}{ \sqrt{L}}\sum_{i \in P \cup D} \sigma_i \abs{g_i}  f_{i}},
+% \end{align*}
+% the last line following from Jensen's inequality and by moving $\expect_{R\Phi\sigma}$ outside the supremum similarly to~\eqref{eq:Eoutsidesup}. As $g_i = \sigma_i \abs{g_i}$,
+% \begin{align*}
+% \expect \sup_{\sabs{\lambda} < \epsilon} \abs{W_L(\lambda)}  &\leq 2\sqrt{\frac{\pi}{2}} \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{ \frac{1}{\sqrt{L}}\sum_{i\in P \cup D} g_i  f_{i}} \\
+% &= \sqrt{2\pi} \; \expect \sup_{\sabs{\lambda} < \epsilon}  \abs{ X(\lambda) } 
+% \end{align*}
+% as required.
 % \end{IEEEproof}
+
+% \begin{lemma} \label{lem:chaining}
+% For any $\kappa > 0$ there exists $\epsilon > 0$ such that
+% \[
+% \expect \sup_{\sabs{\lambda} < \epsilon} \abs{ X(\lambda) } < \kappa,
+% \]
+% where $X(\lambda)$ is the Gaussian process defined in~\eqref{eq:ZpsiCondGaussProc}.
+% \end{lemma}
+% \begin{IEEEproof}
+% Without loss of generality, assume that $\epsilon < \tfrac{\pi}{M}$.  Lemma~\ref{lem:chaining2} shows that
+% \begin{equation}\label{eq:supZCK1} 
+% \expect_{R,\Phi} \sup_{\sabs{\lambda} < \epsilon} \abs{ X(\lambda) } \leq K_1 \sqrt{C_\epsilon}
+% \end{equation}
+% where $K_1$ is a finite, positive constant, and
+% \begin{equation}\label{eq:Cepsdefn}
+% C_\epsilon = \frac{2}{L}\epsilon\sum_{i\in P \cup D}R_i^2 + \frac{4}{L}\sum_{i\in P \cup D}R_i^2 I_{\epsilon}(\Phi_i)
+% \end{equation}
+% where $I_\epsilon$ is the indicator function
+% \[
+% I_{\epsilon}(x) = \begin{cases}
+% 1, & x \in \cup_{k\in\ints}[\psi_k - \epsilon, \psi_k + \epsilon] \\
+% 0, & \text{otherwise},
+% \end{cases}
+% \] 
+% and $\psi_k = \tfrac{2\pi}{M}k + \tfrac{\pi}{M}$.  Now,
+% \[
+% \expect C_\epsilon =  2\epsilon\expect R_1^2 + 4 \expect R_i^2 I_{\epsilon}(\Phi_i).
+% \]
+% Recalling that $f(r,\phi)$ is the joint probability density function of $R_i$ and $\Phi_i$,
+% \begin{align*}
+% \expect R_i^2 I_\epsilon(\Phi_i) &= \int_0^{2\pi} \int_{0}^\infty  r^2 f(r,\phi) I_\epsilon(\phi) dr d\phi \\ 
+% &= \int_0^{2\pi}g_2(\phi) I_\epsilon(\phi) d\phi 
+% \end{align*}
+% where the function
+% \[
+% g_2(\phi) = \int_{0}^\infty  r^2 f(r,\phi) dr d\phi 
+% \]
+% From the definition of $I_\epsilon$, and since $\expect \abs{R_i}^2$ is finite,
+% \begin{align*}
+% \expect R_i^2 I_\epsilon(\Phi_i) = \sum_{k=0}^{M-1}\int_{\psi_k-\epsilon}^{\psi_k-\epsilon}g_2(\phi) d\phi \leq K_2 \epsilon
+% \end{align*}
+% for some constant $K_2$. Since $\sqrt{\cdot}$ is a concave function on the positive real line, and since $C_{\epsilon}$ is always positive,
+% \[
+% \expect \sqrt{C_\epsilon} \leq  \sqrt{\expect  C_\epsilon} < \sqrt{\epsilon( K_2 + 2\expect R_1^2)  }
+% \]
+% by Jensen's inequality.  Applying $\expect$ to both sides of~\eqref{eq:supZCK1},
+% \[
+% \expect \sup_{\sabs{\lambda} < \epsilon} \abs{ X(\lambda) } \leq K_1 \sqrt{\tfrac{1}{L}\expect C_\epsilon} < K_1 \sqrt{\epsilon( K_2 + 2\expect R_1^2)}.
+% \]
+% Choosing 
+% \[
+% \epsilon = \frac{\kappa^2}{ K_1^2 ( K_2 + 2\expect R_1^2)}
+% \] 
+% completes the proof.  It remains to prove Lemma~\ref{lem:chaining2}.
+% \end{IEEEproof}
+
+% The proofs of Lemmas~\ref{lem:chaining2}~and~\ref{lem:chaining3} are based on a technique called \emph{chaining} (or \emph{bracketing})~\cite{Dudley_unif_central_lim_th_1999,Ossiander_clt_bracketing_1984,Pollard_asymp_empi_proc_1989,Pollard_new_ways_clts_1986}.  The proofs here follow those of Pollard~\cite[Section 3]{Pollard_asymp_empi_proc_1989}.  %Within the remaining proofs, we are interested in expectations conditional on the phase noise sequence $\{\Phi_n\}$, so for the purpose of these lemmas, $\{\Phi_n\}$ is treated as a fixed realisation.  
+% For notational convenience we use the abbreviation 
+% \[
+% f_{i}(\lambda) = f_{i}(\lambda, R_i, \Phi_i)
+% \]
+% in what follows.  As in Lemma~\ref{lem:chaining} we assume, without loss of generality, that $\epsilon < \tfrac{\pi}{M}$.  %This comes at no loss since Lemma~\ref{lem:chaining} only asks for the existence of an $\epsilon > 0$.
+
+% \begin{lemma}\label{lem:chaining2}
+% There exists a positive constant $K_1$ such that
+% \[
+% \expect_{R,\Phi} \sup_{\sabs{\lambda} < \epsilon} \abs{ X(\lambda) } \leq K_1 \sqrt{C_\epsilon}.
+% \]
+% where $C_\epsilon$ is defined in~\eqref{eq:Cepsdefn}
+% \end{lemma}
+% \begin{IEEEproof}
+% Let $B_\epsilon = \{x \in \reals \mid \abs{x} < \epsilon\}$ be the set of real numbers with magnitude less than $\epsilon$.  For each non negative integer $k$, let $T_\epsilon(k)$ be a discrete subset of $B_\epsilon$ with the property that for every $\lambda \in B_\epsilon$ there exists $\lambda_1$ and $\lambda_2$ in $T_\epsilon(k)$ such that the pseudometric
+% \[
+% d_1(\lambda, \lambda_1) = \sum_{i \in P \cup D} \big( f_{i}(\lambda) - f_{i}(\lambda_1) \big)^2 \leq 2^{-k} C_\epsilon L,
+% \]
+% and the pseudometric
+% \[
+% d_2(\lambda, \lambda_2) = \sum_{i \in P \cup D} \sabs{f_{i}(\lambda) - f_{i}(\lambda_2)} \leq 2^{-k} D_\epsilon L
+% \]
+% where 
+% \begin{equation}\label{eq:Depsdefn}
+% D_\epsilon = \frac{1}{L}\epsilon\sum_{i\in P \cup D}R_i + \frac{2}{L}\sum_{i\in P \cup D}R_i I_{\epsilon}(\Phi_i).
+% \end{equation}
+% We specifically define $T_\epsilon(0)$ to contain only zero.  Defined this way, $T_\epsilon(0)$ satisfies the inequality above because $d_1(\lambda, 0) \leq C_\epsilon L $ and $d_2(\lambda, 0) \leq D_\epsilon L$ for all $\lambda \in B_\epsilon$, as a result of Lemma~\ref{lem:epslmlemma}.  
+% The existence of $T_\epsilon(k)$ for every positive integer $k$ will be proved by construction in Lemma~\ref{lem:metricentropy}.  Lemma~\ref{lem:metricentropy} also shows that the number of elements in $T_\epsilon(k)$ is no more that $K_3 2^k$ where $K_3$ is a constant, independent of $L$, $\epsilon$ and $k$.
+
+% Lemma~\ref{lem:limexpTk} shows that
+% \[
+% \lim_{k\rightarrow\infty}\expect_{R,\Phi}\sup_{\lambda \in T_\epsilon(k)} \sabs{X(\lambda)} = \expect_{R,\Phi} \sup_{\sabs{\lambda} < \epsilon} \sabs{X(\lambda)}.
+% \]
+% Lemma~\ref{lem:chaining3} shows that
+% \[
+% \expect_{R,\Phi} \sup_{\lambda \in T_\epsilon(k)} \sabs{X(\lambda)} \leq \sqrt{C_\epsilon} \sum_{i=1}^k \frac{5\sqrt{i \log 2 + \log K_3}}{2^{i/2}}
+% \]
+% The sum above converges as $k\rightarrow\infty$ so lemma holds with
+% \[
+% K_1 = \sum_{i=1}^\infty \frac{5\sqrt{i \log 2 + \log K_3}}{2^{i/2}}.
+% \]
+% \end{IEEEproof}
+
+% \begin{lemma}\label{lem:epslmlemma}
+% Both $d_1(\lambda, 0) \leq C_\epsilon L $ and $d_2(\lambda, 0) \leq D_\epsilon L$ for all $\lambda \in B_\epsilon$.
+% \end{lemma}
+% \begin{IEEEproof}
+% We prove the lemma for $d_2$.  The proof for $d_1$ is similar.  Observe that $d_2(\lambda, 0) = c_1 + c_2$ where 
+%  \[
+%  c_1 = \sum_{i \in P} R_i\sabs{\sin(\lambda + \Phi_i) - \sin(\Phi_i) },
+%  \] 
+%  \[
+%  c_2 = \sum_{i \in D} R_i \sabs{\sin\fracpart{\lambda + \Phi_i} - \sin\fracpart{\Phi_i}}.
+%  \]
+%  As $\sin(\cdot)$ is Lipshitz continuous with constant $K=1$,
+%  \[
+%  \sabs{\sin(\lambda + \Phi_i) - \sin(\Phi_i)} \leq K\sabs{\lambda} = \sabs{\lambda} < \epsilon
+%  \]
+%  for all $i \in P \cup D$, and therefore $c_1 \leq \epsilon \sum_{i \in P} R_i$.  Let 
+% \[
+% S = \{ i \in D \mid I_\epsilon(\Phi_i) = 1\}.
+% \] 
+% Now $c_2 = c_3 + c_4$ where 
+%  \[
+%  c_3 = \sum_{i \in D, i \in S} R_i \sabs{\sin\fracpart{\lambda + \Phi_i} - \sin\fracpart{\Phi_i}},
+%  \]
+%  \[
+%  c_4 =  \sum_{i \in D, i \notin S} R_i \sabs{\sin\fracpart{\lambda + \Phi_i} - \sin\fracpart{\Phi_i}}.
+%  \]
+% Observe that $I_\epsilon(\Phi_i) = 1$ if and only if $\abs{\fracpart{\Phi_i}} \geq \tfrac{\pi}{M} - \epsilon$.  So, if $i \notin S$ and $\sabs{\lambda} < \epsilon$, then
+% \begin{align*}
+% \round{\lambda + \Phi_i} &= \round{\lambda + \fracpart{\Phi_i} + \round{\Phi_i}} \\ 
+% &= \round{\lambda + \fracpart{\Phi_i}} + \round{\Phi_i} = \round{\Phi_i}
+% \end{align*}
+% because
+% \[
+% \sabs{\lambda + \fracpart{\Phi_i}} < \epsilon + \tfrac{\pi}{M} - \epsilon = \tfrac{\pi}{M}
+% \] 
+% and therefore $\round{\lambda + \fracpart{\Phi_i}} = 0$.  Now,
+%  \begin{align*}
+%  \vert\sin&\fracpart{\lambda + \Phi_i} - \sin\fracpart{\Phi_i}\vert \\
+%  &= \sabs{\sin(\lambda + \Phi_i - \round{\Phi_i}) - \sin(\Phi_i - \round{\Phi_i})} \\
+%  &\leq \sabs{\lambda} < \epsilon
+%  \end{align*}
+% and so, 
+% \[
+% c_4 \leq \epsilon \sum_{i \in D, i \notin S} R_i \leq \epsilon \sum_{i \in D} R_i.
+% \]
+% Otherwise, if $i \in S$, then $\sabs{\sin\fracpart{\lambda + \Phi_i} - \sin\fracpart{\Phi_i}} \leq 2$ because $\sin(\cdot) \leq 1$.  Thus 
+% \[
+% c_3 \leq 2 \sum_{i \in D, i \in S} R_i \leq 2 \sum_{i \in P \cup D} R_i I_\epsilon(\Phi_i).
+% \]
+% Now,
+% \begin{align*}
+% d_2(\lambda, 0) &= c_1 + c_2 = c_1 + c_3 + c_4 \\
+% &\leq \epsilon \sum_{i \in P \cup D} R_i + 2 \sum_{i \in P \cup D} R_i I_\epsilon(\Phi_i) = D_\epsilon L
+% \end{align*}
+% as required
+% \end{IEEEproof}
+
+
+% \begin{lemma}\label{lem:limexpTk} With $T_\epsilon(k)$ defined as in Lemma~\ref{lem:chaining2},
+% \[
+% \lim_{k\rightarrow\infty}\expect_{R,\Phi}\sup_{\lambda \in T_\epsilon(k)} \sabs{X(\lambda)} = \expect_{R,\Phi} \sup_{\sabs{\lambda} < \epsilon} \sabs{X(\lambda)}
+% \]
+% \end{lemma}
+% \begin{IEEEproof}
+% Let $b_2(\lambda)$ be a function that maps $\lambda \in B_\epsilon$ to a point in $T_\epsilon(k)$ such that  $d_2(\lambda,b_2(\lambda)) \leq 2^{-k}D_\epsilon L$.  The existence of $b_2$ is guaranteed by the definition of $T_\epsilon(k-1)$.  So, for all $\lambda \in B_\epsilon$,
+% \begin{align*}
+% \sabs{X(\lambda) - X(b_2(\lambda))} &= \abs{\frac{1}{\sqrt{L}}\sum_{i\in P \cup D}g_i(f_i(\lambda) - f_i(b_2(\lambda)))} \\
+% &\leq  \frac{1}{\sqrt{L}}\sum_{i\in P \cup D}\abs{g_i}\sabs{f_i(\lambda) - f_i(b_2(\lambda))} \\
+% &\leq \frac{1}{\sqrt{L}} \sum_{i\in P \cup D} g_\text{max} \sabs{f_i(\lambda) - f_i(b_2(\lambda))} \\
+% &\leq \frac{g_\text{max}}{\sqrt{L}} d_2(\lambda,b_2(\lambda)) \\
+% &\leq \frac{g_\text{max}}{\sqrt{L}} 2^{-k} D_\epsilon L,
+% \end{align*}
+% where $g_\text{max} = \sup_{i\in P\cup D} \abs{g_i}$. The bound applies uniformly over $\lambda \in B_\epsilon$, so
+% \[
+% \sup_{\sabs{\lambda} < \epsilon} \sabs{X(\lambda) - X(b_2(\lambda))} \leq \frac{g_\text{max}}{\sqrt{L}} 2^{-k} D_\epsilon L.
+% \]
+% Applying $\expect_{R,\Phi}$ to both sides,
+% \[
+% \expect_{R,\Phi} \sup_{\sabs{\lambda} < \epsilon} \sabs{X(\lambda) - X(b_2(\lambda))} \leq K_4 2^{-k} D_\epsilon L,
+% \]
+% where, as a result of Lemma~\ref{lem:maxineq},
+% \[
+% K_4 = \tfrac{1}{\sqrt{L}}\expect_{R,\Phi} g_\text{max} \leq 3 \sqrt{\frac{\log L}{L}}
+% \]
+% is independent of $\epsilon$ and $k$.  Because $T_\epsilon(k)$ is a subset of $B_\epsilon$,
+% \[
+% \sup_{\lambda \in T_\epsilon(k)} \expect_{R,\Phi} \sabs{X(\lambda)} \leq \sup_{\sabs{\lambda} < \epsilon} \expect_{R,\Phi} \sabs{X(\lambda)},
+% \]
+% and so,
+% \begin{align*}
+% 0 &\leq \sup_{\sabs{\lambda} < \epsilon} \expect_{R,\Phi} \sabs{X(\lambda)} - \sup_{\lambda \in T_\epsilon(k)} \expect_{R,\Phi} \sabs{X(\lambda)} \nonumber \\
+% &\leq \sup_{\sabs{\lambda} < \epsilon} \expect_{R,\Phi} \sabs{X(\lambda)} - \sup_{\sabs{\lambda} < \epsilon} \expect_{R,\Phi} \sabs{X(b_2(\lambda))} \nonumber \\
+% &\leq \sup_{\sabs{\lambda} < \epsilon} \expect_{R,\Phi} \big( \sabs{X(\lambda)} - \sabs{X(b_2(\lambda))} \big) \nonumber \\
+% &\leq \sup_{\sabs{\lambda} < \epsilon} \expect_{R,\Phi} \sabs{X(\lambda) - X(b_2(\lambda))} \nonumber \\
+% &\leq K_4 2^{-k} D_\epsilon L. \label{eq:Deps2nktozero}
+% \end{align*}
+% The second line in the inequality above follows because,
+% \[
+% \sup_{\sabs{\lambda} < \epsilon} \expect_{R,\Phi} \sabs{X(b_2(\lambda))} \leq \sup_{\lambda \in T_\epsilon(k)} \expect_{R,\Phi} \sabs{X(\lambda)},
+% \]
+% since $b_2(\lambda) \in T_\epsilon(k)$.  The lemma follows because $K_4 2^{-k} D_\epsilon L$ goes to zero as $k\rightarrow\infty$.
+% \end{IEEEproof}
+
+
+% % \begin{lemma}\label{lem:epslmlemma}
+% % Suppose $\sabs{\lambda} < \epsilon$ and $\sabs{\lambda^*} < \epsilon$ with $\epsilon < \tfrac{\pi}{M}$. Then
+% % \begin{align*}
+% % d(\lambda, \lambda^*) &= \sum_{i \in P \cup D} \big( f_{i}(\lambda) - f_{i}(\lambda^*) \big)^2 \\
+% % &\leq R_i^2 L \left( (\lambda - \lambda^*)^2 + 4 C_\epsilon \right).
+% % \end{align*}
+% % \end{lemma}
+
+
+% % \begin{lemma}
+% % If $i \in P$, then $\big(f_{i}(\lambda) - f_{i}(\lambda^*)\big)^2 \leq R_i^2(\lambda - \lambda^*)^2.$
+% % \end{lemma}
+% % \begin{IEEEproof} 
+% % We have
+% % \[
+% % \big(f_{i}(\lambda) - f_{i}(\lambda^*)\big)^2 = R_i^2\sabs{\sin(\lambda + \Phi_i) - \sin(\lambda^* + \Phi_i)}^2
+% % \]
+% % and, since $\sin(\cdot)$ is Lipshitz continuous with constant $K=1$,
+% % \[
+% % \sabs{\sin(\lambda + \Phi_i) - \sin(\lambda^* + \Phi_i)} \leq K\sabs{\lambda - \lambda^*} = \sabs{\lambda - \lambda^*}.
+% % \]
+% % \end{IEEEproof}
+
+% % \begin{lemma}
+% % Suppose $\sabs{\lambda} < \epsilon$ and $\sabs{\lambda^*} < \epsilon$ with $\epsilon < \tfrac{\pi}{M}$.  If $i \in D$, then
+% % \begin{equation}\label{eq:fismall}
+% % \big(f_{i}(\lambda) - f_{i}(\lambda^*)\big)^2 \leq R_i^2(\lambda - \lambda^*)^2
+% % \end{equation}
+% % when $\Phi_i \notin S_\epsilon$, otherwise,
+% % \begin{equation}\label{eq:fibig}
+% % \big(f_{i}(\lambda) - f_{i}(\lambda^*)\big)^2 \leq 4 R_i^2.
+% % \end{equation}
+% % \end{lemma}
+% % \begin{IEEEproof}
+% % Because $\sin(\cdot) \leq 1$ it follows that
+% % \begin{align*}
+% % \big(f_{i}(\lambda) - f_{i}(\lambda^*)\big)^2 &= R_i^2\sabs{\sin\fracpart{\lambda + \Phi_i} - \sin\fracpart{\lambda^* + \Phi_i}}^2 \\
+% % &\leq 4 R_i^2
+% % \end{align*}
+% % for any $\Phi_i \in \reals$, and so~\eqref{eq:fibig} holds.  If $\Phi_i \notin S_\epsilon$ then $\Phi_i \in (\psi_{k-1} + \epsilon, \psi_{k} - \epsilon)$ for some $k\in\ints$ and 
+% % \[
+% % \fracpart{\Phi_i + \lambda} = \Phi_i + \lambda - \tfrac{2\pi}{M}k
+% % \] 
+% % and
+% % \[
+% % \fracpart{\Phi_i + \lambda^*} = \Phi_i + \lambda^* - \tfrac{2\pi}{M}k 
+% % \]
+% % and, since $\sin(\cdot)$ is Lipshitz continuous with constant $K=1$,
+% % \begin{align*}
+% % \vert \sin&\fracpart{\Phi_i + \lambda} - \sin\fracpart{\Phi_i + \lambda^*}\vert \\
+% % &=  \sabs{\sin(\Phi_i + \lambda - \tfrac{2\pi}{M}k) - \sin(\Phi_i + \lambda^* - \tfrac{2\pi}{M}k)} \\
+% % &\leq K \sabs{\lambda - \lambda^*} \\
+% % &= \sabs{\lambda - \lambda^*}.
+% % \end{align*}
+% % Thus~\eqref{eq:fismall} holds. 
+% % \end{IEEEproof}
+
+
+% \begin{lemma}\label{lem:chaining3}(Chaining)
+% For all positive integers $k$,
+% \[
+% \expect_{R,\Phi} \sup_{\lambda \in T_\epsilon(k) } \abs{ X(\lambda) } \leq \sqrt{C_\epsilon} \sum_{i=1}^k \frac{5\sqrt{i \log 2 + \log K_3}}{2^{i/2}}.
+% \]
+% \end{lemma}
+% \begin{IEEEproof}
+% Let $b_1(\lambda)$ map each $\lambda \in T_\epsilon(k)$ to an element in $T_\epsilon(k-1)$ such that $d(\lambda, b_1(\lambda)) \leq 2^{1-k}C_\epsilon L$.  The existence of $b_1$ is guaranteed by the definition of $T_\epsilon(k)$.  By the triangle inequality
+% \[
+% \sabs{X(\lambda)} \leq \sabs{X(b_2(\lambda))} + \sabs{X(\lambda) - X(b_2(\lambda))}  
+% \]
+% and taking supremums on both sides,
+% \begin{align}
+% &\sup_{\lambda \in T_\epsilon(k)}\sabs{X(\lambda)} \nonumber \\
+% &\leq \sup_{\lambda \in T_\epsilon(k)}\sabs{X(b_2(\lambda))} + \sup_{\lambda \in T_\epsilon(k)} \sabs{X(\lambda) - X(b_2(\lambda))}   \nonumber \\
+% &\leq \sup_{\lambda \in T_\epsilon(k-1)}\sabs{X(\lambda)} + \sup_{\lambda \in T_\epsilon(k)} \sabs{X(\lambda) - X(b_2(\lambda))}, \label{eq:Xb2recpreexp}
+% \end{align}
+% the last line because $b_2(\lambda) \in T_\epsilon(k-1)$ and so
+% \[
+% \sup_{\lambda \in T_\epsilon(k)}\sabs{X(b_2(\lambda))} \leq \sup_{\lambda \in T_\epsilon(k-1)}\sabs{X(\lambda)}.
+% \]
+% Conditional on $\{R_i\}$ and $\{\Phi_i\}$ the random variable
+% \[
+% U(\lambda) = X(\lambda) - X(b_2(\lambda))
+% \]
+% has zero mean and is normally distributed with variance
+% \begin{align*}
+% \sigma_U^2 &= \expect_{R,\Phi} \frac{1}{L} \sum_{i \in P \cup D} g_i^2 \big( f_i(\lambda) - f_i(b_2(\lambda)) \big)^2 \\
+% &=  \frac{1}{L} \sum_{i \in P \cup D} \big( f_i(\lambda) - f_i(b_2(\lambda)) \big)^2 \\
+% &= d(\lambda, b_2(\lambda)) \leq 2^{1-k} C_\epsilon,
+% \end{align*}
+% since $\expect_{R,\Phi}g_i^2 = 1$.  So, from Lemma~\ref{lem:maxineq},
+% \begin{align*}
+% \expect_{R,\Phi} \sup_{\lambda \in T_\epsilon(k)} \sabs{U(\lambda)} &\leq 3 \sqrt{ 2^{1-k} C_\epsilon \log \abs{T_\epsilon(k)} } \\
+% &\leq \sqrt{C_\epsilon} \frac{5\sqrt{k \log 2 + \log K_3}}{2^{k/2}}.
+% \end{align*}
+% Taking expectations on both sides of~\eqref{eq:Xb2recpreexp},
+% \begin{align*}
+% \expect_{R,\Phi}&\sup_{\lambda \in T_\epsilon(k)}\sabs{X(\lambda)} \\
+% &\leq \expect_{R,\Phi}\sup_{\lambda \in T_\epsilon(k-1)}\sabs{X(\lambda)} + \sqrt{C_\epsilon} \frac{5\sqrt{k \log 2 + \log K_3}}{2^{k/2}} ,
+% \end{align*}
+% which involves a recursion in $k$.  By unravelling the recursion and using that $T_\epsilon(k)$ contains only zero, and therefore
+% \[
+% \expect_{R,\Phi} \sup_{\lambda \in T_k(0)} \sabs{X(\lambda)} = \expect_{R,\Phi} \sabs{X(0)} = 0
+% \]
+% we obtain,
+% \[
+% \expect_{R,\Phi}\sup_{\lambda \in T_\epsilon(k)}\sabs{X(\lambda)} \leq  \sqrt{C_\epsilon} \sum_{i=1}^k \frac{5\sqrt{i \log 2 + \log K_3}}{2^{i/2}}  
+% \]
+% as required.
+% \end{IEEEproof}
+
+% \begin{lemma}\label{lem:maxineq}(Maximal inequalities)
+% Suppose $X_1, \dots, X_N$ are zero mean Gaussian random variables each with variance less than some positive constant $K$, then
+% \[
+% \expect \sup_{n = 1, \dots, N} \abs{X_n} \leq 3  \sqrt{K \log N}
+% \]
+% where $\log N$ is the natural logarithm of $N$.
+% \end{lemma}
+% \begin{IEEEproof}
+% This result is well known, see for example~\cite[Section~3]{Pollard_asymp_empi_proc_1989}  
+% \end{IEEEproof}
+
+
+% \begin{lemma}\label{lem:metricentropy}(Covering numbers)
+% For $k \in \ints$ there exists a discrete set $T_\epsilon(k) \subset B_\epsilon$ with the property that, for every $\lambda \in B_\epsilon$, there is a $\lambda_1$ and $\lambda_2$ in $T_\epsilon(k)$ such that the pseudometric
+% \[
+% d_1(\lambda, \lambda_1) = \sum_{i \in P \cup D} \big( f_{i}(\lambda) - f_{i}(\lambda_1) \big)^2 \leq 2^{-k} C_\epsilon L,
+% \]
+% and the pseudometric
+% \[
+% d_2(\lambda, \lambda_2) = \sum_{i \in P \cup D} \sabs{f_{i}(\lambda) - f_{i}(\lambda_2)} \leq 2^{-k} D_\epsilon L,
+% \]
+% where $C_\epsilon$ and $D_\epsilon$ are defined in~\eqref{eq:Cepsdefn} and~\eqref{eq:Depsdefn}.  The number of elements in $T_\epsilon(k)$ is no more than $K_3 2^{k}$ where $K_3$ is a positive constant, independent of $L$, $\epsilon$ and $k$.
+% \end{lemma}
+% \begin{IEEEproof}
+% % We will first construct a set $T^2_\epsilon(k)$ containing no more than $K_{23}2^{k}$ elements and so that for every $\lambda \in B_\epsilon$ there exists $\lambda_2 \in T^2_\epsilon(k)$ such that $d_2(\lambda, \lambda_2) \leq 2^{-k} D_\epsilon L$ with $K_{23}$ a constant, independent of $L$, $\epsilon$ and $k$.  Using a similar construction we find a set $T^1_\epsilon(k)$ containing no more than $K_{13}2^{k}$ elements and so that for every $\lambda \in B_\epsilon$ there exists $\lambda_1 \in T^1_\epsilon(k)$ such that $d_1(\lambda, \lambda_2) \leq 2^{-k} D_\epsilon L$ with $K_{13}$ a constant, independent of $L$, $\epsilon$ and $k$.  Puting $T_\epsilon(k) = T^1_\epsilon(k) \cup T^2_\epsilon(k)$ will then complete the proof with $K_3 = K_{13} + K_{23}$.
+
+% % We will only give a construction for $T^2_\epsilon(k)$, the construction for $T^1_\epsilon(k)$ being similar.  First observe that
+% % \[
+% % f_{i}(\lambda) - f_{i}(\lambda_2) = \begin{cases}
+% % R_i\big( \sin(\lambda + \Phi_i) - \sin(\lambda_2 + \Phi_i) \big) & i \in P \\
+% % R_i\big(\sin\fracpart{\lambda + \Phi_i} - \sin\fracpart{\lambda_2 + \Phi_i}\big) & i \in D
+% % \end{cases}
+% % \]
+% % Let 
+% % \[
+% % U = \{\epsilon(\ell 2^{-k} - 1) \mid \ell = 0, 1, \dots, 2^{k+1} \} 
+% % \]
+% % be a set containing $2^{k+1} + 1$ elements uniformly spaced over $B_\epsilon$.  For every $\lambda \in B_\epsilon$ there exists a $\lambda^* \in U$ such that $\abs{\lambda - \lambda^*} < \epsilon 2^{-k}$.  Since $\sin(\cdot)$ is Lipshitz continuous with constant $K=1$, it follows that if $i \in P$ then,
+% % Let 
+% % \begin{align*}
+% % \abs{f_{i}(\lambda) - f_{i}(\lambda_2)} &= R_i\abs{ \sin(\lambda + \Phi_i) - \sin(\lambda^* + \Phi_i) } \\
+% % &\leq R_i\sabs{\lambda - \lambda^*} \\
+% % &< \epsilon 2^{-k} R_i.
+% % \end{align*}
+% % Thus
+% % \[
+% % \sum_{i \in P} \sabs{f_{i}(\lambda) - f_{i}(\lambda^*)} < \epsilon 2^{-k} \sum_{i\in P} R_i.
+% % \]
+% % As in Lemma~\ref{lem:epslmlemma} let $S = \{ i \in D \mid I_\epsilon(\Phi_i) \}$. Now, if $i \in D$ but $i \notin S$ then 
+% % \[
+% % \round{\lambda + \Phi_i} = \round{\lambda^* + \Phi_i} = \round{\Phi_i},
+% % \] 
+% % so
+% %  \begin{align*}
+% %  \vert f_{i}(\lambda) - &f_{i}(\lambda^*)\vert \\
+% % &= R_i\vert\sin\fracpart{\lambda + \Phi_i} - \sin\fracpart{\lambda^* + \Phi_i}\vert \\
+% %  &= R_i\vert\sin(\lambda + \Phi_i - \round{\Phi_i}) - \sin(\lambda^* + \Phi_i - \round{\Phi_i})\vert  \\
+% %  &\leq R_i \sabs{\lambda - \lambda^*} \\
+% % &< \epsilon 2^{-k} R_i.
+% %  \end{align*}
+% % Thus,
+% % \[
+% % \sum_{i \in D, i \notin S} \sabs{f_{i}(\lambda) - f_{i}(\lambda^*)} < \epsilon 2^{-k} \sum_{i \in D, i \notin S} R_i 
+% % \]
+
+% % To handle the case when $i \in S$ we need to add some extra elements to the set $U$.  Let 
+% % \[
+% % r_i = \begin{cases}
+% % \tfrac{\pi}{M} - \fracpart{\Phi_i} & \fracpart{\Phi_i} > 0 \\
+% % -\tfrac{\pi}{M} - \fracpart{\Phi_i} & \fracpart{\Phi_i} \leq 0
+% % \end{cases}
+% % \]
+% % and let $\sigma$ be a permutation of the indices in $S$ such that $r_i$ are in ascending order, that is,
+% % \begin{equation}\label{eq:sigmasortind}
+% % r_{\sigma(i)} \leq r_{\sigma(k)}
+% % \end{equation}
+% % whenever $i < k $ where $i, k \in \{0, 1, \dots, \abs{S}-1\}$.  Now,
+% % \begin{align*}
+% % \sum_{i\in S} \sabs{f_{i}(\lambda) - f_{i}(\lambda^*)} = \sum_{i = 0}^{\abs{S}-1} \sabs{ f_{\sigma(i)}(\lambda) - f_{\sigma(i)}(\lambda^*)}.
+% % \end{align*}
+% % If $\epsilon > \lambda \geq r_{\sigma(k)} > 0$ for some $k$, then
+% % \[
+% % \round{\lambda + \fracpart{\Phi_{\sigma(i)}}} = \round{\lambda + \tfrac{\pi}{M} - r_{\sigma(i)}} = \tfrac{\pi}{M}
+% % \]
+% % for all $i \leq k$, whilst
+% % \[
+% % \round{\lambda + \fracpart{\Phi_{\sigma(i)}}} = \round{\lambda + \tfrac{\pi}{M} - r_{\sigma(i)}} = 0
+% % \]
+% % for all $i > k$.  Otherwise if $-\epsilon < \lambda < r_{\sigma(k)} \leq 0$ for some $k$, then
+% % \[
+% % \round{\lambda + \fracpart{\Phi_{\sigma(i)}}} = \round{\lambda + -\tfrac{\pi}{M} - r_{\sigma(i)}} = -\tfrac{\pi}{M}
+% % \]
+% % for all $i \leq k$, whilst
+% % \[
+% % \round{\lambda + \fracpart{\Phi_{\sigma(i)}}} = \round{\lambda + \tfrac{\pi}{M} - r_{\sigma(i)}} = 0
+% % \]
+% % for all $i > k$.
+
+% % Let $R = \sum_{i \in S} R_i$ and let $d(\ell)$ be the largest integer such that
+% % \[
+% % \sum_{i=0}^{d(\ell)} R_{\sigma(i)} \leq \frac{\ell}{2^k} R.
+% % \]
+% % for integers $\ell = 1, \dots, 2^k$.  Define the intervals
+% % \[
+% % L_\ell = \in [r_{d(\ell)}, r_{d(\ell+1)})
+% % \]
+% % where $r_{0} = -\epsilon$ and $r_{2^k+1} = \epsilon$.  Then $L_0, L_1, \dots, L_{2^k}$ partition the closure of $B_\epsilon$.  If $\lambda$ and $\lambda^*$ are from interval $L_\ell$, then for all $i \in \{0, 1, \dots, \abs{S}-1\}$ less than $d(\ell)$,
+% % \begin{align*}
+% % \fracpart{\lambda + \Phi_{\sigma(i)}} &= \fracpart{\lambda + \fracpart{\Phi_{\sigma(i)}}} \\
+% % &= \fracpart{\lambda + \fracpart{\Phi_{\sigma(i)}}}
+% % \end{align*}
+% % \begin{align*}
+% % \vert f_{\sigma(i)}(\lambda) - &f_{\sigma(i)}(\lambda^*) \vert \\
+% % &= R_{\sigma(i)}\vert\sin\fracpart{\lambda + \Phi_{\sigma(i)}} - \sin\fracpart{\lambda^* + \Phi_{\sigma(i)}}\vert 
+% % \end{align*}
+% BLERG
+
+% \end{IEEEproof}
+
+
+% % \subsection{Proof of Proposition~\ref{prop:gg2cont}} \label{appendix:prop1proof}
+
+% % \begin{lemma}
+% % Let $W$ be a circularly symmetric random variable with constant magnitude $Z = \abs{W} = c > 0$ and phase uniformly distributed on $[-\pi,\pi)$.  Let $R \geq 0$ and $\Phi \in [-\pi, \pi)$ be real random variables such that $Re^{j\Phi} = 1 + W$.  Then the pdf of $\Phi$ is
+% % \begin{equation} \label{eq:fphicleq1}
+% % f_{\Phi}(\phi) = \begin{cases} 
+% % \frac{\cos(\Phi)}{\pi c} &  [-\tfrac{\pi}{2}, \tfrac{\pi}{2}] \\
+% % 0 & \text{otherwise}
+% % \end{cases}
+% % \end{equation}
+% % when $0 < c \leq 1$, and
+% % \begin{equation} \label{eq:fphicg1}
+% % f_{\Phi}(\phi) = \frac{\cos(\phi) + \sqrt{c^2 - 1 + \cos^2(\phi)}}{2\pi c}
+% % \end{equation}
+% % when $c > 1$.
+% % \end{lemma}
+% % \begin{IEEEproof}
+% % We make use of delta `function' notation and write the `pdf' of $Z$ as $\delta(z - c)$.  Using~\eqref{eq:pdfRPhi} the pdf of $\Phi$ is
+% % \[
+% % f_{\Phi}(\phi) = \int_{0}^{\infty} r \frac{\delta(z - c)}{ 2\pi z} dr = \sum_{r} \frac{r}{2\pi c}
+% % \]
+% % where $z^2 = r^2 - 2r\cos(\phi) + 1$ and the sum is over the positive real solutions of $c^2 = r^2 - 2r\cos(\phi) + 1$.  If $0 < c \leq 1$ and $\phi \in [-\tfrac{\pi}{2}, \tfrac{\pi}{2}]$ there are two positive real solutions, these being
+% % \[
+% % r = \cos(\phi) \pm \sqrt{c^2 - 1 + \cos^2(\phi)},
+% % \]
+% % whilst if $\phi \notin [-\tfrac{\pi}{2}, \tfrac{\pi}{2}]$ there are no real solutions.  Thus~\eqref{eq:fphicleq1} holds.  If $c > 1$ there is a single real solution
+% % \[
+% % r = \cos(\phi) + \sqrt{c^2 - 1 + \cos^2(\phi)}
+% % \]
+% % so that~\eqref{eq:fphicg1} holds.
+% % \end{IEEEproof}
+
+% % Now if $W$ is a circularly symmetric complex random variable with $Z = \abs{W}$ having pdf $f_Z$ and let $R \geq 0$ and $\Phi \in [-\pi, \pi)$ be real random variables such that $Re^{j\Phi} = 1 + W$.  The pdf of $\Phi$ is 
+% % \[
+% % f_{\Phi}(\phi) = \int_{0}^{\infty} r\frac{f_Z(z)}{ 2\pi z} dr.
+% % \]
+% % Let
+% % \[
+% % I_{N,c}(z) = \begin{cases}
+% % N \frac{f_Z(z)}{ 2\pi z} & z \in [cN, c(N-1)) \\
+% % 0 & \text{otherwise}.
+% % \end{cases}
+% % \]
+% % Now
+% % \[
+% % \frac{f_Z(z)}{ 2\pi z} = \frac{1}{N} \sum_{c = 0}^{\infty}I_{N,c}(z)
+% % \]
+% % so that
+% % \[
+% % f_{\Phi}(\phi) = \int_{0}^{\infty} r\frac{1}{N} \sum_{c = 0}^{\infty}I_{N,c}(z) dr = \frac{1}{N} \sum_{c = 0}^{\infty} \int_{0}^{\infty} r I_{N,c}(z) dr 
+% % \]
+
+
+% % \subsection{Proof of Proposition~\ref{prop:contgg2}} \label{appendix:prop2proof}
+
+
+% % \begin{IEEEproof}
+% % We first prove the result for $h_1$.  Write
+% % \begin{align*}
+% % h_1(x) &= \int_{-\pi}^{\pi} \int_{0}^\infty r \cos(\phi + x) f(r,\phi) dr d\phi \\
+% % &= \int_{-\pi}^{\pi}  \cos(\phi + x) g(\phi) d\phi,
+% % \end{align*}
+% % where $f(r,\phi)$ is the joint pdf of $R$ and $\Phi$, and 
+% % \[
+% % g(\phi) = \int_{0}^{\infty} r f(r,\phi) dr.
+% % \]
+% % Since the pdf of $X$ is circularly symmetric, $f(r,\phi)$ and $g(\phi)$ are even in $\phi$ on $[-\pi,\pi]$ (see the discussion after~\eqref{eq:pdfRPhi}).  It is also the case that $g(\phi)$ is unimodal with mode at zero, as a result of Lemma~\ref{lem:gunimodmodzero}.  Write $\cos(\phi + x)$ as a sum of even and odd parts,
+% % \[
+% % \cos(\phi + x) = \cos(\phi)\cos(x) - \sin(\phi)\sin(x).
+% % \]
+% % Now
+% % \[
+% % h_1(x) = \cos(x) \int_{-\pi}^{\pi} \cos(\phi) g(\phi) d\phi
+% % \]
+% % since $\int_{-\pi}^{\pi} \sin(\phi) g(\phi) d\phi = 0$ because $\sin(\phi)g(\phi)$ is odd.  Now 
+% % \[
+% % K = \int_{-\pi}^{0} \cos(\phi) g(\phi) d\phi > 0
+% % \] 
+% % because $g(\phi) > 0$ is increasing on $(-\pi,0)$ and $\cos(\phi)$ is odd and increasing on $(-\pi,0)$.  Thus $h_1(x) = 2K \cos(x)$ is uniquely maximised at zero because $\cos(x)$ is uniquely maximised at zero.
+% % \end{IEEEproof}
+
+% % \begin{lemma}\label{lem:gunimodmodzero}
+% % Under the assumptions in Proposition~\ref{prop:contgg2} let $f_Z$ be the pdf of $\abs{W}$.  Then $z^{-1} f_Z(z)$ is differentiable and decreasing for $z > 0$ and the function $g(\phi) = \int_{0}^{\infty} r f(r,\phi) dr$ is unimodal on $[-\pi,\pi]$ with mode at $\phi = 0$.
+% % \end{lemma}
+% % \begin{IEEEproof}
+% % From~\eqref{eq:fzandfZYwithz} it follows that $2\pi f_{X,Y}(z,0) = z^{-1} f_Z(z)$ for all $z>0$, and since $f_{X,Y}(z,0)$ is differentiable and nonincreasing in $z$ (by assumption in the statement of Proposition~\ref{prop:contgg2}) we have that $z^{-1} f_Z(z)$ is differentiable and decreasing for $z > 0$.  So the derivative $\frac{d}{dz} \big( z^{-1} f_Z(z) \big) > 0$ for all $z > 0$.   Using~\eqref{eq:pdfRPhi},
+% % \[
+% % g(\phi) = \int_{0}^\infty r^2 \frac{f_Z(z)}{2\pi z } dr
+% % \]
+% % where $z = \sqrt{r^2 - 2r\cos\phi + 1}$.  Differentiating with respect to $\phi$,
+% % \[
+% % g^\prime(\phi) = \sin(\phi) \int_{0}^\infty \frac{r^3}{\pi} \frac{d}{dz}\left( \frac{f_Z(z)}{z} \right) dr
+% % \]
+% % and since the term inside the integral is negative, the integral is negative.  Since $\sin(\phi)$ is negative on $(-\pi,0)$ and positive on $(0,\pi)$ it follows that the derivative $g^\prime(\phi)$ is positive on $(-\pi,0)$ and negative on $(0,\pi)$.  Thus $g(\phi)$ is unimodal with mode at $\phi = 0$.
+% % \end{IEEEproof}
 
 \end{document}
