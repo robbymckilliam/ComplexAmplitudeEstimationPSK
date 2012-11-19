@@ -5,8 +5,8 @@
 \usepackage{mathbf-abbrevs}
 \input{defs}
 
-\usepackage{xr}
-\externaldocument{paper2}
+%\usepackage{xr}
+%\externaldocument{paper2}
 
 \usepackage{amsmath,amsfonts,amssymb, amsthm, bm}
 
@@ -58,7 +58,7 @@ where $w_i$ is noise and $a_0 = \rho_0 e^{j\theta_0}$ is a complex number repres
 \begin{equation}\label{eq:SSdefn}
 \begin{split}
 SS(a, &\{d_i, i \in D\}) = \sum_{i \in P \cup D} \abs{ y_i - a s_i }^2  \\
-&= \sum_{i \in P} \abs{ y_i - a s_i }^2 + \sum_{i \in D} \abs{ y_i - a d_i }^2,
+&= \sum_{i \in P} \abs{ y_i - a p_i }^2 + \sum_{i \in D} \abs{ y_i - a d_i }^2,
 \end{split}
 \end{equation}
 where $\abs{x}$ denotes the magnitude of the complex number $x$.  The least squares estimator is also the maximum likelihood estimator under the assumption that the noise sequence $\{w_i, i \in \ints\}$ is additive white and Gaussian.  However, as we show, the estimator works well under less stringent assumptions.  %It is the least squares estimator that we primarily study in this paper.
