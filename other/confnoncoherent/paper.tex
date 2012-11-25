@@ -172,6 +172,7 @@ The next two theorems describe the asymptotic properties of the least squares es
 \begin{theorem}\label{thm:consistency} (Almost sure convergence)
 Let $\{w_i\}$ be a sequence of independent and identically distributed, circularly symmetric complex random variables with $w_1$ having finite variance and continuous pdf.  Let $y_1,\dots, y_L$ be given by~\eqref{eq:sigmod} and let $\hat{a} = \hat{\rho}e^{j\hat{\theta}}$ be the least squares estimator of $a_0 = \rho_0e^{j\theta_0}$.  Let $R_i \geq 0$ and $\Phi_i \in [0,2\pi)$ be real random variables satisfying
 %\begin{equation}\label{eq:RiandPhii}
+\vspace{-0.15cm}
 \[
 R_ie^{j\Phi_i} = 1 + \frac{w_i}{a_0 s_i},
 \]
@@ -182,8 +183,8 @@ G(x) = \expect R_1 \cos\sfracpart{ x + \Phi_1}.
 \] 
 If $G(x)$ is uniquely maximised at $x = 0$ over the interval $[-\tfrac{\pi}{M},\tfrac{\pi}{M})$, then:
 \begin{enumerate}
-\item $\sfracpart{\hat{\theta} - \theta_0} \rightarrow 0$ almost surely as $L \rightarrow \infty$,
-\item $\hat{\rho} \rightarrow \rho_0 G(0)$ almost surely as $L \rightarrow \infty$.
+\item \vspace{-0.15cm} $\sfracpart{\hat{\theta} - \theta_0} \rightarrow 0$ almost surely as $L \rightarrow \infty$,
+\item \vspace{-0.2cm} $\hat{\rho} \rightarrow \rho_0 G(0)$ almost surely as $L \rightarrow \infty$.
 \end{enumerate}
 \end{theorem}
 
@@ -201,9 +202,11 @@ H^{-2} A & 0 \\
 \end{array} \right)
 \]
 as $L \rightarrow \infty$, where
+\vspace{-0.15cm}
 \[
 H = G(0) -  2 \sin(\tfrac{\pi}{M}) \sum_{k = 0}^{M-1} g(\tfrac{2\pi}{M}k + \tfrac{\pi}{M}),
 \]
+\vspace{-0.15cm}
 \[
 A = \expect R_1^2\sin^2\fracpart{\Phi_1}, \;\;\; B = \expect R_1^2 \cos^2\fracpart{\Phi_1} - G^2(0). 
 \]
@@ -229,10 +232,11 @@ a s_i =  \rho e^{j\theta}s_i = \rho e^{j(\theta - 2\pi k/M)} s_i',
 \]
 and so, if $a = \hat{\rho}e^{j\hat{\theta}}$ minimises~\eqref{eq:hatadef}, then so does $\hat{\rho} e^{j(\hat{\theta} - 2\pi k/M)}$.  Thus, $\hat{\theta} - \theta_0$ should be attributed the same error as $\hat{\theta} - \theta_0 - \tfrac{2\pi}{M}k$.  That is, the error should be computed `modulo $\tfrac{2\pi}{M}$'.  It is for this reason that \emph{differential encoding} is often used with noncoherent $M$-PSK  detectors. 
 
-
+\vspace{-0.1cm}
 \section{The Gaussian noise case}\label{sec:gaussian-noise-case}
-
+\vspace{-0.1cm}
 Let the noise sequence $\{w_i\}$ be complex Gaussian with independent real and imaginary parts having zero mean and variance $\sigma^2$.  The joint density function of the real and imaginary parts is
+\vspace{-0.15cm}
 \[
 \frac{1}{2\pi\sigma^2}e^{-\frac{1}{2\sigma^2}(x^2 + y^2)}.
 \]
@@ -243,29 +247,30 @@ Theorem~\ref{thm:consistency}~and~\ref{thm:normality} hold, and since the distri
 %\] 
 %where $\kappa = \tfrac{\rho_0}{\sigma}$.  
 It can be shown that
+\vspace{-0.15cm}
 \[
 %g(\phi) = \frac{\cos^2(\phi)}{4\sqrt{\pi}}\left( \frac{e^{-\kappa^2} }{\sqrt{\pi}} + \kappa \Psi(\phi)  e^{-\kappa^2\sin^2(\phi)}\cos(\phi) \right)
 g(\phi) = \frac{\cos(\phi)}{2\pi}e^{-\frac{1}{2}\kappa^2} + \frac{\Psi(\phi)}{\kappa\sqrt{2\pi}}  e^{-\frac{1}{2}\kappa^2\sin^2(\phi)} \big(1 + \kappa^2\cos^2(\phi) \big)
 \]
 where $\kappa = \rho_0/\sigma$ and
+\vspace{-0.15cm}
 \[
 \Psi(\phi) = \frac{1}{2} + \frac{1}{2} \erf\left(\frac{\kappa \cos(\phi)}{\sqrt{2}}\right)
 \]
 and $\erf(x) = \frac{2}{\sqrt{\pi}}\int_0^{x} e^{-t^2} dt$ is the error function.  The value of $A$ and $B$ can be efficiently computed by numerical integration using these formula.
 
-
+\vspace{-0.1cm}
 \section{Simulations}\label{sec:simulations}
-
+\vspace{-0.1cm}
 We present the results of Monte-Carlo simulations with the least squares estimator.  In all simulations the noise $w_1,\dots,w_L$ is independent and identically distributed circularly symmetric and Gaussian with real and imaginary parts having variance $\sigma^2$.  Simulations are run with $M=2,4$ (BPSK and QPSK) and $L=16,256,4096$ with signal to noise ratio $\text{SNR} = \tfrac{\rho_0^2}{2\sigma^2}$ between \unit[-20]{dB} and \unit[20]{dB} in steps of \unit[1]{dB}.  The amplitude $\rho_0=1$ and $\theta_0$ is uniformly distributed on $[-\pi, \pi)$.  For each value of signal to noise ratio $T = 10000$ replications are performed to obtain $T$ estimates $\hat{\rho}_1, \dots, \hat{\rho}_T$ and $\hat{\theta}_1, \dots, \hat{\theta}_T$.  
 
 Figures~\ref{fig:plotphaseM2}~and~\ref{fig:plotphaseM4} show the sample mean square error (MSE) of the phase estimator $\hat{\theta}$ computed as $\tfrac{1}{T}\sum_{i=1}^T\sfracpart{\hat{\theta}_i - \theta_0}^2$.  The dots show the sample MSE of the least square estimator.  The dashed line is the sample MSE of the unmodulated carrier estimator~\eqref{eq:hataumod} that has a priori knowledge of the transmitted symbols $s_1, \dots, s_L$.  %The dashed line acts as a lower bound on performance.  
 The solid line is the MSE predicted by Theorem~\ref{thm:normality}.  The theorem accurately predicts the behaviour of the phase estimator when $L$ is sufficiently large and when the SNR is not too small.  As the SNR decreases the variance of the phase estimator approaches that of the uniform distribution on $[-\tfrac{\pi}{M}, \tfrac{\pi}{M})$, and Theorem~\ref{thm:normality} does not model this behaviour.  %An interesting feature is that the phase estimator is not accurate at low SNR unless $L$ is very large.
 
-Figures~\ref{fig:plotphaseM2}~and~\ref{fig:plotphaseM4} also display the sample MSE of the phase estimator of Viterbi and Viterbi~\cite{ViterbiViterbi_phase_est_1983}.  This estimator requires the selection of a function $F : \reals \mapsto \reals$ (see equation (2) in~\cite{ViterbiViterbi_phase_est_1983}).  We have chosen $F(x) = 1$.  The sample MSE of the least squares estimator and the Viterbi and Viterbi estimator is similar.  The least squares estimator appears slightly more accurate at low SNR.
+Figures~\ref{fig:plotphaseM2}~and~\ref{fig:plotphaseM4} also display the sample MSE of the phase estimator of Viterbi and Viterbi~\cite{ViterbiViterbi_phase_est_1983}.  This estimator requires the selection of a function $F$ that transforms the amplitude of each sample prior to the final estimation step.  % (see equation (2) in~\cite{ViterbiViterbi_phase_est_1983}).  
+They propose several viable alternatives, from which we have chosen $F(x) = 1$.  The sample MSE of the least squares estimator and the Viterbi and Viterbi estimator is similar.  The least squares estimator appears slightly more accurate at low SNR.
 
-
-Figures~\ref{fig:plotampM2}~and~\ref{fig:plotampM4} show the variance of the amplitude estimator $\hat{\rho}$.   The solid line is the asymptotic variance predicted by Theorem~\ref{thm:normality}, the dots are the Monte-Carlo simulations with the least squares estimator, and the dashed line the simulations with the unmodulated carrier estimator.  Each point is computed as $\tfrac{1}{T}\sum_{i=1}^T\big(\hat{\rho}_i - \rho_0G(0)\big)^2$.  This requires $G(0)$ to be known.  In practice $G(0)$ may not be known at the receiver, so Figures~\ref{fig:plotampM2}~and~\ref{fig:plotampM4} serve to validate the correctness of our asymptotic theory, rather than to suggest the practical performance of the amplitude estimator.  When SNR is large $G(0)$ is close to $1$ and the bias of the amplitude estimator is small.  However, $G(0)$ grows without bound as the variance of the noise increases, so the bias is significant when SNR is small.
-
+Figures~\ref{fig:plotampM2}~and~\ref{fig:plotampM4} show the variance of the amplitude estimator $\hat{\rho}$.   The solid line is the asymptotic variance predicted by Theorem~\ref{thm:normality}, the dots are the Monte-Carlo simulations with the least squares estimator, and the dashed line the simulations with the unmodulated carrier estimator.  For the least squares estimator each point is computed as $\tfrac{1}{T}\sum_{i=1}^T\big(\hat{\rho}_i - \rho_0G(0)\big)^2$.  This requires $G(0)$ to be known.  In practice $G(0)$ may not be known at the receiver, so Figures~\ref{fig:plotampM2}~and~\ref{fig:plotampM4} serve to validate the correctness of our asymptotic theory, rather than to suggest the practical performance of the amplitude estimator.  When SNR is large $G(0)$ is close to $1$ and the bias of the amplitude estimator is small.  However, $G(0)$ grows without bound as the variance of the noise increases, so the bias is significant when SNR is small.  As indicated in Figures~\ref{fig:plotampM2}~and~\ref{fig:plotampM4} the variance of the least squares amplitude estimator is smaller than that of the unmodulated carrier.  However, due to the bias, the MSE of the least squares amplitude estimator is \emph{not} smaller than that of the unmodulated carrier.
 
 %\section{Discussion}
 
@@ -274,8 +279,9 @@ Figures~\ref{fig:plotampM2}~and~\ref{fig:plotampM4} show the variance of the amp
 
 % The problem of estimating carrier phase and amplitude from the observation of $L$ noisy $M$-PSK symbols has undergone extensive prior study~\cite{ViterbiViterbi_phase_est_1983,Cowley_ref_sym_carr_1998,Wilson1989,Makrakis1990,Liu1991,Mackenthun1994,Sweldens2001,McKilliamLinearTimeBlockPSK2009,Divsalar1990}.  The least squares estimator can be computed in $O(L\log L)$ operations using the algorithm of Mackenthun~\cite{Mackenthun1994}, and this is the maximum likelihood estimator in the case that the noise is additive white and Gaussian.  The algorithm was later rediscovered by Sweldens~\cite{Sweldens2001}.  In this paper we described the statistical properties of the least squares estimator. The phase estimator $\hat{\theta}$ is strongly consistent and asymptotically normally distributed.  However, the amplitude estimator $\hat{\rho}$ is biased, and converges to $G(0)\rho_0$.  This bias is large when the signal to noise ratio is small.  It would be interesting to investigate methods for correcting this bias. 
 
+\vspace{-0.1cm}
 \section{Conclusion}
-
+\vspace{-0.1cm}
 We have studied the least squares estimator of carrier phase and amplitude from the observation of $L$ noisy $M$-PSK symbols.  The estimator can be computed in $O(L\log L)$ operations using the algorithm of Mackenthun~\cite{Mackenthun1994}, and is the maximum likelihood estimator in the case that the noise is additive white and Gaussian.  We showed that the phase estimator $\hat{\theta}$ is strongly consistent and asymptotically normally distributed.  However, the amplitude estimator $\hat{\rho}$ is biased, and converges to $G(0)\rho_0$.  This bias is large when the signal to noise ratio is small.  It would be interesting to investigate methods for correcting this bias. 
 
 
@@ -310,6 +316,7 @@ We have studied the least squares estimator of carrier phase and amplitude from 
 		\label{fig:plotampM4}
 \end{figure}
 
+\nocite{McKilliamLinearTimeBlockPSK2009,Ryan2007}
 
 %\vfill\pagebreak
 \vfill\pagebreak
