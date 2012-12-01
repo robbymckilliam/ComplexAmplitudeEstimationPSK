@@ -41,8 +41,8 @@ class CLTComputerTest {
     assertEquals(noise1.A2, noise2.A2, 0.0001)
     assertEquals(noise1.B1, noise2.B1, 0.0001)
     assertEquals(noise1.B2, noise2.B2, 0.0001)
-    assertEquals(noise1.variance._1, noise2.variance._1, 0.0001)
-    assertEquals(noise1.variance._2, noise2.variance._2, 0.0001)
+    assertEquals(noise1.variance._1, noise2.variance._1, 0.001)
+    assertEquals(noise1.variance._2, noise2.variance._2, 0.001)
    
     println(noise1.variance)
     println(noise2.variance)

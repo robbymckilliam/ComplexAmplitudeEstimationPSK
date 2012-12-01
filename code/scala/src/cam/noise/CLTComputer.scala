@@ -84,13 +84,13 @@ class GeneralCLTComputer(override val M : Int, override val p : Double, val X : 
   override def fZ(z : Double) = Z.pdf(z)
   
   //Compute g by numerical integration
-  override def g(phi : Double) = trapezoidal( r => r*f(r,phi), 0, 30*sqrt(Z.getVariance), 1000) 
+  override def g(phi : Double) = trapezoidal( r => r*f(r,phi), 0, 40*sqrt(Z.getVariance), 2000) 
   
   //Compute g2 by numerical integration
-  override def g2(phi : Double) = trapezoidal( r => r*r*f(r,phi), 0, 30*sqrt(Z.getVariance), 1000) 
+  override def g2(phi : Double) = trapezoidal( r => r*r*f(r,phi), 0, 40*sqrt(Z.getVariance), 2000) 
   
   /** The marginal pdf of the phase */
-  def f(phi : Double) : Double = trapezoidal( r => f(r,phi), 0, 30*sqrt(Z.getVariance), 1000) 
+  def f(phi : Double) : Double = trapezoidal( r => f(r,phi), 0, 40*sqrt(Z.getVariance), 2000) 
   
 }
 
