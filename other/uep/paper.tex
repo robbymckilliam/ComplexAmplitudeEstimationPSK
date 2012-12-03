@@ -164,36 +164,38 @@ be the set of all sequences $f(\theta)$ as $\theta$ varies from $0$ to $2\pi$.  
 
 The sequences in $S$ can be enumerated as follows.  Let 
 \[
-T = \bigcup_{m\in G}\bigcup_{i \in D_m} \{ (z_i + \frac{\pi(2k + 1)}{m}, i, m), k = 0,\dots,m-1 \}
+T = \bigcup_{m\in G} \bigcup_{ i \in D_m }\bigcup_{k=1}^{m}\left\{ (z_i + \tfrac{\pi(2k - 1)}{m}, i, m) \right\}
 \]
-be a set of triples with first element a real number, second element from $D$ and third element from $G$.  Let $H = \abs{T}$ be the number of elements in $T$ and observe that $H \leq \sum_{m\in G}(m+1)\abs{D_m} = O(L)$.  Let $t_1,\dots,t_H$ be an enumeration of the triples from $T$ and denote the three elements of $t_i$ by $a_{i}$, $b_{i}$ and $c_{i}$ respectively, that is,
+be a set of triples with first element a real number, second element from $D$ and third element from $G$.  Let 
 \[
-t_i = ( a_{i}, b_{i}, c_{i} ).
-\]
-So 
-Let $\sigma$ denote the permutation of the integers $\{1,\dots,H\}$ such that $t_{\sigma(i)1}$ are in ascending order, that is,
-\begin{equation}\label{eq:sigmasortind}
-z_{\sigma_m(i)} \leq z_{\sigma_m(k)}
-\end{equation}
-whenever $i < k $ where $i, k \in \{0, 1, \dots, \abs{D}-1\}$.  It is convenient to define the indices into $\sigma$ to be taken modulo $\abs{D}$, that is, if $m$ is an integer not from $\{0, 1, \dots, \abs{D}-1\}$ then we define $\sigma(m) = \sigma(k)$ where $k \equiv m \mod \abs{D}$ and $k \in  \{0, 1, \dots, \abs{D}-1\}$.  The first sequence in $S$ is 
-\[
-f_0 = f(0) = \{ \hat{d}_i(0), i \in D \} = \{ b_i, i \in D \}.
+H = \abs{T} = \sum_{m\in G}(m+1)\abs{D_m} = O(L)
 \]  
-The next sequence $f_1$ is given by replacing the element $b_{\sigma(1)}$ in $f_0$ with $b_{\sigma(1)}e^{-j2\pi/M}$.  Given a sequence $x$ we use $x e_i$ to denote $x$ with the $i$th element replaced by $x_i e^{-j2\pi/M}$.  Using this notation,  
+denote the number of elements in $T$.  Let $t_1,\dots,t_H$ be an enumeration of the triples from $T$ sorted in accending order of the first element in the triple, that is, if $t_{i} = (t_{i1},t_{i2},t_{i3})$ then 
 \[
-f_1 = f_0 e_{\sigma(0)}.
+t_{i1} \leq t_{ki}
+\]
+whenever $i < k$.  Put $\sigma(i) = t_{i2}$ and $m(i) = t_{i3}$ so that $\sigma(1), \dots, \sigma(H)$ and $m(1),\dots,m(H)$ correspond respectively with the second and third elements from the triples $t_1,\dots,t_H$ 
+%So $a_1,\dots,a_H$ is a sequence of real numbers, $b_1,\dots,b_H$ is a sequence of integers from $D$ and $c_1,\dots,c_H$ is a sequence
+
+The first sequence in $S$ is 
+\[
+f_1 = f(0) = \{ \hat{d}_i(0), i \in D \} = \{ b_i, i \in D \}.
+\]  
+The next sequence $f_1$ is given by replacing the element $b_{\sigma(1)}$ in $f_0$ with $b_{\sigma(1)}e^{-j2\pi/m(1)}$.  Given a sequence $x$ we use $x e_{k}$ to denote $x$ with the $\sigma(k)$th element replaced by $x_{\sigma(k)} e^{-j2\pi/m(k)}$.  Using this notation,  
+\[
+f_2 = f_1 e_1.
 \] 
 The next sequence in $S$ is correspondingly 
 \[
-f_2 = f_0 e_{\sigma(0)} e_{\sigma(1)} = f_1 e_{\sigma(1)},
+f_3 = f_1 e_{1} e_{2} = f_2 e_{2},
 \]
 and the $k$th sequence is
 \begin{equation}\label{eq:fkrec}
-f_{k+1} = f_{k} e_{\sigma(k)}.
+f_{k+1} = f_{k} e_{k}.
 \end{equation}
 In this way, all $(M+1)\abs{D}$ sequences in $S$ can be recursively enumerated.
 
-We want to find the $f_k \in S$ corresponding to the minimiser of~(\ref{eq:SSdatasymbols}).  A na\"{\i}ve approach would be to compute $SS(f_k)$ for each $k \in \{0,1,\dots,(M+1)\abs{D}-1\}$.  Computing $SS(f_k)$ for any particular $k$ requires $O(L)$ arithmetic operations.  So, this na\"{\i}ve approach would require $O(L (M+1) \abs{D}) = O(L^2)$ operations in total.  Following Mackenthun~\cite{Mackenthun1994}, we show how $SS(f_k)$ can be computed recursively.
+We want to find the $f_k \in S$ corresponding to the minimiser of~(\ref{eq:SSdatasymbols}).  A na\"{\i}ve approach would be to compute $SS(f_k)$ for each $k \in \{1,\dots,H\}$.  Computing $SS(f_k)$ for any particular $k$ requires $O(L)$ arithmetic operations.  So, this na\"{\i}ve approach would require $O(LH) = O(L^2)$ operations in total.  Following Mackenthun~\cite{Mackenthun1994}, we show how $SS(f_k)$ can be computed recursively.
 
 Let,
 \begin{equation}\label{eq:SSfk}
@@ -206,27 +208,29 @@ Y_k = Y( f_k ) &= \sum_{i \in P} y_i p_i^*  + \sum_{i \in D} y_i f_{ki}^* \\
 \end{align*}
 where $B = \sum_{i \in P} y_i p_i^*$ is a constant, independent of the data symbols, and $f_{ki}$ denotes the $i$th symbol in $f_k$, and for convenience, we put $g_{ki}  = y_i f_{ki}^*$.  Letting $g_{k}$ be the sequence $\{g_{ik}, i \in D\}$ we have, from~\eqref{eq:fkrec}, that $g_k$ satisfies the recursive equation
 \[
-g_{k+1} = g_{k} e_{\sigma(k)}^*,
+g_{k+1} = g_{k} e_{k}^*,
 \]
-where $g_{k} e_{\sigma(k)}^*$ indicates the sequence $g_k$ with the $\sigma(k)$th element replaced by $g_{k \sigma(k)}e^{j2\pi/M}$.  Now,
+where $g_{k} e_{k}^*$ indicates the sequence $g_k$ with the $\sigma(k)$th element replaced by $g_{k \sigma(k)}e^{j2\pi/m(k)}$.  Now,
 \[
-Y_0 = B + \sum_{i \in D} g_{0i}
+Y_1 = B + \sum_{i \in D} g_{1i}
 \] 
 can be computed in $O(L)$ operations, and
 \begin{align*}
-Y_1 &= B + \sum_{i \in D} g_{1i} \\
-&= B +  (e^{j2\pi/M} - 1)g_{0\sigma(0)} + \sum_{i \in D} g_{0i} \\
-&= Y_0 + \eta g_{0\sigma(0)},
+Y_2 &= B + \sum_{i \in D} g_{1i} \\
+&= B +  (e^{j2\pi/m(1)} - 1)g_{1\sigma(1)} + \sum_{i \in D} g_{1i} \\
+&= Y_0 + (e^{j2\pi/m(1)} - 1)g_{1\sigma(1)},
 \end{align*}
-where $\eta = e^{j2\pi/M} - 1$.  In general,
+In general,
 \[
-Y_{k+1} = Y_k + \eta g_{k\sigma(k)}.
+Y_{k+1} = Y_k + (e^{j2\pi/m(k)} - 1) g_{k\sigma(k)}.
 \]
 So, each $Y_k$ can be computed from it predecessor $Y_{k-1}$ in a constant number of operations.  Given $Y_k$, the value of $SS(f_k)$ can be computed in a constant number of operations using~\eqref{eq:SSfk}.  Let $\hat{k} = \arg\min SS(f_k)$.  The least squares estimator of the complex amplitude is then computed according to~\eqref{eq:hata},
 \begin{equation}\label{eq:ahatYhat}
 \hat{a} = \frac{1}{L} Y_{\hat{k}}.
 \end{equation}
-Psuedocode is given in Algorithm~\ref{alg:loglinear}.  Line~\ref{alg_sortindices} contains the function $\operatorname{sortindicies}$ that, given $z = \{z_i, i \in D\}$, returns the permutation $\sigma$ as described in~\eqref{eq:sigmasortind}.  The $\operatorname{sortindicies}$ function requires sorting $\abs{D}$ elements.  This requires $O(L \log L)$ operations.  The $\operatorname{sortindicies}$ function is the primary bottleneck in this algorithm when $L$ is large.  The loops on lines~\ref{alg_loop_setup} and~\ref{alg_loop_search} and the operations on lines~\ref{alg_Y} to lines~\ref{alg_Q} all require $O(L)$ or less operations.  %In the next sections we will show how to the sortinces function can be avoided.  This leads to an algorithm that requires only $O(L)$ operations.
+Psuedocode is given in Algorithm~\ref{alg:loglinear}.  BLERG
+
+%Line~\ref{alg_sortindices} contains the function $\operatorname{sortindicies}$ that, given $z = \{z_i, i \in D\}$, returns the permutation $\sigma$ as described in~\eqref{eq:sigmasortind}.  The $\operatorname{sortindicies}$ function requires sorting $\abs{D}$ elements.  This requires $O(L \log L)$ operations.  The $\operatorname{sortindicies}$ function is the primary bottleneck in this algorithm when $L$ is large.  The loops on lines~\ref{alg_loop_setup} and~\ref{alg_loop_search} and the operations on lines~\ref{alg_Y} to lines~\ref{alg_Q} all require $O(L)$ or less operations.  %In the next sections we will show how to the sortinces function can be avoided.  This leads to an algorithm that requires only $O(L)$ operations.
 
 \begin{algorithm}[t] \label{alg:loglinear}
 \SetAlCapFnt{\small}
@@ -234,20 +238,21 @@ Psuedocode is given in Algorithm~\ref{alg:loglinear}.  Line~\ref{alg_sortindices
 \caption{Mackenthun's algorithm with pilot symbols}
 \DontPrintSemicolon
 \KwIn{$\{y_i, i \in P \cup D \}$}
-\For{$i \in D$ \nllabel{alg_loop_setup}}{
+\For{$m \in G$ \nllabel{alg_loop_setup}}{
+\For{$i \in D_m$ }{
 $\phi = \angle{y_i}$ \;
-$u = \round{\phi} $ \;
-$z_i = \phi -  u $ \;
+$u = \round{\phi}_m $ \;
 $g_i = y_i e^{-j u}$ \;
+\For{$k = 1, \dots, m$ }{ $t_{mik} =  (z_i + \tfrac{\pi(2k + 1)}{m}, i, m)$} 
 }
-$\sigma = \operatorname{sortindicies}(z)$ \nllabel{alg_sortindices} \;
+}
+$\operatorname{sort}(t_1,\dots,t_H)$ \;
 $Y = \sum_{i \in P} y_i p_i^* + \sum_{i \in D} g_i $ \nllabel{alg_Y}\;
 $\hat{a} = \frac{1}{L} Y$ \;
 $\hat{Q} = \frac{1}{L}\abs{Y}^2$ \nllabel{alg_Q} \;
-$\eta = e^{j2\pi/M} - 1$ \;
-\For{$k= 0$ \emph{\textbf{to}} $(M+1)\abs{D}-1$ \nllabel{alg_loop_search}}{
-$Y = Y + \eta g_{\sigma(k)}$ \;
-$g_{\sigma(k)} = (\eta + 1) g_{\sigma(k)} $\;
+\For{$k = 1,\dots,H$ \nllabel{alg_loop_search}}{
+$Y = Y + (e^{j2\pi/m(k)} - 1) g_{\sigma(k)}$ \;
+$g_{\sigma(k)} = e^{j2\pi/m(k)} g_{\sigma(k)} $\;
 $Q = \frac{1}{L}\abs{Y}^2$\;
 \If{$Q > \hat{Q}$}{
  	$\hat{Q} = Q$ \;
