@@ -28,7 +28,7 @@ Robby McKilliam, Andre Pollok and Bill Cowley are with the Institute for Telecom
 \maketitle
 
 \begin{abstract}
-We consider least squares estimators of carrier phase and amplitude from a noisy communications signal.  We focus on signaling constellations that have symbols evenly distributed on the complex unit circle, i.e., $M$-phase shift keying, and consider specifically the case where a number of different constellations sizes $M$ are used simultaneously.  We describe an algorithm to compute the least squares estimators of carrier phase and amplitude that requires only $O(L \log L)$ arithmetic operations, where $L$ is the number of recieved symbols.   
+We consider least squares estimators of carrier phase and amplitude from a noisy communications signal.  We focus on signaling constellations that have symbols evenly distributed on the complex unit circle, i.e., $M$-phase shift keying, and consider specifically the case where a number of different constellations sizes $M$ are used simultaneously.  This scenario is common in practical communications systems employing what is called \emph{unequal error proection}.  We describe an algorithm to compute the least squares estimators of carrier phase and amplitude that requires $O(L \log L)$ arithmetic operations, where $L$ is the number of recieved symbols.   
 \end{abstract}
 \begin{IEEEkeywords}
 Coherent detection, noncoherent detection, phase shift keying, asymptotic statistics
@@ -51,6 +51,7 @@ where $P$ is the set of indices describing the position of the pilot symbols $p_
 \[
 D = \bigcup_{m=2}^{\infty}D_m = \bigcup_{m\in G} D_m.
 \]
+In practical settings the number of different constellations used $\abs{G}$ is small.   A practical example might be that BPSK symbols are used for important symbols and QPSK symbols are used for less important symbols.  In this example $G = \{2,4\}$ and $\abs{G} = 2$.
 
 We assume that time offset estimation has been performed and that $L$ noisy $M$-PSK symbols are observed by the receiver.  The received signal is then,
 \begin{equation}\label{eq:sigmod}
@@ -70,13 +71,21 @@ The existing literature~\cite{Mackenthun1994,Cowley_ref_sym_carr_1998,ViterbiVit
 \[
 A = \frac{1}{L}\sum_{i \in P \cup D} F(\abs{y_i}) \big(\tfrac{y_i}{\abs{y_i}}\big)^M.
 \]
-Various choices for $F$ are suggested in~\cite{ViterbiViterbi_phase_est_1983} and a statistical analysis is presented.  It is not entirely obvious how pilot symbols or data symbols from mulitple constellations should be included in this estimator.  One approach is to choose,
-\[
-A = \frac{1}{L} \sum_{i \in P} F(\abs{y_i}) \tfrac{y_i}{y_i} p_i^* +  \frac{1}{L} \sum_{m \in G} \sum_{i \in D_m} F(\abs{y_i}) \big(\tfrac{y_i}{\abs{y_i}}\big)^m.
-\]
-The simulations we present in Section~\ref{sec:simulations} suggest that the accuracy of this estimator is poor when compared to the least squares estimator.  %This problem does not occur with the least square estimator.
+Various choices for $F$ are suggested in~\cite{ViterbiViterbi_phase_est_1983} and a statistical analysis is presented.  A caveat is that it is not obvious how pilot symbols or data symbols using mulitple constellations should be included in this estimator.  % One approach is to compute
+% \[
+% A = \frac{1}{L} \sum_{i \in P} F(\abs{y_i}) \tfrac{y_i}{\abs{y_i}} p_i^* +  \frac{1}{L} \sum_{m \in G} \sum_{i \in D_m} F(\abs{y_i}) \big(\tfrac{y_i}{\abs{y_i}}\big)^m
+% \]
+% and choose the estimate of carrier phase to be $\tfrac{1}{K}\angle{A}$ where
+% \[
+% K = \begin{cases}
+% 1 & \abs{P} > 0 \\
+% \min(G) & \text{otherwise},
+% \end{cases}
+% \]
+% is equal to $1$ when pilot symbols exists, and is otherwise equal to the size of the smallest constellation $\min(G)$.  The simulations we present in Section~\ref{sec:simulations} suggest that the accuracy of this estimator is poor when compared to the least squares estimator.  %This problem does not occur with the least square estimator.
+This problem does not occur with the least squares estimator.
 
-An important paper is by Mackenthun~\cite{Mackenthun1994} who described an algorithm to compute the least squares estimator requiring only $O(L \log L)$ arithmetic operations.  Sweldens~\cite{Sweldens2001} rediscovered Mackenthun's algorithm in 2001.  Both Mackenthun and Swelden's considered only the noncoherent setting and where only one constellation size is used, but we show in Section~\ref{sec:least-squar-estim}~that Mackenthun's algorithm can be modified to include pilot symbols and multiple constellation sizes. Our model includes the noncoherent case by setting the number of pilot symbols to zero, that is, putting $P = \emptyset$.  
+An important paper is by Mackenthun~\cite{Mackenthun1994} who described an algorithm to compute the least squares estimator requiring only $O(L \log L)$ arithmetic operations.  Sweldens~\cite{Sweldens2001} rediscovered Mackenthun's algorithm in 2001.  Both Mackenthun and Swelden's considered only the noncoherent setting and where only one constellation size is used, but we show in Section~\ref{sec:least-squar-estim}~that Mackenthun's algorithm can be modified to include pilot symbols and multiple constellation sizes. %Our model includes the noncoherent case by setting the number of pilot symbols to zero, that is, putting $P = \emptyset$.  
 
 
 %It is worth commenting on our use of $\prob$ rather than the more usual $\expect$ or $E$ for the expected value operator.  The notation comes from Pollard~\cite[Ch 1]{Pollard_users_guide_prob_2002}.  The notation is good because it removes unecessary distinction between `probability' and expectation.  Given a random variable $X$ with cumulative density function $F$, the probability of an event, say $X \in S$, where $S$ is some subset of the range of $X$, is 
@@ -114,7 +123,11 @@ Note that $Y$ is a function of the unknown data symbols $\{ d_i, i \in D\}$ and 
 \begin{equation}\label{eq:SSdatasymbols}
 SS(\{d_i, i \in D\}) = A - \frac{1}{L}\abs{Y}^2,
 \end{equation}
-where $A = \sum_{i \in P \cup D}\abs{y_i}^2$ is a constant.  Observe that given candidate values for the data symbols, we can compute the corresponding $SS(\{d_i, i \in D\})$ in $O(L)$ arithmetic operations.  It turns out that there are atmost $(M+1)\abs{D}$ candidate values of the least squares estimator of the data symbols~\cite{Sweldens2001,Mackenthun1994}.  %When the number of data symbols is not small, this set is substantially smaller than the entire set of possible transmitted symbols, which is of size $M^{\abs{D}}$.
+where $A = \sum_{i \in P \cup D}\abs{y_i}^2$ is a constant.  Observe that given candidate values for the data symbols, we can compute the corresponding $SS(\{d_i, i \in D\})$ in $O(L)$ arithmetic operations.  Let 
+\[
+H = \sum_{m\in G}m\abs{D_m} = O(L).
+\]
+It turns out that there are atmost $H$ candidate values of the least squares estimator of the data symbols~\cite{Sweldens2001,Mackenthun1994}.  %When the number of data symbols is not small, this set is substantially smaller than the entire set of possible transmitted symbols, which is of size $M^{\abs{D}}$.
 
 To see this, let $a = \rho e^{j\theta}$ where $\rho$ is a nonnegative real.  Now,
 \begin{align}
@@ -148,7 +161,7 @@ b_i e^{-j2\pi/m}, & z_i + \frac{\pi}{m} \leq \theta < z_i + \frac{3\pi}{m} \\
 \vdots & \\
 b_i e^{-j2\pi k /m}, & z_i + \frac{\pi(2k - 1)}{m} \leq \theta < z_i + \frac{\pi(2k + 1)}{m}  \\ 
 \vdots & \\
-b_i e^{-j2\pi}, &  z_i + \frac{\pi(2m - 1)}{m} \leq \theta < 2\pi. \\
+b_i e^{-j2\pi} = b_i, &  z_i + \frac{\pi(2m - 1)}{m} \leq \theta < 2\pi. \\
 \end{cases}
 \end{equation}
 
@@ -160,21 +173,17 @@ be a function mapping the interval $[0, 2\pi)$ to a sequence of phase shift keye
 \[
 S = \{ f(\theta) \mid \theta \in [0, 2 \pi) \}
 \]
-be the set of all sequences $f(\theta)$ as $\theta$ varies from $0$ to $2\pi$.  If $\hat{\theta}$ is the least squares estimator the phase then $S$ contains the sequence $\{ \hat{d}_i(\hat{\theta}), i \in D \}$ corresponding to the least squares estimator of the data symbols, i.e., $S$ contains the minimiser of~\eqref{eq:SSdatasymbols}.  Observe from~\eqref{eq:uicombos} that there are atmost $\sum_{m\in G}(m+1)\abs{D_m} = O(L)$ sequences in $S$, because there are $m+1$ sequences for each $i \in D_m$.
+be the set of all sequences $f(\theta)$ as $\theta$ varies from $0$ to $2\pi$.  If $\hat{\theta}$ is the least squares estimator the phase then $S$ contains the sequence $\{ \hat{d}_i(\hat{\theta}), i \in D \}$ corresponding to the least squares estimator of the data symbols, i.e., $S$ contains the minimiser of~\eqref{eq:SSdatasymbols}.  Observe from~\eqref{eq:uicombos} that there are atmost $H = O(L)$ sequences in $S$, because there are $m$ distinct values of $\hat{d}_i(\theta)$ for each $i \in D_m$.
 
 The sequences in $S$ can be enumerated as follows.  Let 
 \[
 T = \bigcup_{m\in G} \bigcup_{ i \in D_m }\bigcup_{k=1}^{m}\left\{ (z_i + \tfrac{\pi(2k - 1)}{m}, i, m) \right\}
 \]
-be a set of triples with first element a real number, second element from $D$ and third element from $G$.  Let 
+be a set of triples with first element a real number, second element from $D$ and third element from $G$.  The number of elements in $T$ is $H = \abs{T} = O(L)$.  Let $t_1,\dots,t_H$ be an enumeration of the triples from $T$ sorted in accending order of the first element in the triple, that is, if $t_{k} = (t_{k1},t_{k2},t_{k3})$ then $t_{i1} \leq t_{k1}$ whenever $i < k$.  Put 
 \[
-H = \abs{T} = \sum_{m\in G}(m+1)\abs{D_m} = O(L)
-\]  
-denote the number of elements in $T$.  Let $t_1,\dots,t_H$ be an enumeration of the triples from $T$ sorted in accending order of the first element in the triple, that is, if $t_{i} = (t_{i1},t_{i2},t_{i3})$ then 
-\[
-t_{i1} \leq t_{ki}
+\sigma(k) = t_{k2} \qquad \text{and} \qquad m(k) = t_{k3}
 \]
-whenever $i < k$.  Put $\sigma(i) = t_{i2}$ and $m(i) = t_{i3}$ so that $\sigma(1), \dots, \sigma(H)$ and $m(1),\dots,m(H)$ correspond respectively with the second and third elements from the triples $t_1,\dots,t_H$ 
+so that $\sigma(1), \dots, \sigma(H)$ and $m(1),\dots,m(H)$ correspond respectively with the second and third elements from the triples $t_1,\dots,t_H$.
 %So $a_1,\dots,a_H$ is a sequence of real numbers, $b_1,\dots,b_H$ is a sequence of integers from $D$ and $c_1,\dots,c_H$ is a sequence
 
 The first sequence in $S$ is 
@@ -193,7 +202,7 @@ and the $k$th sequence is
 \begin{equation}\label{eq:fkrec}
 f_{k+1} = f_{k} e_{k}.
 \end{equation}
-In this way, all $(M+1)\abs{D}$ sequences in $S$ can be recursively enumerated.
+In this way, all sequences in $S$ can be recursively enumerated.
 
 We want to find the $f_k \in S$ corresponding to the minimiser of~(\ref{eq:SSdatasymbols}).  A na\"{\i}ve approach would be to compute $SS(f_k)$ for each $k \in \{1,\dots,H\}$.  Computing $SS(f_k)$ for any particular $k$ requires $O(L)$ arithmetic operations.  So, this na\"{\i}ve approach would require $O(LH) = O(L^2)$ operations in total.  Following Mackenthun~\cite{Mackenthun1994}, we show how $SS(f_k)$ can be computed recursively.
 
@@ -228,9 +237,8 @@ So, each $Y_k$ can be computed from it predecessor $Y_{k-1}$ in a constant numbe
 \begin{equation}\label{eq:ahatYhat}
 \hat{a} = \frac{1}{L} Y_{\hat{k}}.
 \end{equation}
-Psuedocode is given in Algorithm~\ref{alg:loglinear}.  BLERG
+Pseudocode is given in Algorithm~\ref{alg:loglinear}.   The function $\operatorname{sort}$ on line~\ref{alg_sortindices} return the triple $t_1,\dots,t_H$ so that the first element in the triples is in ascending order.   This requires $O(L \log L)$ operations.  The $\operatorname{sort}$ function is the primary bottleneck in this algorithm when $L$ is large.  The loops on lines~\ref{alg_loop_setup} and~\ref{alg_loop_search} and the operations on lines~\ref{alg_Y} to lines~\ref{alg_Q} all require $O(L)$ or less operations.  %In the next sections we will show how to the sortinces function can be avoided.  This leads to an algorithm that requires only $O(L)$ operations.
 
-%Line~\ref{alg_sortindices} contains the function $\operatorname{sortindicies}$ that, given $z = \{z_i, i \in D\}$, returns the permutation $\sigma$ as described in~\eqref{eq:sigmasortind}.  The $\operatorname{sortindicies}$ function requires sorting $\abs{D}$ elements.  This requires $O(L \log L)$ operations.  The $\operatorname{sortindicies}$ function is the primary bottleneck in this algorithm when $L$ is large.  The loops on lines~\ref{alg_loop_setup} and~\ref{alg_loop_search} and the operations on lines~\ref{alg_Y} to lines~\ref{alg_Q} all require $O(L)$ or less operations.  %In the next sections we will show how to the sortinces function can be avoided.  This leads to an algorithm that requires only $O(L)$ operations.
 
 \begin{algorithm}[t] \label{alg:loglinear}
 \SetAlCapFnt{\small}
@@ -238,15 +246,20 @@ Psuedocode is given in Algorithm~\ref{alg:loglinear}.  BLERG
 \caption{Mackenthun's algorithm with pilot symbols}
 \DontPrintSemicolon
 \KwIn{$\{y_i, i \in P \cup D \}$}
+$c = 1$ \;
 \For{$m \in G$ \nllabel{alg_loop_setup}}{
 \For{$i \in D_m$ }{
 $\phi = \angle{y_i}$ \;
 $u = \round{\phi}_m $ \;
 $g_i = y_i e^{-j u}$ \;
-\For{$k = 1, \dots, m$ }{ $t_{mik} =  (z_i + \tfrac{\pi(2k + 1)}{m}, i, m)$} 
+$z  = \phi - u$ \;
+\For{$k = 1, \dots, m$ }{ 
+$t_{c} =  (z + \tfrac{\pi(2k - 1)}{m}, i, m)$ \;
+$c = c + 1$ \;
+} 
 }
 }
-$\operatorname{sort}(t_1,\dots,t_H)$ \;
+$\operatorname{sort}(t_1,\dots,t_H)$ \nllabel{alg_sortindices} \;
 $Y = \sum_{i \in P} y_i p_i^* + \sum_{i \in D} g_i $ \nllabel{alg_Y}\;
 $\hat{a} = \frac{1}{L} Y$ \;
 $\hat{Q} = \frac{1}{L}\abs{Y}^2$ \nllabel{alg_Q} \;
@@ -278,12 +291,12 @@ SS_{\beta}(a, \{d_i, i \in D\}) = \sum_{i \in P} \abs{ y_i - a s_i }^2 + \beta \
 \]
 where the weight $\beta$ would be small when SNR is small and near $1$ when SNR is large.  %For fixed $\beta$ the asymptotic properties of this weighted estimator could be derived using the techniques we have developed in Sections~\ref{sec:stat-prop-least},~\ref{sec:proof-almost-sure} and~\ref{sec:proof-asympt-norm} and also in~\cite{McKilliam_leastsqPSKpilotsdata_2012appendix}.  This would enable a rigorous theory for selection of $\beta$ at the receiver.  One caveat is that the receiver would require knowledge about the noise distribution in order to advantageously choose $\beta$.  We do not investigate this further here.
 
-% \begin{figure}[p]
-% 	\centering
-% 		\includegraphics[width=\linewidth]{code/data/plotM2-2.mps}
-% 		\caption{Phase error versus SNR for BPSK with $L=4096$.}
-% 		\label{fig:plotphaseBPSK}
-% \end{figure}
+ \begin{figure}[p]
+ 	\centering
+ 		\includegraphics[width=\linewidth]{code/data/plot-2.mps}
+ 		\caption{Phase error versus SNR}
+ 		\label{fig:plotphaseBPSK}
+ \end{figure}
 
 % \begin{figure}[p]
 % 	\centering

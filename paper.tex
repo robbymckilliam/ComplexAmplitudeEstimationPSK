@@ -111,7 +111,7 @@ Note that $Y$ is a function of the unknown data symbols $\{ d_i, i \in D\}$ and 
 \begin{equation}\label{eq:SSdatasymbols}
 SS(\{d_i, i \in D\}) = A - \frac{1}{L}\abs{Y}^2,
 \end{equation}
-where $A = \sum_{i \in P \cup D}\abs{y_i}^2$ is a constant.  Observe that given candidate values for the data symbols, we can compute the corresponding $SS(\{d_i, i \in D\})$ in $O(L)$ arithmetic operations.  It turns out that there are at most $(M+1)\abs{D}$ candidate values of the least squares estimator of the data symbols~\cite{Sweldens2001,Mackenthun1994}.  %When the number of data symbols is not small, this set is substantially smaller than the entire set of possible transmitted symbols, which is of size $M^{\abs{D}}$.
+where $A = \sum_{i \in P \cup D}\abs{y_i}^2$ is a constant.  Observe that given candidate values for the data symbols, we can compute the corresponding $SS(\{d_i, i \in D\})$ in $O(L)$ arithmetic operations.  It turns out that there are at most $M\abs{D}$ candidate values of the least squares estimator of the data symbols~\cite{Sweldens2001,Mackenthun1994}.  %When the number of data symbols is not small, this set is substantially smaller than the entire set of possible transmitted symbols, which is of size $M^{\abs{D}}$.
 
 To see this, let $a = \rho e^{j\theta}$ where $\rho$ is a nonnegative real.  Now,
 \begin{align}
@@ -145,7 +145,7 @@ b_i e^{-j2\pi/M}, & z_i + \frac{\pi}{M} \leq \theta < z_i + \frac{3\pi}{M} \\
 \vdots & \\
 b_i e^{-j2\pi k /M}, & z_i + \frac{\pi(2k - 1)}{M} \leq \theta < z_i + \frac{\pi(2k + 1)}{M}  \\ 
 \vdots & \\
-b_i e^{-j2\pi}, &  z_i + \frac{\pi(2M - 1)}{M} \leq \theta < 2\pi. \\
+b_i e^{-j2\pi} = b_i, &  z_i + \frac{\pi(2M - 1)}{M} \leq \theta < 2\pi. \\
 \end{cases}
 \end{equation}
 
@@ -157,7 +157,7 @@ be a function mapping the interval $[0, 2\pi)$ to a sequence of $M$-PSK symbols 
 \[
 S = \{ f(\theta) \mid \theta \in [0, 2 \pi) \}
 \]
-be the set of all sequences $f(\theta)$ as $\theta$ varies from $0$ to $2\pi$.  If $\hat{\theta}$ is the least squares estimator the phase then $S$ contains the sequence $\{ \hat{d}_i(\hat{\theta}), i \in D \}$ corresponding to the least squares estimator of the data symbols, i.e., $S$ contains the minimiser of~\eqref{eq:SSdatasymbols}.  Observe from~\eqref{eq:uicombos} that there are at most $(M+1)\abs{D}$ sequences in $S$, because there are $M+1$ sequences for each $i \in D$.
+be the set of all sequences $f(\theta)$ as $\theta$ varies from $0$ to $2\pi$.  If $\hat{\theta}$ is the least squares estimator the phase then $S$ contains the sequence $\{ \hat{d}_i(\hat{\theta}), i \in D \}$ corresponding to the least squares estimator of the data symbols, i.e., $S$ contains the minimiser of~\eqref{eq:SSdatasymbols}.  Observe from~\eqref{eq:uicombos} that there are at most $M\abs{D}$ sequences in $S$, because there are $M$ distinct values of $d_i(\theta)$ for each $i \in D$.
 
 The sequences in $S$ can be enumerated as follows.  Let $\sigma$ denote the permutation of the indices in $D$ such that $z_{\sigma(i)}$ are in ascending order, that is,
 \begin{equation}\label{eq:sigmasortind}
@@ -179,9 +179,9 @@ and the $k$th sequence is
 \begin{equation}\label{eq:fkrec}
 f_{k+1} = f_{k} e_{\sigma(k)}.
 \end{equation}
-In this way, all $(M+1)\abs{D}$ sequences in $S$ can be recursively enumerated.
+In this way, all $M\abs{D}$ sequences in $S$ can be recursively enumerated.
 
-We want to find the $f_k \in S$ corresponding to the minimiser of~(\ref{eq:SSdatasymbols}).  A na\"{\i}ve approach would be to compute $SS(f_k)$ for each $k \in \{0,1,\dots,(M+1)\abs{D}-1\}$.  Computing $SS(f_k)$ for any particular $k$ requires $O(L)$ arithmetic operations.  So, this na\"{\i}ve approach would require $O(L (M+1) \abs{D}) = O(L^2)$ operations in total.  Following Mackenthun~\cite{Mackenthun1994}, we show how $SS(f_k)$ can be computed recursively.
+We want to find the $f_k \in S$ corresponding to the minimiser of~(\ref{eq:SSdatasymbols}).  A na\"{\i}ve approach would be to compute $SS(f_k)$ for each $k \in \{0,1,\dots,M\abs{D}-1\}$.  Computing $SS(f_k)$ for any particular $k$ requires $O(L)$ arithmetic operations.  So, this na\"{\i}ve approach would require $O(L M \abs{D}) = O(L^2)$ operations in total.  Following Mackenthun~\cite{Mackenthun1994}, we show how $SS(f_k)$ can be computed recursively.
 
 Let,
 \begin{equation}\label{eq:SSfk}
@@ -233,7 +233,7 @@ $Y = \sum_{i \in P} y_i p_i^* + \sum_{i \in D} g_i $ \nllabel{alg_Y}\;
 $\hat{a} = \frac{1}{L} Y$ \nllabel{alg_hata1} \;
 $\hat{Q} = \frac{1}{L}\abs{Y}^2$ \nllabel{alg_Q} \;
 $\eta = e^{j2\pi/M} - 1$ \;
-\For{$k= 0$ \emph{\textbf{to}} $(M+1)\abs{D}-1$ \nllabel{alg_loop_search}}{
+\For{$k= 0$ \emph{\textbf{to}} $M\abs{D}-1$ \nllabel{alg_loop_search}}{
 $Y = Y + \eta g_{\sigma(k)}$ \;
 $g_{\sigma(k)} = (\eta + 1) g_{\sigma(k)} $\;
 $Q = \frac{1}{L}\abs{Y}^2$\;
