@@ -16,7 +16,7 @@ import numbers.finite.PolarComplex
 class MackenthunCoherent(val M: Int, val P: Seq[Int], val D : Seq[Int], val p : Seq[Complex]) 
 extends CoherentComplexAmplitudeEstimator {
   
-  protected val z = new Array[IndexedDouble](D.length)
+  protected val z = new Array[(Double, Int)](D.length)
   protected val g = new Array[Complex](D.length)
   
   protected val L = D.length + P.length
@@ -25,7 +25,7 @@ extends CoherentComplexAmplitudeEstimator {
   protected val eta = new PolarComplex(1, w)
   protected val nu = eta - 1.0
   
-  protected def sigma(k : Int)= z(k % D.length).index
+  protected def sigma(k : Int)= z(k % D.length)._2
 
   /** Execute Mackenthun's estimator */
   def estimate(y : Seq[Complex]) : Complex = {
@@ -36,16 +36,16 @@ extends CoherentComplexAmplitudeEstimator {
     for( i <- D.indices ){
       val phi = y(D(i)).angle
       val u = w*scala.math.round(phi/w)
-      z(i) = new IndexedDouble(phi - u,i)
+      z(i) = (phi - u,i)
       g(i) = y(D(i))*(new PolarComplex(1,-u))
       Y = Y + g(i)
     }
-    scala.util.Sorting.quickSort(z)
+    scala.util.Sorting.quickSort(z) //scala sorts tuples in ascending order of the first element by default!
     
     //now run the search loop
     var ahat = Y / L
     var Qhat = Y.mag2 / L
-    for( k <- 0 until (M+1)*D.length ){
+    for( k <- 0 until M*D.length ){
       Y = Y + nu*g(sigma(k))
       g(sigma(k)) = g(sigma(k))*eta
       val Q = Y.mag2 / L
@@ -53,7 +53,7 @@ extends CoherentComplexAmplitudeEstimator {
         ahat = Y / L
         Qhat = Q
       }
-    }  
+    }
     
     return ahat
   }
@@ -67,7 +67,7 @@ extends CoherentComplexAmplitudeEstimator {
 class MackenthunNonCoherent(override val M : Int, val D : Seq[Int]) 
 extends NonCoherentComplexAmplitudeEstimator(M) {
   
-  protected val z = new Array[IndexedDouble](D.length)
+  protected val z = new Array[(Double, Int)](D.length)
   protected val g = new Array[Complex](D.length)
   
   protected val L = D.length
@@ -76,7 +76,7 @@ extends NonCoherentComplexAmplitudeEstimator(M) {
   protected val eta = new PolarComplex(1, w)
   protected val nu = eta - 1.0
   
-  protected def sigma(k : Int)= z(k % D.length).index
+  protected def sigma(k : Int)= z(k % D.length)._2
 
   /** Execute Mackenthun's estimator */
   def estimate(y : Seq[Complex]) : Complex = {
@@ -86,11 +86,11 @@ extends NonCoherentComplexAmplitudeEstimator(M) {
     for( i <- D.indices ){
       val phi = y(D(i)).angle
       val u = w*scala.math.round(phi/w)
-      z(i) = new IndexedDouble(phi - u,i)
+      z(i) = (phi - u,i)
       g(i) = y(D(i))*(new PolarComplex(1,-u))
       Y = Y + g(i)
     }
-    scala.util.Sorting.quickSort(z)
+    scala.util.Sorting.quickSort(z) //scala sorts tuples in ascending order of the first element by default!
     
     //now run the search loop
     var ahat = Y / L
@@ -107,10 +107,4 @@ extends NonCoherentComplexAmplitudeEstimator(M) {
     
     return ahat
   }
-}
-
-/** Class containing a double and it's index for the purpose of sorting */
-class IndexedDouble(val value : Double, val index : Int) extends Ordered[IndexedDouble] {
-  override def compare(that: IndexedDouble) = this.value.compareTo(that.value)
-  override def toString = "(" + value + ", " + index + ")"
 }

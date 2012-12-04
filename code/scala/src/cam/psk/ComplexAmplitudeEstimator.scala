@@ -62,3 +62,12 @@ abstract class NonCoherentComplexAmplitudeEstimator(val M : Int) extends Complex
  }
 
 }
+
+/** Unmodulated (i.e. coherent) carrier estimator.  P is the pilot symbol indices. */
+class UnmodulatedCarrier(val P : Seq[Int], val p : Seq[Complex]) extends CoherentComplexAmplitudeEstimator {
+  
+  val L = P.size
+  
+  def estimate(y : Seq[Complex] ) : Complex = P.foldLeft(Complex.zero) ( (s,i) => s + y(i)*p(i).conjugate )  / L
+  
+}
