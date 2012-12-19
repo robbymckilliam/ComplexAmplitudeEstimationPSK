@@ -9,6 +9,11 @@ package cam.noise
 import numbers.finite.integration.RealIntegral.trapezoidal
 import pubsim.distributions.complex.ComplexRandomVariable
 import pubsim.distributions.Chi
+import scala.math.sin
+import scala.math.cos
+import scala.math.sqrt
+import scala.math.exp
+import pubsim.Util.erf
 
 /** Function names come directly from the paper */
 trait CLTComputer {
@@ -25,8 +30,8 @@ trait CLTComputer {
   def g2(phi : Double) : Double
   def h1(x : Double) : Double
   def h2(x : Double) : Double
-  def m1(x : Double) : Double
-  def m2(x : Double) : Double
+  //def m1(x : Double) : Double
+  //def m2(x : Double) : Double
   def G(x : Double) : Double
   
   val A1 : Double
@@ -39,13 +44,8 @@ trait CLTComputer {
   def variance : (Double, Double)
   
   // Some convenience functions are defined here
-  final def sin(x : Double) = scala.math.sin(x)
-  final def cos(x : Double) = scala.math.cos(x)
   final def sqr(x : Double) = x*x
   final def cub(x : Double) = x*x*x
-  final def sqrt(x : Double) = scala.math.sqrt(x)
-  final def exp(x : Double) = scala.math.exp(x)
-  final def erf(x : Double) = pubsim.Util.erf(x)
   val pi = scala.math.Pi
   
 }
@@ -54,14 +54,12 @@ abstract class AbstractCLTComputer(val M : Int, val p : Double) extends CLTCompu
   protected val d = 1 - p
   def fracpart(x : Double) = x - 2*pi/M*scala.math.round(M*x/2/pi)
   
-  override lazy val A1 = trapezoidal( x => sqr(sin(x))*g2(x), -pi, pi, 2000) - sqr(m1(0))
-  override lazy val A2 = trapezoidal( x => sqr(sin(fracpart(x)))*g2(x), -pi, pi, 2000) - sqr(m2(0))
+  override lazy val A1 = trapezoidal( x => sqr(sin(x))*g2(x), -pi, pi, 2000) 
+  override lazy val A2 = trapezoidal( x => sqr(sin(fracpart(x)))*g2(x), -pi, pi, 2000) 
   override lazy val B1 = trapezoidal( x => sqr(cos(x))*g2(x), -pi, pi, 2000) - 1.0
   override lazy val B2 = trapezoidal( x => sqr(cos(fracpart(x)))*g2(x), -pi, pi, 2000) - sqr(h2(0))
   override def h2(x : Double) = trapezoidal( phi => cos(fracpart(x + phi))*g(phi), -pi, pi, 2000)
   override def h1(x : Double) = trapezoidal( phi => cos(x + phi)*g(phi), -pi, pi, 2000)
-  override def m2(x : Double) = trapezoidal( phi => sin(fracpart(x + phi))*g(phi), -pi, pi, 2000)
-  override def m1(x : Double) = trapezoidal( phi => sin(x + phi)*g(phi), -pi, pi, 2000)
   override lazy val H =  h2(0) - 2*sin(pi/M) * (0 to M-1).map(k => g((2*k+1)*pi/M)).foldLeft(0.0){ (s : Double ,v : Double) => s + v }
   override def G(x : Double) = p*h1(x) + d*h2(x)
   
@@ -145,8 +143,6 @@ class GaussianCLT(override val M : Int, override val p : Double, val sigma : Dou
   override lazy val A2 = trapezoidal( x => sqr(sin(fracpart(x)))*g2(x), -pi, pi, 50000)
   override def h2(x : Double) = trapezoidal( phi => cos(fracpart(x + phi))*g(phi), -pi, pi, 50000)
   override def h1(x : Double) = trapezoidal( phi => cos(x + phi)*g(phi), -pi, pi, 50000)
-  override def m2(x : Double) = trapezoidal( phi => sin(fracpart(x + phi))*g(phi), -pi, pi, 50000)
-  override def m1(x : Double) = trapezoidal( phi => sin(x + phi)*g(phi), -pi, pi, 50000)
   
 
 }
