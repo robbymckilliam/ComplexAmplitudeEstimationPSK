@@ -9,6 +9,11 @@ package cam.noise
 import numbers.finite.integration.RealIntegral.trapezoidal
 import pubsim.distributions.complex.ComplexRandomVariable
 import pubsim.distributions.Chi
+import scala.math.sin
+import scala.math.cos
+import scala.math.sqrt
+import scala.math.exp
+import pubsim.Util.erf
 
 /** Function names come directly from the paper */
 trait CLTComputer {
@@ -39,13 +44,8 @@ trait CLTComputer {
   def variance : (Double, Double)
   
   // Some convenience functions are defined here
-  final def sin(x : Double) = scala.math.sin(x)
-  final def cos(x : Double) = scala.math.cos(x)
   final def sqr(x : Double) = x*x
   final def cub(x : Double) = x*x*x
-  final def sqrt(x : Double) = scala.math.sqrt(x)
-  final def exp(x : Double) = scala.math.exp(x)
-  final def erf(x : Double) = pubsim.Util.erf(x)
   val pi = scala.math.Pi
   
 }

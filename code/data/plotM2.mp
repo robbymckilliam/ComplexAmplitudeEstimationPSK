@@ -57,7 +57,7 @@ picture times; times := cross rotated 45;
 picture legend;
 sx = 0.2cm;
 sh = 0.2cm;
-ups = 0.35cm;
+ups = 0.4cm;
 
 ls:=0;
 label.rt(btex $|P|=L/2$ etex, (1cm,sh + ls*ups));
