@@ -72,11 +72,11 @@ This problem does not occur with the least square estimator.
 
 An important paper is by Mackenthun~\cite{Mackenthun1994} who described an algorithm to compute the least squares estimator requiring only $O(L \log L)$ arithmetic operations.  Sweldens~\cite{Sweldens2001} rediscovered Mackenthun's algorithm in 2001.  Both Mackenthun and Swelden considered only the noncoherent setting, but we show in Section~\ref{sec:least-squar-estim}~that Mackenthun's algorithm can be modified to include pilot symbols. Our model includes the noncoherent case by setting the number of pilot symbols to zero, that is, putting $P = \emptyset$.  
 
-In the literature it has been common to assume that the data symbols $\{d_i, i \in D\}$ are of primary interest and that the complex amplitude $a_0$ is a nuisance parameter.  The metric of performance is correspondingly the \emph{symbol error rate}, or \emph{bit error rate}.  While estimating the symbols (or more precisely the transmitted bits) is ultimately the goal, we take the opposite point of view here.  Our aim is to estimate $a_0$, and we treat the unknown data symbols as nuisance parameters.  This is motivated by the fact that in many modern communication systems the data symbols are \emph{coded}.  For this reason raw symbol error rate is not of interest at this stage.  Instead, we desire an accurate estimator $\hat{a}$ of $a_0$, so that the compensated received symbols $\hat{a}^{-1}y_i$ can be accurately modelled using an additive noise channel.  The additive noise channel is a common assumption for subsequent receiver operations, such as decoding.  The estimator $\hat{a}$ is also used in the computation of decoder metrics for modern decoders, and for interference cancellation in multiuser systems.  Consequently, our metric of performance will not be symbol or bit error rate, but $\abs{\hat{a} - a_0}^2$. It will be informative to consider the carrier phase and amplitude estimators separately, that is, if $\hat{a} = \hat{\rho}e^{j\hat{\theta}}$ where $\hat{\rho}$ is a positive real number, then we consider $\langle\hat{\theta} - \theta_0\rangle_\pi^2$ and $(\hat{\rho} - \rho_0)^2$.  The function $\fracpart{\cdot}_\pi$ denotes its argument taken `modulo $2\pi$' into the interval $[-\pi, \pi)$.  It will become apparent why $\langle\hat{\theta} - \theta_0\rangle_\pi^2$ rather than $(\hat{\theta} - \theta_0)^2$ is the appropriate measure of error for the phase parameter.
+In the literature it has been common to assume that the data symbols $\{d_i, i \in D\}$ are of primary interest and that the complex amplitude $a_0$ is a nuisance parameter.  The metric of performance is correspondingly the \emph{symbol error rate}, or \emph{bit error rate}.  While estimating the symbols (or more precisely the transmitted bits) is ultimately the goal, we take the opposite point of view here.  Our aim is to estimate $a_0$, and we treat the unknown data symbols as nuisance parameters.  This is motivated by the fact that in many modern communication systems the data symbols are \emph{coded}.  For this reason raw symbol error rate is not of interest at this stage.  Instead, we desire an accurate estimator $\hat{a}$ of $a_0$, so that the compensated received symbols $\hat{a}^{-1}y_i$ can be accurately modelled using an additive noise channel.  The additive noise channel is a common assumption for subsequent receiver operations, such as decoding.  The estimator $\hat{a}$ is also used in the computation of decoder metrics for modern decoders, and for interference cancellation in multiuser systems.  Consequently, our metric of performance will not be symbol or bit error rate, but $\sabs{\hat{a} - a_0}$. It will be informative to consider the carrier phase and amplitude estimators separately, that is, if $\hat{a} = \hat{\rho}e^{j\hat{\theta}}$ where $\hat{\rho}$ is a positive real number, then we consider $\sabs{\langle\hat{\theta} - \theta_0\rangle_\pi}$ and $\sabs{\hat{\rho} - \rho_0}$.  The function $\fracpart{\cdot}_\pi$ denotes its argument taken `modulo $2\pi$' into the interval $[-\pi, \pi)$.  It will become apparent why $\langle\hat{\theta} - \theta_0\rangle_\pi$ rather than $\hat{\theta} - \theta_0$ is the appropriate measure of error for the phase parameter.
 
 It is possible to generalise the results we present here to allow data symbols with varying constellation size, i.e. varying $M$.  For example, one might give more importance to certain data symbols and use BPSK ($M=2$) for these, but QPSK ($M=4$) for other less important symbols.  This is related to what is called \emph{unequal error protection} in the literature~\cite{Aydinlik_turbo_uep_2008,Sandberg_uep_ldpc_2010}.  To keep our ideas and notation focused we don't consider this further here.
 
-The paper is organised in the following way.  Section~\ref{sec:least-squar-estim} extends Mackenthun's algorithm for the coherent case, when both pilot symbols and data symbols exist.  Section~\ref{sec:circ-symm-compl} describes properties of complex random variables that we need.  Section~\ref{sec:stat-prop-least} states two theorems that describe the statistical properties of the least squares estimator of carrier phase $\hat{\theta}$ and amplitude $\hat{\rho}$.  We show, under some assumptions about the distribution of the noise $w_1,\dots,w_L$, that $\langle\hat{\theta} - \theta_0\rangle_\pi^2$ converges almost surely to zero and that $\sqrt{L}\langle\hat{\theta} - \theta_0\rangle_\pi$ is asymptotically normally distributed as $L\rightarrow \infty$.  However, $\hat{\rho}$ is not a consistent estimator of the amplitude $\rho_0$.  The asymptotic bias of $\hat{\rho}$ is small when the signal to noise ratio (SNR) is large, but the asymptotic bias is significant when the SNR is small.  Sections~\ref{sec:proof-almost-sure} and~\ref{sec:proof-asympt-norm} provide proofs of the theorems stated in Section~\ref{sec:stat-prop-least}.  In Section~\ref{sec:gaussian-noise-case} we consider the special case when the noise is Gaussian.  In this case, our expressions for the asymptotic distribution can be simplified.  Section~\ref{sec:simulations} presents the results of Monte-Carlo simulations.  These simulations agree with the derived asymptotic properties. 
+The paper is organised in the following way.  Section~\ref{sec:least-squar-estim} extends Mackenthun's algorithm for the coherent case, when both pilot symbols and data symbols exist.  Section~\ref{sec:circ-symm-compl} describes properties of complex random variables that we need.  Section~\ref{sec:stat-prop-least} states two theorems that describe the statistical properties of the least squares estimator of carrier phase $\hat{\theta}$ and amplitude $\hat{\rho}$.  We show, under some assumptions about the distribution of the noise $w_1,\dots,w_L$, that $\langle\hat{\theta} - \theta_0\rangle_\pi$ converges almost surely to zero and that $\sqrt{L}\langle\hat{\theta} - \theta_0\rangle_\pi$ is asymptotically normally distributed as $L\rightarrow \infty$.  However, $\hat{\rho}$ is not a consistent estimator of the amplitude $\rho_0$.  The asymptotic bias of $\hat{\rho}$ is small when the signal to noise ratio (SNR) is large, but the asymptotic bias is significant when the SNR is small.  Sections~\ref{sec:proof-almost-sure} and~\ref{sec:proof-asympt-norm} provide proofs of the theorems stated in Section~\ref{sec:stat-prop-least}.  In Section~\ref{sec:gaussian-noise-case} we consider the special case when the noise is Gaussian.  In this case, our expressions for the asymptotic distribution can be simplified.  Section~\ref{sec:simulations} presents the results of Monte-Carlo simulations.  These simulations agree with the derived asymptotic properties. 
 
 %It is worth commenting on our use of $\prob$ rather than the more usual $\expect$ or $E$ for the expected value operator.  The notation comes from Pollard~\cite[Ch 1]{Pollard_users_guide_prob_2002}.  The notation is good because it removes unecessary distinction between `probability' and expectation.  Given a random variable $X$ with cumulative density function $F$, the probability of an event, say $X \in S$, where $S$ is some subset of the range of $X$, is 
 %\[
@@ -108,18 +108,18 @@ where $L = \abs{P \cup D}$ is the total number of symbols transmitted, and to si
 \[
 Y = \sum_{i \in P \cup D} y_i s_i^* = \sum_{i \in P } y_i p_i^* + \sum_{i \in D } y_i d_i^*.
 \]  
-Note that $Y$ is a function of the unknown data symbols $\{ d_i, i \in D\}$ and we could write $Y(\{ d_i, i \in D\})$, but have chosen to suppress the argument $(\{ d_i, i \in D\})$ for notational brevity.  Substituting $\frac{1}{L}Y$ for $a$ into~\eqref{eq:SS} we obtain the $SS$ conditioned on minimisation with respect to $a$,
+Note that $Y$ is a function of the unknown data symbols $\{ d_i, i \in D\}$ and we could write $Y(\{ d_i, i \in D\})$, but have chosen to suppress the argument $(\{ d_i, i \in D\})$ for notational brevity.  Substituting $\frac{1}{L}Y$ for $a$ into~\eqref{eq:SS} we obtain $SS$ minimised with respect to $a$,
 \begin{equation}\label{eq:SSdatasymbols}
 SS(\{d_i, i \in D\}) = A - \frac{1}{L}\abs{Y}^2,
 \end{equation}
-where $A = \sum_{i \in P \cup D}\abs{y_i}^2$ does not depend on the $d_i$.  Observe that given candidate values for the data symbols, we can compute the corresponding $SS(\{d_i, i \in D\})$ in $O(L)$ arithmetic operations.  It turns out that there are at most $M\abs{D}$ candidate values of the least squares estimator of the data symbols~\cite{Sweldens2001,Mackenthun1994}.  %When the number of data symbols is not small, this set is substantially smaller than the entire set of possible transmitted symbols, which is of size $M^{\abs{D}}$.
+where $A = \sum_{i \in P \cup D}\abs{y_i}^2$ does not depend on the $d_i$.  The least squares estimators of the data symbols are the minimisers of~\eqref{eq:SSdatasymbols}.  Observe that given candidate values for the data symbols, we can compute the corresponding $SS(\{d_i, i \in D\})$ in $O(L)$ arithmetic operations.  It turns out that there are at most $M\abs{D}$ candidate values of the least squares estimator of the data symbols~\cite{Sweldens2001,Mackenthun1994}.  %When the number of data symbols is not small, this set is substantially smaller than the entire set of possible transmitted symbols, which is of size $M^{\abs{D}}$.
 
 To see this, let $a = \rho e^{j\theta}$ where $\rho$ is a nonnegative real.  Now,
 \begin{align}
 SS(\rho, \theta, &\{d_i, i \in D\}) = \sum_{i \in P \cup D} \abs{ y_i - \rho e^{j\theta} s_i }^2  \nonumber \\
 &= \sum_{i \in P} \abs{ y_i - \rho e^{j\theta} p_i }^2 + \sum_{i \in D} \abs{ y_i - \rho e^{j\theta} d_i }^2. \label{eq:SSallparams}
 \end{align}
-For given $\theta$, the least squares estimator of the $i$th data symbol $d_i$ is given by minimising $\abs{ y_i - \rho e^{j\theta} d_i }^2$, that is,
+We have slightly abused notation here by reusing $SS$. This should not cause confusion as $SS(a, \{d_i, i \in D\})$, $SS(\rho, \theta, \{d_i, i \in D\})$, and $SS(\{d_i, i \in D\})$ are easily told apart by their arguments.  For given $\theta$, the least squares estimator of the $i$th data symbol $d_i$ is given by minimising $\abs{ y_i - \rho e^{j\theta} d_i }^2$, that is,
 \begin{equation}\label{eq:hatdfinxtheta}
 \hat{d}_i(\theta) = e^{j\hat{u}_i(\theta)} \qquad \text{where} \qquad \hat{u}_i(\theta) = \round{\angle( e^{-j\theta}y_i)},
 \end{equation}
@@ -335,7 +335,7 @@ G(x) = p h_1(x) + d h_2(x) \qquad \text{where}
 \[
 h_1(x) = \expect R_1 \cos(x + \Phi_1), \;\;\; h_2(x) =  \expect R_1 \cos\sfracpart{ x + \Phi_1}.
 \]
-If $p > 0$ and if $G(x)$ is uniquely maximised at $x = 0$ over the interval $[-\pi,\pi)$,
+If $p > 0$ and if $G(x)$ is uniquely maximised at $x = 0$ over the interval $[-\pi,\pi)$ then
 \begin{enumerate}
 \item $\sfracpart{\hat{\theta} - \theta_0}_\pi \rightarrow 0$ almost surely as $L \rightarrow \infty$,
 \item $\hat{\rho} \rightarrow \rho_0 G(0)$ almost surely as $L \rightarrow \infty$.
@@ -461,7 +461,7 @@ The next two sections give proofs of Theorems~\ref{thm:consistency}~and~\ref{thm
 
 \section{Proof of almost sure convergence (Theorem~\ref{thm:consistency}) } \label{sec:proof-almost-sure}
 
-Substituting $\{ \hat{d}_i(\theta), i \in D \}$ from~\eqref{eq:hatdfinxtheta} into~\eqref{eq:SSallparams} we obtain $SS$ conditioned on minimisation with respect to the data symbols,
+Substituting $\{ \hat{d}_i(\theta), i \in D \}$ from~\eqref{eq:hatdfinxtheta} into~\eqref{eq:SSallparams} we obtain $SS$ minimised with respect to the data symbols,
  \begin{align*}
 SS(\rho, \theta) &=\sum_{i \in P} \abs{ y_i - \rho e^{j\theta} p_i }^2 + \sum_{i \in D} \abs{ y_i - \rho e^{j\theta} \hat{d_i}(\theta) }^2 \\
 &= A - \rho Z(\theta) - \rho Z^*(\theta) + L \rho^2,
@@ -470,16 +470,26 @@ where
 \[
 Z(\theta)  = \sum_{i \in P} y_i e^{-j\theta} p_i^* + \sum_{i \in D} y_i e^{-j\theta} \hat{d}_i^*(\theta),
 \]
-and $Z^*(\theta)$ is the conjugate of $Z(\theta)$.  Differentiating with respect to $\rho$ and setting the resulting expression to zero gives the least squares estimator of $\rho_0$ as a function of $\theta$ conditioned on minimisation with respect to the data symbols, 
+and $Z^*(\theta)$ is the conjugate of $Z(\theta)$.  Differentiating with respect to $\rho$ and setting the resulting expression to zero gives the least squares estimator of $\rho_0$ as a function of $\theta$,
 \begin{equation}\label{eq:hatrhoZ}
 \hat{\rho}(\theta) = \frac{Z(\theta) + Z^*(\theta)}{2L} = \frac{1}{L}\Re(Z(\theta)),
 \end{equation}
-where $\Re(\cdot)$ denotes the real part.  Since $\hat{\rho}(\theta)$ is nonnegative it follows that $\Re(Z(\theta))$ is nonnegative for all $\theta \in [-\pi, \pi)$.  Substituting this expression into $SS(\rho, \theta)$ gives $SS$ conditioned upon minimisation with respect to $\rho$ and the data symbols,
+where $\Re(\cdot)$ denotes the real part.  %Since $\hat{\rho}(\theta)$ is nonnegative it follows that $\Re(Z(\theta))$ is nonnegative for all $\theta \in [-\pi, \pi)$.  
+Substituting this expression into $SS(\rho, \theta)$ gives $SS$ minimised with respect to $\rho$ and the data symbols,
 \[
 SS(\theta) = A - \frac{1}{L}\Re(Z(\theta))^2.
 \]
-
-We are interested in analysing $\hat{\theta}$, the minimiser of $SS(\theta)$, or equivalently, the maximiser of $\Re(Z(\theta))$.  Recalling the definition of $R_i$ and $\Phi_i$ from~\eqref{eq:RiandPhii},
+We again abuse notation by reusing $SS$, but this should not cause confusion as $SS(\rho,\theta)$ and $SS(\theta)$ are easily told apart by their inputs.  By definition the amplitude $\rho_0$ and its estimator $\hat{\rho}$ are positive.  However, $\hat{\rho}(\theta) = \Re(Z(\theta))$ may take negative values for some $\theta \in [-\pi,\pi)$.  %In this case we would replace $\theta$ with $\fracpart{\theta + \phi}$ and $\hat{\rho}(\theta)$ with $-\hat{\rho}(\theta)$ and observe that
+%\[
+%SS(\rho,\theta) = SS(-\rho, \fracpart{\theta + \pi})
+%\]
+The least square estimator $\hat{\theta}$ of $\theta_0$ is the minimiser of $SS(\theta)$ under the constraint $\hat{\rho}(\theta) = \Re(Z(\theta)) > 0$.  Equivalently
+\[
+\hat{\theta} = \arg\max_{\theta \in [-\pi,\pi)} \Re(Z(\theta))
+\]
+with no constraints required.
+ 
+We are thus interested in analysing the behaviour of the maximiser of $\Re(Z(\theta))$.  Recalling the definition of $R_i$ and $\Phi_i$ from~\eqref{eq:RiandPhii},
 \begin{align*}
 y_i &= a_0 s_i + w_i \\
 &= a_0 s_i \left( 1 + \frac{w_i}{a_0 s_i} \right) \\
@@ -516,17 +526,17 @@ Let
 \begin{equation}\label{eq:GLdefn}
 G_L(\lambda) = \frac{1}{\rho_0 L} \Re(Z(\theta))
 \end{equation}
-and put $\hat{\lambda}_L = -\sfracpart{\hat{\theta} - \theta_0}_\pi = \sfracpart{\theta_0 - \hat{\theta}}_\pi$.  Since $\hat{\theta}$ is the maximiser of $\Re(Z(\theta))$ then  $\hat{\lambda}_L$ is the maximiser of $G_L(\lambda)$.  We will show that $\hat{\lambda}_L$ converges almost surely to zero as $L \rightarrow \infty$.  The proof of part 1 of Theorem~\ref{thm:consistency} follows from this.
+and put $\hat{\lambda}_L = -\sfracpart{\hat{\theta} - \theta_0}_\pi = \sfracpart{\theta_0 - \hat{\theta}}_\pi$.  Since $\hat{\theta}$ is the maximiser of $\Re(Z(\theta))$ it follows that $\hat{\lambda}_L$ is the maximiser of $G_L(\lambda)$.  We will show that $\hat{\lambda}_L$ converges almost surely to zero as $L \rightarrow \infty$.  The proof of part 1 of Theorem~\ref{thm:consistency} follows from this.
 
 Recall the functions $G$, $h_1$ and $h_2$ defined in the statement of Theorem~\ref{thm:consistency}.  Observe that
 \[
 \expect G_L(\lambda) = \frac{\abs{P}}{L} h_1(\lambda) + \frac{\abs{D}}{L} h_2(\lambda)
 \]
-and since $\frac{\abs{P}}{L} \rightarrow p$ and $\frac{\abs{D}}{L} \rightarrow d$ as $L \rightarrow \infty$, then
+and since $\frac{\abs{P}}{L} \rightarrow p$ and $\frac{\abs{D}}{L} \rightarrow d$ as $L \rightarrow \infty$,
 \[
 \lim_{L \rightarrow\infty} \expect G_L(\lambda) = G(\lambda) = p h_1(\lambda)   +  d h_2(\lambda).
 \]
-As is customary, let $(\Omega, \mathcal F, \prob)$ be the probability space over which the random variables $\{w_i\}$ are defined.  Let $A$ be the subset of the sample space $\Omega$ upon which $G(\hat{\lambda}_L) \rightarrow G(0)$ as $L\rightarrow\infty$.  Lemma~\ref{lem:convtoexpGlamL} shows that $\prob\{A\} = 1$.  Let $A'$ be the subset of the sample space upon which $\hat{\lambda}_L \rightarrow 0$ as $L\rightarrow \infty$.  Because $G(x)$ is uniquely maximised at $x=0$, it follows that $G(\hat{\lambda}_L) \rightarrow G(0)$ only if $\hat{\lambda}_L \rightarrow 0$ as $L \rightarrow\infty$. So $A \subseteq A'$ and therefore $\prob\{A'\} \geq \prob\{A\} = 1$.  Part 1 of Theorem~\ref{thm:consistency} follows.  
+As is customary, let $\Omega$ be the sample space on which the random variables $\{w_i\}$ are defined.  Let $A$ be the subset of the sample space $\Omega$ on which $G(\hat{\lambda}_L) \rightarrow G(0)$ as $L\rightarrow\infty$.  Lemma~\ref{lem:convtoexpGlamL} shows that $\prob\{A\} = 1$.  Let $A'$ be the subset of the sample space on which $\hat{\lambda}_L \rightarrow 0$ as $L\rightarrow \infty$.  Because $G(x)$ is uniquely maximised at $x=0$, it follows that $G(\hat{\lambda}_L) \rightarrow G(0)$ only if $\hat{\lambda}_L \rightarrow 0$ as $L \rightarrow\infty$. So $A \subseteq A'$ and therefore $\prob\{A'\} \geq \prob\{A\} = 1$.  Part 1 of Theorem~\ref{thm:consistency} follows.  
 
 It remains to prove part 2 of the theorem regarding the convergence of the amplitude estimator $\hat{\rho}$.  From~\eqref{eq:hatrhoZ},
 \begin{equation}\label{eq:rhoGLZ}
@@ -536,7 +546,8 @@ Lemma~\ref{lem:GLtoG0} in the appendix shows that $G_L(\hat{\lambda}_L)$ converg
 
 \section{Proof of asymptotic normality (Theorem~\ref{thm:normality}) } \label{sec:proof-asympt-norm}
 
-We first prove the asymptotic normality of $\sqrt{L} \hat{\lambda}_L$.  Once this is done we will be able to prove the normality of $\sqrt{L} \hat{m}_L$.  Recall that $\hat{\lambda}_L$ is the maximiser of the function $G_L$ defined in~\eqref{eq:GLdefn}.  The proof is complicated by the fact that $G_L$ is not differentiable everywhere due to the function $\fracpart{\cdot}$ not being differentiable at multiples of $\tfrac{\pi}{M}$.  This prevents the use of ``standard approaches'' to proving normality that are based on the mean value theorem~\cite{vonMises_diff_stats_1947,vanDerVart1971_asymptotic_stats,Pollard_new_ways_clts_1986,Pollard_conv_stat_proc_1984,Pollard_asymp_empi_proc_1989,van2009empirical}.  However, Lemma~\ref{lem:diffatlambdaL} shows that the derivative $G_L^\prime$ does exist, and is equal to zero, at $\hat{\lambda}_L$. Define the function
+We first prove the asymptotic normality of $\sqrt{L} \hat{\lambda}_L$.  Once this is done we will be able to prove the normality of $\sqrt{L} \hat{m}_L$.  Recall that $\hat{\lambda}_L$ is the maximiser of the function $G_L$ defined in~\eqref{eq:GLdefn}.  The proof is complicated by the fact that $G_L$ is not differentiable everywhere due to the function $\fracpart{\cdot}$ not being differentiable at multiples of $\tfrac{\pi}{M}$.  This prevents the use of ``standard approaches'' to proving normality that are based on the mean value theorem~\cite{vonMises_diff_stats_1947,vanDerVart1971_asymptotic_stats,Pollard_new_ways_clts_1986,Pollard_conv_stat_proc_1984,Pollard_asymp_empi_proc_1989,van2009empirical}.  However, Lemma~\ref{lem:diffatlambdaL} shows that the derivative $G_L^\prime$ does exist, and is equal to zero, at $\hat{\lambda}_L$.  Similar properties have been used to analyse the behaviour of other estimators~\cite{McKilliam_LSU_polyest_part_arxiv_2012}.%\cite{McKilliam_LSU_polyest_part1_2012,McKilliam_LSU_polyest_part2_2012}. 
+Define the function
 \begin{equation}\label{eq:RLdef}
 R_L(\lambda) = \frac{1}{L} \sum_{i \in P} R_i \sin(\lambda + \Phi_i) + \frac{1}{L} \sum_{i \in D} R_i \sin\sfracpart{\lambda + \Phi_i}.
 \end{equation}
@@ -549,7 +560,7 @@ Lemma~\ref{lem:Qconv} shows that
 \[
 \sqrt{L} Q_L(\hat{\lambda}_L) = \sqrt{L} \hat{\lambda}_L\big( p + Hd  + o_P(1) \big)
 \]
-where $o_P(1)$ denotes a number converging in probability to zero as $L \rightarrow \infty$, and the constants $p,d$ and $H$ are defined in the statement of Theorems~\ref{thm:consistency}~and~\ref{thm:normality}.  Lemma~\ref{lem:empiricprocc} shows that
+where $o_P(1)$ denotes a number converging in probability to zero as $L \rightarrow \infty$, and $p,d$ and $H$ are defined in the statement of Theorems~\ref{thm:consistency}~and~\ref{thm:normality}.  Lemma~\ref{lem:empiricprocc} shows that
 \[
 \sqrt{L}\big( R_L(\hat{\lambda}_L) - Q_L(\hat{\lambda}_L) \big) = o_P(1) + \sqrt{L} R_L(0).
 \]
@@ -561,7 +572,7 @@ and rearranging gives,
 \[
 \sqrt{L} \hat{\lambda}_L = o_P(1) - \frac{\sqrt{L}R_L(0)}{p + Hd  + o_P(1)}.
 \]
-Lemma~\ref{lem:convdistGLdash} shows that the distribution of $\sqrt{L}R_L(0)$ converges to the normal with zero mean and variance $pA_1 + dA_2$ where $A_1$ and $A_2$ are real constants defined in the statement of Theorem~\ref{thm:normality}.  It follows that the distribution of $\sqrt{L}\hat{\lambda}_L$ converges to the normal with zero mean and variance
+Lemma~\ref{lem:convdistGLdash} shows that the distribution of $\sqrt{L}R_L(0)$ converges to the normal with zero mean and variance $pA_1 + dA_2$ where $A_1$ and $A_2$ are defined in the statement of Theorem~\ref{thm:normality}.  It follows that the distribution of $\sqrt{L}\hat{\lambda}_L$ converges to the normal with zero mean and variance
 \[
 \frac{pA_1 + dA_2}{(p + Hd)^2}.
 \]
@@ -582,9 +593,9 @@ where $X_L = \sqrt{L}\big( G_L(0) - T_L(0)  \big)$.  Lemma~\ref{lem:HLtoG} shows
 \]
 It follows that $\sqrt{L} \hat{m}_L =  \rho_0 X_L + o_P(1)$.  Lemma~\ref{lem:XL} shows that the distribution of $X_L$ converges to the normal with zero mean and variance $p B_1 + d B_2$ as $L\rightarrow\infty$ where $B_1$ and $B_2$ are defined in the statement of Theorem~\ref{thm:normality}.  Thus, the distribution of $\sqrt{L} \hat{m}_L$ converges to the normal with zero mean and variance $\rho_0^2(p B_1 + d B_2)$ as required.  Because $X_L$ does not depend on $\hat{\lambda}_L$, it follows that $\covar(X_L, \sqrt{L}\hat{\lambda}_L) = 0$, and so,
 \[
-\covar(\sqrt{L}\hat{m}_L, \sqrt{L}\hat{\lambda}_L) = \covar(\rho_0 X_L + o_P(1), \sqrt{L}\hat{\lambda}_L) \rightarrow 0
+\covar(\sqrt{L}\hat{m}_L, \sqrt{L}\hat{\lambda}_L) \rightarrow \covar(\rho_0 X_L, \sqrt{L}\hat{\lambda}_L) = 0
 \]
-as $L \rightarrow \infty$.  It remains to prove the lemmas that we have used.  These lemmas are proved in Section~\ref{sec:proof-asympt-normappendix} of the appendix.
+as $L \rightarrow \infty$.  The lemmas that we have used are proved in Section~\ref{sec:proof-asympt-normappendix} of the appendix.
 
 
 
@@ -603,13 +614,15 @@ Theorems~\ref{thm:consistency}~and~\ref{thm:normality} hold, and since the distr
 It can be shown that
 \[
 %g(\phi) = \frac{\cos^2(\phi)}{4\sqrt{\pi}}\left( \frac{e^{-\kappa^2} }{\sqrt{\pi}} + \kappa \Psi(\phi)  e^{-\kappa^2\sin^2(\phi)}\cos(\phi) \right)
-g(\phi) = \frac{\cos(\phi)}{2\pi}e^{-\frac{1}{2}\kappa^2} + \frac{\Psi(\phi)}{\kappa\sqrt{2\pi}}  e^{-\frac{1}{2}\kappa^2\sin^2(\phi)} \big(1 + \kappa^2\cos^2(\phi) \big)
+g(\phi) = \frac{\cos\phi}{2\pi}e^{-\frac{1}{2}\kappa^2} + \frac{\Psi(\kappa \cos\phi)}{\kappa\sqrt{2\pi}}  e^{-\frac{1}{2}\kappa^2\sin^2\phi} \big(1 + \kappa^2\cos^2\phi \big)
 \]
-where $\kappa = \rho_0/\sigma$ and
-\[
-\Psi(\phi) = \frac{1}{2} + \frac{1}{2} \erf\left(\frac{\kappa \cos(\phi)}{\sqrt{2}}\right)
-\]
-and $\erf(x) = \frac{2}{\sqrt{\pi}}\int_0^{x} e^{-t^2} dt$ is the error function.  The value of $A_1, A_2, B_1$ and $B_2$ can be efficiently computed by numerical integration using these formula.
+where $\kappa = \rho_0/\sigma$ and $\Psi(x) = \frac{1}{\sqrt{2\pi}} \int_{-\infty}^{x} e^{-x^2/2} dx$
+is the cumulative density function of the standard normal.
+%\[
+%\Psi(\phi) = \frac{1}{2} + \frac{1}{2} \erf\left(\frac{\kappa \cos\phi}{\sqrt{2}}\right)
+%\]
+%and $\erf(x) = \frac{2}{\sqrt{\pi}}\int_0^{x} e^{-t^2} dt$ is the error function.  
+The value of $A_1, A_2, B_1$ and $B_2$ can be efficiently computed by numerical integration using these formula.
 
 
 \section{Simulations}\label{sec:simulations}
@@ -750,13 +763,14 @@ Now,
 T_L(\lambda) - G(\lambda) &= \big(\tfrac{\abs{P}}{L} - p\big)h_1(\lambda) + \big(\tfrac{\abs{D}}{L} - d\big)h_2(\lambda) \\
 &= o(1) h_1(\lambda) + o(1) h_2(\lambda)
 \end{align*}
-where $o(1)$ denotes a number converging to zero as $L \rightarrow \infty$.  Since 
+%where $o(1)$ denotes a number converging to zero as $L \rightarrow \infty$.  
+Since 
 \[
-h_1(\lambda) = \expect R_1\cos(\lambda + \Phi_1) \leq \expect R_1,
+\sabs{h_1(\lambda)} = \sabs{\expect R_1\cos(\lambda + \Phi_1)} \leq \expect R_1,
 \]
 and 
 \[
-h_2(\lambda) = \expect R_1\cos\fracpart{\lambda + \Phi_1} \leq \expect R_1
+\sabs{h_2(\lambda)} = \sabs{\expect R_1\cos\fracpart{\lambda + \Phi_1}} \leq \expect R_1
 \] 
 for all $\lambda \in [-\pi, \pi)$, it follows that 
 \[
@@ -771,7 +785,7 @@ almost surely as $L\rightarrow \infty$.
 
 
 \begin{lemma}\label{lem:uniflawTGL} 
-Put $T_L(\lambda) = \expect G_L(\lambda)$, then
+Put $T_L(\lambda) = \expect G_L(\lambda)$.  Then
 \[
 \sup_{\lambda \in [-\pi, \pi)}\sabs{G_L(\lambda) - T_L(\lambda)} \rightarrow 0
 \] 
@@ -782,7 +796,7 @@ Put $D_L(\lambda) = G_L(\lambda) - T_L(\lambda)$ and let
 \[
 \lambda_n = \tfrac{2\pi}{N}(n-1) - \pi, \qquad n = 1, \dots, N
 \]
-be $N$ points uniformly spaced on the interval $[-\pi, \pi)$.  Let $L_n$ be the interval $[\lambda_n, \lambda_n + \tfrac{2\pi}{N})$ and observe that $L_1, \dots, L_N$ partition $[-\pi, \pi)$.  Now
+be $N$ points uniformly spaced on the interval $[-\pi, \pi)$.  Let $L_n = [\lambda_n, \lambda_n + \tfrac{2\pi}{N})$ and observe that $L_1, \dots, L_N$ partition $[-\pi, \pi)$.  Now
 \begin{align*}
 \sup_{\lambda \in [-\pi, \pi)}&\sabs{D_L(\lambda)} \\
 &= \sup_{n = 1,\dots,N}\sup_{\lambda \in L_n}\sabs{D_L(\lambda) - D_L(\lambda_n) + D_L(\lambda_n)} \\
@@ -790,12 +804,12 @@ be $N$ points uniformly spaced on the interval $[-\pi, \pi)$.  Let $L_n$ be the 
 \end{align*}
 where 
 \[
-U_L = \sup_{n = 1,\dots,N}\sabs{D_L(\lambda_n)},
+U_L = \sup_{n = 1,\dots,N}\sabs{D_L(\lambda_n)} \;\;\; \text{and}
 \]
 \[
 V_L = \sup_{n = 1,\dots,N}\sup_{\lambda \in L_n}\sabs{D_L(\lambda) - D_L(\lambda_n)}.
 \]
-Lemma~\ref{lem:supDLlambdan} shows that for any finite constant $N$, and any $\epsilon > 0$, 
+Lemma~\ref{lem:supDLlambdan} shows that for any $N$ and $\epsilon > 0$, 
 \[
 \prob\left\{ \lim_{L\rightarrow\infty} U_L > \epsilon \right\} = 0,
 \]
@@ -803,7 +817,7 @@ that is, $U_L \rightarrow 0$ almost surely as $L\rightarrow\infty$.  Lemma~\ref{
 \[
 \prob\left\{ \lim_{L \rightarrow \infty} V_L > \epsilon + \tfrac{4\pi }{N}\expect R_i \right\} = 0.
 \] 
-Choose $N$ large enough that $4\pi\expect R_i < \epsilon N$ and
+If we choose $N$ large enough that $4\pi\expect R_i < \epsilon N$ then
 \begin{align*}
 \prob& \left\{ \lim_{L\rightarrow\infty} \sup_{\lambda \in [-\pi, \pi)}\sabs{D_L(\lambda)} > 3\epsilon \right\} \\
 &\leq \prob\left\{\lim_{L\rightarrow\infty}(U_L + V_L) > 3\epsilon \right\} \\
@@ -811,12 +825,12 @@ Choose $N$ large enough that $4\pi\expect R_i < \epsilon N$ and
 &\leq \prob\left\{\lim_{L\rightarrow\infty} U_L > \epsilon\right\} +  \prob\left\{ \lim_{L\rightarrow\infty} V_L > \epsilon + \tfrac{4\pi }{N}\expect R_i \right\} \\
 &= 0.
 \end{align*}
-Thus, $\sup_{\lambda \in [-\pi, \pi)}\sabs{D_L(\lambda)} \rightarrow 0$ almost surely as $L\rightarrow\infty$.
+Thus $\sup_{\lambda \in [-\pi, \pi)}\sabs{D_L(\lambda)} \rightarrow 0$ almost surely as $L\rightarrow\infty$.
 \end{IEEEproof}
 
 
 \begin{lemma}\label{lem:supDLlambdan}
-With $N$ a finite constant $U_L \rightarrow 0$ almost surely as $L \rightarrow \infty$.
+For any $N > 0$, $U_L \rightarrow 0$ almost surely as $L \rightarrow \infty$ where $U_L$ is defined in the proof of Lemma~\ref{lem:uniflawTGL}.
 \end{lemma}
 \begin{IEEEproof}
 Put
@@ -834,7 +848,7 @@ Now $Z_1(\lambda_n), \dots,Z_L(\lambda_n)$ are independent with finite variance 
 \[
 \abs{D_L(\lambda_n)} = \abs{\frac{1}{L}\sum_{i\in P \cup D} \big( Z_i(\lambda_n) - \expect Z_i(\lambda_n)\big)} \rightarrow 0
 \]
-almost surely as $L\rightarrow\infty$ by Kolmogorov's strong law of large numbers~\cite[Theorem 2.3.10]{SenSinger_large_sample_stats_1993}.  Since $N$ is a constant,
+almost surely as $L\rightarrow\infty$ by Kolmogorov's strong law of large numbers~\cite{Billingsley1979_probability_and_measure}.  Thus
 \[
 U_L = \sup_{n=1,\dots,N}\sabs{D_L(\lambda_n)} \leq \sum_{n=1}^N \sabs{D_L(\lambda_n)} \rightarrow 0
 \]
@@ -888,11 +902,11 @@ If $\lambda \in L_n$, then $\lambda = \lambda_n + \delta$ with $\delta < \tfrac{
 &\abs{\cos(\lambda + \Phi_i) - \cos(\lambda_n + \Phi_i)} \leq \tfrac{2\pi}{N}, \;\;\; \text{and} \\
 &\abs{\cos\sfracpart{\lambda + \Phi_i} - \cos\sfracpart{\lambda_n + \Phi_i}} \leq \tfrac{2\pi}{N}.
 \end{align*}
-Because this results does not depend on $n$,
+Because these results do not depend on $n$,
 \[
 \sup_{n=1,\dots,N}\sup_{\lambda \in L_n} \abs{Z_i(\lambda) - Z_i(\lambda_n)} \leq R_i \frac{2\pi}{N}
 \]
-for all $i = P \cup D$.  Now,
+for all $i = P \cup D$.  Also
 \begin{align*}
 C_L &= \sup_{n=1,\dots,N}\sup_{\lambda \in L_n}\abs{\frac{1}{L}\sum_{i \in P \cup D} Z_i(\lambda) - Z_i(\lambda_n)} \\
 &\leq \frac{1}{L}\sum_{i \in P \cup D} \sup_{n=1,\dots,N}\sup_{\lambda \in L_n} \abs{Z_i(\lambda) - Z_i(\lambda_n)} \\
@@ -960,7 +974,7 @@ is differentiable everywhere except when $\fracpart{\lambda + \Phi_i} = -\tfrac{
 \[
  \sin(q_i) > -\frac{\rho_0 \sabs{\eta}^2 R_i}{4 L \hat{\rho} \sin(\pi/M)}
 \]
-where $\eta = e^{-j2\pi/M} - 1$.  Observe that if $R_i > 0$ then $q_i < 0$.  Lemma~\ref{lem:fracpartlambdahatnotpi} shows that,
+where $\eta = e^{-j2\pi/M} - 1$.  Observe that $q_i < 0$ when $R_i > 0$.  Lemma~\ref{lem:fracpartlambdahatnotpi} shows that
 \[
 \sabs{\sfracpart{\hat{\lambda}_L + \Phi_i}} \leq \frac{\pi}{M} + q_i
 \]
@@ -1010,16 +1024,15 @@ Let $v = \sfracpart{\hat{\lambda}_L + \Phi_k} - \tfrac{\pi}{M}$ so that
 \begin{align*}
 \eta e^{j\sfracpart{\hat{\lambda}_L + \Phi_k}} &= (e^{-j2\pi/M} - 1) e^{j \pi/M} e^{jv} \\
 &= (e^{-j\pi/M} - e^{j\pi/M}) e^{jv} \\
-&= -2 \sin(\tfrac{\pi}{M}) e^{j ( v + \pi/2) },
+&= -2 j \sin(\tfrac{\pi}{M}) e^{j v },
 \end{align*}
 and
-\begin{align*}
-\Re\left( \eta e^{j\sfracpart{\hat{\lambda}_L + \Phi_k}}\right) &= -2 \sin(\tfrac{\pi}{M}) \cos(v + \tfrac{\pi}{2}) \\
- &= 2 \sin(\tfrac{\pi}{M}) \sin(v).
-\end{align*}
+\[
+\Re\left( \eta e^{j\sfracpart{\hat{\lambda}_L + \Phi_k}}\right) = 2 \sin(\tfrac{\pi}{M}) \sin(v).
+\]
 Because we assumed~\eqref{eq:fraclambassumption}, it follows that $0 > v > q_k$ and, from the definition of $q_k$,
 \[
-0 > \sin(v) > -\frac{\rho_0 \sabs{\eta}^2 R_k}{4 L \hat{\rho} \sin(\pi/M)}.
+ -\frac{\rho_0 \sabs{\eta}^2 R_k}{4 L \hat{\rho} \sin(\pi/M)} <  \sin(v) < 0.
 \]
 Substituting this into~\eqref{eq:Ddefn} gives $C > 0$, but then 
 \[
@@ -1032,11 +1045,11 @@ To show that $\sfracpart{\hat{\lambda}_L + \Phi_k} \geq -\frac{\pi}{M} - q_k$ we
 
 
 \begin{lemma}\label{lem:Qconv}
-Let $Q_L(\lambda) = \expect R_L(\lambda) - \expect R_L(0)$ where the function $R_L$ is defined in~\eqref{eq:RLdef}.  Then,
+Let $Q_L(\lambda) = \expect R_L(\lambda) - \expect R_L(0)$ where the function $R_L$ is defined in~\eqref{eq:RLdef}.  We have
 \[ 
 \sqrt{L} Q_L(\hat{\lambda}_L) = \sqrt{L} \hat{\lambda}_L\big( p + Hd  + o_P(1) \big)
 \]
-where $p, d$ and $H$ are real numbers defined in the statements of Theorems~\ref{thm:consistency}~and~\ref{thm:normality} and $o_P(1)$ denotes a number converging in probability to zero as $L\rightarrow\infty$.
+where $p, d$ and $H$ are defined in the statements of Theorems~\ref{thm:consistency}~and~\ref{thm:normality}.
 \end{lemma}
 \begin{IEEEproof}
 We have
@@ -1048,249 +1061,103 @@ where
 k_1(\lambda) &= \expect R_1\big( \sin(\lambda + \Phi_1) - \sin(\Phi_1) \big), \;\;\; \text{and} \nonumber\\
 k_2(\lambda) &= \expect R_1\big( \sin\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} \big). \label{eq:k2def}
 \end{align}
-We analyse $k_1(\lambda)$ first.  By a Taylor expansion of $\sin(\lambda + \Phi_1)$ about $\lambda = 0$,
-\[
-\sin(\lambda + \Phi_1) - \sin(\Phi_1) = \lambda \big( \cos(\Phi_1) + \zeta(\lambda) \big),
-\]
-where $\zeta$ is a continuous function with $\zeta(0) = 0$.  So,
-\begin{align*}
-k_1(\lambda) &= \expect R_1\lambda(\cos(\Phi_1) \; + \; \zeta(\lambda)) \\
-&= \lambda \big( 1 \; + \; \zeta(\lambda) \expect R_1 \big),
-\end{align*}
-since $h_1(0) = \expect R_1\cos(\Phi_1) = 1$ as a result of~\eqref{eq:expectRepartRphi}.  Because $\hat{\lambda}_L$ converges almost surely to zero as $L \rightarrow\infty$, then $\zeta(\hat{\lambda}_L)$ converges almost surely (and therefore also in probability) to zero as $L \rightarrow\infty$.  So, 
-\[
-k_1(\hat{\lambda}_L) = \hat{\lambda}_L \big( 1 \; + \; \zeta(\hat{\lambda}_L) \expect R_1 \big) = \hat{\lambda}_L \big( 1  + o_P(1)\big)
-\]
-because $\expect R_1$ is finite.  Lemma~\ref{lem:k2conv} shows that $k_2(\hat{\lambda}_L) = \hat{\lambda}_L ( H + o_P(1) )$.  So,
+Lemma~\ref{lem:q1k1parts} shows that $k_1(\hat{\lambda}_L) = \hat{\lambda}_L\big(1 + o_P(1) \big)$ and Lemma~\ref{lem:q2k2parts} shows that $k_2(\hat{\lambda}_L) = \hat{\lambda}_L \big( H + o_P(1) \big)$ and so
 \begin{align*}
 Q_L(\hat{\lambda}_L) &=  \tfrac{\sabs{P}}{L} \hat{\lambda}_L \big( 1  + o_P(1)\big)  + \tfrac{\sabs{D}}{L} \hat{\lambda}_L ( H + o_P(1) ) \\
-&= \hat{\lambda}_L \left( \tfrac{\sabs{P}}{L}  + \tfrac{\sabs{D}}{L} H + o_P(1) \right) \\
-&= \hat{\lambda}_L \left( p  + d H + o_P(1) \right),
-\end{align*}
-since $\frac{\sabs{P}}{L} \rightarrow p$ and $\frac{\sabs{D}}{L} \rightarrow d$ as $L \rightarrow \infty$.  The lemma follows by multiplying both sides of the above equation by $\sqrt{L}$.
+&= \hat{\lambda}_L \big( \tfrac{\sabs{P}}{L}  + \tfrac{\sabs{D}}{L} H + o_P(1) \big) \\
+ &= \hat{\lambda}_L \big( p  + d H + o_P(1) \big),
+ \end{align*}
+since $\frac{\sabs{P}}{L} \rightarrow p$ and $\frac{\sabs{D}}{L} \rightarrow d$ as $L \rightarrow \infty$.  The lemma follows by multiplying both sides of the 
+above equation by $\sqrt{L}$.
+% Consider $k_1(\lambda)$ first.  By a Taylor expansion of $\sin(\lambda + \Phi_1)$ about $\lambda = 0$,
+% \[
+% \sin(\lambda + \Phi_1) - \sin(\Phi_1) = \lambda \big( \cos(\Phi_1) + \zeta(\lambda) \big),
+% \]
+% where $\zeta$ is a continuous function with $\zeta(0) = 0$.  So,
+% \begin{align*}
+% k_1(\lambda) &= \expect R_1\lambda(\cos(\Phi_1) \; + \; \zeta(\lambda)) \\
+% &= \lambda \big( 1 \; + \; \zeta(\lambda) \expect R_1 \big),
+% \end{align*}
+% since $h_1(0) = \expect R_1\cos(\Phi_1) = 1$ as a result of~\eqref{eq:expectRepartRphi}.  Because $\hat{\lambda}_L$ converges almost surely to zero as $L \rightarrow\infty$, then $\zeta(\hat{\lambda}_L)$ converges almost surely (and therefore also in probability) to zero as $L \rightarrow\infty$.  So, 
+% \[
+% k_1(\hat{\lambda}_L) = \hat{\lambda}_L \big( 1 \; + \; \zeta(\hat{\lambda}_L) \expect R_1 \big) = \hat{\lambda}_L \big( 1  + o_P(1)\big)
+% \]
+% because $\expect R_1$ is finite.  Lemma~\ref{lem:k2conv} shows that $k_2(\hat{\lambda}_L) = \hat{\lambda}_L ( H + o_P(1) )$.  So,
+% \begin{align*}
+% Q_L(\hat{\lambda}_L) &=  \tfrac{\sabs{P}}{L} \hat{\lambda}_L \big( 1  + o_P(1)\big)  + \tfrac{\sabs{D}}{L} \hat{\lambda}_L ( H + o_P(1) ) \\
+% &= \hat{\lambda}_L \left( \tfrac{\sabs{P}}{L}  + \tfrac{\sabs{D}}{L} H + o_P(1) \right) \\
+% &= \hat{\lambda}_L \left( p  + d H + o_P(1) \right),
+% \end{align*}
+% since $\frac{\sabs{P}}{L} \rightarrow p$ and $\frac{\sabs{D}}{L} \rightarrow d$ as $L \rightarrow \infty$.  The lemma follows by multiplying both sides of the above equation by $\sqrt{L}$.
 \end{IEEEproof}
 
-\begin{lemma}\label{lem:k2conv}
-$k_2(\hat{\lambda}_L) = \hat{\lambda}_L ( H + o_P(1) ).$
+\begin{lemma}\label{lem:q1k1parts}
+Put
+\[
+q_1(\lambda) + j k_1(\lambda) = \expect\big( R_1 e^{j(\lambda + \Phi_1)} - R_1 e^{j\Phi_1}  \big).
+\]
+It follows that $q_1(\lambda) = o_P(1)$ and $k_1(\hat{\lambda}_L) = \hat{\lambda}_L\big(1 + o_P(1) \big)$
 \end{lemma}
-\begin{IEEEproof}
-Because $\hat{\lambda}_L \rightarrow 0$ almost surely as $L\rightarrow\infty$, it is only the behaviour of $k_2(\lambda)$ around $\lambda = 0$ that is relevant.  We will analyse $k_2(\lambda)$ for $0 \leq \lambda < \tfrac{\pi}{M}$.  An analogous argument follows when $-\tfrac{\pi}{M} < \lambda < 0$.  To keep our notation clean put
+\begin{proof}
+We have
 \[
-\psi_k = \tfrac{2\pi}{M}k + \tfrac{\pi}{M}.
+q_1(\lambda) + j k_1(\lambda) = (e^{j\lambda} - 1) \expect R_1e^{j\Phi_1} = e^{j\lambda} - 1
 \]
-For each integer $k$, if $\Phi_1 \in [\psi_{k-1}, \psi_k)$, then
-\[
-\fracpart{\Phi_1} = \Phi_1 - \round{\Phi_1} = \Phi_1 - \tfrac{2\pi}{M}k.
-\]
-Similarly, if $\Phi_1 \in  [\psi_{k-1}, \psi_{k} - \lambda)$, then
-\[
-\fracpart{\Phi_1 + \lambda} = \Phi_1 + \lambda - \tfrac{2\pi}{M}k,
-\]
-whilst, if $\Phi_1 \in [\psi_{k} - \lambda, \psi_{k})$, then
-\[
-\fracpart{\Phi_1 + \lambda} = \Phi_1 + \lambda - \tfrac{2\pi}{M}k - \tfrac{2\pi}{M}.
-\]
-So, when $\Phi_1 \in [\psi_{k-1}, \psi_{k} - \lambda )$,
-\begin{align*}
-\sin\fracpart{\lambda + \Phi_1} - &\sin\fracpart{\Phi_1} \\
-&= \sin(\lambda + \Phi_1 - \tfrac{2\pi}{M}k) - \sin(\Phi_1 - \tfrac{2\pi}{M}k),
-\end{align*}
-and by a Taylor expansion of $\sin(\lambda + \Phi_1 - \tfrac{2\pi}{M}k)$ about $\lambda = 0$, 
-\begin{align*}
-\sin\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} &= \lambda\big(\cos(\Phi_1 - \tfrac{2\pi}{M}k) + \zeta_k(\lambda)\big) \\
-&= \lambda\big(\cos\fracpart{\Phi_1} + \zeta_k(\lambda)\big).
-\end{align*}
-where, for each $k$, the function $\zeta_k$ is continuous with $\zeta_k(0) = 0$.  Alternatively, when $\Phi_1 \in [ \psi_{k} - \lambda,\psi_{k})$,
-\begin{align*}
-\sin\fracpart{\lambda + \Phi_1} &- \sin\fracpart{\Phi_1} \\
-&= \sin(\lambda + \Phi_1 - \tfrac{2\pi}{M}k - \tfrac{2\pi}{M}) - \sin(\Phi_1 - \tfrac{2\pi}{M}k)
-\end{align*}
-and by a Taylor expansion of $\sin(\lambda + \Phi_1 - \tfrac{2\pi}{M}k - \tfrac{2\pi}{M})$ about $\lambda = 0$,
-\begin{align*}
-\sin&\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} \\
-&= r_k(\Phi_1) + \lambda\big(\cos\fracpart{\Phi_1} + \eta_k(\lambda, \Phi_1)  )\big)
-\end{align*}
-where
-\[
-r_k(\Phi_1) = \sin(\Phi_1 - \tfrac{2\pi}{M}k - \tfrac{2\pi}{M}) - \sin(\Phi_1 - \tfrac{2\pi}{M}k),
-\]
-and
-\[
-\eta_k(\lambda, \Phi_1) = \cos(\Phi_1 - \tfrac{2\pi}{M}k - \tfrac{2\pi}{M}) - \cos\fracpart{\Phi_1} + \zeta_{k+1}(\lambda).
-\]
-Observe that $r_k$ is continuous and that 
-\[
-r_k(\psi_{k}) = -2\sin(\tfrac{\pi}{M}) \;\;\; \text{and} \;\;\; \eta_k(\lambda,\psi_k) = \zeta_{k+1}(\lambda).
-\]
+since the mean of $R_1e^{j\Phi_1}$ is 1.  Thus $q_1(\lambda) = \cos(\lambda) - 1$ and $k_1(\lambda) = \sin(\lambda)$.  Now $q_1(\hat{\lambda}_L) = o_P(1)$ since $\hat{\lambda}_L$ converges almost surely to zero as $L\rightarrow\infty$.  By a Taylor expansion of $\sin(\lambda)$ about $\lambda = 0$ we obtain $k_1(\lambda) = \lambda \big( 1 + \zeta(\lambda) \big)$  where $\zeta(\lambda)$ is a continuous function with $\zeta(0) = 0$.  Thus $\zeta(\hat{\lambda}_L) = o_P(1)$ and $k_1(\hat{\lambda}_L) = \hat{\lambda}_L\big(1 + o_P(1) \big)$.
+\end{proof}
 
-Let us now collate what we have.  For each integer $k$, if $\Phi_1 \in [\psi_{k-1}, \psi_{k} - \lambda )$, then
+\begin{lemma}\label{lem:q2k2parts}
+Put
 \[
-\sin\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} = \lambda\cos\fracpart{\Phi_1} + \lambda\zeta_k(\lambda),
+q_2(\lambda) + j k_2(\lambda) = \expect\big( R_1 e^{j\fracpart{\lambda + \Phi_1}} - R_1 e^{j\fracpart{\Phi_1}}  \big).
 \]
-whilst, if $\Phi_1 \in [ \psi_{k} - \lambda,\psi_{k})$, then
-\[
-\sin\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} = \lambda \cos\fracpart{\Phi_1} + r_k(\Phi_1) + \lambda\eta_k(\lambda, \Phi_1).
-\]
-Since the intervals $[\psi_{k-1}, \psi_{k})$ partition the real line, that is $\reals = \cup_{k\in\ints}[\psi_{k-1}, \psi_{k})$, it follows that for all $\Phi_1 \in \reals$,
-\[
-\sin\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} = \lambda\cos\fracpart{\Phi_1} +  v(\lambda, \Phi_1),
-\]
-where $v(\lambda, \Phi_1) = \sum_{k\in\ints} v_k(\lambda, \Phi_1)$ and
-\begin{equation}\label{eq:vk}
-v_k(\lambda,\Phi_1) = \begin{cases}
-r_k(\Phi_1) + \lambda\eta_k(\lambda, \Phi_1) &  \Phi_1 \in [ \psi_{k} - \lambda,\psi_{k} ) \\
-\lambda\zeta_k(\lambda) & \Phi_1 \in [\psi_{k-1}, \psi_{k} - \lambda ) \\
-0 & \text{otherwise}.
-\end{cases} 
-\end{equation}
-Now,
-\begin{align*}
-k_2(\lambda) &=  \expect R_1\big( \sin\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} \big) \\
-&= \expect R_1\big( \lambda\cos\fracpart{\Phi_1} + v(\lambda, \Phi_1)  \big) \\
-&= \lambda h_2(0) + \expect R_1 v(\lambda, \Phi_1).
-\end{align*}
-Let $W(\lambda) = \expect R_1 v(\lambda, \Phi_1)$ so that $k_2(\lambda) = \lambda h_2(0) + W(\lambda).$  Lemma~\ref{lem:expRvlamphi} shows that $W(\lambda) =  \lambda(H_1 + \gamma(\lambda))$ where $\gamma(\lambda)$ is a continuous function with $\gamma(0) = 0$, and
-\[
-H_1 = - 2 \sin(\tfrac{\pi}{M}) \sum_{k = 0}^{M-1} g(\psi_k) = H - h_2(0),
-\]
-where $H$ is defined in the statement of Theorem~\ref{thm:normality}.  Because $\hat{\lambda}_L$ converges almost surely to zero as $L \rightarrow\infty$, it follows that $\gamma(\hat{\lambda}_L) = o_P(1)$, and so
-\[
-k_2(\hat{\lambda}_L) = \hat{\lambda}_L ( h_2(0) + H_1 + o_P(1) ) = \hat{\lambda}_L ( H + o_P(1) )
-\]
-as required.  It remains to prove Lemma~\ref{lem:expRvlamphi}.
-\end{IEEEproof}
-
-\begin{lemma}\label{lem:expRvlamphi}
-$W(\lambda) =  \lambda(H_1 + \gamma(\lambda))$ where $\gamma$ is a continuous function with $\gamma(0) = 0$.
+It follows that $q_2(\hat{\lambda}_L) = o_P(1)$ and $k_2(\hat{\lambda}_L) = \hat{\lambda}_L \big( H + o_P(1) \big)$ where $H$ is defined in the statement of Theorem~\ref{thm:normality}.
 \end{lemma}
-\begin{IEEEproof}
-In this lemma, as in Lemma~\ref{lem:k2conv}, we work under the assumption that $0 \leq \lambda < \frac{\pi}{M}$.  An analogous argument follows when $-\tfrac{\pi}{M} \leq \lambda < 0$.  Recalling that $f(r,\phi)$ is the joint pdf of $R_1$ and $\Phi_1$, 
-\begin{align}
-W(\lambda) &= \expect R_1 v(\lambda, \Phi_1) \nonumber  \\
-&= \int_0^{2\pi}\int_{0}^\infty r v(\lambda, \phi) f(r,\phi) dr d\phi \nonumber  \\ 
-&= \int_0^{2\pi} v(\lambda, \phi) g(\phi) d\phi \nonumber \\
-&= \sum_{k \in \ints} \int_0^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi, \label{eq:Winfsum}
-\end{align}
-where $g$ is defined in the statement of Theorem~\ref{thm:normality}.
-Now, for $k = 1, \dots, M-1$ we have $0 < \psi_{k-1} < \psi_k < 2\pi$, and so, using~\eqref{eq:vk},
-\begin{align*}
-\int_0^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi &= \int_{\psi_{k-1}}^{\psi_{k}} v_k(\lambda, \phi) g(\phi) d\phi \\
-&= \lambda a_k(\lambda) + \lambda b_k(\lambda) + \lambda c_k(\lambda),
-\end{align*}
-where, for $k = 1, \dots, M-1$,
-\begin{equation}\label{eq:ak}
-a_k(\lambda) = \int_{\psi_k-\lambda}^{\psi_k}\eta_k(\lambda, \phi) g(\phi) d\phi,
-\end{equation}
+\begin{proof}
+Because $\hat{\lambda}_L \rightarrow 0$ almost surely as $L\rightarrow\infty$, it is only the behaviour of $q_2(\lambda)$ and $k_2(\lambda)$ around $\lambda = 0$ that is relevant.  We will examine $q_2(\lambda)$ and $k_2(\lambda)$ for $0 \leq \lambda < \tfrac{\pi}{M}$.  An analogous argument follows when $-\tfrac{\pi}{M} < \lambda < 0$.  To keep our notation clean put 
 \[
-b_k(\lambda) = \zeta_k(\lambda) \int_{\psi_{k-1}}^{\psi_k -\lambda}g(\phi) d\phi,
-\]
-\begin{equation}\label{eq:ck}
-c_k(\lambda) = \frac{1}{\lambda} \int_{\psi_{k} - \lambda}^{\psi_{k}} r_k(\phi) g(\phi) d\phi.
-\end{equation}
-Both $a_k(\lambda)$ and $b_k(\lambda)$ converge to zero as $\lambda$ goes to zero, and, since $g$ is continuous at $\psi_k = \tfrac{2\pi}{M}k + \tfrac{\pi}{M}$ for each $k = 0, 1, \dots, M-1$ (by assumption in Theorem~\ref{thm:normality}), it follows that $c_k(\lambda)$ converges to 
-\[
-r_k(\psi_k)g(\psi_k) = -2\sin(\tfrac{\pi}{M}) g(\tfrac{2\pi}{M}k + \tfrac{\pi}{M})
-\]
-as $\lambda$ goes to zero from above.  We are only interested in the limit from above because we are working under the assumption that $0 \leq \lambda < \frac{\pi}{M}$.  The analogous argument when $-\tfrac{\pi}{M} \leq \lambda < 0$ would involve limits as $\lambda$ approaches zero from below.
-
-Now, when $k = 0$, we have $\psi_{-1} < 0 < \psi_0 - \lambda < \psi_0 < 2\pi$, so that
-\[
-\int_0^{2\pi} v_0(\lambda, \phi) g(\phi) d\phi = \lambda a_0(\lambda) + \lambda b_0(\lambda) +  \lambda c_0(\lambda),
-\]
-where $a_0(\lambda)$ and $c_0(\lambda)$ are defined as in~\eqref{eq:ak}~and~\eqref{eq:ck}, and
-\[
-b_0(\lambda) = \zeta_0(\lambda) \int_{0}^{\psi_k-\lambda} g(\phi) d\phi.
-\]
-When $k = M$, we have $0 < \psi_{M-1} < 2\pi < \psi_{M} - \lambda$, so that
-\[
-\int_0^{2\pi} v_{M}(\lambda, \phi) g(\phi) d\phi = \lambda b_{M}(\lambda)
-\]
-where 
-\[
-b_{M}(\lambda) = \zeta_{M}(\lambda) \int_{\psi_{M-1}}^{2\pi}g(\phi) d\phi.
-\]
-Both $b_0(\lambda)$ and $b_M(\lambda)$ are functions that converge to zero as $\lambda$ converges to zero.
- 
-Finally, when $k < 0$ or $k > M$, 
-\[
-\int_0^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi = 0.
-\]
-So the infinite sum in~\eqref{eq:Winfsum} can be written as the finite sum,
-\begin{align*}
-W(\lambda) &= \sum_{k=0}^{M} \int_{0}^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi \\
-&= \sum_{k=0}^{M-1} \lambda c_k(\lambda) + \sum_{k=0}^{M-1} \lambda a_k(\lambda) + \sum_{k=0}^{M} \lambda b_k(\lambda) \\
-&= \lambda \big( C(\lambda)  + A(\lambda) + B(\lambda) \big),
-\end{align*}
-where 
-\[
-A(\lambda) = \sum_{k=0}^{M-1} a_k(\lambda), \qquad B(\lambda) = \sum_{k=0}^{M} b_k(\lambda),  
-\]
-\[
-C(\lambda) = \sum_{k=0}^{M-1} c_k(\lambda).
-\]
-Both $A(\lambda)$ and $B(\lambda)$ converge to zero as $\lambda \rightarrow 0$, whilst $C(\lambda)$ converges to $H_1$ as $\lambda$ converges to zero.  The lemma follows after putting $\gamma(\lambda) = A(\lambda) + B(\lambda) + C(\lambda) - H_1$.
-\end{IEEEproof}
-
-\begin{lemma}\label{lem:empiricprocc} Let $Q_L(\lambda) = \expect R_L(\lambda) - \expect R_L(0)$ where the function $R_L$ is defined in~\eqref{eq:RLdef}.  Then,
-\[
-\sqrt{L}\big( R_L(\hat{\lambda}_L) - Q_L(\hat{\lambda}_L) \big) = o_P(1) + \sqrt{L} R_L(0).
-\]
-\end{lemma}
-\begin{IEEEproof}
-Write
-\[
-\sqrt{L}\big( R_L(\hat{\lambda}_L) - Q_L(\hat{\lambda}_L) \big) = W_L(\hat{\lambda}_L) + \sqrt{L} R_L(0)
-\]
-where
-\begin{equation}\label{eq:WLdef}
-W_L(\lambda) = \sqrt{L}\big( R_L(\lambda) - Q_L(\lambda) - R_L(0) \big)
-\end{equation}
-is what is called an \emph{empirical process} indexed by $\lambda$~\cite{Pollard_asymp_empi_proc_1989,Pollard_new_ways_clts_1986,van2009empirical,Pollard_conv_stat_proc_1984}.  Techniques from this literature can be used to show that
-%Lemma~\ref{lem:ZYLempiricproc} 
-%in Section~\ref{sec:an-empirical-process} 
-%shows that 
-for any $\delta > 0$ and $\nu > 0$, there exists $\epsilon > 0$ such that
-\[
-\Pr\left\{ \sup_{\sabs{\lambda}<\epsilon}\sabs{W_L(\lambda)} > \delta  \right\} < \nu
-\]
-for all positive integers $L$.  This type of result is typically called \emph{tightness} or \emph{asymptotic continuity}~\cite{Pollard_asymp_empi_proc_1989,van2009empirical,Billingsley1999_convergence_of_probability_measures}.  We omit the proof which follows in a straightforward, but lengthy manner using an argument called \emph{symmetrisation} followed by an argument called \emph{chaining}~\cite{Pollard_asymp_empi_proc_1989,van2009empirical}.
-
-Since $\hat{\lambda}_L$ converges almost surely to zero, it follows that for any $\epsilon > 0$,
-\[
-\lim_{L\rightarrow\infty}\prob\left\{ \sabs{\hat{\lambda}_L} \geq \epsilon \right\} = 0
+\psi_k = \frac{2\pi}{M}k + \frac{\pi}{M}
 \] 
-and therefore $\prob\{ \sabs{\hat{\lambda}_L} \geq \epsilon \} < \nu$ for all sufficiently large $L$.  Now
+with $k \in \ints$.  When $\Phi_1 \in [\psi_{k-1}, \psi_k - \lambda)$,
 \begin{align*}
-  \prob&\left\{\sabs{ W_L(\hat{\lambda}_L) } > \delta \right\} \\
-&= \prob\left\{ \sabs{W_L(\hat{\lambda}_L)} > \delta \;\text{and} \; \sabs{\hat{\lambda}_L} < \epsilon \right\} \\
-&\hspace{0.7cm} + \prob\left\{ \sabs{W_L(\hat{\lambda}_L)} > \delta  \;\text{and} \; \sabs{\hat{\lambda}_L} \geq \epsilon \right\} \\
-&\leq \prob\left\{  \sup_{\sabs{\lambda} < \epsilon} \sabs{ W_L(\lambda) } > \delta \right\} + \prob\left\{ \sabs{\hat{\lambda}_L} \geq \epsilon \right\} \\
-&\leq 2\nu.
+e^{j\fracpart{\lambda + \Phi_1}} - e^{j\fracpart{\Phi_1}} &=  e^{j\big(\lambda + \Phi_1 - \tfrac{2\pi}{M}k\big)} - e^{j\big( \Phi_1- \tfrac{2\pi}{M}k\big)} \\
+&= \big(e^{j\lambda} - 1 \big) e^{j\big(\Phi_1- \tfrac{2\pi}{M}k\big)} \\
+&= \big(e^{j\lambda} - 1 \big) e^{j\fracpart{\Phi_1}},
 \end{align*}
-for all sufficiently large $L$.  Since $\nu$ and $\delta$ can be chosen arbitrarily small, it follows that $W_L(\hat{\lambda}_L)$ converges in probability to zero as $N\rightarrow\infty$.
-\end{IEEEproof}
-
-
-
-
-\begin{lemma}\label{lem:convdistGLdash}
-The distribution of $\sqrt{L}R_L(0)$ converges to the normal with zero mean and variance $pA_1 + dA_2$ as $L\rightarrow\infty$.
-\end{lemma}
-\begin{IEEEproof}
-Observe that $\sqrt{L} R_L(0) = C_L + D_L$ where
+and when $\Phi_1 \in [\psi_{k} - \lambda, \psi_k)$,
+\begin{align*}
+e^{j\fracpart{\lambda + \Phi_1}} - &e^{j\fracpart{\Phi_1}} \\
+&=  e^{j\big(\lambda + \Phi_1 - \tfrac{2\pi}{M}k - \tfrac{2\pi}{M}\big)} - e^{j\big( \Phi_1- \tfrac{2\pi}{M}k\big)} \\
+&= \big(e^{j\big(\lambda - \tfrac{2\pi}{M}\big)} - 1 \big) e^{j\fracpart{\Phi_1}} \\
+&= \big(e^{j\lambda} - 1 \big) e^{j\fracpart{\Phi_1}}  + e^{j\lambda}\big( e^{-j\tfrac{2\pi}{M}} - 1 \big)e^{j\fracpart{\Phi_1}}.
+\end{align*}
+Thus, when $\Phi_1 \in [\psi_{k-1}, \psi_k)$,
+\begin{align*}
+e^{j\fracpart{\lambda + \Phi_1}} - e^{j\fracpart{\Phi_1}} &= \big(e^{j\lambda} - 1 \big) e^{j\fracpart{\Phi_1}} \\
+&\hspace{0.5cm} + e^{j\lambda}\big( e^{-j\tfrac{2\pi}{M}} - 1 \big)e^{j\fracpart{\Phi_1}} \chi_k(\Phi_1,\lambda)
+\end{align*}
+where 
 \[
-C_L = \frac{1}{\sqrt{L}} \sum_{i \in P} R_i \sin(\Phi_i), \qquad D_L = \frac{1}{\sqrt{L}} \sum_{i \in D} R_i \sin\sfracpart{\Phi_i}.
+\chi_k(\Phi_1,\lambda) = \begin{cases}
+1, & \Phi_1 \in [\psi_{k} - \lambda, \psi_k)  \\
+0, & \text{otherwise}.
+\end{cases}
 \]
-From the standard central limit theorem the distribution of $C_L$ converges to the normal with mean $\sqrt{p}\expect R_1 \sin(\Phi_1) = 0$ as a result of~\eqref{eq:expectImpartRphi}, and variance
-\[
-p A_1 = p \expect R_1^2 \sin^2(\Phi_1).
-\]
-Similarly, the distribution of $D_L$ converges to the normal with mean $\sqrt{d}\expect R_1 \sin\fracpart{\Phi_1} = 0$ as a result of Lemma~\ref{lem:expectImRfracpart}, and variance
-\[
-d A_2 = d \expect R_1^2 \sin^2\fracpart{\Phi_1}.
-\]
-The lemma holds because $C_L$ and $D_L$ are independent. 
-\end{IEEEproof}
+Now
+\begin{align*}
+q_2(\lambda) + j k_2(\lambda) &= \big(e^{j\lambda} - 1 \big) h_2(0) \\
+&\hspace{0.5cm} + e^{j\lambda}\big( e^{-j\tfrac{2\pi}{M}} - 1 \big) \expect\big(R_1 e^{j\fracpart{\Phi_1}} \chi(\Phi_1,\lambda)\big)
+\end{align*}
+since $\expect R_1 e^{j\fracpart{\Phi_1}} = h_2(0)$ as a result of Lemma~\ref{lem:expectImRfracpart} and where $\chi(\Phi_1, \lambda) = \sum_{k \in \ints}\chi_k(\Phi_1, \lambda)$.
+Now
+\begin{align*}
+ \expect\big(R_1 e^{j\fracpart{\Phi_1}} \chi(\Phi_1,\lambda)\big) &= \int_{0}^{2\pi}\int_{0}^{\infty} r f(r,\phi) \chi(\phi,\lambda) dr d\phi \\
+&= \sum_{k\in\ints}\int_{0}^{2\pi} g(\phi) \chi_k(\phi,\lambda) d\phi \\
+&= \sum_{k=0}^{M-1}\int_{\psi_k-\lambda}^{\psi_k} g(\phi)  d\phi \\
+&= \lambda \sum_{k=1}^{M-1} g(\phi_k) 
+\end{align*}
+where for each $k$, $\phi_k \in (\psi_k-\lambda, \psi_k)$.  The third line above follows from
+\end{proof}
 
 \begin{lemma}\label{lem:expectImRfracpart}
 $\expect R_1 \sin\fracpart{\Phi_1} = 0$.
@@ -1333,9 +1200,231 @@ The proof is immediate since $g(\phi)$ is even and $\sin\fracpart{\phi}$ is odd.
 % \]
 \end{IEEEproof}
 
+% \begin{lemma}\label{lem:k2conv}
+% $k_2(\hat{\lambda}_L) = \hat{\lambda}_L ( H + o_P(1) ).$
+% \end{lemma}
+% \begin{IEEEproof}
+% Because $\hat{\lambda}_L \rightarrow 0$ almost surely as $L\rightarrow\infty$, it is only the behaviour of $k_2(\lambda)$ around $\lambda = 0$ that is relevant.  We will examine $k_2(\lambda)$ for $0 \leq \lambda < \tfrac{\pi}{M}$.  An analogous argument follows when $-\tfrac{\pi}{M} < \lambda < 0$.  To keep our notation clean put
+% \[
+% \psi_k = \tfrac{2\pi}{M}k + \tfrac{\pi}{M}.
+% \]
+% For each integer $k$, if $\Phi_1 \in [\psi_{k-1}, \psi_k)$, then
+% \[
+% \fracpart{\Phi_1} = \Phi_1 - \round{\Phi_1} = \Phi_1 - \tfrac{2\pi}{M}k.
+% \]
+% Similarly, if $\Phi_1 \in  [\psi_{k-1}, \psi_{k} - \lambda)$, then
+% \[
+% \fracpart{\Phi_1 + \lambda} = \Phi_1 + \lambda - \tfrac{2\pi}{M}k,
+% \]
+% whilst, if $\Phi_1 \in [\psi_{k} - \lambda, \psi_{k})$, then
+% \[
+% \fracpart{\Phi_1 + \lambda} = \Phi_1 + \lambda - \tfrac{2\pi}{M}k - \tfrac{2\pi}{M}.
+% \]
+% So, when $\Phi_1 \in [\psi_{k-1}, \psi_{k} - \lambda )$,
+% \begin{align*}
+% \sin\fracpart{\lambda + \Phi_1} - &\sin\fracpart{\Phi_1} \\
+% &= \sin(\lambda + \Phi_1 - \tfrac{2\pi}{M}k) - \sin(\Phi_1 - \tfrac{2\pi}{M}k),
+% \end{align*}
+% and by a Taylor expansion of $\sin(\lambda + \Phi_1 - \tfrac{2\pi}{M}k)$ about $\lambda = 0$, 
+% \begin{align*}
+% \sin\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} &= \lambda\big(\cos(\Phi_1 - \tfrac{2\pi}{M}k) + \zeta_k(\lambda)\big) \\
+% &= \lambda\big(\cos\fracpart{\Phi_1} + \zeta_k(\lambda)\big).
+% \end{align*}
+% where, for each $k$, the function $\zeta_k$ is continuous with $\zeta_k(0) = 0$.  Alternatively, when $\Phi_1 \in [ \psi_{k} - \lambda,\psi_{k})$,
+% \begin{align*}
+% \sin\fracpart{\lambda + \Phi_1} &- \sin\fracpart{\Phi_1} \\
+% &= \sin(\lambda + \Phi_1 - \tfrac{2\pi}{M}k - \tfrac{2\pi}{M}) - \sin(\Phi_1 - \tfrac{2\pi}{M}k)
+% \end{align*}
+% and by a Taylor expansion of $\sin(\lambda + \Phi_1 - \tfrac{2\pi}{M}k - \tfrac{2\pi}{M})$ about $\lambda = 0$,
+% \begin{align*}
+% \sin&\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} \\
+% &= r_k(\Phi_1) + \lambda\big(\cos\fracpart{\Phi_1} + \eta_k(\lambda, \Phi_1)  )\big)
+% \end{align*}
+% where
+% \[
+% r_k(\Phi_1) = \sin(\Phi_1 - \tfrac{2\pi}{M}k - \tfrac{2\pi}{M}) - \sin(\Phi_1 - \tfrac{2\pi}{M}k),
+% \]
+% and
+% \[
+% \eta_k(\lambda, \Phi_1) = \cos(\Phi_1 - \tfrac{2\pi}{M}k - \tfrac{2\pi}{M}) - \cos\fracpart{\Phi_1} + \zeta_{k+1}(\lambda).
+% \]
+% Observe that $r_k$ is continuous and that 
+% \[
+% r_k(\psi_{k}) = -2\sin(\tfrac{\pi}{M}) \;\;\; \text{and} \;\;\; \eta_k(\lambda,\psi_k) = \zeta_{k+1}(\lambda).
+% \]
+
+% Let us now collate what we have.  For each integer $k$, if $\Phi_1 \in [\psi_{k-1}, \psi_{k} - \lambda )$, then
+% \[
+% \sin\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} = \lambda\cos\fracpart{\Phi_1} + \lambda\zeta_k(\lambda),
+% \]
+% whilst, if $\Phi_1 \in [ \psi_{k} - \lambda,\psi_{k})$, then
+% \[
+% \sin\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} = \lambda \cos\fracpart{\Phi_1} + r_k(\Phi_1) + \lambda\eta_k(\lambda, \Phi_1).
+% \]
+% Since the intervals $[\psi_{k-1}, \psi_{k})$ partition the real line, that is $\reals = \cup_{k\in\ints}[\psi_{k-1}, \psi_{k})$, it follows that for all $\Phi_1 \in \reals$,
+% \[
+% \sin\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} = \lambda\cos\fracpart{\Phi_1} +  v(\lambda, \Phi_1),
+% \]
+% where $v(\lambda, \Phi_1) = \sum_{k\in\ints} v_k(\lambda, \Phi_1)$ and
+% \begin{equation}\label{eq:vk}
+% v_k(\lambda,\Phi_1) = \begin{cases}
+% r_k(\Phi_1) + \lambda\eta_k(\lambda, \Phi_1) &  \Phi_1 \in [ \psi_{k} - \lambda,\psi_{k} ) \\
+% \lambda\zeta_k(\lambda) & \Phi_1 \in [\psi_{k-1}, \psi_{k} - \lambda ) \\
+% 0 & \text{otherwise}.
+% \end{cases} 
+% \end{equation}
+% Now,
+% \begin{align*}
+% k_2(\lambda) &=  \expect R_1\big( \sin\fracpart{\lambda + \Phi_1} - \sin\fracpart{\Phi_1} \big) \\
+% &= \expect R_1\big( \lambda\cos\fracpart{\Phi_1} + v(\lambda, \Phi_1)  \big) \\
+% &= \lambda h_2(0) + \expect R_1 v(\lambda, \Phi_1).
+% \end{align*}
+% Let $W(\lambda) = \expect R_1 v(\lambda, \Phi_1)$ so that $k_2(\lambda) = \lambda h_2(0) + W(\lambda).$  Lemma~\ref{lem:expRvlamphi} shows that $W(\lambda) =  \lambda(H_1 + \gamma(\lambda))$ where $\gamma(\lambda)$ is a continuous function with $\gamma(0) = 0$, and
+% \[
+% H_1 = - 2 \sin(\tfrac{\pi}{M}) \sum_{k = 0}^{M-1} g(\psi_k) = H - h_2(0),
+% \]
+% where $H$ is defined in the statement of Theorem~\ref{thm:normality}.  Because $\hat{\lambda}_L$ converges almost surely to zero as $L \rightarrow\infty$, it follows that $\gamma(\hat{\lambda}_L) = o_P(1)$, and so
+% \[
+% k_2(\hat{\lambda}_L) = \hat{\lambda}_L ( h_2(0) + H_1 + o_P(1) ) = \hat{\lambda}_L ( H + o_P(1) )
+% \]
+% as required.  It remains to prove Lemma~\ref{lem:expRvlamphi}.
+% \end{IEEEproof}
+
+% \begin{lemma}\label{lem:expRvlamphi}
+% $W(\lambda) =  \lambda(H_1 + \gamma(\lambda))$ where $\gamma$ is a continuous function with $\gamma(0) = 0$.
+% \end{lemma}
+% \begin{IEEEproof}
+% In this lemma, as in Lemma~\ref{lem:k2conv}, we work under the assumption that $0 \leq \lambda < \frac{\pi}{M}$.  An analogous argument follows when $-\tfrac{\pi}{M} \leq \lambda < 0$.  Recalling that $f(r,\phi)$ is the joint pdf of $R_1$ and $\Phi_1$, 
+% \begin{align}
+% W(\lambda) &= \expect R_1 v(\lambda, \Phi_1) \nonumber  \\
+% &= \int_0^{2\pi}\int_{0}^\infty r v(\lambda, \phi) f(r,\phi) dr d\phi \nonumber  \\ 
+% &= \int_0^{2\pi} v(\lambda, \phi) g(\phi) d\phi \nonumber \\
+% &= \sum_{k \in \ints} \int_0^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi, \label{eq:Winfsum}
+% \end{align}
+% where $g$ is defined in the statement of Theorem~\ref{thm:normality}.
+% Now, for $k = 1, \dots, M-1$ we have $0 < \psi_{k-1} < \psi_k < 2\pi$, and so, using~\eqref{eq:vk},
+% \begin{align*}
+% \int_0^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi &= \int_{\psi_{k-1}}^{\psi_{k}} v_k(\lambda, \phi) g(\phi) d\phi \\
+% &= \lambda a_k(\lambda) + \lambda b_k(\lambda) + \lambda c_k(\lambda),
+% \end{align*}
+% where, for $k = 1, \dots, M-1$,
+% \begin{equation}\label{eq:ak}
+% a_k(\lambda) = \int_{\psi_k-\lambda}^{\psi_k}\eta_k(\lambda, \phi) g(\phi) d\phi,
+% \end{equation}
+% \[
+% b_k(\lambda) = \zeta_k(\lambda) \int_{\psi_{k-1}}^{\psi_k -\lambda}g(\phi) d\phi,
+% \]
+% \begin{equation}\label{eq:ck}
+% c_k(\lambda) = \frac{1}{\lambda} \int_{\psi_{k} - \lambda}^{\psi_{k}} r_k(\phi) g(\phi) d\phi.
+% \end{equation}
+% Both $a_k(\lambda)$ and $b_k(\lambda)$ converge to zero as $\lambda$ goes to zero, and, since $g$ is continuous at $\psi_k = \tfrac{2\pi}{M}k + \tfrac{\pi}{M}$ for each $k = 0, 1, \dots, M-1$ (by assumption in Theorem~\ref{thm:normality}), it follows that $c_k(\lambda)$ converges to 
+% \[
+% r_k(\psi_k)g(\psi_k) = -2\sin(\tfrac{\pi}{M}) g(\tfrac{2\pi}{M}k + \tfrac{\pi}{M})
+% \]
+% as $\lambda$ goes to zero from above.  We are only interested in the limit from above because we are working under the assumption that $0 \leq \lambda < \frac{\pi}{M}$.  The analogous argument when $-\tfrac{\pi}{M} \leq \lambda < 0$ would involve limits as $\lambda$ approaches zero from below.
+
+% Now, when $k = 0$, we have $\psi_{-1} < 0 < \psi_0 - \lambda < \psi_0 < 2\pi$, so that
+% \[
+% \int_0^{2\pi} v_0(\lambda, \phi) g(\phi) d\phi = \lambda a_0(\lambda) + \lambda b_0(\lambda) +  \lambda c_0(\lambda),
+% \]
+% where $a_0(\lambda)$ and $c_0(\lambda)$ are defined as in~\eqref{eq:ak}~and~\eqref{eq:ck}, and
+% \[
+% b_0(\lambda) = \zeta_0(\lambda) \int_{0}^{\psi_k-\lambda} g(\phi) d\phi.
+% \]
+% When $k = M$, we have $0 < \psi_{M-1} < 2\pi < \psi_{M} - \lambda$, so that
+% \[
+% \int_0^{2\pi} v_{M}(\lambda, \phi) g(\phi) d\phi = \lambda b_{M}(\lambda)
+% \]
+% where 
+% \[
+% b_{M}(\lambda) = \zeta_{M}(\lambda) \int_{\psi_{M-1}}^{2\pi}g(\phi) d\phi.
+% \]
+% Both $b_0(\lambda)$ and $b_M(\lambda)$ are functions that converge to zero as $\lambda$ converges to zero.
+ 
+% Finally, when $k < 0$ or $k > M$, 
+% \[
+% \int_0^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi = 0.
+% \]
+% So the infinite sum in~\eqref{eq:Winfsum} can be written as the finite sum,
+% \begin{align*}
+% W(\lambda) &= \sum_{k=0}^{M} \int_{0}^{2\pi} v_k(\lambda, \phi) g(\phi) d\phi \\
+% &= \sum_{k=0}^{M-1} \lambda c_k(\lambda) + \sum_{k=0}^{M-1} \lambda a_k(\lambda) + \sum_{k=0}^{M} \lambda b_k(\lambda) \\
+% &= \lambda \big( C(\lambda)  + A(\lambda) + B(\lambda) \big),
+% \end{align*}
+% where 
+% \[
+% A(\lambda) = \sum_{k=0}^{M-1} a_k(\lambda), \qquad B(\lambda) = \sum_{k=0}^{M} b_k(\lambda),  
+% \]
+% \[
+% C(\lambda) = \sum_{k=0}^{M-1} c_k(\lambda).
+% \]
+% Both $A(\lambda)$ and $B(\lambda)$ converge to zero as $\lambda \rightarrow 0$, whilst $C(\lambda)$ converges to $H_1$ as $\lambda$ converges to zero.  The lemma follows after putting $\gamma(\lambda) = A(\lambda) + B(\lambda) + C(\lambda) - H_1$.
+% \end{IEEEproof}
+
+\begin{lemma}\label{lem:empiricprocc} Let $Q_L(\lambda) = \expect R_L(\lambda) - \expect R_L(0)$ where the function $R_L$ is defined in~\eqref{eq:RLdef}.  Then,
+\[
+\sqrt{L}\big( R_L(\hat{\lambda}_L) - Q_L(\hat{\lambda}_L) \big) = \sqrt{L} R_L(0) + o_P(1).
+\]
+\end{lemma}
+\begin{IEEEproof}
+Write
+\[
+\sqrt{L}\big( R_L(\hat{\lambda}_L) - Q_L(\hat{\lambda}_L) \big) = W_L(\hat{\lambda}_L) + \sqrt{L} R_L(0)
+\]
+where
+\begin{equation}\label{eq:WLdef}
+W_L(\lambda) = \sqrt{L}\big( R_L(\lambda) - Q_L(\lambda) - R_L(0) \big)
+\end{equation}
+is what is called an \emph{empirical process} indexed by $\lambda$~\cite{Pollard_asymp_empi_proc_1989,Pollard_new_ways_clts_1986,van2009empirical,Pollard_conv_stat_proc_1984}.  Techniques from this literature can be used to show that
+%Lemma~\ref{lem:ZYLempiricproc} 
+%in Section~\ref{sec:an-empirical-process} 
+%shows that 
+for any $\delta > 0$ and $\nu > 0$, there exists $\epsilon > 0$ such that
+\[
+\Pr\left\{ \sup_{\sabs{\lambda}<\epsilon}\sabs{W_L(\lambda)} > \delta  \right\} < \nu
+\]
+for all positive integers $L$.  This type of result is typically called \emph{tightness} or \emph{asymptotic continuity}~\cite{Pollard_asymp_empi_proc_1989,van2009empirical,Billingsley1999_convergence_of_probability_measures}.  We omit the proof which follows in a straightforward, but lengthy manner using an argument called \emph{symmetrisation} followed by an argument called \emph{chaining}~\cite{Pollard_asymp_empi_proc_1989,van2009empirical}.
+
+Since $\hat{\lambda}_L$ converges almost surely to zero, it follows that for any $\epsilon > 0$,
+\[
+\lim_{L\rightarrow\infty}\prob\left\{ \sabs{\hat{\lambda}_L} \geq \epsilon \right\} = 0
+\] 
+and therefore, for any $\nu > 0$, $\prob\{ \sabs{\hat{\lambda}_L} \geq \epsilon \} < \nu$ for all sufficiently large $L$.  Now
+\begin{align*}
+  \prob&\left\{\sabs{ W_L(\hat{\lambda}_L) } > \delta \right\} \\
+&= \prob\left\{ \sabs{W_L(\hat{\lambda}_L)} > \delta \;\text{and} \; \sabs{\hat{\lambda}_L} < \epsilon \right\} \\
+&\hspace{0.7cm} + \prob\left\{ \sabs{W_L(\hat{\lambda}_L)} > \delta  \;\text{and} \; \sabs{\hat{\lambda}_L} \geq \epsilon \right\} \\
+&\leq \prob\left\{  \sup_{\sabs{\lambda} < \epsilon} \sabs{ W_L(\lambda) } > \delta \right\} + \prob\left\{ \sabs{\hat{\lambda}_L} \geq \epsilon \right\} \\
+&\leq 2\nu,
+\end{align*}
+for all sufficiently large $L$.  Since $\nu$ and $\delta$ can be chosen arbitrarily small, it follows that $W_L(\hat{\lambda}_L)$ converges in probability to zero as $N\rightarrow\infty$.
+\end{IEEEproof}
+
+
+
+
+\begin{lemma}\label{lem:convdistGLdash}
+The distribution of $\sqrt{L}R_L(0)$ converges to the normal with zero mean and variance $pA_1 + dA_2$ as $L\rightarrow\infty$.
+\end{lemma}
+\begin{IEEEproof}
+Observe that $\sqrt{L} R_L(0) = C_L + D_L$ where
+\[
+C_L = \frac{1}{\sqrt{L}} \sum_{i \in P} R_i \sin(\Phi_i), \qquad D_L = \frac{1}{\sqrt{L}} \sum_{i \in D} R_i \sin\sfracpart{\Phi_i}.
+\]
+From the standard central limit theorem the distribution of $C_L$ converges to the normal with mean $\sqrt{p}\expect R_1 \sin(\Phi_1) = 0$ as a result of~\eqref{eq:expectImpartRphi}, and variance
+\[
+p A_1 = p \expect R_1^2 \sin^2(\Phi_1).
+\]
+Similarly, the distribution of $D_L$ converges to the normal with mean $\sqrt{d}\expect R_1 \sin\fracpart{\Phi_1} = 0$ as a result of Lemma~\ref{lem:expectImRfracpart}, and variance
+\[
+d A_2 = d \expect R_1^2 \sin^2\fracpart{\Phi_1}.
+\]
+The lemma holds because $C_L$ and $D_L$ are independent. 
+\end{IEEEproof}
+
 \begin{lemma}\label{lem:empiricprocforrho} Let $T_L(\lambda) = \expect G_L(\lambda)$.  We have
 \[
-\sqrt{L}\big( G_L(\hat{\lambda}_L) - T_L(\hat{\lambda}_L) \big) = o_P(1) + X_L,
+\sqrt{L}\big( G_L(\hat{\lambda}_L) - T_L(\hat{\lambda}_L) \big) =  X_L + o_P(1),
 \]
 where $X_L = \sqrt{L} \big( G_L(0) - T_L(0) \big)$.
 \end{lemma}
@@ -1375,12 +1464,10 @@ and because $\tfrac{\abs{P}}{L} = p + o(L^{-1/2})$ and $\tfrac{\abs{D}}{L} = d +
 \sqrt{L}\big( T_L(\lambda) - G(0) \big) = p q_1(\lambda) + d q_2(\lambda) + o(1),
 \end{align*}
 where
-\[
-q_1(\lambda) = \expect R_1\big( \cos(\lambda + \Phi_1) - \cos(\Phi_1) \big),
-\]
-\begin{equation}
-q_2(\lambda) = \expect R_1\big( \cos\fracpart{\lambda + \Phi_1} - \cos\fracpart{\Phi_1} \big). \label{eq:q2def}
-\end{equation}
+\begin{align}
+q_1(\lambda) &= \expect R_1\big( \cos(\lambda + \Phi_1) - \cos(\Phi_1) \big) \;\;\; \text{and} \nonumber \\
+q_2(\lambda) &= \expect R_1\big( \cos\fracpart{\lambda + \Phi_1} - \cos\fracpart{\Phi_1} \big). \label{eq:q2def}
+\end{align}
 We analyse $q_1(\lambda)$ first.  By a Taylor expansion of $\cos(\lambda + \Phi_1)$ about $\lambda = 0$,
 \[
 \cos(\lambda + \Phi_1) - \cos(\Phi_1) = -\lambda \big( \sin(\Phi_1) + \zeta(\lambda) \big),
@@ -1473,22 +1560,22 @@ X_L = \sqrt{L} \big( G_L(0) - T_L(0) \big) = \sqrt{L} \big( G_L(0) - \expect G_L
 converges, as $L \rightarrow\infty$,  to the normal with zero mean and covariance $pB_1 + d B_2.$
 \end{lemma}
 \begin{IEEEproof}
-Observe that $X_L = C_L + D_L$ where
+Observe that $X_L = C_L^\prime + D_L^\prime$ where
 \[
-C_L = \frac{1}{\sqrt{L}} \sum_{i \in P} \big( R_i \cos(\Phi_i) - h_1(0) \big),
+C_L^\prime = \frac{1}{\sqrt{L}} \sum_{i \in P} \big( R_i \cos(\Phi_i) - h_1(0) \big),
 \]
 \[
-D_L = \frac{1}{\sqrt{L}} \sum_{i \in D} (R_i \cos\fracpart{\Phi_i} - h_2(0) ),
+D_L^\prime = \frac{1}{\sqrt{L}} \sum_{i \in D} (R_i \cos\fracpart{\Phi_i} - h_2(0) ),
 \]
-where $h_1$ and $h_2$ are defined in the statement of Theorem~\ref{thm:consistency}.  From the standard central limit theorem the distribution of $C_L$ converges to the normal with zero mean and variance
+where $h_1$ and $h_2$ are defined in the statement of Theorem~\ref{thm:consistency}.  From the standard central limit theorem the distribution of $C_L^\prime$ converges to the normal with zero mean and variance
 \[
 p B_1 = p \expect R_1^2 \cos^2(\Phi_1) - p h_1^2(0) =  p \expect R_1^2 \cos^2(\Phi_1) - p 
 \]
-since $h_1(0) = 1$.  Similarly the distribution of $D_L$ converges to the normal with zero mean and variance
+since $h_1(0) = 1$.  Similarly the distribution of $D_L^\prime$ converges to the normal with zero mean and variance
 \[
 d B_2 = d \expect R_1^2 \cos^2\fracpart{\Phi_1} - d h_2^2(0).
 \]
-The lemma follows since $C_L$ and $D_L$ are independent.
+The lemma follows since $C_L^\prime$ and $D_L^\prime$ are independent.
 \end{IEEEproof}
 
 %\section{Tricks with fractional parts}

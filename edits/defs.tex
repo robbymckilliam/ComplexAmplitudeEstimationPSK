@@ -19,29 +19,19 @@
 
 %some math functions and symbols
 \newcommand{\reals}{{\mathbb R}}
-\newcommand{\expect}{{\mathbb E}}
-\newcommand{\indicator}{{\mathbf 1}}
 \newcommand{\ints}{{\mathbb Z}}
 \newcommand{\complex}{{\mathbb C}}
 \newcommand{\integers}{{\mathbb Z}}
 \newcommand{\sign}[1]{\mathtt{sign}\left( #1 \right)}
 \newcommand{\NP}{\operatorname{NPt}}
-\newcommand{\erf}{\operatorname{erf}}
 \newcommand{\NS}{\operatorname{NearestSet}}
 \newcommand{\bres}{\operatorname{Bres}}
 \newcommand{\vol}{\operatorname{vol}}
 \newcommand{\vor}{\operatorname{Vor}}
-%\newcommand{\re}{\operatorname{Re}}
-%\newcommand{\im}{\operatorname{Im}}
-
-
-
 
 \newcommand{\term}{\emph}
 \newcommand{\var}{\operatorname{var}}
-\newcommand{\covar}{\operatorname{cov}}
-%\newcommand{\prob}{{\mathbb P}}
-\newcommand{\prob}{{\operatorname{Pr}}}
+\newcommand{\prob}{\operatorname{P}}
 
 %distribution fucntions
 \newcommand{\projnorm}{\operatorname{ProjectedNormal}}
@@ -72,15 +62,12 @@
 \newcommand{\cubr}[1]{{\left\{ #1 \right\}}}
 \newcommand{\abr}[1]{\left< #1 \right>}
 \newcommand{\abs}[1]{{\left\vert #1 \right\vert}}
-\newcommand{\sabs}[1]{{\vert #1 \vert}}
 \newcommand{\floor}[1]{{\left\lfloor #1 \right\rfloor}}
 \newcommand{\ceiling}[1]{{\left\lceil #1 \right\rceil}}
-\newcommand{\ceil}[1]{\left\lceil #1 \right\rceil}
+\newcommand{\ceil}[1]{\lceil #1 \rceil}
 \newcommand{\round}[1]{{\left\lfloor #1 \right\rceil}}
 \newcommand{\magn}[1]{\left\| #1 \right\|}
-\newcommand{\fracpart}[1]{\left\langle #1 \right\rangle}
-\newcommand{\sfracpart}[1]{\langle #1 \rangle}
-
+\newcommand{\fracpart}[1]{\left< #1 \right>}
 
 % Referencing
 \newcommand{\refeqn}[1]{\eqref{#1}}
@@ -119,7 +106,7 @@
 \newcommand {\im} {\mathrm{Im}}
 \newcommand {\re} {\mathrm{Re}}
 \newcommand {\braket}[4] {\mbox{}_{#3}\langle #1 | #2 \rangle_{#4}} 
-\newcommand{\dotprod}[2]{ \left\langle #1 , #2 \right\rangle}
+\newcommand{\dotprod}[2]{ #1^\prime #2}
 \newcommand {\trace}[1] {\text{tr}\left(#1\right)}
 
 % spell things correctly
@@ -127,7 +114,7 @@
 \newenvironment{itemise}{\begin{itemize}}{\end{itemize}}
 
 %%%%% set up the bibliography style
-\bibliographystyle{IEEEbib}
+\bibliographystyle{../IEEEbib}
 %\bibliographystyle{uqthesis}  % uqthesis bibliography style file, made
 			      % with makebst
 
@@ -152,7 +139,7 @@
 \ifpdf
   \usepackage[pdftex]{graphicx}
   %\usepackage{thumbpdf}
-  %\usepackage[naturalnames]{hyperref}
+  \usepackage[naturalnames]{hyperref}
 \else
 	\usepackage{graphicx}% standard graphics package for inclusion of
 		      % images and eps files into LaTeX document
@@ -193,7 +180,6 @@
 \newtheorem{notation}{Notation}
 \newtheorem{problem}{Problem}
 \newtheorem{proposition}{Proposition}
-\newtheorem{property}{Property}
 \newtheorem{remark}{Remark}
 \newtheorem{solution}{Solution}
 \newtheorem{summary}{Summary}
