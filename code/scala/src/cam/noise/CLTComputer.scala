@@ -114,10 +114,10 @@ class GaussianCLT(override val M : Int, override val p : Double, val sigma : Dou
     //val s2 = exp(sqr(a*k)/2)*sqrt(2*pi)*(1+sqr(a*k))*(1 + erf(a*k/sqrt(2)))
     //return mult*(s1+s2)/2/pi
     
-    val a = cos(phi)  //equivalent formula from Barry
+    val a = cos(phi)  //equivalent formula from Barry Quinn
     val b = sin(phi)
-    val PHI = (1 + erf(a*k/sqrt(2)))/2
-    return a*exp(-k*k/2)/2/pi + 1/k/sqrt(2*pi) * exp(-k*k/2*b*b) * PHI * (1 + k*k*a*a)
+    val PSI = (1 + erf(a*k/sqrt(2)))/2 //standard norm pdf evaluated at k*cos(phi)
+    return a*exp(-k*k/2)/2/pi + 1/k/sqrt(2*pi) * exp(-k*k/2*b*b) * PSI * (1 + k*k*a*a)
   }
   
   //Compute g2 using known formula
