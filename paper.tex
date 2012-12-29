@@ -1099,11 +1099,11 @@ We have
 \[
 q_1(\lambda) + j k_1(\lambda) = (e^{j\lambda} - 1) \expect R_1e^{j\Phi_1} = e^{j\lambda} - 1
 \]
-since the mean of $R_1e^{j\Phi_1}$ is 1.  By a Taylor expansion about $\lambda = 0$ we obtain
+since the mean of $R_1e^{j\Phi_1}$ is 1.  By a first order expansion about $\lambda = 0$ we obtain
 \[
-q_1(\lambda) + j k_1(\lambda) = \lambda\big( j + \zeta(\lambda) \big)
+q_1(\lambda) + j k_1(\lambda) = \lambda\big( j + O(\lambda) \big)
 \]
-where $\zeta(\lambda)$ is a continuous function with $\zeta(0) = 0$.  Since $\hat{\lambda}_L$ converges almost surely to zero as $L\rightarrow\infty$ it follows that $\zeta(\hat{\lambda}_L) = o_P(1)$.  Thus
+Since $\hat{\lambda}_L$ converges almost surely to zero as $L\rightarrow\infty$ it follows that $O(\hat{\lambda}_L) = o_P(1)$.  Thus
 \[
 q_1(\hat{\lambda}_L) + j k_1(\hat{\lambda}_L) = \hat{\lambda}_L\big( j + o_P(1) \big)
 \]
@@ -1148,32 +1148,21 @@ where
 \end{cases}
 \]
 Now
-\begin{align*}
-q_2(\lambda) + j k_2(\lambda) &= \expect\big[ R_1 e^{j\fracpart{\lambda + \Phi_1}} - R_1 e^{j\fracpart{\Phi_1}}  \big] \\
-&= \big(e^{j\lambda} - 1 \big) h_2(0) \\
-&\hspace{0.5cm} + e^{j\lambda}\big( e^{-j\tfrac{2\pi}{M}} - 1 \big) \expect R_1 e^{j\fracpart{\Phi_1}} \chi(\Phi_1,\lambda) 
-\end{align*}
-since $\expect R_1 e^{j\fracpart{\Phi_1}} = h_2(0) + \expect R_1 \sin\fracpart{\Phi_1} = h_2(0)$ as a result of Lemma~\ref{lem:expectImRfracpart} and where $\chi(\Phi_1, \lambda) = \sum_{k \in \ints}\chi_k(\Phi_1, \lambda)$.
-Now
-\begin{align*}
- \expect R_1 e^{j\fracpart{\Phi_1}} \chi(\Phi_1,\lambda)  &= \int_{0}^{2\pi}\int_{0}^{\infty} r f(r,\phi) \chi(\phi,\lambda) dr d\phi \\
-&= \sum_{k\in\ints}\int_{0}^{2\pi} g(\phi) \chi_k(\phi,\lambda) d\phi \\
-&= \sum_{k=0}^{M-1}\int_{\psi_k-\lambda}^{\psi_k} g(\phi)  d\phi \\
-&= \lambda \sum_{k=0}^{M-1} g\big( \phi_k(\lambda) \big) 
-\end{align*}
-where $\phi_k(\lambda) \in (\psi_k - \lambda, \psi_k)$ for each $k$.  The third line in the previous equation follows because the $\chi_k(\phi,\lambda)$ terms inside the integral are zero for all $\phi \in [0,2\pi]$ when $k \notin \{0,\dots,M-1\}$.  We now have
-\begin{equation}\label{eq:q2k2form}
-q_2(\lambda) + j k_2(\lambda) = \big(e^{j\lambda} - 1 \big) h_2(0) + B(\lambda) \sum_{k=0}^{M-1} g\big(\phi_k(\lambda)\big) 
+\begin{align}
+q_2(\lambda) + j k_2(\lambda) &= \expect\big[ R_1 e^{j\fracpart{\lambda + \Phi_1}} - R_1 e^{j\fracpart{\Phi_1}}  \big] \nonumber \\
+&= \big(e^{j\lambda} - 1 \big) h_2(0)  + e^{j\lambda} B(\lambda) \label{eq:q2k2withB}
+\end{align}
+since $\expect R_1 e^{j\fracpart{\Phi_1}} = h_2(0) + \expect R_1 \sin\fracpart{\Phi_1} = h_2(0)$ as a result of Lemma~\ref{lem:expectImRfracpart} and where
+\begin{equation}\label{eq:Blambdadefn}
+B(\lambda) = \big( e^{-j\tfrac{2\pi}{M}} - 1 \big)\expect R_1 e^{j\fracpart{\Phi_1}} \chi(\Phi_1,\lambda)
 \end{equation}
-where $B(\lambda) = \lambda e^{j\lambda}\big( e^{-j\tfrac{2\pi}{M}} - 1 \big)$.  Since $\phi_k(\lambda) \rightarrow \psi_k$ as $\lambda \rightarrow 0$ and $g(\psi_k)$ is continuous at $\psi_k$ (by assumption in Theorem~\ref{thm:normality}) we have
+and $\chi(\Phi_1, \lambda) = \sum_{k \in \ints}\chi_k(\Phi_1, \lambda)$. 
+
+Now $e^{j\hat{\lambda}_L} = 1 + o_P(1)$ and $e^{j\hat{\lambda}_L} - 1 = \hat{\lambda}_L \big( j  + o_P(1) \big)$ by the argument in Lemma~\ref{lem:q1k1parts} and
 \[
- \sum_{k=0}^{M-1} g\big(\phi_k(\hat{\lambda}_L)\big) =  \sum_{k=0}^{M-1} g(\psi_k) + o_P(1).
+B(\hat{\lambda}_L) = -\hat{\lambda}_L\left(2j\sin(\tfrac{\pi}{M}) \sum_{k=0}^{M-1} g(\psi_k) + o_P(1)\right) 
 \]
-Also $e^{j\hat{\lambda}_L} - 1 = \hat{\lambda}_L \big( j  + o_P(1) \big)$ by the argument in Lemma~\ref{lem:q1k1parts}.  Finally
-\[
-B(\hat{\lambda}_L) = \hat{\lambda}_L \big( o_P(1) - 2 j \sin(\tfrac{\pi}{M})\big)
-\]
-by Lemma~\ref{lem:Blambdaconv}.  Combining these results into~\eqref{eq:q2k2form} and taking real and imaginary parts we obtain $q_2(\hat{\lambda}_L) = \hat{\lambda}_L o_P(1)$ and 
+by Lemma~\ref{lem:Blambdaconv}.  Combining these results into~\eqref{eq:q2k2withB} we obtain
 \begin{align*}
 q_2(\lambda) + &jk_2(\hat{\lambda}_L) \\
 &= \hat{\lambda}_L \left( jh_2(0) - 2j\sin(\tfrac{\pi}{M}) \sum_{k=0}^{M-1} g(\psi_k) + o_P(1) \right) \\
@@ -1183,20 +1172,34 @@ and the lemma follows by taking real and imaginary parts.
 \end{proof}
 
 \begin{lemma}\label{lem:Blambdaconv}
-$B(\hat{\lambda}_L) = \hat{\lambda}_L \big( o_P(1) - 2 j \sin(\tfrac{\pi}{M})\big)$.
+With $B(\lambda)$ defined in~\eqref{eq:Blambdadefn} we have 
+\[
+B(\hat{\lambda}_L) = -\hat{\lambda}_L\left(2j\sin(\tfrac{\pi}{M}) \sum_{k=0}^{M-1} g(\psi_k) + o_P(1)\right) 
+\]
 \end{lemma}
 \begin{proof}
-A Taylor expansion about $\lambda = 0$ gives
+Put $A(\lambda) = \expect R_1 e^{j\fracpart{\Phi_1}} \chi(\Phi_1,\lambda)$.  Recalling that $f(r,\phi)$ is the joint pdf of $R_1$ and $\Phi_1$ we have
+\begin{align*}
+ A(\lambda)  &= \int_{0}^{2\pi}\int_{0}^{\infty} r f(r,\phi) e^{j\fracpart{\phi}}\chi(\phi,\lambda) dr d\phi \\
+&= \sum_{k\in\ints}\int_{0}^{2\pi} g(\phi) e^{j\fracpart{\phi}} \chi_k(\phi,\lambda) d\phi \\
+&= \sum_{k=0}^{M-1}\int_{\psi_k-\lambda}^{\psi_k} g(\phi)  e^{j\fracpart{\phi}} d\phi,
+\end{align*}
+the last line because the $\chi_k(\phi,\lambda)$ terms inside the integral are zero for all $\phi \in [0,2\pi]$ when $k \notin \{0,\dots,M-1\}$.  Observe that $\fracpart{\phi} \rightarrow \tfrac{\pi}{M}$ as $\phi$ approaches $\psi_k$ from below.  Because $g(\psi_k)$ is continuous at $\psi_k$ for each $k = 0, \dots, M-1$ (by assumption in Theorem~\ref{thm:normality}) we have 
 \[
-B(\lambda) = \big(  \big)\big( e^{-j\tfrac{2\pi}{M}} - 1 \big)
+\frac{1}{\lambda} A(\lambda) \rightarrow \sum_{k=0}^{M-1} g(\psi_k) e^{j\tfrac{\pi}{M}}
 \]
+as $\lambda$ approaches zero from above.  We are only interested in the limit from above because we are working under the assumption that $0 \leq \lambda < \frac{\pi}{M}$ (see the proof of Lemma~\ref{lem:q2k2parts}).  The analogous argument when $-\tfrac{\pi}{M} \leq \lambda < 0$ would involve limits as $\lambda$ approaches zero from below.  Thus
+\[
+A(\hat{\lambda}_L) = \hat{\lambda}_L \left(  e^{j\tfrac{\pi}{M}} \sum_{k=0}^{M-1} g(\psi_k) + o_P(1) \right)
+\]
+and the lemma follows since $\big( e^{-j\tfrac{2\pi}{M}} - 1 \big) e^{j\frac{\pi}{M}} = -2j\sin(\tfrac{\pi}{M})$ and $B(\lambda) = \big( e^{-j\tfrac{2\pi}{M}} - 1 \big)A(\lambda)$.
 \end{proof}
 
 \begin{lemma}\label{lem:expectImRfracpart}
 $\expect R_1 \sin\fracpart{\Phi_1} = 0$.
 \end{lemma}
 \begin{IEEEproof}
-Recalling that $f(r,\phi)$ is the joint pdf of $R_1$ and $\Phi_1$, we have
+Recalling that $f(r,\phi)$ is the joint pdf of $R_1$ and $\Phi_1$ we have
 \begin{align*}
 \expect R_1 \sin\fracpart{\Phi_1} &= \int_{0}^{2\pi} \int_{0}^\infty r \sin\fracpart{\phi} f(r,\phi) dr d\phi \\
 &= \int_{-\pi}^{\pi} \sin\fracpart{\phi} g(\phi) d\phi.
@@ -1501,25 +1504,11 @@ where
 q_1(\lambda) &= \expect R_1\big( \cos(\lambda + \Phi_1) - \cos(\Phi_1) \big) \;\;\; \text{and} \nonumber \\
 q_2(\lambda) &= \expect R_1\big( \cos\fracpart{\lambda + \Phi_1} - \cos\fracpart{\Phi_1} \big). \label{eq:q2def}
 \end{align}
-We analyse $q_1(\lambda)$ first.  By a Taylor expansion of $\cos(\lambda + \Phi_1)$ about $\lambda = 0$,
+Lemma~\ref{lem:q1k1parts} shows that $q_1(\hat{\lambda}_L) = \hat{\lambda}_Lo_P(1)$ and Lemma~\ref{lem:q2k2parts} shows that $q_2(\hat{\lambda}_L) = \hat{\lambda}_L o_P(1)$ and so
 \[
-\cos(\lambda + \Phi_1) - \cos(\Phi_1) = -\lambda \big( \sin(\Phi_1) + \zeta(\lambda) \big),
+\sqrt{L}\big( T_L(\lambda) - G(0) \big) =\sqrt{L}\hat{\lambda}_L o_P(1) + o(1).
 \]
-where $\zeta$ is a continuous function with $\zeta(0) = 0$. So,
-\begin{align*}
-q_1(\lambda) &= -\expect R_1\lambda(\sin(\Phi_1) +  \zeta(\lambda)) \\
-&= -\lambda \big( \expect R_1\sin(\Phi_1) +  \zeta(\lambda) \expect R_1 \big) \\
-&= -\lambda \zeta(\lambda) \expect R_1,
-\end{align*}
-since $\expect R_1\sin(\Phi_1) = 0$ as a result of~\eqref{eq:expectImpartRphi}.  Now, 
-\begin{align*}
-\sqrt{L} q_1(\hat{\lambda}_L) = -\sqrt{L} \hat{\lambda}_L \zeta(\hat{\lambda}_L) \expect R_1 = o_P(1)
-\end{align*}
-because $\sqrt{L} \hat{\lambda}_L$ converges in distribution and $\zeta(\hat{\lambda}_L) = o_P(1)$.  An argument analogous to that used in Lemma~\ref{lem:k2conv} shows that $\sqrt{L} q_2(\hat{\lambda}_L) = o_P(1)$.  Thus, 
-\[
-\sqrt{L}\big( T_L(\lambda) - G(0) \big) = p q_1(\lambda) + d q_2(\lambda) + o(1) = o_P(1)
-\]
-as required.
+The lemma follows since $\sqrt{L}\hat{\lambda}_L$ converges in distribution.
 \end{IEEEproof}
 
 
