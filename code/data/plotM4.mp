@@ -72,6 +72,10 @@ label.rt(btex $|P|=L$ etex, (1cm,sh + ls*ups));
 draw times shifted 1/2[(sx,sh + ls*ups),(1cm,sh + ls*ups)];
 
 ls:=5;
+label.rt(btex Viterbi Viterbi etex, (1cm,sh + ls*ups));
+draw (sx,sh + ls*ups)--(1cm,sh + ls*ups) dashed evenly;
+
+ls:=6;
 label.rt(btex Theory etex, (1cm,sh + ls*ups));
 draw (sx,sh + ls*ups)--(1cm,sh + ls*ups);
 
@@ -214,6 +218,7 @@ draw begingraph(plotwidth, plotheight);
   gdraw "cltM4L4096absP512p"; gdraw "MackenthunCoherentM4L4096absP512p" plot(dot);
   gdraw "cltM4L4096absP128p"; gdraw "MackenthunCoherentM4L4096absP128p" plot(circle);
   gdraw "cltM4L4096absP0p"; gdraw "MackenthunNonCoherentM4L4096p" plot(cross);
+  gdraw "ViterbiViterbiM4L4096p" dashed evenly;
 
  % gdraw "cltM4L2048absP2048p"; gdraw "MackenthunCoherentM4L2048absP2048p" plot(times); %glabel.llft(btex $L = 2048$ etex, 1000);
  % gdraw "cltM4L2048absP1024p"; gdraw "MackenthunCoherentM4L2048absP1024p" plot(dot);
