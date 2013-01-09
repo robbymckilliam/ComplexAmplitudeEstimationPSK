@@ -101,7 +101,7 @@ class GaussianCLT(override val M : Int, override val p : Double, val sigma : Dou
   /** Signal amplitude defaults to 1 */
   def this(M : Int, p: Double, sigma : Double) = this(M,p,sigma,1.0)
   
-  protected val k = rho0*rho0/sigma/sigma/2 //thisis the signal to noise ratio
+  protected val k = rho0/sigma
   protected val Z = new Chi.Chi2(1/k/k)   //marginal distribution of the magnitude
   
   override def fZ(z : Double) = Z.pdf(z)
@@ -116,8 +116,8 @@ class GaussianCLT(override val M : Int, override val p : Double, val sigma : Dou
     
     val a = cos(phi)  //equivalent formula from Barry Quinn
     val b = sin(phi)
-    val PSI = (1 + erf(a*sqrt(k)))/2 //standard norm pdf evaluated at k*cos(phi)
-    return a*exp(-k)/2/pi + 1/sqrt(k*pi) * exp(-k*b*b) * PSI * (2 + k*a*a)
+    val PSI = (1 + erf(a*k/sqrt(2)))/2 //standard norm pdf evaluated at k*cos(phi)
+    return a*exp(-k*k/2)/2/pi + 1/k/sqrt(2*pi) * exp(-k*k/2*b*b) * PSI * (1 + k*k*a*a)
   }
   
   //Compute g2 using known formula
