@@ -1,9 +1,14 @@
-A document and software for estimators of complex amplitude and carrier phase of phase-shift keyed communications signals.  Run the
+Latex and software for the paper
+
+Robby McKilliam, Andre Pollok, Bill Cowley, I. Vaughan L. Clarkson and Barry Quinn, "Carrier phase and amplitude estimation for phase shift keying using pilots and data".
+
+Run the
 
 build.sh
 
-bash script to compile the plots and the latex document paper.tex.  The software (and plot data) is in the /code folder.  The script
+bash script to compile the plots and the latex document paper.tex.  The software (and plot data) is in the /code folder.  The scripts
 
 runsim.sh
+runclt.sh
 
-will run the simulations.  You require scala 2.9.x to run the simulations.
+will run the simulations that generate the plots in the paper.  You require scala 2.9.x to run the simulations.
