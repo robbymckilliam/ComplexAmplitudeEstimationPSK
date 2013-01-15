@@ -175,7 +175,7 @@ legendy = 0.1cm;
 %%%% Begin plot of amplitude error
 
 beginfig(1);
-draw begingraph(plotwidth, plotheight);
+draw begingraph(plotwidth, 13cm);
  setcoords(linear,log);
  glabel.bot(btex SNR (dB) etex, OUT) shifted (0cm,1.3cm);
   glabel.lft(btex variance $\hat{\rho}$ etex, OUT) rotated 90 shifted (1.5cm,1cm);

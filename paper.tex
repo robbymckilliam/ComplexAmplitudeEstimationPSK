@@ -256,16 +256,16 @@ Before describing the statistical properties of the least squares estimator, we 
 \[
 f_{Z,\Theta}(z,\theta) = \frac{1}{2\pi}f_Z(z).
 \]
-Observe that for any real number $\phi$, the pdf of $W$ and $e^{j\phi}W$ are the same, that is, the pdf is invariant to phase rotation.  If $\expect\abs{W} = \expect Z$ is finite, then $W$ has zero mean because
-\begin{align*}
- \expect W &= \int_{0}^{2\pi} \int_{0}^\infty z e^{j\theta} f_{Z,\Theta}(z,\theta) dz d\theta \\
- &= \frac{1}{2\pi} \int_{0}^{2\pi} e^{j\theta} \int_{0}^\infty z f_Z(z) dz d\theta \\
- &= \frac{1}{2\pi}\expect Z \int_{0}^{2\pi} e^{j\theta} d\theta = 0.
- \end{align*}
-If $X$ and $Y$ are real random variables equal to the real and imaginary parts of $W = X + jY$ then the joint pdf of $X$ and $Y$ is
-\[
-f_{X,Y}(x,y) = \frac{f_Z(\sqrt{x^2 + y^2})}{2\pi \sqrt{x^2 + y^2}}.
-\]
+% Observe that for any real number $\phi$, the pdf of $W$ and $e^{j\phi}W$ are the same, that is, the pdf is invariant to phase rotation.  If $\expect\abs{W} = \expect Z$ is finite, then $W$ has zero mean because
+% \begin{align*}
+%  \expect W &= \int_{0}^{2\pi} \int_{0}^\infty z e^{j\theta} f_{Z,\Theta}(z,\theta) dz d\theta \\
+%  &= \frac{1}{2\pi} \int_{0}^{2\pi} e^{j\theta} \int_{0}^\infty z f_Z(z) dz d\theta \\
+%  &= \frac{1}{2\pi}\expect Z \int_{0}^{2\pi} e^{j\theta} d\theta = 0.
+%  \end{align*}
+% If $X$ and $Y$ are real random variables equal to the real and imaginary parts of $W = X + jY$ then the joint pdf of $X$ and $Y$ is
+% \[
+% f_{X,Y}(x,y) = \frac{f_Z(\sqrt{x^2 + y^2})}{2\pi \sqrt{x^2 + y^2}}.
+% \]
 %from which follows
 %\begin{equation}\label{eq:fzandfZYwithz}
 %f_Z(z) = 2\pi z f_{X,Y}(z,0) = 2\pi z f_{X,Y}(0,z)
@@ -276,14 +276,16 @@ We will have particular use of complex random variables of the form $1 + W$ wher
 \[
 R e^{j\Phi} = 1 + W.
 \]
-The joint pdf of $R$ and $\Phi$ can be shown to be
-\begin{equation}\label{eq:pdfRPhi}
-f(r,\phi) = \frac{r f_Z(\sqrt{r^2 - 2r\cos\phi + 1})}{2\pi\sqrt{r^2 - 2r\cos\phi + 1}}.
-\end{equation}
+% The joint pdf of $R$ and $\Phi$ can be shown to be
+% \begin{equation}\label{eq:pdfRPhi}
+% f(r,\phi) = \frac{r f_Z(\sqrt{r^2 - 2r\cos\phi + 1})}{2\pi\sqrt{r^2 - 2r\cos\phi + 1}}.
+% \end{equation}
 Since $\cos\phi$ has period $2\pi$ and is even on $[-\pi,\pi]$ it follows that $f(r,\phi)$ has period $2\pi$ and is even on $[-\pi,\pi]$ with respect to $\phi$.  The mean of $R e^{j\Phi}$ is equal to one because the mean of $W$ is zero.  So,
-\begin{equation}\label{eq:expectRepartRphi}
+%\begin{equation}\label{eq:expectRepartRphi}
+\[
 \expect \Re(R e^{j\Phi}) = \expect R \cos(\Phi) = 1,
-\end{equation}
+\]
+%\end{equation}
 where $\Re(\cdot)$ denotes the real part, and
 \begin{equation}\label{eq:expectImpartRphi}
 \expect \Im(R e^{j\Phi}) = \expect R \sin(\Phi) = 0,
@@ -388,7 +390,7 @@ B_1 = \expect R_1^2 \cos^2(\Phi_1) - 1, \;\;\; B_2 = \expect R_1^2 \cos^2\fracpa
 
 The proof of Theorem~\ref{thm:consistency} is in Section~\ref{sec:proof-almost-sure} and the proof of Theorem~\ref{thm:normality} is in Section~\ref{sec:proof-asympt-norm}.  Before giving the proofs we discuss the assumptions made by these theorems.  The assumption that $w_1, \dots, w_L$ are circularly symmetric can be relaxed, but this comes at the expense of making the theorem statements more complicated.  If $w_i$ is not circularly symmetric then the distribution of $R_i$ and $\Phi_i$ may depend on $a_0$ and also on the transmitted symbols $\{s_i,i \in P \cup D\}$.  As a result the asymptotic variance described in Theorem~\ref{thm:normality} depends on $a_0$ and $\{s_i,i \in P \cup D\}$, rather than just $\rho_0$.  The circularly symmetric assumption may not always hold in practice, but we feel it provides a sensible trade off between simplicity and generality.  
 
-The assumption that $\expect \sabs{w_1}^2 = \expect \sabs{w_i}^2$ is finite implies that $R_i$ has finite variance since $\expect R_i^2 = 1 + \expect \abs{w_i}^2$.  This is required in Theorem~\ref{thm:normality} so that the constants $A_1$, $A_2$, $B_1$ and $B_2$ exist.  We will also use the fact that $R_i$ has finite variance to simplify the proof of Theorem~\ref{thm:consistency} by use of Kolmogorov's strong law of large numbers~\cite{Billingsley1979_probability_and_measure}.
+%The assumption that $\expect \sabs{w_1}^2 = \expect \sabs{w_i}^2$ is finite implies that $R_i$ has finite variance since $\expect R_i^2 = 1 + \expect \abs{w_i}^2$.  This is required in Theorem~\ref{thm:normality} so that the constants $A_1$, $A_2$, $B_1$ and $B_2$ exist.  We will also use the fact that $R_i$ has finite variance to simplify the proof of Theorem~\ref{thm:consistency} by use of Kolmogorov's strong law of large numbers~\cite{Billingsley1979_probability_and_measure}.
 
 The theorems place conditions on $\sfracpart{\hat{\theta} - \theta_0}_\pi$ rather than directly on $\hat{\theta}  - \theta_0$.  This makes sense because the phases $\theta_0$ and $\theta_0 + 2\pi k$ are equivalent for any integer $k$. So, for example, we expect the phases $0.99\pi$ and $-0.99\pi$ to be close together, the difference between them being $\vert\sfracpart{-0.99\pi - 0.99\pi}_\pi\vert = 0.02\pi$, and not $\vert -0.99\pi - 0.99\pi\vert = 1.98\pi$.
 
@@ -415,7 +417,7 @@ Theorem~\ref{thm:normality} requires the function $g$ to be continuous at $\tfra
 % where $k = 1, 2$ and $\beta(\phi) = \cos(\phi) + \sqrt{z^2 - 1 + \cos^2(\phi)}$.  Since $\expect \abs{Z}^2$ is finite and non-zero $\int_0^\infty z^c dF(z)$ is finite for all $c = -1,0,1,2$.
 % \end{IEEEproof}
 
-A key assumption in Theorem~\ref{thm:consistency} is that $G(x)$ is uniquely maximised at $x = 0$ for $x \in [-\pi, \pi)$.  This assumption asserts that $G(x) \leq G(0)$ for all $x \in [-\pi, \pi)$ and that if $\{x_i\}$ is a sequence of numbers from $[-\pi,\pi)$ such that $G(x_i) \rightarrow G(0)$ as $i \rightarrow \infty$ then $x_i \rightarrow 0$ as $i \rightarrow \infty$.  Although we will not prove it here, this assumption is not only sufficient, but also necessary, for if $G(x)$ is uniquely maximised at some $x \neq 0$ then $\sfracpart{\hat{\theta} - \theta_0}_\pi \rightarrow x$ almost surely as $L\rightarrow\infty$, while if $G(x)$ is not uniquely maximised then $\sfracpart{\hat{\theta} - \theta_0}_\pi$ will not converge.  One can check that this assumption holds when $w_1$ is circularly symmetric and normally distributed.  We will not attempt to further classify those distributions for which the assumption holds here.
+A key assumption in Theorem~\ref{thm:consistency} is that $G(x)$ is uniquely maximised at $x = 0$ for $x \in [-\pi, \pi)$.  This assumption asserts that $G(x) \leq G(0)$ for all $x \in [-\pi, \pi)$ and that if $\{x_i\}$ is a sequence of numbers from $[-\pi,\pi)$ such that $G(x_i) \rightarrow G(0)$ as $i \rightarrow \infty$ then $x_i \rightarrow 0$ as $i \rightarrow \infty$.  Although we will not prove it here, this assumption is not only sufficient, but also necessary, for if $G(x)$ is uniquely maximised at some $x \neq 0$ then $\sfracpart{\hat{\theta} - \theta_0}_\pi \rightarrow x$ almost surely as $L\rightarrow\infty$, while if $G(x)$ is not uniquely maximised then $\sfracpart{\hat{\theta} - \theta_0}_\pi$ will not converge.  One can check that this assumption holds when $w_i$ is circularly symmetric and normally distributed.  We will not attempt to further classify those distributions for which the assumption holds here.
 
 %The next proposition describes a class of circularly symmetric distributions for which $G(x)$ is uniquely maximised at $x = 0$.  The zero mean complex Gaussian distribution with independent real and imaginary parts is in this class.  The proof is given in Appendix~\ref{appendix:prop2proof}.
 
@@ -427,14 +429,9 @@ A key assumption in Theorem~\ref{thm:consistency} is that $G(x)$ is uniquely max
 % Then $h_1(x)$ is uniquely maximised at $x=0$ over the interval $[-\pi,\pi]$ and $h_2(x)$ is uniquely maximised at $x = 0$ over the interval $[-\tfrac{\pi}{M},\tfrac{\pi}{M}]$.
 % \end{proposition}
 
-Theorem~\ref{thm:consistency} defines real numbers $p$ and $d$ to represent the proportion of pilot symbols and data symbols in the limit as $L$ goes to infinity.  For Theorem~\ref{thm:normality} we need the slightly stronger condition that 
-\[
-\frac{\abs{P}}{L} = p + o(L^{-1/2}) \qquad \text{and} \qquad \frac{\abs{D}}{L} = d + o(L^{-1/2}).
-\] 
+Theorem~\ref{thm:consistency} defines real numbers $p$ and $d$ to represent the proportion of pilot symbols and data symbols in the limit as $L$ goes to infinity.  For Theorem~\ref{thm:normality} we need the slightly stronger condition that $\frac{\abs{P}}{L} = p + o(L^{-1/2})$ and $\frac{\abs{D}}{L} = d + o(L^{-1/2})$.  
 %where $o(L^{-1/2})$ denotes a number such that $\sqrt{L} o(L^{-1/2})$ goes to zero as $L\rightarrow \infty$.  
-This stronger condition is required to prove the asymptotic normality of $\sqrt{L}\hat{m}_L$.   
-
-The next two sections give proofs of Theorems~\ref{thm:consistency}~and~\ref{thm:normality}.  The proofs make use of various lemmas, which are proved in the appendix.
+This stronger condition is required to prove the asymptotic normality of $\sqrt{L}\hat{m}_L$.  The next two sections give proofs of Theorems~\ref{thm:consistency}~and~\ref{thm:normality}.  %The proofs make use of various lemmas, which are proved in the appendix.
 
 % \begin{IEEEproof}
 % We only give a proof for $g_2$, the proof for $g$ begin similar.  From~\eqref{eq:pdfRPhi},
@@ -522,9 +519,12 @@ Z(\theta) = \rho_0 \sum_{i \in P} R_i e^{j(\lambda + \Phi_i)} + \rho_0  \sum_{i 
 %\Re(Z(\theta)) = \rho_0 \sum_{i \in P} R_i \cos(\lambda + \Phi_i) + \rho_0 \sum_{i \in D} R_i \cos\sfracpart{\lambda + \Phi_i}.
 %\] 
 Let 
-\begin{equation}\label{eq:GLdefn}
-G_L(\lambda) = \frac{1}{\rho_0 L} \Re(Z(\theta))
-\end{equation}
+\begin{align}
+%\begin{split}
+G_L(\lambda) &= \frac{1}{\rho_0 L} \Re(Z(\theta)) \label{eq:GLdefn} \\
+&= \frac{1}{L} \sum_{i \in P} R_i \cos(\lambda + \Phi_i) + \frac{1}{L} \sum_{i \in D} R_i \cos\sfracpart{\lambda + \Phi_i} \nonumber
+%\end{split}
+\end{align}
 and put $\hat{\lambda}_L = -\sfracpart{\hat{\theta} - \theta_0}_\pi = \sfracpart{\theta_0 - \hat{\theta}}_\pi$.  Since $\hat{\theta}$ is the maximiser of $\Re(Z(\theta))$ it follows that $\hat{\lambda}_L$ is the maximiser of $G_L(\lambda)$.  We will show that $\hat{\lambda}_L$ converges almost surely to zero as $L \rightarrow \infty$.  The proof of part 1 of Theorem~\ref{thm:consistency} follows from this.
 
 Recall the functions $G$, $h_1$ and $h_2$ defined in the statement of Theorem~\ref{thm:consistency}.  Observe that
@@ -541,7 +541,48 @@ It remains to prove part 2 of the theorem regarding the convergence of the ampli
 \begin{equation}\label{eq:rhoGLZ}
 \hat{\rho} = \frac{1}{L}\Re(Z(\hat{\theta})) = \rho_0 G_L(\hat{\lambda}_L).
 \end{equation}  
-Lemma~\ref{lem:GLtoG0} in the appendix shows that $G_L(\hat{\lambda}_L)$ converges almost surely to $G(0)$ as $L\rightarrow\infty$, and $\hat{\rho}$ consequently converges almost surely to $\rho_0 G(0)$ as required.  It remains to prove Lemmas~\ref{lem:convtoexpGlamL} and~\ref{lem:GLtoG0}.  These are proved in Section~\ref{sec:proof-almost-sureappendix} of the appendix.
+Lemma~\ref{lem:GLtoG0} in the appendix shows that $G_L(\hat{\lambda}_L)$ converges almost surely to $G(0)$ as $L\rightarrow\infty$, and $\hat{\rho}$ consequently converges almost surely to $\rho_0 G(0)$ as required.  %It remains to prove Lemmas~\ref{lem:convtoexpGlamL} and~\ref{lem:GLtoG0}.  These are proved in %Section~\ref{sec:proof-almost-sureappendix} of 
+%the appendix.
+
+\begin{lemma}\label{lem:convtoexpGlamL} 
+$G(\hat{\lambda}_L) \rightarrow G(0)$ almost surely as $L \rightarrow \infty$.
+\end{lemma}
+\begin{IEEEproof}
+Since $G(x)$ is uniquely maximised at $x=0$,
+\[
+0 \leq G(0) - G(\hat{\lambda}_L),
+\]
+and since $\hat{\lambda}_L$ is the maximiser of $G_L(x)$,
+\[ 
+0 \leq G_L(\hat{\lambda}_L) - G_L(0).
+\]
+Thus,
+\begin{align*}
+0 &\leq G(0) - G(\hat{\lambda}_L) \\ 
+& \leq G(0) - G(\hat{\lambda}_L) + G_L(\hat{\lambda}_L) - G_L(0) \\
+& \leq |G(0) - G_L(0)| + |G_L(\hat{\lambda}_L) - G(\hat{\lambda}_L)| \\
+&\leq 2\sup_{\lambda \in [-\pi, \pi)} \sabs{G_L(\lambda) - G(\lambda)},
+\end{align*}
+and the last line converges almost surely to zero by Lemma~\ref{lem:uniflawGGL}.
+\end{IEEEproof}
+
+\begin{lemma}\label{lem:uniflawGGL} 
+$\sup_{\lambda \in [-\pi, \pi)}\sabs{G_L(\lambda) - G(\lambda)} \rightarrow 0$ almost surely as $L \rightarrow \infty$.
+\end{lemma}
+\begin{IEEEproof}
+This type of result is called a~\emph{uniform law of large numbers} and follows from standard arguments.  See, for example van~de~Geer~\cite[Ch.~3]{van2009empirical} or Pollard~\citep[Ch.~2]{Pollard_conv_stat_proc_1984}.  A specific proof of this result is given in~\cite[Lemma~2]{McKilliam_leastsqPSKpilotsdata_arxiv}.
+\end{IEEEproof}
+
+\begin{lemma}\label{lem:GLtoG0}
+$G_L(\hat{\lambda}_L) \rightarrow G(0)$ almost surely as $L \rightarrow \infty$.
+\end{lemma}
+\begin{IEEEproof}
+By the triangle inequality,
+\[
+\sabs{G_L(\hat{\lambda}_L) - G(0)} \leq \sabs{G_L(\hat{\lambda}_L) - G(\hat{\lambda}_L)} + \sabs{G(\hat{\lambda}_L) - G(0)}.
+\]
+Now $\sabs{G_L(\hat{\lambda}_L) - G(\hat{\lambda}_L)} \rightarrow 0$ as $L \rightarrow \infty$ as a result of Lemma~\ref{lem:uniflawGGL}, and $\sabs{G(\hat{\lambda}_L) - G(0)} \rightarrow 0$ almost surely as $L \rightarrow \infty$ because $G$ is continuous and $\hat{\lambda}_L \rightarrow 0$ almost surely as $L \rightarrow \infty$.
+\end{IEEEproof}
 
 \section{Proof of asymptotic normality (Theorem~\ref{thm:normality}) } \label{sec:proof-asympt-norm}
 
@@ -594,7 +635,7 @@ It follows that $\sqrt{L} \hat{m}_L =  \rho_0 X_L + o_P(1)$.  Lemma~\ref{lem:XL}
 \[
 \covar(\sqrt{L}\hat{m}_L, \sqrt{L}\hat{\lambda}_L) \rightarrow \covar(\rho_0 X_L, \sqrt{L}\hat{\lambda}_L) = 0
 \]
-as $L \rightarrow \infty$.  The lemmas that we have used are proved in Section~\ref{sec:proof-asympt-normappendix} of the appendix.
+as $L \rightarrow \infty$.  The lemmas that we have used are proved in the appendix.
 
 
 
@@ -632,7 +673,7 @@ The value of $A_1, A_2, B_1$ and $B_2$ can be efficiently computed by numerical 
 We present the results of Monte-Carlo simulations with the least squares estimator.  In all simulations the noise samples $w_1,\dots,w_L$ are independent and identically distributed circularly symmetric and Gaussian with real and imaginary parts having variance $\sigma^2$.  Under these conditions the least squares estimator is also the maximum likelihood estimator.  Simulations are run with $M=2,4,8$ (BPSK, QPSK, $8$-PSK) and with signal to noise ratio $\text{SNR} = \tfrac{\rho_0^2}{2\sigma^2}$ between \unit[-20]{dB} and \unit[20]{dB} in steps of \unit[1]{dB}.  The amplitude $\rho_0=1$ and $\theta_0$ is uniformly distributed on $[-\pi, \pi)$.  For each value of SNR, $T = 5000$ replications are performed to obtain $T$ estimates $\hat{\rho}_1, \dots, \hat{\rho}_T$ and $\hat{\theta}_1, \dots, \hat{\theta}_T$.  
 
 Figures~\ref{fig:plotphaseBPSK},~\ref{fig:plotphaseQPSK}~and~\ref{fig:plotphase8PSK} show the sample mean square error (MSE) of the phase estimator when $M=2,4,8$ with $L=4096$ and for varying proportions of pilots symbols $\abs{P} = 0, \tfrac{L}{32}, \tfrac{L}{8}, \tfrac{L}{2}, L$.  When $\abs{P} \neq 0$ (i.e. coherent detection) the mean square error is computed as $\tfrac{1}{T}\sum_{i=1}^T\sfracpart{\hat{\theta}_i - \theta_0}_\pi^2$.  Otherwise, when $\abs{P}=0$ the mean square error is computed as $\tfrac{1}{T}\sum_{i=1}^T\sfracpart{\hat{\theta}_i - \theta_0}^2$ as in~\cite{McKilliam_leastsqPSKnoncoICASSP_2012}.  The dots, squares, circles and crosses are the results of Monte-Carlo simulations with the least square estimator.  The solid lines are the estimator MSEs predicted by Theorem~\ref{thm:normality}.   %(and by Theorem~2 from~\cite{McKilliam_leastsqPSKnoncoICASSP_2012} when $\abs{P} = 0$).  
-The prediction is made by dividing the asymptotic covariance matrix by $L$.  The theorem accurately predicts the behaviour of the phase estimator when $L$ is sufficiently large.  As the SNR decreases the variance of the phase estimator approaches that of the uniform distribution on $[-\pi, \pi)$ when $\abs{P} \neq 0$ and the uniform distribution on $[-\tfrac{\pi}{M}, \tfrac{\pi}{M})$ when $\abs{P}=0$~\cite{McKilliam_leastsqPSKnoncoICASSP_2012}.  Theorem~\ref{thm:normality} does not model this behaviour in the sense that for any fixed $L$ there exist sufficiently small values of SNR for which Theorem~\ref{thm:normality} does not produce accurate predictions of the MSE.  As the SNR increases the variance of the estimators converge to that of the estimator where all symbols are pilots, i.e. $\abs{P} = L$.
+The prediction is made by dividing the asymptotic covariance matrix by $L$.  The theorem accurately predicts the behaviour of the phase estimator when $L$ is sufficiently large.  As the SNR decreases the variance of the phase estimator approaches that of the uniform distribution on $[-\pi, \pi)$ when $\abs{P} \neq 0$, and the uniform distribution on $[-\tfrac{\pi}{M}, \tfrac{\pi}{M})$ when $\abs{P}=0$~\cite{McKilliam_leastsqPSKnoncoICASSP_2012}.  Theorem~\ref{thm:normality} does not model this behaviour in the sense that for any fixed $L$ there exist sufficiently small values of SNR for which Theorem~\ref{thm:normality} does not produce accurate predictions of the MSE.  As the SNR increases the variance of the estimators converge to that of the estimator where all symbols are pilots, i.e. $\abs{P} = L$.
 
 % We can use our asymptotic theorem to predict the SNR at which the least squares estimator will be close to that of the unmodulated carrier estimate.  The asymptotic variance on the unmodulated carrier estimator is given by setting $p = 1$ and $d=0$ in Theorem~\ref{thm:normality}.  We obtain the variance to be $A_1$.  Thus, if we desire the least squares estimator to have variance close to $A_1$, say $(1 + \delta)A_1$ for some small $\delta > 0$, then we require SNR at which 
 % \[
@@ -644,7 +685,9 @@ The prediction is made by dividing the asymptotic covariance matrix by $L$.  The
 Figures~\ref{fig:plotphaseBPSK},~\ref{fig:plotphaseQPSK}~and~\ref{fig:plotphase8PSK} also display the sample MSE of the noncoherent phase estimator of Viterbi and Viterbi~\cite{ViterbiViterbi_phase_est_1983} described by~\eqref{eq:viterbiviterbi}.  This estimator requires selection of a function $F$ that transforms the amplitude of each sample prior to the final estimation step.  % (see equation (2) in~\cite{ViterbiViterbi_phase_est_1983}).  
 Viterbi and Viterbi propose several viable alternatives, from which we have chosen $F(x) = 1$.  The Viterbi and Viterbi estimator is only applicable in the noncoherent setting, i.e. when $\abs{P} = 0$.  The sample MSE of the least squares estimator (when $\abs{P} = 0$) and the Viterbi and Viterbi estimator is similar.  The least squares estimator appears slightly more accurate for some values of SNR.
 
-Figures~\ref{fig:plotampBPSK},~\ref{fig:plotampQPSK}~and~\ref{fig:plotamp8PSK} show the variance of the amplitude estimator when $M=2,4,8$ and with $L=32, 256, 2048$ and when the number of pilots symbols is $\abs{P} = 0, \tfrac{L}{2}, L$.  The solid lines are the variance predicted by Theorem~\ref{thm:normality}.  The dots and crosses show the results of Monte-Carlo simulations.  Each point is computed as the unbiased error $\tfrac{1}{T}\sum_{i=1}^T\big(\hat{\rho}_i - \rho_0G(0)\big)^2$.  This requires $G(0)$ to be known.  In practice $G(0)$ may not be known at the receiver, so Figures~\ref{fig:plotampBPSK},~\ref{fig:plotampQPSK}~and~\ref{fig:plotamp8PSK} serve to validate the correctness of our asymptotic theory, rather than to suggest the practical performance of the amplitude estimator.  When SNR is large $G(0)$ is close to $1$ and the bias of the amplitude estimator is small.  However, $G(0)$ grows without bound as the variance of the noise increases, so the bias is significant when SNR is small.  %As indicated in Figures~\ref{fig:plotampBPSK},~\ref{fig:plotampQPSK}~and~\ref{fig:plotamp8PSK} the variance of the least squares amplitude estimator is smaller than that of the estimator when all symbols are pilots.  However, due to the bias, the MSE of the least squares amplitude estimator is \emph{not} smaller than that of the unmodulated carrier.
+Figure~\ref{fig:plotampBPSK} %,~\ref{fig:plotampQPSK}~and~\ref{fig:plotamp8PSK} 
+shows the variance of the amplitude estimator when $M=2$ and with $L=32, 256, 2048$ and when the number of pilots symbols is $\abs{P} = 0, \tfrac{L}{2}, L$.  The solid lines are the variance predicted by Theorem~\ref{thm:normality}.  The dots and crosses show the results of Monte-Carlo simulations.  Each point is computed as the unbiased error $\tfrac{1}{T}\sum_{i=1}^T\big(\hat{\rho}_i - \rho_0G(0)\big)^2$.  This requires $G(0)$ to be known.  In practice $G(0)$ may not be known at the receiver, so Figure~\ref{fig:plotampBPSK} %,~\ref{fig:plotampQPSK}~and~\ref{fig:plotamp8PSK} 
+serves to validate the correctness of our asymptotic theory, rather than to suggest the practical performance of the amplitude estimator.  When SNR is large $G(0)$ is close to $1$ and the bias of the amplitude estimator is small.  However, $G(0)$ grows without bound as the variance of the noise increases, so the bias is significant when SNR is small.  %As indicated in Figures~\ref{fig:plotampBPSK},~\ref{fig:plotampQPSK}~and~\ref{fig:plotamp8PSK} the variance of the least squares amplitude estimator is smaller than that of the estimator when all symbols are pilots.  However, due to the bias, the MSE of the least squares amplitude estimator is \emph{not} smaller than that of the unmodulated carrier.
 
 Figure~\ref{fig:plotphaseQPSKmultL} shows the MSE of the phase estimator when $M=4$ and $L=32,256, 2048$ and the number of pilots is $\abs{P}=\tfrac{L}{8},L$.  The figure depicts an interesting phenomenon.  When $L=2048$ and $\abs{P} = \tfrac{L}{8} = 256$ the number of pilots symbols is the same as when $L=\abs{P} = 256$.  When the SNR is small (approximately less than \unit[0]{dB}) the least squares estimator using the $256$ pilots symbols and also the $2048-256=1792$ data symbols performs \emph{worse} than the estimator that uses only the $256$ pilots symbols.  A similar phenomenon occurs when $L=256$ and $\abs{P} = \tfrac{L}{8} = 32$.  %When the SNR is small it is better to ignore the data symbols and use only the pilot symbols.  
 This behaviour suggests modifying the objective function to give the pilots symbols more importance when the SNR is low.  For example, rather than minimise~\eqref{eq:SSdefn} we could instead minimise a weighted version of it,
@@ -676,26 +719,26 @@ where the weight $\beta$ would be small when SNR is small and near $1$ when SNR 
 
 
 
-\begin{figure}[p]
+\begin{figure}[tp]
 	\centering
 		\includegraphics[width=\linewidth]{code/data/plotM2-1.mps}
 		\caption{Unbiased amplitude error versus SNR for BPSK.}
 		\label{fig:plotampBPSK}
 \end{figure}
 
-\begin{figure}[p]
-	\centering
-		\includegraphics[width=\linewidth]{code/data/plotM4-1.mps}
-		\caption{Unbiased amplitude error versus SNR for QPSK.}
-		\label{fig:plotampQPSK}
-\end{figure}
+% \begin{figure}[p]
+% 	\centering
+% 		\includegraphics[width=\linewidth]{code/data/plotM4-1.mps}
+% 		\caption{Unbiased amplitude error versus SNR for QPSK.}
+% 		\label{fig:plotampQPSK}
+% \end{figure}
 
-\begin{figure}[p]
-	\centering
-		\includegraphics[width=\linewidth]{code/data/plotM8-1.mps}
-		\caption{Unbiased amplitude error versus SNR for $8$-PSK.}
-		\label{fig:plotamp8PSK}
-\end{figure}
+% \begin{figure}[p]
+% 	\centering
+% 		\includegraphics[width=\linewidth]{code/data/plotM8-1.mps}
+% 		\caption{Unbiased amplitude error versus SNR for $8$-PSK.}
+% 		\label{fig:plotamp8PSK}
+% \end{figure}
 
 %\begin{figure}[tp]
 %	\centering
@@ -776,7 +819,7 @@ We considered least squares estimators of carrier phase and amplitude from noisy
 
 We showed, under some reasonably general conditions on the distribution of the noise, that the phase estimator $\hat{\theta}$ is strongly consistent and asymptotically normally distributed.  However, the amplitude estimator $\hat{\rho}_0$ is biased, and converges to $G(0)\rho_0$.  This bias is large when the signal to noise ratio is small.  It would be interesting to investigate methods for correcting this bias.  A method for estimating $G(0)$ at the receiver appears to be required.
 
-Monte Carlo simulations were used to assess the performance of the least squares estimator and also to validate our asymptotic theory.  Interestingly, when the SNR is small, it is counterproductive to use the data symbols to estimate the phase (Figure~\ref{fig:plotphaseQPSKmultL}).  This suggests the use of a weighted objective function, which would be an interesting topic for future research.
+Monte Carlo simulations were used to assess the performance of the least squares estimator and also to validate our asymptotic theory.  Interestingly, when the SNR is small, it is counterproductive to use the data symbols to estimate the phase (Figure~\ref{fig:plotphaseQPSKmultL}).  %This suggests the use of a weighted objective function, which would be an interesting topic for future research.
 
 \small
 \bibliography{bib}
@@ -785,29 +828,9 @@ Monte Carlo simulations were used to assess the performance of the least squares
 \appendix
 
 
-\subsection{Lemmas required for the proof of almost sure convergence (Theorem~\ref{thm:consistency}) } \label{sec:proof-almost-sureappendix}
+%\subsection{Lemmas required for the proof of almost sure convergence (Theorem~\ref{thm:consistency}) } \label{sec:proof-almost-sureappendix}
 
-\begin{lemma}\label{lem:convtoexpGlamL} 
-$G(\hat{\lambda}_L) \rightarrow G(0)$ almost surely as $L \rightarrow \infty$.
-\end{lemma}
-\begin{IEEEproof}
-Since $G(x)$ is uniquely maximised at $x=0$,
-\[
-0 \leq G(0) - G(\hat{\lambda}_L),
-\]
-and since $\hat{\lambda}_L$ is the maximiser of $G_L(x)$,
-\[ 
-0 \leq G_L(\hat{\lambda}_L) - G_L(0).
-\]
-Thus,
-\begin{align*}
-0 &\leq G(0) - G(\hat{\lambda}_L) \\ 
-& \leq G(0) - G(\hat{\lambda}_L) + G_L(\hat{\lambda}_L) - G_L(0) \\
-& \leq |G(0) - G_L(0)| + |G_L(\hat{\lambda}_L) - G(\hat{\lambda}_L)| \\
-&\leq 2\sup_{\lambda \in [-\pi, \pi)} \sabs{G_L(\lambda) - G(\lambda)},
-\end{align*}
-and the last line converges almost surely to zero by Lemma~\ref{lem:uniflawGGL}.
-\end{IEEEproof}
+
 
 % \begin{lemma}\label{lem:Zconunif}
 % \[
@@ -819,216 +842,204 @@ and the last line converges almost surely to zero by Lemma~\ref{lem:uniflawGGL}.
 
  
 
-\begin{lemma}\label{lem:uniflawGGL} 
-$\sup_{\lambda \in [-\pi, \pi)}\sabs{G_L(\lambda) - G(\lambda)} \rightarrow 0$ almost surely as $L \rightarrow \infty$.
-\end{lemma}
-\begin{IEEEproof}
-Put $T_L(\lambda) = \expect G_L(\lambda)$ and write
-\begin{align*}
-&\sup_{\lambda \in [-\pi, \pi)}\sabs{G_L(\lambda) - G(\lambda)} \\
-&= \sup_{\lambda \in [-\pi, \pi)}\sabs{G_L(\lambda) - T_L(\lambda) + T_L(\lambda) - G(\lambda)} \\
-&\leq \sup_{\lambda \in [-\pi, \pi)}\sabs{G_L(\lambda) - T_L(\lambda)} +  \sup_{\lambda \in [-\pi, \pi)}\sabs{T_L(\lambda) - G(\lambda)}.
-\end{align*}
-Now,
-\begin{align*}
-T_L(\lambda) - G(\lambda) &= \big(\tfrac{\abs{P}}{L} - p\big)h_1(\lambda) + \big(\tfrac{\abs{D}}{L} - d\big)h_2(\lambda) \\
-&= o(1) h_1(\lambda) + o(1) h_2(\lambda)
-\end{align*}
-%where $o(1)$ denotes a number converging to zero as $L \rightarrow \infty$.  
-Since 
-\[
-\sabs{h_1(\lambda)} = \sabs{\expect R_1\cos(\lambda + \Phi_1)} \leq \expect R_1,
-\]
-and 
-\[
-\sabs{h_2(\lambda)} = \sabs{\expect R_1\cos\fracpart{\lambda + \Phi_1}} \leq \expect R_1
-\] 
-for all $\lambda \in [-\pi, \pi)$, it follows that 
-\[
-\sup_{\lambda \in [-\pi, \pi)}\sabs{T_L(\lambda) - G(\lambda)} \leq o(1) \expect R_1 \rightarrow 0
-\]  
-as $L\rightarrow \infty$.  Lemma~\ref{lem:uniflawTGL} shows that 
-\[
-\sup_{\lambda \in [-\pi, \pi)}\sabs{G_L(\lambda) - T_L(\lambda)} \rightarrow 0
-\]
-almost surely as $L\rightarrow \infty$.
-\end{IEEEproof}
+% \begin{lemma}\label{lem:uniflawGGL} 
+% $\sup_{\lambda \in [-\pi, \pi)}\sabs{G_L(\lambda) - G(\lambda)} \rightarrow 0$ almost surely as $L \rightarrow \infty$.
+% \end{lemma}
+% \begin{IEEEproof}
+% Put $T_L(\lambda) = \expect G_L(\lambda)$ and write
+% \begin{align*}
+% &\sup_{\lambda \in [-\pi, \pi)}\sabs{G_L(\lambda) - G(\lambda)} \\
+% &= \sup_{\lambda \in [-\pi, \pi)}\sabs{G_L(\lambda) - T_L(\lambda) + T_L(\lambda) - G(\lambda)} \\
+% &\leq \sup_{\lambda \in [-\pi, \pi)}\sabs{G_L(\lambda) - T_L(\lambda)} +  \sup_{\lambda \in [-\pi, \pi)}\sabs{T_L(\lambda) - G(\lambda)}.
+% \end{align*}
+% Now,
+% \begin{align*}
+% T_L(\lambda) - G(\lambda) &= \big(\tfrac{\abs{P}}{L} - p\big)h_1(\lambda) + \big(\tfrac{\abs{D}}{L} - d\big)h_2(\lambda) \\
+% &= o(1) h_1(\lambda) + o(1) h_2(\lambda)
+% \end{align*}
+% %where $o(1)$ denotes a number converging to zero as $L \rightarrow \infty$.  
+% Since 
+% \[
+% \sabs{h_1(\lambda)} = \sabs{\expect R_1\cos(\lambda + \Phi_1)} \leq \expect R_1,
+% \]
+% and 
+% \[
+% \sabs{h_2(\lambda)} = \sabs{\expect R_1\cos\fracpart{\lambda + \Phi_1}} \leq \expect R_1
+% \] 
+% for all $\lambda \in [-\pi, \pi)$, it follows that 
+% \[
+% \sup_{\lambda \in [-\pi, \pi)}\sabs{T_L(\lambda) - G(\lambda)} \leq o(1) \expect R_1 \rightarrow 0
+% \]  
+% as $L\rightarrow \infty$.  Lemma~\ref{lem:uniflawTGL} shows that 
+% \[
+% \sup_{\lambda \in [-\pi, \pi)}\sabs{G_L(\lambda) - T_L(\lambda)} \rightarrow 0
+% \]
+% almost surely as $L\rightarrow \infty$.
+% \end{IEEEproof}
 
 
-\begin{lemma}\label{lem:uniflawTGL} 
-Put $T_L(\lambda) = \expect G_L(\lambda)$.  Then
-\[
-\sup_{\lambda \in [-\pi, \pi)}\sabs{G_L(\lambda) - T_L(\lambda)} \rightarrow 0
-\] 
-almost surely as $L \rightarrow \infty$.
-\end{lemma}
-\begin{IEEEproof}
-Put $D_L(\lambda) = G_L(\lambda) - T_L(\lambda)$ and let
-\[
-\lambda_n = \tfrac{2\pi}{N}(n-1) - \pi, \qquad n = 1, \dots, N
-\]
-be $N$ points uniformly spaced on the interval $[-\pi, \pi)$.  Let $L_n = [\lambda_n, \lambda_n + \tfrac{2\pi}{N})$ and observe that $L_1, \dots, L_N$ partition $[-\pi, \pi)$.  Now
-\begin{align*}
-\sup_{\lambda \in [-\pi, \pi)}&\sabs{D_L(\lambda)} \\
-&= \sup_{n = 1,\dots,N}\sup_{\lambda \in L_n}\sabs{D_L(\lambda) - D_L(\lambda_n) + D_L(\lambda_n)} \\
-&\leq U_L + V_L,
-\end{align*}
-where 
-\[
-U_L = \sup_{n = 1,\dots,N}\sabs{D_L(\lambda_n)} \;\;\; \text{and}
-\]
-\[
-V_L = \sup_{n = 1,\dots,N}\sup_{\lambda \in L_n}\sabs{D_L(\lambda) - D_L(\lambda_n)}.
-\]
-Lemma~\ref{lem:supDLlambdan} shows that for any $N$ and $\epsilon > 0$, 
-\[
-\prob\left\{ \lim_{L\rightarrow\infty} U_L > \epsilon \right\} = 0,
-\]
-that is, $U_L \rightarrow 0$ almost surely as $L\rightarrow\infty$.  Lemma~\ref{lem:supsupDLlambda} shows that for any $\epsilon > 0$,
-\[
-\prob\left\{ \lim_{L \rightarrow \infty} V_L > \epsilon + \tfrac{4\pi }{N}\expect R_i \right\} = 0.
-\] 
-If we choose $N$ large enough that $4\pi\expect R_i < \epsilon N$ then
-\begin{align*}
-\prob& \left\{ \lim_{L\rightarrow\infty} \sup_{\lambda \in [-\pi, \pi)}\sabs{D_L(\lambda)} > 3\epsilon \right\} \\
-&\leq \prob\left\{\lim_{L\rightarrow\infty}(U_L + V_L) > 3\epsilon \right\} \\
-&\leq \prob\left\{\lim_{L\rightarrow\infty} (U_L + V_L) > \epsilon + \epsilon + \tfrac{4\pi }{N}\expect R_i \right\} \\
-&\leq \prob\left\{\lim_{L\rightarrow\infty} U_L > \epsilon\right\} +  \prob\left\{ \lim_{L\rightarrow\infty} V_L > \epsilon + \tfrac{4\pi }{N}\expect R_i \right\} \\
-&= 0.
-\end{align*}
-Thus $\sup_{\lambda \in [-\pi, \pi)}\sabs{D_L(\lambda)} \rightarrow 0$ almost surely as $L\rightarrow\infty$.
-\end{IEEEproof}
+% \begin{lemma}\label{lem:uniflawTGL} 
+% Put $T_L(\lambda) = \expect G_L(\lambda)$.  Then
+% \[
+% \sup_{\lambda \in [-\pi, \pi)}\sabs{G_L(\lambda) - T_L(\lambda)} \rightarrow 0
+% \] 
+% almost surely as $L \rightarrow \infty$.
+% \end{lemma}
+% \begin{IEEEproof}
+% Put $D_L(\lambda) = G_L(\lambda) - T_L(\lambda)$ and let
+% \[
+% \lambda_n = \tfrac{2\pi}{N}(n-1) - \pi, \qquad n = 1, \dots, N
+% \]
+% be $N$ points uniformly spaced on the interval $[-\pi, \pi)$.  Let $L_n = [\lambda_n, \lambda_n + \tfrac{2\pi}{N})$ and observe that $L_1, \dots, L_N$ partition $[-\pi, \pi)$.  Now
+% \begin{align*}
+% \sup_{\lambda \in [-\pi, \pi)}&\sabs{D_L(\lambda)} \\
+% &= \sup_{n = 1,\dots,N}\sup_{\lambda \in L_n}\sabs{D_L(\lambda) - D_L(\lambda_n) + D_L(\lambda_n)} \\
+% &\leq U_L + V_L,
+% \end{align*}
+% where 
+% \[
+% U_L = \sup_{n = 1,\dots,N}\sabs{D_L(\lambda_n)} \;\;\; \text{and}
+% \]
+% \[
+% V_L = \sup_{n = 1,\dots,N}\sup_{\lambda \in L_n}\sabs{D_L(\lambda) - D_L(\lambda_n)}.
+% \]
+% Lemma~\ref{lem:supDLlambdan} shows that for any $N$ and $\epsilon > 0$, 
+% \[
+% \prob\left\{ \lim_{L\rightarrow\infty} U_L > \epsilon \right\} = 0,
+% \]
+% that is, $U_L \rightarrow 0$ almost surely as $L\rightarrow\infty$.  Lemma~\ref{lem:supsupDLlambda} shows that for any $\epsilon > 0$,
+% \[
+% \prob\left\{ \lim_{L \rightarrow \infty} V_L > \epsilon + \tfrac{4\pi }{N}\expect R_i \right\} = 0.
+% \] 
+% If we choose $N$ large enough that $4\pi\expect R_i < \epsilon N$ then
+% \begin{align*}
+% \prob& \left\{ \lim_{L\rightarrow\infty} \sup_{\lambda \in [-\pi, \pi)}\sabs{D_L(\lambda)} > 3\epsilon \right\} \\
+% &\leq \prob\left\{\lim_{L\rightarrow\infty}(U_L + V_L) > 3\epsilon \right\} \\
+% &\leq \prob\left\{\lim_{L\rightarrow\infty} (U_L + V_L) > \epsilon + \epsilon + \tfrac{4\pi }{N}\expect R_i \right\} \\
+% &\leq \prob\left\{\lim_{L\rightarrow\infty} U_L > \epsilon\right\} +  \prob\left\{ \lim_{L\rightarrow\infty} V_L > \epsilon + \tfrac{4\pi }{N}\expect R_i \right\} \\
+% &= 0.
+% \end{align*}
+% Thus $\sup_{\lambda \in [-\pi, \pi)}\sabs{D_L(\lambda)} \rightarrow 0$ almost surely as $L\rightarrow\infty$.
+% \end{IEEEproof}
 
 
-\begin{lemma}\label{lem:supDLlambdan}
-For any $N > 0$, $U_L \rightarrow 0$ almost surely as $L \rightarrow \infty$ where $U_L$ is defined in the proof of Lemma~\ref{lem:uniflawTGL}.
-\end{lemma}
-\begin{IEEEproof}
-Put
-\[
-Z_i(\lambda) = \begin{cases}
-R_i\cos(\lambda + \Phi_i) , & i \in P \\
-R_i\cos\sfracpart{\lambda + \Phi_i} , & i \in D
-\end{cases}
-\]
-so that
-\[
-D_L(\lambda) = G_L(\lambda) - T_L(\lambda) = \frac{1}{L}\sum_{i\in P \cup D} \big( Z_i(\lambda) - \expect Z_i(\lambda) \big).
-\]
-Now $Z_1(\lambda_n), \dots,Z_L(\lambda_n)$ are independent with finite variance (because $\expect R_i^2$ is finite), so for each $n =1, \dots, N$,
-\[
-\abs{D_L(\lambda_n)} = \abs{\frac{1}{L}\sum_{i\in P \cup D} \big( Z_i(\lambda_n) - \expect Z_i(\lambda_n)\big)} \rightarrow 0
-\]
-almost surely as $L\rightarrow\infty$ by Kolmogorov's strong law of large numbers~\cite{Billingsley1979_probability_and_measure}.  Thus
-\[
-U_L = \sup_{n=1,\dots,N}\sabs{D_L(\lambda_n)} \leq \sum_{n=1}^N \sabs{D_L(\lambda_n)} \rightarrow 0
-\]
-almost surely to zero as $L \rightarrow \infty$.
-\end{IEEEproof}
+% \begin{lemma}\label{lem:supDLlambdan}
+% For any $N > 0$, $U_L \rightarrow 0$ almost surely as $L \rightarrow \infty$ where $U_L$ is defined in the proof of Lemma~\ref{lem:uniflawTGL}.
+% \end{lemma}
+% \begin{IEEEproof}
+% Put
+% \[
+% Z_i(\lambda) = \begin{cases}
+% R_i\cos(\lambda + \Phi_i) , & i \in P \\
+% R_i\cos\sfracpart{\lambda + \Phi_i} , & i \in D
+% \end{cases}
+% \]
+% so that
+% \[
+% D_L(\lambda) = G_L(\lambda) - T_L(\lambda) = \frac{1}{L}\sum_{i\in P \cup D} \big( Z_i(\lambda) - \expect Z_i(\lambda) \big).
+% \]
+% Now $Z_1(\lambda_n), \dots,Z_L(\lambda_n)$ are independent with finite variance (because $\expect R_i^2$ is finite), so for each $n =1, \dots, N$,
+% \[
+% \abs{D_L(\lambda_n)} = \abs{\frac{1}{L}\sum_{i\in P \cup D} \big( Z_i(\lambda_n) - \expect Z_i(\lambda_n)\big)} \rightarrow 0
+% \]
+% almost surely as $L\rightarrow\infty$ by Kolmogorov's strong law of large numbers~\cite{Billingsley1979_probability_and_measure}.  Thus
+% \[
+% U_L = \sup_{n=1,\dots,N}\sabs{D_L(\lambda_n)} \leq \sum_{n=1}^N \sabs{D_L(\lambda_n)} \rightarrow 0
+% \]
+% almost surely to zero as $L \rightarrow \infty$.
+% \end{IEEEproof}
 
-\begin{lemma}\label{lem:supsupDLlambda} For any $\epsilon > 0$,
-\[
-\prob\left\{ \lim_{L \rightarrow \infty} V_L > \epsilon + \tfrac{4\pi}{N}\expect R_i \right\} = 0.
-\]
-\end{lemma}
-\begin{IEEEproof}
-Observe that
-\begin{align*}
-&\sabs{D_L(\lambda) - D_L(\lambda_n)} \\
-&=  \abs{G_L(\lambda) - T_L(\lambda) - G_L(\lambda_n) + T_L(\lambda_n)} \\
-&\leq  \abs{G_L(\lambda) - G_L(\lambda_n)} + \abs{\expect G_L(\lambda) - \expect G_L(\lambda_n)} \\
-&\leq \abs{G_L(\lambda) - G_L(\lambda_n) } + \expect \abs{G_L(\lambda) - G_L(\lambda_n)},
-\end{align*}
-the last line following from Jensen's inequality.  Put
-\[
-C_L = \sup_{n = 1,\dots,N}\sup_{\lambda \in L_n} \abs{G_L(\lambda) - G_L(\lambda_n) },
-\]
-so that
-\begin{align*}
-V_L &= \sup_{n = 1,\dots,N}\sup_{\lambda \in L_n}\sabs{D_L(\lambda) - D_L(\lambda_n)} \\
-&\leq  C_L +  \sup_{n = 1,\dots,N}\sup_{\lambda \in L_n} \expect\abs{G_L(\lambda) - G_L(\lambda_n) } \\
-&\leq C_L + \expect C_L,
-\end{align*}
-where the last line follows because $\sup \expect\vert \dots\vert \leq \expect \sup \vert \dots \vert$.  Lemma~\ref{lem:CL} shows that $\expect C_L \leq \tfrac{2\pi}{N}\expect R_1$ and also that
-\[
-\prob\left\{ \lim_{L \rightarrow \infty} C_L > \epsilon + \tfrac{2\pi}{N}\expect R_1 \right\} = 0.
-\]
-Thus,
-\begin{align*}
-\prob&\left\{ \lim_{L \rightarrow \infty} V_L > \epsilon + \tfrac{4\pi}{N}\expect R_1 \right\} \\
-&\leq \prob\left\{ \lim_{L \rightarrow \infty} (C_L + \expect C_L) > \epsilon + \tfrac{4\pi}{N}\expect R_1 \right\} \\
-&\leq \prob\left\{ \lim_{L \rightarrow \infty} C_L > \epsilon + \tfrac{2\pi}{N}\expect R_1 \right\} = 0.
-\end{align*}
-\end{IEEEproof}
+% \begin{lemma}\label{lem:supsupDLlambda} For any $\epsilon > 0$,
+% \[
+% \prob\left\{ \lim_{L \rightarrow \infty} V_L > \epsilon + \tfrac{4\pi}{N}\expect R_i \right\} = 0.
+% \]
+% \end{lemma}
+% \begin{IEEEproof}
+% Observe that
+% \begin{align*}
+% &\sabs{D_L(\lambda) - D_L(\lambda_n)} \\
+% &=  \abs{G_L(\lambda) - T_L(\lambda) - G_L(\lambda_n) + T_L(\lambda_n)} \\
+% &\leq  \abs{G_L(\lambda) - G_L(\lambda_n)} + \abs{\expect G_L(\lambda) - \expect G_L(\lambda_n)} \\
+% &\leq \abs{G_L(\lambda) - G_L(\lambda_n) } + \expect \abs{G_L(\lambda) - G_L(\lambda_n)},
+% \end{align*}
+% the last line following from Jensen's inequality.  Put
+% \[
+% C_L = \sup_{n = 1,\dots,N}\sup_{\lambda \in L_n} \abs{G_L(\lambda) - G_L(\lambda_n) },
+% \]
+% so that
+% \begin{align*}
+% V_L &= \sup_{n = 1,\dots,N}\sup_{\lambda \in L_n}\sabs{D_L(\lambda) - D_L(\lambda_n)} \\
+% &\leq  C_L +  \sup_{n = 1,\dots,N}\sup_{\lambda \in L_n} \expect\abs{G_L(\lambda) - G_L(\lambda_n) } \\
+% &\leq C_L + \expect C_L,
+% \end{align*}
+% where the last line follows because $\sup \expect\vert \dots\vert \leq \expect \sup \vert \dots \vert$.  Lemma~\ref{lem:CL} shows that $\expect C_L \leq \tfrac{2\pi}{N}\expect R_1$ and also that
+% \[
+% \prob\left\{ \lim_{L \rightarrow \infty} C_L > \epsilon + \tfrac{2\pi}{N}\expect R_1 \right\} = 0.
+% \]
+% Thus,
+% \begin{align*}
+% \prob&\left\{ \lim_{L \rightarrow \infty} V_L > \epsilon + \tfrac{4\pi}{N}\expect R_1 \right\} \\
+% &\leq \prob\left\{ \lim_{L \rightarrow \infty} (C_L + \expect C_L) > \epsilon + \tfrac{4\pi}{N}\expect R_1 \right\} \\
+% &\leq \prob\left\{ \lim_{L \rightarrow \infty} C_L > \epsilon + \tfrac{2\pi}{N}\expect R_1 \right\} = 0.
+% \end{align*}
+% \end{IEEEproof}
 
-\begin{lemma}\label{lem:CL} The following statements hold:
-\begin{enumerate}
-\item $\expect C_L \leq \tfrac{2\pi}{N}\expect R_1$ for all positive integers $L$,
-\item for any $\epsilon > 0$, $\prob\left\{ \lim_{L \rightarrow \infty} C_L > \epsilon + \tfrac{2\pi}{N}\expect R_1 \right\} = 0$.
-\end{enumerate}
-\end{lemma}
-\begin{IEEEproof}
-If $\lambda \in L_n$, then $\lambda = \lambda_n + \delta$ with $\delta < \tfrac{2\pi}{N}$, and from Lemma~\ref{lem:coslipshitz},
-\begin{align*}
-&\abs{\cos(\lambda + \Phi_i) - \cos(\lambda_n + \Phi_i)} \leq \tfrac{2\pi}{N}, \;\;\; \text{and} \\
-&\abs{\cos\sfracpart{\lambda + \Phi_i} - \cos\sfracpart{\lambda_n + \Phi_i}} \leq \tfrac{2\pi}{N}.
-\end{align*}
-Because these results do not depend on $n$,
-\[
-\sup_{n=1,\dots,N}\sup_{\lambda \in L_n} \abs{Z_i(\lambda) - Z_i(\lambda_n)} \leq R_i \frac{2\pi}{N}
-\]
-for all $i = P \cup D$.  Also
-\begin{align*}
-C_L &= \sup_{n=1,\dots,N}\sup_{\lambda \in L_n}\abs{\frac{1}{L}\sum_{i \in P \cup D} Z_i(\lambda) - Z_i(\lambda_n)} \\
-&\leq \frac{1}{L}\sum_{i \in P \cup D} \sup_{n=1,\dots,N}\sup_{\lambda \in L_n} \abs{Z_i(\lambda) - Z_i(\lambda_n)} \\
-&\leq \frac{2\pi}{N L}\sum_{i \in P \cup D} R_i .
-\end{align*}
-Thus, 
-\[
-\expect C_L \leq \expect \frac{2\pi}{N L}\sum_{i \in P \cup D} R_i = \frac{2\pi}{N}\expect R_1
-\]
-and the first statement holds.  Now, 
-\[
-\frac{2\pi}{N L}\sum_{i \in P \cup D} R_i \rightarrow \frac{2\pi}{N}\expect R_1
-\] 
-almost surely as $L \rightarrow\infty$ by the strong law of large numbers, and so, for any $\epsilon > 0$,
-\begin{align*}
-\prob&\left\{ \lim_{L \rightarrow \infty} C_L > \epsilon + \tfrac{2\pi}{N}\expect R_1 \right\} \\
-&\leq \prob\left\{ \lim_{L \rightarrow \infty} \frac{2\pi}{N L}\sum_{i \in P \cup D} R_i > \epsilon + \tfrac{2\pi}{N}\expect R_1 \right\} = 0.
-\end{align*}
-\end{IEEEproof}
-
-
-\begin{lemma}\label{lem:coslipshitz}
-Let $x$ and $\delta$ be real numbers.  Then
-\begin{align*}
-&\abs{\cos(x + \delta) - \cos(x)} \leq \abs{\delta}, \;\;\; \text{and} \\
-&\abs{\cos\fracpart{x + \delta} - \cos\fracpart{x}} \leq \abs{\delta}.
-\end{align*}
-\end{lemma}
-\begin{IEEEproof}
-Both $\cos(x)$ and $\cos\fracpart{x}$ are Lipschitz continuous functions from $\reals$ to $\reals$ with constant $K=1$.  That is, for any $x$ and $y$ in $\reals$,
-\begin{align*}
-&\abs{\cos(y) - \cos(x)} \leq K\abs{x-y} = \abs{x-y}, \;\;\; \text{and} \\
-&\abs{\cos\fracpart{y} - \cos\fracpart{x}} \leq K\abs{x-y} = \abs{x-y}.
-\end{align*}
- The lemma follows by putting $y = x + \delta$.
-\end{IEEEproof}
+% \begin{lemma}\label{lem:CL} The following statements hold:
+% \begin{enumerate}
+% \item $\expect C_L \leq \tfrac{2\pi}{N}\expect R_1$ for all positive integers $L$,
+% \item for any $\epsilon > 0$, $\prob\left\{ \lim_{L \rightarrow \infty} C_L > \epsilon + \tfrac{2\pi}{N}\expect R_1 \right\} = 0$.
+% \end{enumerate}
+% \end{lemma}
+% \begin{IEEEproof}
+% If $\lambda \in L_n$, then $\lambda = \lambda_n + \delta$ with $\delta < \tfrac{2\pi}{N}$, and from Lemma~\ref{lem:coslipshitz},
+% \begin{align*}
+% &\abs{\cos(\lambda + \Phi_i) - \cos(\lambda_n + \Phi_i)} \leq \tfrac{2\pi}{N}, \;\;\; \text{and} \\
+% &\abs{\cos\sfracpart{\lambda + \Phi_i} - \cos\sfracpart{\lambda_n + \Phi_i}} \leq \tfrac{2\pi}{N}.
+% \end{align*}
+% Because these results do not depend on $n$,
+% \[
+% \sup_{n=1,\dots,N}\sup_{\lambda \in L_n} \abs{Z_i(\lambda) - Z_i(\lambda_n)} \leq R_i \frac{2\pi}{N}
+% \]
+% for all $i = P \cup D$.  Also
+% \begin{align*}
+% C_L &= \sup_{n=1,\dots,N}\sup_{\lambda \in L_n}\abs{\frac{1}{L}\sum_{i \in P \cup D} Z_i(\lambda) - Z_i(\lambda_n)} \\
+% &\leq \frac{1}{L}\sum_{i \in P \cup D} \sup_{n=1,\dots,N}\sup_{\lambda \in L_n} \abs{Z_i(\lambda) - Z_i(\lambda_n)} \\
+% &\leq \frac{2\pi}{N L}\sum_{i \in P \cup D} R_i .
+% \end{align*}
+% Thus, 
+% \[
+% \expect C_L \leq \expect \frac{2\pi}{N L}\sum_{i \in P \cup D} R_i = \frac{2\pi}{N}\expect R_1
+% \]
+% and the first statement holds.  Now, 
+% \[
+% \frac{2\pi}{N L}\sum_{i \in P \cup D} R_i \rightarrow \frac{2\pi}{N}\expect R_1
+% \] 
+% almost surely as $L \rightarrow\infty$ by the strong law of large numbers, and so, for any $\epsilon > 0$,
+% \begin{align*}
+% \prob&\left\{ \lim_{L \rightarrow \infty} C_L > \epsilon + \tfrac{2\pi}{N}\expect R_1 \right\} \\
+% &\leq \prob\left\{ \lim_{L \rightarrow \infty} \frac{2\pi}{N L}\sum_{i \in P \cup D} R_i > \epsilon + \tfrac{2\pi}{N}\expect R_1 \right\} = 0.
+% \end{align*}
+% \end{IEEEproof}
 
 
-\begin{lemma}\label{lem:GLtoG0}
-$G_L(\hat{\lambda}_L) \rightarrow G(0)$ almost surely as $L \rightarrow \infty$.
-\end{lemma}
-\begin{IEEEproof}
-By the triangle inequality,
-\[
-\sabs{G_L(\hat{\lambda}_L) - G(0)} \leq \sabs{G_L(\hat{\lambda}_L) - G(\hat{\lambda}_L)} + \sabs{G(\hat{\lambda}_L) - G(0)}.
-\]
-Now $\sabs{G_L(\hat{\lambda}_L) - G(\hat{\lambda}_L)} \rightarrow 0$ as $L \rightarrow \infty$ as a result of Lemma~\ref{lem:uniflawGGL}, and $\sabs{G(\hat{\lambda}_L) - G(0)} \rightarrow 0$ almost surely as $L \rightarrow \infty$ because $G$ is continuous and $\hat{\lambda}_L \rightarrow 0$ almost surely as $L \rightarrow \infty$.
-\end{IEEEproof}
+% \begin{lemma}\label{lem:coslipshitz}
+% Let $x$ and $\delta$ be real numbers.  Then
+% \begin{align*}
+% &\abs{\cos(x + \delta) - \cos(x)} \leq \abs{\delta}, \;\;\; \text{and} \\
+% &\abs{\cos\fracpart{x + \delta} - \cos\fracpart{x}} \leq \abs{\delta}.
+% \end{align*}
+% \end{lemma}
+% \begin{IEEEproof}
+% Both $\cos(x)$ and $\cos\fracpart{x}$ are Lipschitz continuous functions from $\reals$ to $\reals$ with constant $K=1$.  That is, for any $x$ and $y$ in $\reals$,
+% \begin{align*}
+% &\abs{\cos(y) - \cos(x)} \leq K\abs{x-y} = \abs{x-y}, \;\;\; \text{and} \\
+% &\abs{\cos\fracpart{y} - \cos\fracpart{x}} \leq K\abs{x-y} = \abs{x-y}.
+% \end{align*}
+%  The lemma follows by putting $y = x + \delta$.
+% \end{IEEEproof}
 
 
-\subsection{Lemmas required for the proof of asymptotic normality (Theorem~\ref{thm:normality}) } \label{sec:proof-asympt-normappendix}
+%\subsection{Lemmas required for the proof of asymptotic normality (Theorem~\ref{thm:normality}) } \label{sec:proof-asympt-normappendix}
 
 \begin{lemma}~\label{lem:diffatlambdaL}
 The derivative of $G_L$ exists, and is equal to zero, at $\hat{\lambda}_L$.  That is,
@@ -1546,7 +1557,7 @@ Write
 \]
 where
 \begin{equation}\label{eq:YLdef}
-Y_L(\lambda) = \sqrt{L}\big( G_L(\lambda) - T_L(\lambda) \big) - X_L.
+Y_L(\lambda) = \sqrt{L}\big( G_L(\lambda) - T_L(\lambda) \big) - X_L
 \end{equation}
 is an empirical process indexed by $\lambda$, similar to $W_L$ from~\eqref{eq:WLdef}.  As with $W_L$ results from the literature on empirical processes can be used to show that  
 %Lemma~\ref{lem:ZYLempiricproc} 
