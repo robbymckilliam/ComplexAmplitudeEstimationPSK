@@ -1,6 +1,6 @@
 %\documentclass[a4paper,10pt]{article}
-%\documentclass[draftcls, onecolumn, 11pt]{IEEEtran}
-\documentclass[journal]{IEEEtran}
+\documentclass[draftcls, onecolumn, 11pt]{IEEEtran}
+%\documentclass[journal]{IEEEtran}
  
 \usepackage{mathbf-abbrevs}
 \input{defs}
@@ -479,7 +479,8 @@ Substituting this expression into $SS(\rho, \theta)$ gives $SS$ minimised with r
 \[
 SS(\theta) = A - \frac{1}{L}\Re(Z(\theta))^2.
 \]
-We again abuse notation by reusing $SS$, but this should not cause confusion as $SS(\rho,\theta)$ and $SS(\theta)$ are easily told apart by their inputs.  By definition the amplitude $\rho_0$ and its estimator $\hat{\rho}$ are positive.  However, $\hat{\rho}(\theta) = \Re(Z(\theta))$ may take negative values for some $\theta \in [-\pi,\pi)$.  %In this case we would replace $\theta$ with $\fracpart{\theta + \phi}$ and $\hat{\rho}(\theta)$ with $-\hat{\rho}(\theta)$ and observe that
+%We again abuse notation by reusing $SS$, but this should not cause confusion as $SS(\rho,\theta)$ and $SS(\theta)$ are easily told apart by their inputs.  
+By definition the amplitude $\rho_0$ and its estimator $\hat{\rho}$ are positive.  However, $\hat{\rho}(\theta) = \Re(Z(\theta))$ may take negative values for some $\theta \in [-\pi,\pi)$.  %In this case we would replace $\theta$ with $\fracpart{\theta + \phi}$ and $\hat{\rho}(\theta)$ with $-\hat{\rho}(\theta)$ and observe that
 %\[
 %SS(\rho,\theta) = SS(-\rho, \fracpart{\theta + \pi})
 %\]
@@ -570,7 +571,7 @@ and the last line converges almost surely to zero by Lemma~\ref{lem:uniflawGGL}.
 $\sup_{\lambda \in [-\pi, \pi)}\sabs{G_L(\lambda) - G(\lambda)} \rightarrow 0$ almost surely as $L \rightarrow \infty$.
 \end{lemma}
 \begin{IEEEproof}
-This type of result is called a~\emph{uniform law of large numbers} and follows from standard arguments.  See, for example van~de~Geer~\cite[Ch.~3]{van2009empirical} or Pollard~\citep[Ch.~2]{Pollard_conv_stat_proc_1984}.  A specific proof of this result is given in~\cite[Lemma~2]{McKilliam_leastsqPSKpilotsdata_arxiv}.
+This type of result is called a~\emph{uniform law of large numbers} and follows from standard arguments.  See, for example, van~de~Geer~\cite[Ch.~3]{van2009empirical} or Pollard~\citep[Ch.~2]{Pollard_conv_stat_proc_1984}.  A proof of this specific result is given in~\cite[Lemma~2]{McKilliam_leastsqPSKpilotsdata_arxiv}.
 \end{IEEEproof}
 
 \begin{lemma}\label{lem:GLtoG0}
@@ -672,7 +673,7 @@ The value of $A_1, A_2, B_1$ and $B_2$ can be efficiently computed by numerical 
 
 We present the results of Monte-Carlo simulations with the least squares estimator.  In all simulations the noise samples $w_1,\dots,w_L$ are independent and identically distributed circularly symmetric and Gaussian with real and imaginary parts having variance $\sigma^2$.  Under these conditions the least squares estimator is also the maximum likelihood estimator.  Simulations are run with $M=2,4,8$ (BPSK, QPSK, $8$-PSK) and with signal to noise ratio $\text{SNR} = \tfrac{\rho_0^2}{2\sigma^2}$ between \unit[-20]{dB} and \unit[20]{dB} in steps of \unit[1]{dB}.  The amplitude $\rho_0=1$ and $\theta_0$ is uniformly distributed on $[-\pi, \pi)$.  For each value of SNR, $T = 5000$ replications are performed to obtain $T$ estimates $\hat{\rho}_1, \dots, \hat{\rho}_T$ and $\hat{\theta}_1, \dots, \hat{\theta}_T$.  
 
-Figures~\ref{fig:plotphaseBPSK},~\ref{fig:plotphaseQPSK}~and~\ref{fig:plotphase8PSK} show the sample mean square error (MSE) of the phase estimator when $M=2,4,8$ with $L=4096$ and for varying proportions of pilots symbols $\abs{P} = 0, \tfrac{L}{32}, \tfrac{L}{8}, \tfrac{L}{2}, L$.  When $\abs{P} \neq 0$ (i.e. coherent detection) the mean square error is computed as $\tfrac{1}{T}\sum_{i=1}^T\sfracpart{\hat{\theta}_i - \theta_0}_\pi^2$.  Otherwise, when $\abs{P}=0$ the mean square error is computed as $\tfrac{1}{T}\sum_{i=1}^T\sfracpart{\hat{\theta}_i - \theta_0}^2$ as in~\cite{McKilliam_leastsqPSKnoncoICASSP_2012}.  The dots, squares, circles and crosses are the results of Monte-Carlo simulations with the least square estimator.  The solid lines are the estimator MSEs predicted by Theorem~\ref{thm:normality}.   %(and by Theorem~2 from~\cite{McKilliam_leastsqPSKnoncoICASSP_2012} when $\abs{P} = 0$).  
+Figures~\ref{fig:plotphaseBPSK},~\ref{fig:plotphaseQPSK}~and~\ref{fig:plotphase8PSK} show the sample mean square error (MSE) of the phase estimator when $M=2,4,8$ with $L=4096$ and for varying proportions of pilots symbols $\abs{P} = 0, \tfrac{L}{32}, \tfrac{L}{8}, \tfrac{L}{2}, L$.  When $\abs{P} \neq 0$ the mean square error is computed as $\tfrac{1}{T}\sum_{i=1}^T\sfracpart{\hat{\theta}_i - \theta_0}_\pi^2$.  Otherwise, when $\abs{P}=0$ the mean square error is computed as $\tfrac{1}{T}\sum_{i=1}^T\sfracpart{\hat{\theta}_i - \theta_0}^2$ as in~\cite{McKilliam_leastsqPSKnoncoICASSP_2012}.  The dots, squares, circles and crosses are the results of Monte-Carlo simulations with the least square estimator.  The solid lines are the estimator MSEs predicted by Theorem~\ref{thm:normality}.   %(and by Theorem~2 from~\cite{McKilliam_leastsqPSKnoncoICASSP_2012} when $\abs{P} = 0$).  
 The prediction is made by dividing the asymptotic covariance matrix by $L$.  The theorem accurately predicts the behaviour of the phase estimator when $L$ is sufficiently large.  As the SNR decreases the variance of the phase estimator approaches that of the uniform distribution on $[-\pi, \pi)$ when $\abs{P} \neq 0$, and the uniform distribution on $[-\tfrac{\pi}{M}, \tfrac{\pi}{M})$ when $\abs{P}=0$~\cite{McKilliam_leastsqPSKnoncoICASSP_2012}.  Theorem~\ref{thm:normality} does not model this behaviour in the sense that for any fixed $L$ there exist sufficiently small values of SNR for which Theorem~\ref{thm:normality} does not produce accurate predictions of the MSE.  As the SNR increases the variance of the estimators converge to that of the estimator where all symbols are pilots, i.e. $\abs{P} = L$.
 
 % We can use our asymptotic theorem to predict the SNR at which the least squares estimator will be close to that of the unmodulated carrier estimate.  The asymptotic variance on the unmodulated carrier estimator is given by setting $p = 1$ and $d=0$ in Theorem~\ref{thm:normality}.  We obtain the variance to be $A_1$.  Thus, if we desire the least squares estimator to have variance close to $A_1$, say $(1 + \delta)A_1$ for some small $\delta > 0$, then we require SNR at which 
@@ -1559,7 +1560,7 @@ where
 \begin{equation}\label{eq:YLdef}
 Y_L(\lambda) = \sqrt{L}\big( G_L(\lambda) - T_L(\lambda) \big) - X_L
 \end{equation}
-is an empirical process indexed by $\lambda$, similar to $W_L$ from~\eqref{eq:WLdef}.  As with $W_L$ results from the literature on empirical processes can be used to show that  
+is an empirical process indexed by $\lambda$, similar to $W_L$ from~\eqref{eq:WLdef}.  As with $W_L$ from~\eqref{eq:WLdef} results from the literature on empirical processes can be used to show that  
 %Lemma~\ref{lem:ZYLempiricproc} 
 %in Section~\ref{sec:an-empirical-process} 
 %shows that 
@@ -1579,9 +1580,9 @@ T_L(\lambda) &= \frac{\sabs{P}}{L}\expect R_1\cos(\lambda + \Phi_1) + \frac{\sab
 %&= \big( p + o(1) \big) \expect R_1\cos(\lambda + \Phi_1) \\
 %& \hspace{2cm} + \big( d + o(1) \big) \expect R_1\cos\fracpart{\lambda + \Phi_1} \\
 &=  \big( p + o(L^{-1/2}) \big) \expect R_1\cos(\lambda + \Phi_1) \\
-&\hspace{2cm} + \big( d + o(L^{-1/2}) \big) \expect R_1\cos\fracpart{\lambda + \Phi_1},
+&\hspace{2cm} + \big( d + o(L^{-1/2}) \big) \expect R_1\cos\fracpart{\lambda + \Phi_1}.
 \end{align*}
-and because $\tfrac{\abs{P}}{L} = p + o(L^{-1/2})$ and $\tfrac{\abs{D}}{L} = d + o(L^{-1/2})$ (by assumption in Theorem~\ref{thm:normality}), we have
+Because $\tfrac{\abs{P}}{L} = p + o(L^{-1/2})$ and $\tfrac{\abs{D}}{L} = d + o(L^{-1/2})$ by assumption in Theorem~\ref{thm:normality}, we have
 \begin{align*}
 \sqrt{L}\big( T_L(\lambda) - G(0) \big) = \sqrt{L}p q_1(\lambda) + \sqrt{L} d q_2(\lambda) + o(1),
 \end{align*}
