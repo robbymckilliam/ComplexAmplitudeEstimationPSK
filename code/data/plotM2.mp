@@ -229,7 +229,7 @@ draw begingraph(plotwidth, plotheight);
   gdraw "cltM2L4096absP512p"; gdraw "MackenthunCoherentM2L4096absP512p" plot(dot);
   %gdraw "cltM2L4096absP128p"; gdraw "MackenthunCoherentM2L4096absP128p" plot(circle);
   gdraw "cltM2L4096absP0p"; gdraw "MackenthunNonCoherentM2L4096p" plot(cross);
-  gdraw "ViterbiViterbiM2L4096p" dashed evenly;
+  %gdraw "ViterbiViterbiM2L4096p" dashed evenly;
 
  % gdraw "cltM2L2048absP2048p"; gdraw "MackenthunCoherentM2L2048absP2048p" plot(times); %glabel.llft(btex $L = 2048$ etex, 1000);
  % gdraw "cltM2L2048absP1024p"; gdraw "MackenthunCoherentM2L2048absP1024p" plot(dot);
