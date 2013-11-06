@@ -1,0 +1,48 @@
+<pre class="code">
+<span class="srcline"><span class="lineno"><a href="1,1" id="srcline1"> 1</a></span><span class="line"><span class="comment">% DC blocking filter</span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,2" id="srcline2"> 2</a></span><span class="line"><span class="comment">%-------------------------------------------------------------</span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,3" id="srcline3"> 3</a></span><span class="line"><span class="comment">% dcblock.m </span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,4" id="srcline4"> 4</a></span><span class="line"><span class="comment">%</span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,5" id="srcline5"> 5</a></span><span class="line"><span class="comment">% [RxSampFilt] = dcblockST2DL(RxSamp)</span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,6" id="srcline6"> 6</a></span><span class="line"><span class="comment">%</span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,7" id="srcline7"> 7</a></span><span class="line"><span class="comment">% This digital filter blocks the DC component in the received signal. It is</span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,8" id="srcline8"> 8</a></span><span class="line"><span class="comment">% primarily intended to remove the complex exponential at DC that is</span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,9" id="srcline9"> 9</a></span><span class="line"><span class="comment">% transmitted in the ST2 downlink waveform for frequency estimation</span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,10" id="srcline10">10</a></span><span class="line"><span class="comment">% purposes. Once the frequency has been estimated, the discrete tone should</span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,11" id="srcline11">11</a></span><span class="line"><span class="comment">% be removed in order to avoid bit error rate degradations. The</span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,12" id="srcline12">12</a></span><span class="line"><span class="comment">% implementation uses an order-one IIR filter.</span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,13" id="srcline13">13</a></span><span class="line"><span class="comment">% </span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,14" id="srcline14">14</a></span><span class="line"><span class="comment">% Inputs:</span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,15" id="srcline15">15</a></span><span class="line"><span class="comment">%   RxSamp      - Vector containing samples of received signal</span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,16" id="srcline16">16</a></span><span class="line"><span class="comment">%</span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,17" id="srcline17">17</a></span><span class="line"><span class="comment">% Outputs:</span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,18" id="srcline18">18</a></span><span class="line"><span class="comment">%   RxSampFilt  - Vector containing filtered received samples</span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,19" id="srcline19">19</a></span><span class="line"><span class="comment">%</span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,20" id="srcline20">20</a></span><span class="line"><span class="comment">% Comments: For details see [J. de Freitas, "The DC Blocking Filter", Jan.</span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,21" id="srcline21">21</a></span><span class="line"><span class="comment">%           2007, available at</span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,22" id="srcline22">22</a></span><span class="line"><span class="comment">%           http://www.mathworks.com.au/matlabcentral/fileexchange/13792-the-dc-blocking-filter] </span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,23" id="srcline23">23</a></span><span class="line"><span class="comment">% </span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,24" id="srcline24">24</a></span><span class="line"><span class="comment">%-------------------------------------------------------------</span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,25" id="srcline25">25</a></span><span class="line"><span class="comment">% Author: A. Pollok, Institute for Telecommunications Research</span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,26" id="srcline26">26</a></span><span class="line"><span class="comment">% Project: ASRP</span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,27" id="srcline27">27</a></span><span class="line"><span class="comment">%-------------------------------------------------------------</span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,28" id="srcline28">28</a></span><span class="line"><span class="comment">% Copyright 2012 </span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,29" id="srcline29">29</a></span><span class="line"><span class="comment">% Institute for Telecommunications Research</span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,30" id="srcline30">30</a></span><span class="line"><span class="comment">% University of South Australia</span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,31" id="srcline31">31</a></span><span class="line"><span class="comment">%-------------------------------------------------------------</span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,32" id="srcline32">32</a></span><span class="line"></span></span>
+<span class="srcline"><span class="lineno"><a href="1,33" id="srcline33">33</a></span><span class="line"><span class="keyword">function</span> [<span class="var type1" id="S2T3U3">RxSampFilt</span>] = <span class="message warning" id="M1F1C">dcblockST2DL</span>(<span class="var type1" id="S3T3U6">RxSamp</span>)</span></span>
+<span class="srcline"><span class="lineno"><a href="1,34" id="srcline34">34</a></span><span class="line"></span></span>
+<span class="srcline"><span class="lineno"><a href="1,35" id="srcline35">35</a></span><span class="line"><span class="comment">% ST1 UL: coefficents of order-one IIR filter</span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,36" id="srcline36">36</a></span><span class="line"></span></span>
+<span class="srcline"><span class="lineno"><a href="1,37" id="srcline37">37</a></span><span class="line"><span class="mxinfo" id="T1:U3"><span class="var type1" id="S4T1U9">p</span> = <span class="mxinfo" id="T1:U5">0.998009283733233</span></span>; <span class="comment">% coeff for cut-on frequency at 12Hz</span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,38" id="srcline38">38</a></span><span class="line">    <span class="comment">% fc = 12 / (OS/(2*Ts)); % normalised cut-on frequency</span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,39" id="srcline39">39</a></span><span class="line">    <span class="comment">% p = dcblock_MatlabCentral(fc);</span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,40" id="srcline40">40</a></span><span class="line"><span class="mxinfo" id="T2:U6"><span class="var type1" id="S5T2U13">b</span> = <span class="mxinfo" id="T2:U8">[1 -1]</span></span>;</span></span>
+<span class="srcline"><span class="lineno"><a href="1,41" id="srcline41">41</a></span><span class="line"><span class="mxinfo" id="T2:U9"><span class="var type1" id="S6T2U21">a</span> = <span class="mxinfo" id="T2:U11">[1 -<span class="var type1" id="S4T1U26">p</span>]</span></span>;</span></span>
+<span class="srcline"><span class="lineno"><a href="1,42" id="srcline42">42</a></span><span class="line"></span></span>
+<span class="srcline"><span class="lineno"><a href="1,43" id="srcline43">43</a></span><span class="line"><span class="comment">% filter frequency corrected samples</span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,44" id="srcline44">44</a></span><span class="line"><span class="mxinfo" id="T3:U13"><span class="var type1" id="S2T3U29">RxSampFilt</span> = <span class="mxinfo" id="T3:U15">filter(<span class="mxinfo" id="T2:U16"><span class="var type1" id="S5T2U32">b</span></span>,<span class="var type1" id="S6T2U33">a</span>,<span class="var type1" id="S3T3U34">RxSamp</span>)</span></span>;</span></span>
+<span class="srcline"><span class="lineno"><a href="1,45" id="srcline45">45</a></span><span class="line"></span></span>
+<span class="srcline"><span class="lineno"><a href="1,46" id="srcline46">46</a></span><span class="line"><span class="keyword">end</span></span></span>
+</pre>
