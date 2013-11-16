@@ -5,8 +5,8 @@
 \usepackage{mathbf-abbrevs}
 \input{defs}
 
-%\usepackage{xr}
-%\externaldocument{paper2}
+\usepackage{zref-xr,zref-user}
+\zexternaldocument*{paper}
 
 \usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
 
@@ -42,11 +42,17 @@
 	This paper is concerned with carrier phase and amplitude estimation for PSK modulated signalling.
 The considered least squares estimator seems to be only a minor extension of the one from [7]. Yet, more than 4 pages are dedicated to its derivation. Perhaps this section could be made more concise.
 	\\\textbf{Response:}
+We have shorteed Section~\zref{sec:least-squar-estim} but have left the description of the algorithm intact.  The primary reason for this is that much of the notation used during the analysis of the estimator is most naturally introduced during the description of the algorithm.  To qualify this for the reader we have included the following sentences at the beginning of Section~\zref{sec:least-squar-estim}.
+
+``
+In this section we derive Mackentun's algorithm to compute the least squares estimators of the carrier phase and amplitude~\cite{Mackenthun1994}.  Mackenthun specifically considered the non-data aided setting, so we modify the algorithm to include pilot symbols.  Although the modification is straightforward, much of the notation that we will use for analysing the estimator in Section~\ref{sec:stat-prop-least} is naturally introduced during the description of the algorithm.  For this reason, and so that our paper is self contained, we describe the algorithm in full.
+''
+
 %	We have shortened Sec.\ II to make it more concise and improve readability.
 \item\label{R1it2}\textbf{Comment:} 
 	As stated by the authors themselves, the key results and main contributions of the paper involve the asymptotic properties of the least squares estimator. As far as I can see the derivation seems correct and complete, yet it is mathematically very involved and rather difficult to follow.
 	\\\textbf{Response:}	
-%	For improved readability of the manuscript, we have now moved all of the lemmas into the appendix. We have also added a discussion of the implications and the practical relevance of the theorems to Sec.\ III (Sec.\ IV in the original manuscript).
+	For improved readability of the manuscript, we have now moved all of the lemmas into the appendix. We have also added a discussion of the implications and the practical relevance of the theorems after the statement of Theorems~\zref{thm:consistency} and~\zref{thm:normality} in Section.~\zref{sec:stat-prop-least}.
 
 %	\comment{Stress practical relevance by showing ASRP PER results. Mention trials and patents. Point out that knowledge of the estimator statistics makes it possible to assess the estimator performance for a given number of symbols/pilot symbols at a certain SNR without having to run time consuming simulations. Also point out that the results are valid for a wider range of noise distributions, whilst CRBs need to be derived for a specific noise distribution\dots}
 \item
@@ -55,23 +61,24 @@ A few minor remarks are:
 \item\label{R1it3a}\textbf{Comment:} 
 	Estimation from data symbols only is referred to as noncoherent, I rather consider a detector with non-data-aided synchronization as coherent (since it uses estimates of the synchronization parameters to detect the data).
 	\\\textbf{Response:}
-%	We agree with the reviewer and apologise for causing confusion with the use of the terms \emph{coherent} and \emph{noncoherent} in the original manuscript. In the updated manuscript, we refer to an estimator that uses known pilot symbols as \emph{data-aided} and to one that relies on receiver decisions on the data symbols as \emph{decision-directed}.
+	We agree with the reviewer and apologise for causing confusion with the use of the terms \emph{coherent} and \emph{noncoherent} in the original manuscript. In the updated manuscript, we refer to an estimator that does not use pilot symbols as \emph{non data-aided}.
+%In the updated manuscript, we refer to an estimator that uses known pilot symbols as \emph{data-aided} and to one that relies on receiver decisions on the data symbols as \emph{decision-directed}.
 \item\textbf{Comment:} 
 	missing `,' after (5)
 	\\\textbf{Response:} 
-%We thank the reviewer for spotting the missing comma and have added it.
+We thank the reviewer for spotting the missing comma and have added it.
 \item\textbf{Comment:} 
 	p.\ 19, at the bottom: sortindicIes (typo, delete 'i')
-	\\\textbf{Response:} % Thank you for pointing out this typographical error. We have corrected it.
+	\\\textbf{Response:} Thank you for pointing out this typographical error. We have corrected it.
 \item\textbf{Comment:} 
 	In Section VI, I would prefer a reference to the Lemma's in the Appendix at the start of the section.
-	\\\textbf{Response:} %We have added a reference to the Lemmas in the appendix at the beginning of the section. Please note that Sec.\ VI of the original manuscript is now Sec.\ III.
+	\\\textbf{Response:} We have added a reference to the Lemmas in the appendix at the beginning of the section. %Please note that Sec.\ VI of the original manuscript is now Sec.\ III.
 \item\textbf{Comment:} 
 	Section VIII, ``Theorem 2 does not model this behaviour\dots'' can you please further explain why? + Comparison with the Cramer-Rao bound results from the existing literature would be interesting.
 	\\\textbf{Response:}
-%	We have removed the aforementioned sentence from the manuscript as we feel it has caused more confusion than provided insight. We hope the following explanation clears up any confusion it may have caused.  Theorem 2 shows that for $L\rightarrow\infty$, $\sqrt{L}\sfracpart{\theta_0-\hat{\theta}}_\pi$ is normally distributed with zero mean and finite variance.  The support of $\sqrt{L}\sfracpart{\theta_0-\hat{\theta}}_\pi$ is the interval $[-\sqrt{L}\pi, \sqrt{L}\pi)$, i.e.\ $(-\infty, \infty)$ as $L\rightarrow\infty$.  For finite $L$, however, $\sqrt{L}\sfracpart{\theta_0-\hat{\theta}}_\pi$ has finite support and thus, cannot be exactly normally distributed.  Nevertheless, provided the variance of the noise is sufficiently small (i.e.\ the SNR sufficiently high), the distribution of $\sqrt{L}\sfracpart{\theta_0-\hat{\theta}}_\pi$ will be concentrated in a finite interval much smaller than $[-\sqrt{L}\pi, \sqrt{L}\pi)$ and is very close to a normal distribution.  On the other hand, as the SNR decreases, $\sqrt{L}\sfracpart{\theta_0-\hat{\theta}}_\pi$ approaches a uniform distribution on $[-\sqrt{L}\pi, \sqrt{L}\pi)$.  Consequently, the variance of the phase estimator approaches that of the uniform distribution on $[-\pi, \pi)$.  The argument for the case without pilots is analogous.
+	We have removed the aforementioned sentence from the manuscript as we feel it has caused more confusion than provided insight. We hope the following explanation clears up any confusion it may have caused.  Theorem 2 shows that for $L\rightarrow\infty$, $\sqrt{L}\sfracpart{\theta_0-\hat{\theta}}_\pi$ is normally distributed with zero mean and finite variance.  The support of $\sqrt{L}\sfracpart{\theta_0-\hat{\theta}}_\pi$ is the interval $[-\sqrt{L}\pi, \sqrt{L}\pi)$, i.e.\ $(-\infty, \infty)$ as $L\rightarrow\infty$.  For finite $L$, however, $\sqrt{L}\sfracpart{\theta_0-\hat{\theta}}_\pi$ has finite support and thus, cannot be exactly normally distributed.  Nevertheless, provided the variance of the noise is sufficiently small (i.e.\ the SNR sufficiently high), the distribution of $\sqrt{L}\sfracpart{\theta_0-\hat{\theta}}_\pi$ will be concentrated in a finite interval much smaller than $[-\sqrt{L}\pi, \sqrt{L}\pi)$ and is very close to a normal distribution.  On the other hand, as the SNR decreases, $\sqrt{L}\sfracpart{\theta_0-\hat{\theta}}_\pi$ approaches a uniform distribution on $[-\sqrt{L}\pi, \sqrt{L}\pi)$.  Consequently, the variance of the phase estimator approaches that of the uniform distribution on $[-\pi, \pi)$.  The argument for the case without pilots is analogous.
 		
-%	\comment{Add CRBs to plots.} Please note that Sec.\ VIII of the original manuscript is now Sec.\ VI.
+	\comment{Add CRBs to plots.}
 \end{enumerate}
 \end{enumerate}
 
@@ -82,26 +89,24 @@ A few minor remarks are:
 	General remarks
 \begin{enumerate}
 \item\textbf{Comment:} 
-	Estimation of carrier phase and amplitude for $M$-ary PSK signals has been studied by the authors. Extending Mackenthun’s algorithm to pilots, a least square (LS) method is developed, where major parts of the manuscript are dedicated to the statistical analysis of the LS approach.
-
-	Generally speaking it is to admit that both wording and writing follow the IEEE standards, although I would say that the list of References should be checked and updated in this respect.
+	Estimation of carrier phase and amplitude for $M$-ary PSK signals has been studied by the authors. Extending Mackenthun's algorithm to pilots, a least square (LS) method is developed, where major parts of the manuscript are dedicated to the statistical analysis of the LS approach.  Generally speaking it is to admit that both wording and writing follow the IEEE standards, although I would say that the list of References should be checked and updated in this respect.
 	\\\textbf{Response:}
-%	We thank the reviewer for pointing us to the suggested references and have added \comment{some/most of} them. Specifically, we have included references [c, d, e]. \comment{Add the remaining ones?}
+	We thank the reviewer for pointing us to the suggested references and have added them.
 \end{enumerate}
 \item
 Some editorial comments
 \begin{enumerate}
 \item\textbf{Comment:} 
 	Paragraph before (13): \dots can be computed from its predecessor \dots
-	\\\textbf{Response:} %Thank you for pointing out this typographical error. We have corrected it.
+	\\\textbf{Response:} Thank you for pointing out this typographical error. We have corrected it.
 \item\textbf{Comment:} 
 	Section III and VII: it would be helpful to provide $f(r, \phi)$
 	\\\textbf{Response:}
-%	We thank the reviewer for pointing out the missing definition of $f(r, \phi)$ and have added it. Please note that in response to comment \ref{R4it2e} of reviewer 4, Sec.\ III has been slightly shortened and has been moved to the appendix.
+	We thank the reviewer for pointing out the missing definition of $f(r, \phi)$ and have added it. %Please note that in response to comment \ref{R4it2e} of reviewer 4, Sec.\ III has been slightly shortened and has been moved to the appendix.
 \item\textbf{Comment:} 
 	In the introductory section (paragraph before Eq.\ 3), the authors are talking about ``noncoherent detection where no pilot symbols exist''. In my mind this is somewhat confusing, because parameter estimation without knowing the underlying data is usually denoted as non-data aided (NDA) or decision-directed (DD), whereas when these data are known we have a data-aided (DA) situation [a]. On the other hand, coherent/noncoherent scenarios are given if the carrier phase is known/unknown to the receiver station.
 	\\\textbf{Response:}
-%	Please refer to our response to comment \ref{R1it3a} of reviewer 1.
+	Please refer to our response to comment \ref{R1it3a} of reviewer 1.
 \end{enumerate}
 \item
 Major issues
@@ -128,7 +133,12 @@ the LS results are compared to an alternative solution represented by the Viterb
 \item\textbf{Comment:} 
 	In a much more powerful approach to the topic addressed in the current paper, the pilot sequence would be employed for a coarse estimation/correction of the carrier phase of the payload data. In the sequel, by embedding carrier phase recovery into an iterative (turbo) decoding scheme [d, e] or any other error correcting method [f, g], the jitter performance is close to the CRLB for DA estimation even at very small SNRs, which are mainly determined by the convergence region of the (turbo) decoder. By taking into account the fact that modern and powerful communication systems are not conceivable without any FEC scheme, it is not clear to me why I should choose your algorithm in such a context.
 	\\\textbf{Response:}
-%	We have added a brief discussion of the need for sufficiently accurate coarse estimates to initialise an iterative code-aided synchronisation stage, citing [d, e].  We have also added a set of new simulation results, which show the packet error rate of an LDPC-coded satellite communication system to demonstrate the use and performance of the proposed estimator in a practical system.  \comment{Add details\dots}
+	We have added the following paragraph to the introduction describing the need for sufficiently accurate coarse estimates to initialise an iterative code-aided synchronisation stage. %citing [d, e].  
+
+``In the last decade, iterative methods for channel estimation that exploit the error correcting code used by the transmitter have appeared~\cite{Lottici2004,Noels2005,Herzet_turbo_synch_proc_IEEE_2007,Herzet_timingturbosynch_2007,Herzet_framework_turbo_sync_2007}.  These methods often go by the name of~\emph{turbo sychronisation}~\cite{Herzet_turbo_synch_proc_IEEE_2007}.  
+These estimators typically apply the expectation maximisation (EM) algorithm under a Gaussian assumption regarding the noise sequence $\{w_i\}$.  A key problem is that the EM algorithm converges correctly only if initialised at some channel estimate sufficiently close to the true channel parameters.  Methods for efficiently obtaining a close initial channel estimate are still required and because of this the analysis of such methods remains of interest.  For the purpose of carrier phase and amplitude estimation, the least squares estimator we describe here is a good candidate as an initialiser for a turbo synchronisation proceedure.''
+
+%We have also added a set of new simulation results, which show the packet error rate of an LDPC-coded satellite communication system to demonstrate the use and performance of the proposed estimator in a practical system.  \comment{Add details\dots}
 	
 %	\comment{Add response related to [f, g]\dots}
 \end{enumerate}
@@ -164,7 +174,7 @@ The paper studies the estimation of amplitude and phase due to the distortion in
 
 The major contribution of this paper is the description of the asymptotic properties of the least squares estimator for the phase and amplitude. Although it seems technically correct, the authors do not make clear the relevance of their work to signal processing applications and to timely problems. They limit themselves in presenting several lemmas and proofs. Therefore, I cannot recommend this manuscript for publication in the IEEE Transactions on Signal Processing.
 	\\\textbf{Response:}
-%	We thank the reviewer for the comments. Please refer to our response to comment \ref{R1it2} of reviewer 1.
+We thank their reviewer for the comments. We have greatly expanded the introduction of the manuscript to make the practical and theoretical importance of our paper clear.
 \end{enumerate}
 
 \section*{Reviewer 4}
@@ -199,8 +209,12 @@ Some additional comments:
 \item\textbf{Comment:} \label{R4it2e}
 	Some sectioms can be shortened to make the work more readable and concise. This is the case of Section II for instance. Section III is not necessary. It is too short and the main concepts are well known. A reference to a textbook would be sufficient. Section VII is also too short and is not justified.
 	\\\textbf{Response:}
-%	We have shortened Sec.\ II to make it more concise and improve readability. Sec.\ VII has been removed from the revised manuscript.
-	
+%	We have shortened Sec.\ II to make it more concise and improve readability. 
+\comment{BLERG}
+
+The original Sec.\ VII has been removed from the revised manuscript.
+
+\comment{BLERG}
 %	Furthermore, we agree with the reviewer that circularly symmetric random variables are well known, but would like to point out that Sec.\ III specifically discusses random variables of the form $Re^{j\varPhi}=1{+}W$, where $W$ is circularly symmetric. The joint pdf of $R$ and $\varPhi$ is a crucial ingredient for the asymptotic analysis presented in the manuscript and therefore, we feel the section should be retained. However, for improved readability, Sec.\ III has been slightly shortened and has been moved to the appendix.
 \end{enumerate}
 \end{enumerate}
