@@ -52,7 +52,7 @@ In this section we derive Mackentun's algorithm to compute the least squares est
 \item\label{R1it2}\textbf{Comment:} 
 	As stated by the authors themselves, the key results and main contributions of the paper involve the asymptotic properties of the least squares estimator. As far as I can see the derivation seems correct and complete, yet it is mathematically very involved and rather difficult to follow.
 	\\\textbf{Response:}	
-	For improved readability of the manuscript, we have now moved all of the lemmas into the appendix. We have also added a discussion of the implications and the practical relevance of the theorems after the statement of Theorems~\zref{thm:consistency} and~\zref{thm:normality} in Section.~\zref{sec:stat-prop-least}.
+	For improved readability of the manuscript, we have now moved all of the lemmas into the appendix. We have also added a discussion of the implications and the practical relevance of the theorems after the statement of Theorems~\zref{thm:consistency} and~\zref{thm:normality} in Section.~\zref{sec:stat-prop-least}.  We have also expanded the introduction of the manuscript to make the practical and theoretical importance of our of results clear.
 
 %	\comment{Stress practical relevance by showing ASRP PER results. Mention trials and patents. Point out that knowledge of the estimator statistics makes it possible to assess the estimator performance for a given number of symbols/pilot symbols at a certain SNR without having to run time consuming simulations. Also point out that the results are valid for a wider range of noise distributions, whilst CRBs need to be derived for a specific noise distribution\dots}
 \item
@@ -129,7 +129,19 @@ the LS results are compared to an alternative solution represented by the Viterb
 \item\textbf{Comment:} 
 	By detailed inspection of Fig.\ 4 showing the jitter variance for amplitude estimates, it is easily observed that $|P| < L$ performs better than $|P| = L$ in the medium-to-low SNR range. In my mind this is somewhat strange, since it should be the other way round (similar to the evolution of the phase curves in Figs.\ 1Ð3 and 5). Can you comment on this phenomenon ?
 	\\\textbf{Response:}
-%	\comment{Replace variance plot by MSE plot.}
+In the original manuscript we plotted the \emph{variance} of the amplitude estimator, not the mean square error. That is, the solid lines where the theoretical variance of $\hat{m}_L = \hat{\rho} - \rho_0 G(0)$ and each point from the Monte-Carlo simulations was computed as the unbiased error $\tfrac{1}{T}\sum_{i=1}^T\big(\hat{\rho}_i - \rho_0G(0)\big)^2$.  We chose this approach in order to highlight the correctness of our asymptotic theory. This was decribed in the 4th paragraph of the old Section~8 containing the simulations section.
+
+We do agree with the reviewer this this plot by itself initially appears misleading.  To aleviate in the new manuscript we instead plot the average square error computed in the usual way by Monte-Carlo simulation and the solid line is given by the bias plus variance squared.  The following paragraph has also be placed in the simulations section (Section~\zref{sec:simulations}) in the new manuscript. 
+
+``Figure~\zref{fig:plotampBPSK} %,~\ref{fig:plotampQPSK}~and~\ref{fig:plotamp8PSK} 
+shows the mean square error of the amplitude estimator when $M=2$ and $L=2048$ and when the number of pilots symbols is $\abs{P} = 0, \tfrac{L}{2}, L$.  The solid lines show the mean square error predicted by the bias $\rho_0\big(1 - G(0)\big)$ squared plus the variance of $\hat{m}_L = \hat{\rho} - \rho_0G(0)$ predicted by Theorem~\zref{thm:normality}.  That is, the solid lines are given by
+\[
+\rho_0^2\big(1 - G(0)\big)^2 + \rho_0^2\frac{p B_1 + d B_2}{L}. 
+\]
+When SNR is large $G(0)$ is close to $1$ and the bias of the amplitude estimator is small.  However, $G(0)$ grows without bound as the variance of the noise increases, so the bias is significant when SNR is small.  Figure~\zref{fig:plotampBPSK} suggests our asymptotic theory to be an excellent predictor of the mean square error of the amplitude estimator.
+''
+
+
 \item\textbf{Comment:} 
 	In a much more powerful approach to the topic addressed in the current paper, the pilot sequence would be employed for a coarse estimation/correction of the carrier phase of the payload data. In the sequel, by embedding carrier phase recovery into an iterative (turbo) decoding scheme [d, e] or any other error correcting method [f, g], the jitter performance is close to the CRLB for DA estimation even at very small SNRs, which are mainly determined by the convergence region of the (turbo) decoder. By taking into account the fact that modern and powerful communication systems are not conceivable without any FEC scheme, it is not clear to me why I should choose your algorithm in such a context.
 	\\\textbf{Response:}
@@ -174,7 +186,7 @@ The paper studies the estimation of amplitude and phase due to the distortion in
 
 The major contribution of this paper is the description of the asymptotic properties of the least squares estimator for the phase and amplitude. Although it seems technically correct, the authors do not make clear the relevance of their work to signal processing applications and to timely problems. They limit themselves in presenting several lemmas and proofs. Therefore, I cannot recommend this manuscript for publication in the IEEE Transactions on Signal Processing.
 	\\\textbf{Response:}
-We thank their reviewer for the comments. We have greatly expanded the introduction of the manuscript to make the practical and theoretical importance of our paper clear.
+We thank their reviewer for the comments. We have greatly expanded the introduction of the manuscript to make the practical and theoretical importance of our of results clear.
 \end{enumerate}
 
 \section*{Reviewer 4}

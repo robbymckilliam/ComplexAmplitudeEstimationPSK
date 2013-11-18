@@ -175,33 +175,34 @@ legendy = 0.1cm;
 %%%% Begin plot of amplitude error
 
 beginfig(1);
-draw begingraph(plotwidth, 13cm);
+draw begingraph(plotwidth, plotheight);
  setcoords(linear,log);
  glabel.bot(btex SNR (dB) etex, OUT) shifted (0cm,1.3cm);
-  glabel.lft(btex variance $\hat{\rho}$ etex, OUT) rotated 90 shifted (1.5cm,1cm);
+  glabel.lft(btex MSE $\hat{\rho}$ etex, OUT) rotated 90 shifted (1.5cm,0cm);
+
   
-  %setrange(whatever,whatever, whatever,5);
+  %setrange(whatever,whatever, whatever,5); 
   %setrange(4.9,"1e-13", 22,2);
 
 %  gdraw (0, "1e-13")--(0, 2) dashed evenly; %glabel.bot(btex AWGN channel capacity etex, 0) rotated 90;
 
-  gdraw "cltM2L2048absP2048a"; gdraw "MackenthunCoherentM2L2048absP2048aunb" plot(times); glabel.llft(btex $L = 2048$ etex, 1000);
-  gdraw "cltM2L2048absP1024a"; gdraw "MackenthunCoherentM2L2048absP1024aunb" plot(square);
-%  gdraw "cltM2L2048absP512a"; gdraw "MackenthunCoherentM2L2048absP512aunb" plot(dot);
-  %gdraw "cltM2L2048absP128a"; gdraw "MackenthunCoherentM2L2048absP128aunb" plot(circle);
-  gdraw "cltM2L2048absP0a"; gdraw "MackenthunNonCoherentM2L2048aunb" plot(cross);
+  gdraw "cltM2L2048absP2048msea"; gdraw "MackenthunCoherentM2L2048absP2048a" plot(times); %glabel.llft(btex $L = 2048$ etex, 1000);
+  gdraw "cltM2L2048absP1024msea"; gdraw "MackenthunCoherentM2L2048absP1024a" plot(square);
+%  gdraw "cltM2L2048absP512msea"; gdraw "MackenthunCoherentM2L2048absP512a" plot(dot);
+  %gdraw "cltM2L2048absP128msea"; gdraw "MackenthunCoherentM2L2048absP128a" plot(circle);
+  gdraw "cltM2L2048absP0msea"; gdraw "MackenthunNonCoherentM2L2048a" plot(cross);
 
-  gdraw "cltM2L256absP256a"; gdraw "MackenthunCoherentM2L256absP256aunb" plot(times); glabel.llft(btex $L = 256$ etex, 1000);
-  gdraw "cltM2L256absP128a"; gdraw "MackenthunCoherentM2L256absP128aunb" plot(square);
-  %gdraw "cltM2L256absP512a"; gdraw "MackenthunCoherentM2L256absP512aunb" plot(dot);
-  %gdraw "cltM2L256absP128a"; gdraw "MackenthunCoherentM2L256absP128aunb" plot(circle);
-  gdraw "cltM2L256absP0a"; gdraw "MackenthunNonCoherentM2L256aunb" plot(cross);
+  %gdraw "cltM2L256absP256msea"; gdraw "MackenthunCoherentM2L256absP256a" plot(times); glabel.llft(btex $L = 256$ etex, 1000);
+  %gdraw "cltM2L256absP128msea"; gdraw "MackenthunCoherentM2L256absP128a" plot(square);
+  %gdraw "cltM2L256absP512msea"; gdraw "MackenthunCoherentM2L256absP512a" plot(dot);
+  %gdraw "cltM2L256absP128msea"; gdraw "MackenthunCoherentM2L256absP128a" plot(circle);
+  %gdraw "cltM2L256absP0msea"; gdraw "MackenthunNonCoherentM2L256a" plot(cross);
 
-  gdraw "cltM2L32absP32a"; gdraw "MackenthunCoherentM2L32absP32aunb" plot(times); glabel.llft(btex $L = 32$ etex, 1000);
-  gdraw "cltM2L32absP16a"; gdraw "MackenthunCoherentM2L32absP16aunb" plot(square);
- % gdraw "cltM2L32absP512a"; gdraw "MackenthunCoherentM2L32absP512aunb" plot(dot);
-  %gdraw "cltM2L32absP128a"; gdraw "MackenthunCoherentM2L32absP128aunb" plot(circle);
-  gdraw "cltM2L32absP0a"; gdraw "MackenthunNonCoherentM2L32aunb" plot(cross);
+  %gdraw "cltM2L32absP32msea"; gdraw "MackenthunCoherentM2L32absP32a" plot(times); glabel.llft(btex $L = 32$ etex, 1000);
+  %gdraw "cltM2L32absP16msea"; gdraw "MackenthunCoherentM2L32absP16a" plot(square);
+ % gdraw "cltM2L32absP512msea"; gdraw "MackenthunCoherentM2L32absP512a" plot(dot);
+  %gdraw "cltM2L32absP128msea"; gdraw "MackenthunCoherentM2L32absP128a" plot(circle);
+  %gdraw "cltM2L32absP0msea"; gdraw "MackenthunNonCoherentM2L32a" plot(cross);
   
 draw legendamp shifted(legendx,legendy);
 
