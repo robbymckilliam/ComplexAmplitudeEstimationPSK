@@ -35,20 +35,19 @@
 \maketitle
 
 
-\section*{Reviewer 1}
+\section*{Reviewer 1}\label{sec:reviewer-1}
 
 \begin{enumerate}
-\item\textbf{Comment:} 
+\item\textbf{Comment:} \label{comment:shortersec2}
 	This paper is concerned with carrier phase and amplitude estimation for PSK modulated signalling.
 The considered least squares estimator seems to be only a minor extension of the one from [7]. Yet, more than 4 pages are dedicated to its derivation. Perhaps this section could be made more concise.
 	\\\textbf{Response:}
-\comment{look at shortening sec 2}
+%\comment{look at shortening sec 2}
 
-We have shortened Section~\zref{sec:least-squar-estim} but have left the description of the algorithm intact.  The primary reason for this is that much of the notation used during the analysis of the estimator is most naturally introduced during the description of the algorithm.  To qualify this for the reader we have included the following sentences at the beginning of Section~\zref{sec:least-squar-estim}.
+We have left the description of the algorithm intact.  The primary reason for this is that much of the notation used during the analysis of the estimator is most naturally introduced during the description of the algorithm.  To qualify this for the reader we have included the following sentences at the beginning of Section~\zref{sec:least-squar-estim}.
 
-``
-In this section we derive Mackentun's algorithm to compute the least squares estimators of the carrier phase and amplitude~\cite{Mackenthun1994}.  Mackenthun specifically considered the non-data aided setting, so we modify the algorithm to include pilot symbols.  Although the modification is straightforward, much of the notation that we will use for analysing the estimator in Section~\ref{sec:stat-prop-least} is naturally introduced during the description of the algorithm.  For this reason, and so that our paper is self contained, we describe the algorithm in full.
-''
+``In this section we derive Mackenthun's algorithm to compute the least squares estimators of the carrier phase and amplitude~\cite{Mackenthun1994}.  Mackenthun specifically considered the non data-aided setting, so we modify the algorithm to include pilot symbols.  Although the modification is straightforward, much of the notation that will be used for analysing the estimator in Section~\ref{sec:stat-prop-least} is most naturally introduced during the description of the algorithm.  For this reason, and so that our paper is self contained, we describe the algorithm in full.''
+
 
 %	We have shortened Sec.\ II to make it more concise and improve readability.
 \item\label{R1it2}\textbf{Comment:} 
@@ -106,7 +105,7 @@ Some editorial comments
 	\\\textbf{Response:}
 	We thank the reviewer for pointing out the missing definition of $f(r, \phi)$ and have added it. %Please note that in response to comment \ref{R4it2e} of reviewer 4, Sec.\ III has been slightly shortened and has been moved to the appendix.
 \item\textbf{Comment:} 
-	In the introductory section (paragraph before Eq.\ 3), the authors are talking about ``noncoherent detection where no pilot symbols exist''. In my mind this is somewhat confusing, because parameter estimation without knowing the underlying data is usually denoted as non-data aided (NDA) or decision-directed (DD), whereas when these data are known we have a data-aided (DA) situation [a]. On the other hand, coherent/noncoherent scenarios are given if the carrier phase is known/unknown to the receiver station.
+	In the introductory section (paragraph before Eq.\ 3), the authors are talking about ``noncoherent detection where no pilot symbols exist''. In my mind this is somewhat confusing, because parameter estimation without knowing the underlying data is usually denoted as non-data aided (NDA) or decision-directed (DD), whereas when these data are known we have a data-aided (DA) situation\cite{Mengali_andre_synchro_book}. On the other hand, coherent/noncoherent scenarios are given if the carrier phase is known/unknown to the receiver station.
 	\\\textbf{Response:}
 	Please refer to our response to comment \ref{R1it3a} of reviewer 1.
 \end{enumerate}
@@ -115,19 +114,19 @@ Major issues
 \begin{enumerate}
 \item\textbf{Comment:} 
 	Figs.1 to 3 illustrate the evolution of the phase MSE vs.\ SNR. Only in case that $|P| = 0$,
-the LS results are compared to an alternative solution represented by the Viterbi and Viterbi (VV) algorithm. Why not doing the same with $|P| > 0$ by the following approach, which is definitely much simpler from the computational point of view (complexity in the order $O(L)$ instead of $O(L \log(L))$ required by LS) and the jitter performance will probably differ not very much from that of the LS variant (in Figs.\ 1Ð3 this can be seen for $|P| = 0$):
+the LS results are compared to an alternative solution represented by the Viterbi and Viterbi (VV) algorithm. Why not doing the same with $|P| > 0$ by the following approach, which is definitely much simpler from the computational point of view (complexity in the order $O(L)$ instead of $O(L \log(L))$ required by LS) and the jitter performance will probably differ not very much from that of the LS variant (in Figs.~1 to 3 this can be seen for $|P| = 0$):
 	\begin{itemize}
 	\item
 		If SNR $<$ SNRth, then the DA algorithm has to be used, else the VV algorithm must be applied.
 	\item
-		The SNRth is a threshold value known in advance, e.g., by the intersection of the Cramer-Rao lower bounds (CRLBs) for DA and NDA phase estimation [a, b].
+		The SNRth is a threshold value known in advance, e.g., by the intersection of the Cramer-Rao lower bounds (CRLBs) for DA and NDA phase estimation\cite{Mengali_andre_synchro_book,950345}.
 	\item
-		The SNR estimates might be obtained by a simple method based on second- and fourth-order moments [c].
+		The SNR estimates might be obtained by a simple method based on second- and fourth-order moments~\cite{Pauluzzi2000}.
 	\item
 		The same philosophy applies also to the estimation of amplitudes; for carrier- blind NDA results, the moment-based approach used for SNR estimation can be exploited.
 	\end{itemize}
 	\textbf{Response:}
-The non data-aided estimation of SNR is a significant difficulty when implementing this approach.  As observed by simulation in [c] known non data-aided estimators of SNR appear to be biased.  The bias is often small when the noise variance is small, but typically becomes significant as the noise variance increases.  This makes it difficult to estimate SNR so as to know when to use a DA algorithm with only the available pilots and when to use the VV algorithm.  Analysis of the bias of the chosen non data-aided SNR estimator is required in order to justify this approach.  To date the bias and variance of non data-aided estimators of SNR (or equivalently carrier amplitude) appear to have been measured only by Monte-Carlo simulation [c].  In the abstract of our new paper we point out that our of paper
+The non data-aided estimation of SNR is a significant difficulty when implementing this approach.  As observed by simulation in~\cite{Pauluzzi2000} known non data-aided estimators of SNR appear to be biased.  The bias is often small when the noise variance is small, but typically becomes significant as the noise variance increases.  This makes it difficult to estimate SNR so as to know when to use a DA algorithm with only the available pilots and when to use the VV algorithm.  Analysis of the bias of the chosen non data-aided SNR estimator is required in order to justify this approach.  To date the bias and variance of non data-aided estimators of SNR (or equivalently carrier amplitude) appear to have been measured only by Monte-Carlo simulation~\cite{Pauluzzi2000}.  In the abstract of our new paper we point out that our of paper
 
 ``
 appears to be the first time that the statistical properties of a non data-aided estimator for carrier amplitude have been analysed theoretically.
@@ -158,38 +157,19 @@ When SNR is large $G(0)$ is close to $1$ and the bias of the amplitude estimator
 
 
 \item\textbf{Comment:} 
-	In a much more powerful approach to the topic addressed in the current paper, the pilot sequence would be employed for a coarse estimation/correction of the carrier phase of the payload data. In the sequel, by embedding carrier phase recovery into an iterative (turbo) decoding scheme [d, e] or any other error correcting method [f, g], the jitter performance is close to the CRLB for DA estimation even at very small SNRs, which are mainly determined by the convergence region of the (turbo) decoder. By taking into account the fact that modern and powerful communication systems are not conceivable without any FEC scheme, it is not clear to me why I should choose your algorithm in such a context.
+	In a much more powerful approach to the topic addressed in the current paper, the pilot sequence would be employed for a coarse estimation/correction of the carrier phase of the payload data. In the sequel, by embedding carrier phase recovery into an iterative (turbo) decoding scheme\cite{Lottici2004,Noels2005} or any other error correcting method~\cite{580211,974597}, the jitter performance is close to the CRLB for DA estimation even at very small SNRs, which are mainly determined by the convergence region of the (turbo) decoder. By taking into account the fact that modern and powerful communication systems are not conceivable without any FEC scheme, it is not clear to me why I should choose your algorithm in such a context.
 	\\\textbf{Response:}
 	We have added the following paragraph to the introduction describing the need for sufficiently accurate coarse estimates to initialise an iterative code-aided synchronisation stage. %citing [d, e].  
 
 ``In the last decade, iterative methods for channel estimation that exploit the error correcting code used by the transmitter have appeared~\cite{Lottici2004,Noels2005,Herzet_turbo_synch_proc_IEEE_2007,Herzet_timingturbosynch_2007,Herzet_framework_turbo_sync_2007}.  These methods often go by the name of~\emph{turbo sychronisation}~\cite{Herzet_turbo_synch_proc_IEEE_2007}.  
 These estimators typically apply the expectation maximisation (EM) algorithm under a Gaussian assumption regarding the noise sequence $\{w_i\}$.  A key problem is that the EM algorithm converges correctly only if initialised at some channel estimate sufficiently close to the true channel parameters.  Methods for efficiently obtaining a close initial channel estimate are still required and because of this the analysis of such methods remains of interest.  For the purpose of carrier phase and amplitude estimation, the least squares estimator we describe here is a good candidate as an initialiser for a turbo synchronisation procedure.''
 
+\comment{BLERG, add LDPC turbo sync sims}
+
 %We have also added a set of new simulation results, which show the packet error rate of an LDPC-coded satellite communication system to demonstrate the use and performance of the proposed estimator in a practical system.  \comment{Add details\dots}
 	
 %	\comment{Add response related to [f, g]\dots}
 \end{enumerate}
-\end{enumerate}
-
-\subsection*{Reviewer 2 references}
-\begin{enumerate}\footnotesize
-\renewcommand{\theenumi}{\alph{enumi}}
-\renewcommand{\labelenumi}{[\theenumi]}
-\addtolength{\itemsep}{-1.5ex}
-\item
-	Mengali, D'Andrea, \textit{Synchronization Techniques for Digital Receivers}, Plenum Press: New York, 1997.
-\item
-	Rice, Cowley, Moran, Rice, ``Cramer-Rao Lower Bounds for QAM Phase and Frequency Estimation'', \textit{IEEE Trans.\ Commun.}, Sept 2001.
-\item
-	Pauluzzi, Beaulieu, ``A Comparison of SNR Estimation Techniques for the AWGN Channel'', \textit{IEEE Trans.\ Commun.}, Oct.\ 2000.
-\item
-	Lottici, Luise, ``Embedding Carrier Phase Recovery into Iterative Decoding of Turbo-Coded Linear Modulations'', \textit{IEEE Trans.\ Commun.}, April 2004.
-\item
-	Noels et al., ``A Theoretical Framework for Soft-Information-Based Synchronization in Iterative (Turbo) Receivers'', \textit{Eurasip Journal Wireless Commun.\ and Networking}, April 2005.
-\item
-	D'Andrea, Mengali, Vitetta, ``Approximate ML Decoding of Coded PSK with no Explicit Carrier Phase Reference'', \textit{IEEE Trans.\ Commun.}, Feb./March/April 1994.
-\item
-	Vanelli, Salmi, Cioni, Corazza, Polydoros, ``A Performance Review of PSP for Joint Phase/Frequency and Data Estimation in Future Broadband Satellite Networks'', \textit{IEEE Journal on Selected Areas in Commun.}, Dec.\ 2001.
 \end{enumerate}
 
 \section*{Reviewer 3}
@@ -210,6 +190,8 @@ We thank their reviewer for the comments. We have greatly expanded the introduct
 \item\textbf{Comment:}
 	This work addresses the problem of carrier phase and amplitude estimation for $M$-ary PSK signals. Based on a modification of the Mackhentun's algorithm by inserting pilots, the main contribution of this manuscript is in fact the study of the asymptotic behavior of the least squares estimator for carrier phase and amplitude. Although the derivations seems correct, it is not clear to the reader why this method should be applicable in a communications context.  A cconsiderable part of the manuscript is dedicated to proofs of Lemmas and Theorems, which makes the paper rather difficult to read. There are several methods in the litterature that proposes the use of pilots to estimate the carrier phase followed by efficient decoding such as turbo decoding. How does the proposed method compare with the existing uncoherent methods that do not require estimation of the amplitudes? Even if the data are coded, what are the gains in terms of data recovery of the proposed method and traditional solutions? In my opinion, the authors fail to convincing on this aspect and this is an important point.
 	\\\textbf{Response:}
+We thank their reviewer for their comments. We have greatly expanded the introduction of the manuscript to make the practical and theoretical importance of our of results clear.
+
 %	\comment{Stress practical relevance by showing ASRP PER results. In particular ST1, where the estimators are used to seed turbo sync. Mention trials and patents\dots}
 	
 %	\comment{Not clear what the reviewer means by ``existing uncoherent methods that do not require estimation of the amplitudes''.}
@@ -220,16 +202,22 @@ Some additional comments:
 \item\textbf{Comment:} 
 	The authors should better motivate the interest in using their proposed method in actual communication systems. The lack of motivation for addressing the problem raised in the manuscript is a weak aspect of this work.
 	\\\textbf{Response:}
-We thank their reviewer for the comments. We have expanded the introduction of the manuscript to make the practical and theoretical importance of our of results clear.
+We have expanded the introduction of the paper to better motivate the work.  In particular, the following paragraph has been added:
+
+``That this paper contains novel theoretical developments does not imply that our results are of no immediate practical interest.  The design of our estimator was motivated by a project at the University of South Australia's Institute for Telecommunications Research to develop a narrowband multiuser communication system to collect sensor network data using a satellite in orbit.  This estimator has been implemented on a prototype that was successfully trialled from April to July of 2013 with signals from multiple low power ground-based transmitters being successfully received and decoded by both aircraft and satellites in orbit~\cite{ASRPpromovideo}.  Our theoretical analysis aided design of this system.  Based on our Theorem~\zref{thm:normality} in Section~\zref{sec:stat-prop-least} the performance of the least squares estimator can be accurately predicted without the need for time consuming Monte-Carlo simulations.  This provides easy to use and rigourously justified methods for choosing systems parameters, such as the number and placement of pilot symbols, and also provides useful information to other reciever components, such as channel tracking systems.''
+
+
 \item\textbf{Comment:} 
 	The simulation results should bring comparisons with existing methods that use error correction and turbo decoding techniques, which have shown to perform reasonably well under adverse situations and low SNR levels.
 	\\\textbf{Response:}
-% We have added the following paragraph to the introduction
+We have added the following paragraph to the introduction
 
-% ``In the last decade, iterative methods for channel estimation that exploit the error correcting code used by the transmitter have appeared~\cite{Lottici2004,Noels2005,Herzet_turbo_synch_proc_IEEE_2007,Herzet_timingturbosynch_2007,Herzet_framework_turbo_sync_2007}.  These methods often go by the name of~\emph{turbo sychronisation}~\cite{Herzet_turbo_synch_proc_IEEE_2007}.  
-% These estimators typically apply the expectation maximisation (EM) algorithm under a Gaussian assumption regarding the noise sequence $\{w_i\}$.  A key problem is that the EM algorithm converges correctly only if initialised at some channel estimate sufficiently close to the true channel parameters.  Methods for efficiently obtaining a close initial channel estimate are still required and because of this the analysis of such methods remains of interest.  For the purpose of carrier phase and amplitude estimation, the least squares estimator we describe here is a good candidate as an initialiser for a turbo synchronisation proceedure.''
+``In the last decade, iterative methods for channel estimation that exploit the error correcting code used by the transmitter have appeared~\cite{Lottici2004,Noels2005,Herzet_turbo_synch_proc_IEEE_2007,Herzet_timingturbosynch_2007,Herzet_framework_turbo_sync_2007}.  These methods often go by the name of~\emph{turbo sychronisation}~\cite{Herzet_turbo_synch_proc_IEEE_2007}.  
+ These estimators typically apply the expectation maximisation (EM) algorithm under a Gaussian assumption regarding the noise sequence $\{w_i\}$.  A key problem is that the EM algorithm converges correctly only if initialised at some channel estimate sufficiently close to the true channel parameters.  Methods for efficiently obtaining a close initial channel estimate are still required and because of this the analysis of such methods remains of interest.  For the purpose of carrier phase and amplitude estimation, the least squares estimator we describe here is a good candidate as an initialiser for a turbo synchronisation proceedure.''
 
-% In view of this, a direct comparison with a turbo synchronisation proceedure is not meaningful. A meaninful simulation that could be implemented is to compare the results of turbo synchronisation with different initialisers.  For example one could initialise the proceedure using only the pilots and a data-aided algorithm and also with our least squares algorithm and compare the bit error rates.  It can be reasonably expected that the initialiser that is a more accurate estimator of carrier phase and amplitude with also be a better initialiser for a turbo synchronisation proceedure and will thus have a smaller bit error rate. So, for example, we expect our least square estimator to be a beter initialiser at moderate and high SNR and a data-aided approach to be better at low SNR provided there are sufficiently many pilots symbols.
+\comment{Run turbo sync simulations and write something on this}
+
+%It can be reasonably expected that the initialiser that is a more accurate estimator of carrier phase and amplitude with also be a better initialiser for a turbo synchronisation proceedure and will thus have a smaller bit error rate. So, for example, we expect our least square estimator to be a beter initialiser at moderate and high SNR and a data-aided approach to be better at low SNR provided there are sufficiently many pilots symbols.
 
 % For this reason that we do not expect simulations of this sort to yield substantially more insight than the mean square error plots that we have presented in the paper.  The primary purpose of our paper is the statistical analysis of the least squares estimator and we feel that 
 
@@ -239,21 +227,29 @@ We thank their reviewer for the comments. We have expanded the introduction of t
 \item\textbf{Comment:} 
 	In Fig.\ 4, the influence of $P$ on the performance is not clear to me and does not seem to be in accordance with other results in the manuscript.
 	\\\textbf{Response:} 
-%	Please note that Fig.\ 4 in the original submission showed the variance of the amplitude estimator $\hat\rho$ (after bias removal), rather than the estimator MSE. This was done to validate the theoretical value of the asymptotic variance of $\hat\rho$ predicted by Theorem~2 against Monte-Carlo simulations. For consistency with the other figures and for easier interpretation, we have replaced the variance plot by a plot of the MSE of $\hat\rho$.
+	Please note that Fig.\ 4 in the original submission showed the variance of the amplitude estimator $\hat\rho$ (after bias removal), rather than the estimator MSE. This was done to validate the theoretical value of the asymptotic variance of $\hat\rho$ predicted by Theorem~2 against Monte-Carlo simulations. For consistency with the other figures and for easier interpretation, we have replaced the variance plot by a plot of the MSE of $\hat\rho$.
 \item\textbf{Comment:} 
 	It is important that the authors address an appropriate method for correcting the bias, as they mentioned in the text. A solution to provide the receiver with an estimate of $G(0)$ must be addressed in order to make this contribution applicable in a real communications context.
 	\\\textbf{Response:} 
-%	Biased estimators are quite common in the communications literature and in fact, are often used in practice. Prime examples are state-of-the-art signal-to-noise ratio (SNR) estimators for $M$-PSK modulated signals such as those discussed by Pauluzzi and Beaulieu \cite{Pauluzzi2000}. With the exception of the data-aided SNR estimators, all of the estimators in \cite{Pauluzzi2000} are biased and particularly at low SNR, the bias can be large. To the best of the authors' knowledge, the value of the bias of these estimators has only been determined by computer simulation and has not been analysed theoretically. In contrast, the asymptotic analysis of the amplitude estimator $\hat\rho$ presented in Theorem~1 of our manuscript results in a closed-form expression for the bias and thus, lays the foundation for improving the estimator by addressing the bias. However, removal of the bias is beyond the scope of this manuscript.
+	Biased estimators are quite common in the communications literature and in fact, are often used in practice. Prime examples are state-of-the-art signal-to-noise ratio (SNR) estimators for $M$-PSK modulated signals such as those discussed by Pauluzzi and Beaulieu \cite{Pauluzzi2000}. With the exception of the data-aided SNR estimators, all of the estimators in \cite{Pauluzzi2000} are biased and particularly at low SNR, the bias can be large. To the best of the authors' knowledge, the value of the bias of these estimators has only been determined by computer simulation and has not been analysed theoretically. In contrast, the asymptotic analysis of the amplitude estimator $\hat\rho$ presented in Theorem~1 of our manuscript results in a closed-form expression for the bias and thus, lays the foundation for improving the estimator by addressing the bias. However, removal of the bias is beyond the scope of this manuscript.
 \item\textbf{Comment:} \label{R4it2e}
 	Some sectioms can be shortened to make the work more readable and concise. This is the case of Section II for instance. Section III is not necessary. It is too short and the main concepts are well known. A reference to a textbook would be sufficient. Section VII is also too short and is not justified.
 	\\\textbf{Response:}
-%	We have shortened Sec.\ II to make it more concise and improve readability. 
-\comment{BLERG}
 
-The original Sec.\ VII has been removed from the revised manuscript.
 
-\comment{BLERG}
-%	Furthermore, we agree with the reviewer that circularly symmetric random variables are well known, but would like to point out that Sec.\ III specifically discusses random variables of the form $Re^{j\varPhi}=1{+}W$, where $W$ is circularly symmetric. The joint pdf of $R$ and $\varPhi$ is a crucial ingredient for the asymptotic analysis presented in the manuscript and therefore, we feel the section should be retained. However, for improved readability, Sec.\ III has been slightly shortened and has been moved to the appendix.
+The original Sec.~VII describing the Gaussian noise case has been removed from the revised manuscript.
+
+We agree with the reviewer that circularly symmetric random variables are well known, but would like to point out that section specifically discussed random variables of the form $Re^{j\Phi}=1{+}W$, where $W$ is circularly symmetric. The joint pdf of $R$ and $\Phi$ is a crucial ingredient for the asymptotic analysis presented in the manuscript and therefore, we feel that this material must be retained. However, we have modified the way that this material is introduced.  It is now introduced as needed when the asymptotic properties of the least squares estimator are derived.
+
+Regarding Section~II we refer the reader to our response to comment~\eqref{comment:shortersec2} of reviewer~\ref{sec:reviewer-1}.
+
+% Section~II describes our modification of Mackethun's algorithm to compute the least squares estimator.  Although the modification is simple we have left this section intact since much of the notation required for the statistical analysis of the least squares estimator is most naturally introduced during the description of the algorithm.  To qualify this for the reader we have included the following sentence at the start of Section~\zref{sec:least-squar-estim}.
+
+% ``In this section we derive Mackenthun's algorithm to compute the least squares estimators of the carrier phase and amplitude~\cite{Mackenthun1994}.  Mackenthun specifically considered the non data-aided setting, so we modify the algorithm to include pilot symbols.  Although the modification is straightforward, much of the notation that will be used for analysing the estimator in Section~\zref{sec:stat-prop-least} is most naturally introduced during the description of the algorithm.  For this reason, and so that our paper is self contained, we describe the algorithm in full.''
+
+%For example, equations~\eqref{eq:SSdatasymbols},~\eqref{eq:SSallparams} and~\eqref{eq:hatdfinxtheta} are all used during the 
+
+
 \end{enumerate}
 \end{enumerate}
 

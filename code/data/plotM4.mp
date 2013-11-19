@@ -247,7 +247,7 @@ endfig;
 %%%% Begin plot of phase error multiple L
 
 beginfig(3);
-draw begingraph(plotwidth, 13cm);
+draw begingraph(plotwidth, plotheight);
  setcoords(linear,log);
  glabel.bot(btex SNR (dB) etex, OUT) shifted (0cm,1.3cm);
   glabel.lft(btex MSE $\hat{\theta}$ etex, OUT) rotated 90 shifted (1.5cm,1cm);
@@ -261,19 +261,19 @@ draw begingraph(plotwidth, 13cm);
 %  gdraw "cltM4L4096absP128p"; gdraw "MackenthunCoherentM4L4096absP128p" plot(circle);
 %  gdraw "cltM4L4096absP0p"; gdraw "MackenthunNonCoherentM4L4096p" plot(cross);
 
-  gdraw "cltM4L2048absP2048p"; gdraw "MackenthunCoherentM4L2048absP2048p" plot(times); glabel.llft(btex $L = 2048$ etex, 1000);
+  gdraw "cltM4L2048absP2048p"; gdraw "MackenthunCoherentM4L2048absP2048p" plot(times); label.llft(btex $L = 2048$ etex,(0,0)) rotated -30 shifted (9cm,0.6cm);
 %  gdraw "cltM4L2048absP1024p"; gdraw "MackenthunCoherentM4L2048absP1024p" plot(square);
   gdraw "cltM4L2048absP256p"; gdraw "MackenthunCoherentM4L2048absP256p" plot(dot);
 %  gdraw "cltM4L2048absP64p"; gdraw "MackenthunCoherentM4L2048absP64p" plot(circle);
 %  gdraw "cltM4L2048absP0p"; gdraw "MackenthunNonCoherentM4L2048p" plot(cross);
 
-  gdraw "cltM4L256absP256p"; gdraw "MackenthunCoherentM4L256absP256p" plot(times); glabel.llft(btex $L = 256$ etex, 1000);
+  gdraw "cltM4L256absP256p"; gdraw "MackenthunCoherentM4L256absP256p" plot(times); label.llft(btex $L = 256$ etex,(0,0)) rotated -30 shifted (9cm,1.7cm);
 %  gdraw "cltM4L256absP128p"; gdraw "MackenthunCoherentM4L256absP128p" plot(square);
   gdraw "cltM4L256absP32p"; gdraw "MackenthunCoherentM4L256absP32p" plot(dot);
 %  gdraw "cltM4L256absP64p"; gdraw "MackenthunCoherentM4L256absP64p" plot(circle);
 %  gdraw "cltM4L256absP0p"; gdraw "MackenthunNonCoherentM4L256p" plot(cross);
 
-  gdraw "cltM4L32absP32p"; gdraw "MackenthunCoherentM4L32absP32p" plot(times); glabel.llft(btex $L = 32$ etex, 1000);
+  gdraw "cltM4L32absP32p"; gdraw "MackenthunCoherentM4L32absP32p" plot(times); label.llft(btex $L = 32$ etex,(0,0)) rotated -30 shifted (9cm,2.8cm);
 %  gdraw "cltM4L32absP128p"; gdraw "MackenthunCoherentM4L32absP128p" plot(square);
   gdraw "cltM4L32absP4p"; gdraw "MackenthunCoherentM4L32absP4p" plot(dot);
 %  gdraw "cltM4L32absP64p"; gdraw "MackenthunCoherentM4L32absP64p" plot(circle);
