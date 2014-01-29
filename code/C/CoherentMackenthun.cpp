@@ -74,15 +74,15 @@ void CoherentMackenthun::estimate(const std::vector<complexd>& y, const std::vec
     z[i] = IndexedReal(phi-u, i);
     Y += g[i];
   }
-  sort(z.begin(), z.end());
+  std::sort(z.begin(), z.end());
 
   double fL = (double) L;
   chat = Y / fL;
-  Qhat = norm(Y) / fL;
+  Qhat = std::norm(Y) / fL;
   for(unsigned int k = 0; k < M*D.size(); k++ ){
     Y += nu*g[sigma(k)];
     g[sigma(k)] *= eta;
-    double Q = norm(Y) / fL;
+    double Q = std::norm(Y) / fL;
     if( Q > Qhat ){
       chat = Y / fL;
       Qhat = Q;

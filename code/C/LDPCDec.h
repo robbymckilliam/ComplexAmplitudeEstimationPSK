@@ -14,7 +14,7 @@
 
 class CLDPCDec {
 public:
-    CLDPCDec(void);
+    CLDPCDec(const char *filename);
     ~CLDPCDec(void);
 
     int readDecoder(const char* filename);
@@ -29,7 +29,10 @@ public:
 
     double syndromeInformation();
 
-    bool dec_loaded();
+    /// Determines whether the decoder is loaded
+    bool dec_loaded() {
+        return m_decloaded;
+    }
 
     unsigned int getN();
     unsigned int getM();

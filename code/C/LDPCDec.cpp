@@ -37,7 +37,7 @@
 /// \brief	Standard constructor.
 ///
 
-CLDPCDec::CLDPCDec(void) {
+CLDPCDec::CLDPCDec(const char *filename) {
     m_N = 0;
     m_M = 0;
     m_E = 0;
@@ -57,6 +57,9 @@ CLDPCDec::CLDPCDec(void) {
 
     m_corrveclen = 0;
     m_corrvec = NULL;
+    
+    readDecoder(filename);
+    
 }
 
 /// \brief	Standard destructor.
@@ -393,14 +396,6 @@ void CLDPCDec::set_param_corrvec(unsigned int len, double *corrvec) {
 
     for (i = 0; i < m_corrveclen; i++)
         m_corrvec[i] = corrvec[i];
-}
-
-/// \brief	Determines whether the decoder is loaded
-///
-/// Determines whether the decoder is loaded
-
-bool CLDPCDec::dec_loaded() {
-    return m_decloaded;
 }
 
 unsigned int CLDPCDec::encodeLDGM(unsigned int *info, unsigned int *parity) {
