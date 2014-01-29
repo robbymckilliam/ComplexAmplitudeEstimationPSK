@@ -5,8 +5,8 @@ function st1uplink_su_monte_carlo(ResFile,EbNodB_vec_in,framesPerSnr_in,minNumFr
 %% simulation parameters
 
 EbNodB_vec          = [0:0.5:10];
-framesPerSnr        = 1e6;
-minNumFrameErr      = 1e2;
+framesPerSnr        = 1e4;
+minNumFrameErr      = 1e1;
 numFramesBeforeSave = 5e3;
 
 %% non-default ST1 system parameters
