@@ -51,17 +51,17 @@ p_i & i \in P \\
 d_i & i \in D,
 \end{cases}
 \]
-where $P$ is the set of indices describing the position of the pilot symbols $p_i$, and $D$ is a set of indices describing the position of the data symbols $d_i$.  The sets $P$ and $D$ are disjoint, i.e., $P \cap D = \emptyset$  where $\emptyset$ is the empty set, and we let $L = \abs{P \cup D}$ be the total number of symbols transmitted.
+where $P$ is the set of indices describing the position of the pilot symbols $p_i$, and $D$ is a set of indices describing the position of the data symbols $d_i$.  The sets $P$ and $D$ are disjoint, i.e., $P \cap D = \emptyset$  where $\emptyset$ is the empty set. We let $L = \abs{P \cup D}$ be the total number of symbols transmitted.
 
 We assume that %time offset estimation has been performed and that 
 $L$ noisy $M$-PSK symbols are observed by the receiver,  %The received signal after matched filtering is,
 \begin{equation}\label{eq:sigmod}
 y_i = a_0 s_i + w_i, \qquad i \in P \cup D,
 \end{equation}
-where $w_i$ is noise and $a_0 = \rho_0 e^{j\theta_0}$ is a complex number representing both carrier phase $\theta_0$ and amplitude $\rho_0$ (by definition $\rho_0$ is a positive real number).  Our aim is to estimate $a_0$ from the noisy symbols $\{ y_i, i \in P \cup D \}$.  Complicating matters is that the data symbols $\{d_i, i \in D\}$ are not known to the receiver and must also be estimated.  Estimation problems of this type have undergone extensive prior study~\cite{ViterbiViterbi_phase_est_1983,Cowley_ref_sym_carr_1998,Wilson1989,Makrakis1990,Liu1991,Mackenthun1994,Sweldens2001,McKilliamLinearTimeBlockPSK2009,Divsalar1990,580211,974597,Mengali_andre_synchro_book}.  A practical approach is the least squares estimator, that is, the minimisers of the sum of squares function
-\begin{equation}\label{eq:SSdefn}
+where $w_i$ is noise and $a_0 = \rho_0 e^{j\theta_0}$ is a complex number representing both carrier phase $\theta_0$ and amplitude $\rho_0$.  By definition $\rho_0$ is a positive real number.  Our aim is to estimate $a_0$ from the noisy symbols $\{ y_i, i \in P \cup D \}$.  Complicating matters is that the data symbols $\{d_i, i \in D\}$ are not known to the receiver and must also be estimated.  Estimation problems of this type have undergone extensive prior study~\cite{ViterbiViterbi_phase_est_1983,Cowley_ref_sym_carr_1998,Wilson1989,Makrakis1990,Liu1991,Mackenthun1994,Sweldens2001,McKilliamLinearTimeBlockPSK2009,Divsalar1990,580211,974597,Mengali_andre_synchro_book}.  A practical approach is the least squares estimator, that is, the minimisers of the sum of squares function
+\begin{equation}\label{eq:LSdefn}
 \begin{split}
-SS(a, &\{d_i, i \in D\}) = \sum_{i \in P \cup D} \abs{ y_i - a s_i }^2  \\
+LS(a, &\{d_i, i \in D\}) = \sum_{i \in P \cup D} \abs{ y_i - a s_i }^2  \\
 &= \sum_{i \in P} \abs{ y_i - a p_i }^2 + \sum_{i \in D} \abs{ y_i - a d_i }^2,
 \end{split}
 \end{equation}
@@ -74,24 +74,23 @@ where $\abs{x}$ denotes the magnitude of the complex number $x$.  The least squa
 % Various choices for $F$ are suggested in~\cite{ViterbiViterbi_phase_est_1983} and a statistical analysis is presented.  A caveat of this estimator is that it is not obvious how pilot symbols should be included. %Techniques are available but they are somewhat ad hoc~\cite{Cowley_ref_sym_carr_1998}.  
 % This problem does not occur with the least square estimator.
 
-An important paper is by Mackenthun~\cite{Mackenthun1994} who described an algorithm to compute the least squares estimator requiring only $O(L \log L)$ arithmetic operations.  Sweldens~\cite{Sweldens2001} rediscovered Mackenthun's algorithm in 2001.  Both Mackenthun and Sweldens considered what is called \emph{non-data adied detection} (also know as \emph{blind}, \emph{noncoherent} or \emph{non-decision directed detection}) where no pilot symbols exist ($P = \emptyset$).  We show in Section~\ref{sec:least-squar-estim}~that Mackenthun's algorithm can be modified to include pilot symbols. Our model includes the non data-aided case by setting the number of pilot symbols to zero, that is, putting $P = \emptyset$.
+An important paper is by Mackenthun~\cite{Mackenthun1994} who described an algorithm to compute the least squares estimator requiring only $O(L \log L)$ arithmetic operations.  Sweldens~\cite{Sweldens2001} rediscovered Mackenthun's algorithm in 2001.  Both Mackenthun and Sweldens considered what is called \emph{non-data-aided detection} (also know as \emph{blind}, \emph{noncoherent} or \emph{non-decision-directed detection}) where no pilot symbols exist ($P = \emptyset$).  We show in Section~\ref{sec:least-squar-estim}~that Mackenthun's algorithm can be modified to include pilot symbols. Our model includes the non-data-aided case by setting the number of pilot symbols to zero, that is, putting $P = \emptyset$.
 
-Aside from this extention of Mackenthun's algorithm, the primary purpose of this paper is to analyse the least squares estimators of carrier phase and amplitude obtained by minimising~\eqref{eq:SSdefn}.  In the literature, analytic study of non data-aided estimators of carrier phase have primarily involved the derivation of Cramer-Rao lower bounds under the assumption that the noise $\{w_i\}$ is complex Gaussian distributed~\cite{Delmas_exact_crb_psk_2008,950345,Steendam_lowsnr_crb_2001,Cowley_crbs_phase_freq_1996,DAndrea_modified_bounds_1994}.  The bounds themselves are often complicated to compute and analyse and for this reason it is common to make approximations, known as \emph{modified} Cramer-Rao bounds~\cite{DAndrea_modified_bounds_1994,Pollok_mckilliam_crb_cpm_2013}, or to analyse bounds that are valid asymptoticially as the noise variance increases to infinity or decreases to zero~\cite{Moeneclaey_limit_crbs_1998,Steendam_lowsnr_crb_2001,Delmas_exact_crb_psk_2008}.  To the authors knowledge, all of the existing bounds are applicable only in the fully non data-aided case or in the completely data aided case, that is, when either no pilot symbols exist, or when no data symbols exist.  Deriving bounds for the common practical scenario where there is a mixture of pilot and data symbols might be possible, but would further complicate already complicated bounds.
+Aside from this extention of Mackenthun's algorithm, the primary purpose of this paper is to analyse the least squares estimators of carrier phase and amplitude obtained by minimising~\eqref{eq:LSdefn}.  In the literature, analytic study of non-data-aided estimators of carrier phase have primarily involved the derivation of Cramer-Rao lower bounds under the assumption that the noise $\{w_i\}$ is complex Gaussian distributed~\cite{Delmas_exact_crb_psk_2008,950345,Steendam_lowsnr_crb_2001,Cowley_crbs_phase_freq_1996,DAndrea_modified_bounds_1994}.  The bounds themselves are often complicated to compute and analyse and for this reason it is common to make approximations, known as \emph{modified} Cramer-Rao bounds~\cite{DAndrea_modified_bounds_1994,Pollok_mckilliam_crb_cpm_2013}, or to analyse bounds that are valid asymptoticially as the noise variance increases to infinity or decreases to zero~\cite{Moeneclaey_limit_crbs_1998,Steendam_lowsnr_crb_2001,Delmas_exact_crb_psk_2008}.  To the authors knowledge, all of the existing bounds are applicable only in the fully non-data-aided case or in the completely data aided case, that is, when either no pilot symbols exist, or when no data symbols exist.  Deriving bounds for the common practical scenario where there is a mixture of pilot and data symbols might be possible, but would further complicate already complicated bounds.
 
-For the case of carrier amplitude the situations is even more complicated.  A simulation study conducted by Pauluzzi~\cite{Pauluzzi2000} suggests that known non data-aided estimators for carrier amplitude exhibit bias.  The bias is often small when the noise variance is small, but typically becomes significant as the noise variance increases.  Neverthess, Cramer-Rao bound have been derived for \emph{unbiased} estimators of carrier amplitude~\cite{Alagha_crb_snr_bpsk_qpsk_2001,Delmas_exact_crb_psk_2008}.  Unfortunately, these bounds may not be meaningful since known non data-aided amplitude estimators appear to be biased~\cite{Pauluzzi2000}. 
+For the case of carrier amplitude the situations is even more complicated.  A simulation study conducted by Pauluzzi~\cite{Pauluzzi2000} suggests that known non-data-aided estimators for carrier amplitude exhibit bias.  The bias is often small when the noise variance is small, but typically becomes significant as the noise variance increases.  Neverthess, Cramer-Rao bound have been derived for \emph{unbiased} estimators of carrier amplitude~\cite{Alagha_crb_snr_bpsk_qpsk_2001,Delmas_exact_crb_psk_2008}.  Unfortunately, these bounds may not be meaningful since known non-data-aided amplitude estimators appear to be biased~\cite{Pauluzzi2000}. 
 
-In this paper we present an alternative approach to the study of estimators for carrier phase and amplitude.  Rather than compute bounds, we directly study the least squares estimator asymptotically as the number of transmitted symbols $L\to \infty$.  We show, under comparatively mild conditions on the distribution of the noise, that the least squares estimator of carrier phase is strongly consistent (asymptotically unbiased) and asymptotically normally distributed.  However, the least squares amplitude estimator is asymptotically biased and converges to a positive real number that is a function of the true carrier amplitude, the noise distribution and the size of the constellation $M$.  To our knowledge, this is the first time an analytic description of the bias or variance of a non data-aided amplitude estimator has been obtained.  Our expressions for the asymptotic variance and bias are simple to compute.  %Our results are indirectly supported by the simulation study of Pauluzzi~\cite{Pauluzzi2000}.  We present our our set of simulations supporting our analytic results in Section~\ref{}.
+In this paper we present an alternative approach to the study of estimators for carrier phase and amplitude.  Rather than compute bounds, we directly study the least squares estimator asymptotically as the number of transmitted symbols $L\to \infty$.  We show, under comparatively mild conditions on the distribution of the noise, that the least squares estimator of carrier phase is strongly consistent (asymptotically unbiased) and asymptotically normally distributed.  However, the least squares amplitude estimator is asymptotically biased and converges to a positive real number that is a function of the true carrier amplitude, the noise distribution, and the size of the constellation $M$.  To our knowledge, this is the first time an analytic description of the bias or variance of a non-data-aided amplitude estimator has been obtained.  Our expressions for the asymptotic variance and bias are simple to compute.  %Our results are indirectly supported by the simulation study of Pauluzzi~\cite{Pauluzzi2000}.  We present our our set of simulations supporting our analytic results in Section~\ref{}.
 
 %Two criticisms might be directed at our asymptotic approach when compared to the Cramer-Rao bounds already developed in the literature.  Perhaps the most obvious is that the results apply asymptotically as $L\to\infty$.  The simulation results we present in Section~\ref{} confirm that our asymptotic results accurately model the behaviour of the least squares estimator for modest numbers of symbols, for example $L=256$
 
-One criticism that might be directed at our asymptotic approach when compared to the Cramer-Rao bounds already developed in the literature is that our specific results apply only to the least square estimator.  One response to this criticism is that the least squares estimator should be a popular practical choice because it can be efficiently computed in $O(L\log L)$ operations and because it is the maximum likelihood estimator under the common assumption that the noise is white and Gaussian.  Perhaps an even more convinving response is that, while the specific results given here apply only to the least square estimator, the techniques that we develop to derive these results are now able to be deployed for the analysis of other estimators.  For example, in practical systems it is sometimes desirable to place more importance on certain data symbols and use a small constellation size, say BPSK ($M=2$) for these, but to use a larger constellation size, say QPSK ($M=4$), for other less important symbols.  This is related to what is called \emph{unequal error protection}~\cite{Aydinlik_turbo_uep_2008,Sandberg_uep_ldpc_2010}.  It would be reasonably straigthforward to extend our results to allow data and pilot symbols with varying constellation size.  A more involved extension would be the inclusion of carrier frequency as a parameter to be estimated.  The techniques we present, combined with those from~\cite{McKilliamFrequencyEstimationByPhaseUnwrapping2009,McKilliam_mean_dir_est_sq_arc_length2010}, would potentially allow this.  
-
-More ambitiously, our techniques might allow analysis of non data-aided channel estimators for modern communications systems such as mulitple anntannae systems, systems employing orthogonal frequency division multiplexing, and systems that must widthstand rapidly time varying channels~\cite{4138046,inthft:204506}.  We see the results presented here as a starting point for a potentially potent approach to the analysis of channel estimators that is complementary to the commonplace method of comparing results of Monte-Carlo simulations with Cramer-Rao lower bounds.
+One criticism that might be directed at our asymptotic approach when compared to the Cramer-Rao bounds already developed in the literature is that our specific results apply only to the least square estimator.  One response to this criticism is that the least squares estimator should be a popular practical choice because it can be efficiently computed in $O(L\log L)$ operations and because it is the maximum likelihood estimator under the common assumption that the noise is white and Gaussian.  Perhaps an even more convinving response is that, while the specific results given here apply only to the least squares estimator, the techniques that we develop to derive these results are now able to be deployed for the analysis of other estimators.  For example, in practical systems it is sometimes desirable to place more importance on certain data symbols and use a small constellation size, say BPSK ($M=2$) for these, but to use a larger constellation size, say QPSK ($M=4$), for other less important symbols.  This is related to what is called \emph{unequal error protection}~\cite{Aydinlik_turbo_uep_2008,Sandberg_uep_ldpc_2010}.  It would be reasonably straigthforward to extend our results to allow data and pilot symbols with varying constellation size.  A more involved extension would be the inclusion of carrier frequency as a parameter to be estimated.  The techniques we present, combined with those from~\cite{McKilliamFrequencyEstimationByPhaseUnwrapping2009,McKilliam_mean_dir_est_sq_arc_length2010}, would potentially allow this.  
+More ambitiously, our techniques might allow analysis of non-data-aided channel estimators for modern communications systems such as mulitple anntannae systems, systems employing orthogonal frequency division multiplexing, and systems that must widthstand rapidly time varying channels~\cite{4138046,inthft:204506}.  We see the results presented here as a starting point for a potentially potent approach to the analysis of channel estimators that is complementary to the commonplace method of comparing results of Monte-Carlo simulations with Cramer-Rao lower bounds.
 
 That this paper contains novel theoretical developments does not imply that our results are of no immediate practical interest.  The design of our estimator was motivated by a project at the University of South Australia's Institute for Telecommunications Research to develop a narrowband multiuser communication system to collect sensor network data using a satellite in orbit.  This estimator has been implemented on a prototype that was successfully trialled from April to July of 2013 with signals from multiple low power ground-based transmitters being successfully received and decoded by both aircraft and satellites in orbit~\cite{ASRPpromovideo}.  Our theoretical analysis aided design of this system.  Based on our Theorem~\ref{thm:normality} in Section~\ref{sec:stat-prop-least} the performance of the least squares estimator can be accurately predicted without the need for time consuming Monte-Carlo simulations.  This provides easy to use and rigourously justified methods for choosing systems parameters, such as the number and placement of pilot symbols, and also provides useful information to other reciever components, such as channel tracking systems.
 
 In the last decade, iterative methods for channel estimation that exploit the error correcting code used by the transmitter have appeared~\cite{Lottici2004,Noels2005,Herzet_turbo_synch_proc_IEEE_2007,Herzet_framework_turbo_sync_2007}.  These methods often go by the name of~\emph{turbo sychronisation}~\cite{Herzet_turbo_synch_proc_IEEE_2007}.  
-These estimators typically apply the expectation maximisation (EM) algorithm under a Gaussian assumption regarding the noise sequence $\{w_i\}$.  A key problem is that the EM algorithm converges correctly only if initialised at some channel estimate sufficiently close to the true channel parameters.  Methods for efficiently obtaining a close initial channel estimate are still required and because of this the analysis of such methods remains of interest.  For the purpose of carrier phase and amplitude estimation, the least squares estimator we describe here is a good candidate as an initialiser for a turbo synchronisation proceedure.  %However, in some cases, it may be that our estimator is accurate enough, and that the gain obtained by applying the EM algorithm will not justify the extra computational cost.
+These estimators typically apply the expectation maximisation (EM) algorithm under a Gaussian assumption regarding the noise sequence $\{w_i\}$.  A key problem is that the EM algorithm converges correctly only if initialised with a channel estimate sufficiently close to the true channel parameters.  Methods for efficiently obtaining a close initial channel estimate are still required and because of this the analysis of such methods remains of interest.  The least squares estimator we describe here is a good candidate as an initialiser for a turbo synchronisation proceedure.  %However, in some cases, it may be that our estimator is accurate enough, and that the gain obtained by applying the EM algorithm will not justify the extra computational cost.
 
 % In the literature it has been common to assume that the data symbols $\{d_i, i \in D\}$ are of primary interest and that the complex amplitude $a_0$ is a nuisance parameter.  The metric of performance is correspondingly the \emph{symbol error rate}, or \emph{bit error rate}.  While estimating the data symbols is ultimately the goal, we take the opposite point of view here.  Our aim is to estimate $a_0$, and we treat the unknown data symbols as nuisance parameters.  This is motivated by the fact that in many modern communication systems the data symbols are \emph{coded}.  For this reason raw symbol error rate is not of interest at this stage.  Instead, we desire an accurate estimator $\hat{a}$ of $a_0$, so that the compensated received symbols $\hat{a}^{-1}y_i$ can be accurately modelled using an additive noise channel.  The additive noise channel is a common assumption for subsequent receiver operations, such as decoding.  The estimator $\hat{a}$ is also used in the computation of decoder metrics for modern decoders, and for interference cancellation in multiuser systems.  Consequently, our metric of performance will not be symbol or bit error rate, but $\sabs{\hat{a} - a_0}$. It will be informative to consider the carrier phase and amplitude estimators separately, that is, if $\hat{a} = \hat{\rho}e^{j\hat{\theta}}$ where $\hat{\rho}$ is a positive real number, then we consider $\sabs{\langle\theta_0 - \hat{\theta}\rangle_\pi}$ and $\sabs{\hat{\rho} - \rho_0}$.  The function $\fracpart{\cdot}_\pi$ denotes its argument taken `modulo $2\pi$' into the interval $[-\pi, \pi)$.  It will become apparent why $\langle\theta_0 - \hat{\theta}\rangle_\pi$ rather than $\theta_0 - \hat{\theta}$ is the appropriate measure of error for the phase parameter.  It is usual to write \emph{estimator} minus \emph{error}, i.e., $\hat{\theta} - \theta_0$ rather than $\theta_0 - \hat{\theta}$.  However, it is notationally convenient to use $\langle\theta_0 - \hat{\theta}\rangle_\pi$ rather than $\langle\hat{\theta} - \theta_0\rangle_\pi$ here.
 
@@ -99,8 +98,8 @@ These estimators typically apply the expectation maximisation (EM) algorithm und
 
 The paper is organised in the following way.  Section~\ref{sec:least-squar-estim} extends Mackenthun's algorithm for the case when both pilot symbols and data symbols exist.  %Section~\ref{sec:circ-symm-compl} describes properties of complex random variables that we need.  
 Section~\ref{sec:stat-prop-least} states two theorems that describe the statistical properties of the least squares estimator of carrier phase and amplitude.  %We show, under reasonably general assumptions about the distribution of the noise $w_1,\dots,w_L$, that $\langle\theta_0 - \hat{\theta}\rangle_\pi$ converges almost surely to zero and that $\sqrt{L}\langle\theta_0 - \hat{\theta}\rangle_\pi$ is asymptotically normally distributed as $L\rightarrow \infty$.  However, $\hat{\rho}$ is not a consistent estimator of the amplitude $\rho_0$.  The asymptotic bias of $\hat{\rho}$ is small when the signal to noise ratio (SNR) is large, but the asymptotic bias is significant when the SNR is small.  
-Sections~\ref{sec:proof-almost-sure} and~\ref{sec:proof-asympt-norm} provide proofs of the theorems stated in Section~\ref{sec:stat-prop-least}.  %In Section~\ref{sec:gaussian-noise-case} we consider the special case when the noise is Gaussian.  In this case, our expressions for the asymptotic distribution can be simplified.  Section~\ref{sec:simulations} presents the results of Monte-Carlo simulations.  
-These simulations agree with the derived asymptotic properties. 
+Sections~\ref{sec:proof-almost-sure} and~\ref{sec:proof-asympt-norm} provide proofs of the theorems stated in Section~\ref{sec:stat-prop-least}.  %In Section~\ref{sec:gaussian-noise-case} we consider the special case when the noise is Gaussian.  In this case, our expressions for the asymptotic distribution can be simplified.  
+Section~\ref{sec:simulations} presents the results of Monte-Carlo simulations.  These simulations agree with the derived asymptotic properties.  Simulations showing the effectivness of our estimator as an initialiser for a turbo synchonisation proceedure are also presented.
 
 %It is worth commenting on our use of $\prob$ rather than the more usual $\expect$ or $E$ for the expected value operator.  The notation comes from Pollard~\cite[Ch 1]{Pollard_users_guide_prob_2002}.  The notation is good because it removes unecessary distinction between `probability' and expectation.  Given a random variable $X$ with cumulative density function $F$, the probability of an event, say $X \in S$, where $S$ is some subset of the range of $X$, is 
 %\[
@@ -114,36 +113,36 @@ These simulations agree with the derived asymptotic properties.
 
 \section{Mackenthun's algorithm with pilots}\label{sec:least-squar-estim}
 
-In this section we derive Mackenthun's algorithm to compute the least squares estimators of the carrier phase and amplitude~\cite{Mackenthun1994}.  Mackenthun specifically considered the non data-aided setting, so we modify the algorithm to include pilot symbols.  Although the modification is straightforward, much of the notation that will be used for analysing the estimator in Section~\ref{sec:stat-prop-least} is most naturally introduced during the description of the algorithm.  For this reason, and so that our paper is self contained, we describe the algorithm in full.  For the purpose of analysing computational complexity, we will assume that the number of data symbols $\abs{D}$ is proportional to the total number of symbols $L$, so that, for example, $O(L) = O(\abs{D})$.  In this case Mackentun's algorithm requires $O(L \log L)$ arithmetic operations.  This complexity arises from the need to sort a list of $\abs{D}$ elements.  
+In this section we derive Mackenthun's algorithm to compute the least squares estimators of the carrier phase and amplitude~\cite{Mackenthun1994}.  Mackenthun specifically considered the non-data-aided setting, so we modify the algorithm to include pilot symbols.  Although the modification is straightforward, much of the notation that will be used for analysing the estimator in Section~\ref{sec:stat-prop-least} is most naturally introduced during the description of the algorithm.  For this reason, and so that the paper is self contained, we describe the algorithm in full.  For the purpose of analysing computational complexity it is assumed that the number of data symbols $\abs{D}$ is proportional to the total number of symbols $L$, so that, for example, $O(L) = O(\abs{D})$.  In this case Mackentun's algorithm requires $O(L \log L)$ arithmetic operations.  This complexity arises from the need to sort a list of $\abs{D}$ elements.  
 %We use order notation in the standard way, that is, for functions $h$ and $g$, we write $h(N) = O(g(N))$ to mean that there exists a constant $K > 0$ and a finite $N_0$ such that $h(N) \leq K g(N)$ for all $N > N_0$.
 
 %In Section~\ref{sec:line-time-algor} we will show that a full sort is not neccesary, and that the least squares estimator can be implemented in $O(L)$ operations.
 
 Define the sum of squares function
 \begin{align}
-SS(a, &\{d_i, i \in D\}) = \sum_{i \in P \cup D} \abs{ y_i - a s_i }^2 \nonumber \\
-&= \sum_{i \in P \cup D} \big( \abs{y_i}^2 - a s_i y_i^* - a^* s_i^* y_i + aa^* \big), \label{eq:SS}
+LS(a, &\{d_i, i \in D\}) = \sum_{i \in P \cup D} \abs{ y_i - a s_i }^2 \nonumber \\
+&= \sum_{i \in P \cup D} \big( \abs{y_i}^2 - a s_i y_i^* - a^* s_i^* y_i + aa^* \big), \label{eq:LS}
 \end{align}
-where $*$ denotes complex conjugate.  The minimiser of $SS$ with respect to $a$ as a function of $\{d_i, i \in D\}$ is
+where $*$ denotes complex conjugate.  The minimiser of $LS$ with respect to $a$ as a function of $\{d_i, i \in D\}$ is
 \begin{equation}\label{eq:hata}
 \hat{a}(\{d_i, i \in D\}) = \frac{1}{L} \sum_{i \in P \cup D} y_i s_i^* = \frac{1}{L} Y,
 \end{equation}
-where $L = \abs{P \cup D}$ and to simplify our notation we have put 
+where $L = \abs{P \cup D}$ and to simplify notation we have put 
 \[
 Y = \sum_{i \in P \cup D} y_i s_i^* = \sum_{i \in P } y_i p_i^* + \sum_{i \in D } y_i d_i^*.
 \]  
-Note that $Y$ is a function of the unknown data symbols $\{ d_i, i \in D\}$ and we could write $Y(\{ d_i, i \in D\})$, but have chosen to suppress the argument $(\{ d_i, i \in D\})$ for notational brevity.  Substituting $\frac{1}{L}Y$ for $a$ into~\eqref{eq:SS} we obtain $SS$ minimised with respect to $a$,
-\begin{equation}\label{eq:SSdatasymbols}
-SS(\{d_i, i \in D\}) = A - \frac{1}{L}\abs{Y}^2,
+Note that $Y$ is a function of the unknown data symbols $\{ d_i, i \in D\}$ and we could write $Y(\{ d_i, i \in D\})$, but have chosen to suppress the argument $(\{ d_i, i \in D\})$ for notational brevity.  Substituting $\frac{1}{L}Y$ for $a$ into~\eqref{eq:LS} we obtain $LS$ minimised with respect to $a$,
+\begin{equation}\label{eq:LSdatasymbols}
+LS(\{d_i, i \in D\}) = A - \frac{1}{L}\abs{Y}^2,
 \end{equation}
-where $A = \sum_{i \in P \cup D}\abs{y_i}^2$ does not depend on the $d_i$.  The least squares estimators of the data symbols are the minimisers of~\eqref{eq:SSdatasymbols}.  Observe that given candidate values for the data symbols, we can compute the corresponding $SS(\{d_i, i \in D\})$ in $O(L)$ arithmetic operations.  It turns out that there are at most $M\abs{D}$ candidate values of the least squares estimator of the data symbols~\cite{Sweldens2001,Mackenthun1994}.  %When the number of data symbols is not small, this set is substantially smaller than the entire set of possible transmitted symbols, which is of size $M^{\abs{D}}$.
+where $A = \sum_{i \in P \cup D}\abs{y_i}^2$ does not depend on the data symbols.  The least squares estimators of the data symbols are the minimisers of~\eqref{eq:LSdatasymbols}.  Observe that given candidate values for the data symbols, we can compute the corresponding $LS(\{d_i, i \in D\})$ in $O(L)$ arithmetic operations.  It turns out that there are at most $M\abs{D}$ candidate values of the least squares estimator of the data symbols~\cite{Sweldens2001,Mackenthun1994}.  %When the number of data symbols is not small, this set is substantially smaller than the entire set of possible transmitted symbols, which is of size $M^{\abs{D}}$.
 
-To see this, let $a = \rho e^{j\theta}$ where $\rho > 0$ is real.  Now,
+To see this, let $a = \rho e^{j\theta}$ where $\rho > 0$ is real.  Now $LS$ from~\eqref{eq:LS} is to
 \begin{align}
-SS(\rho, \theta, &\{d_i, i \in D\}) = \sum_{i \in P \cup D} \abs{ y_i - \rho e^{j\theta} s_i }^2  \nonumber \\
-&= \sum_{i \in P} \abs{ y_i - \rho e^{j\theta} p_i }^2 + \sum_{i \in D} \abs{ y_i - \rho e^{j\theta} d_i }^2. \label{eq:SSallparams}
+LS(\rho, \theta, &\{d_i, i \in D\}) = \sum_{i \in P \cup D} \abs{ y_i - \rho e^{j\theta} s_i }^2  \nonumber \\
+&= \sum_{i \in P} \abs{ y_i - \rho e^{j\theta} p_i }^2 + \sum_{i \in D} \abs{ y_i - \rho e^{j\theta} d_i }^2. \label{eq:LSallparams}
 \end{align}
-We have slightly abused notation here by reusing $SS$. This should not cause confusion as $SS(a, \{d_i, i \in D\})$, $SS(\rho, \theta, \{d_i, i \in D\})$, and $SS(\{d_i, i \in D\})$ are easily told apart by their arguments.  For given $\theta$, the least squares estimator of the $i$th data symbol $d_i$ is given by minimising $\abs{ y_i - \rho e^{j\theta} d_i }^2$, that is,
+We have slightly abused notation here by reusing $LS$. This should not cause confusion as $LS(a, \{d_i, i \in D\})$, $LS(\rho, \theta, \{d_i, i \in D\})$, and $LS(\{d_i, i \in D\})$ are easily told apart by their arguments.  For given $\theta$, the least squares estimator of the $i$th data symbol $d_i$ is given by minimising $\abs{ y_i - \rho e^{j\theta} d_i }^2$, that is,
 \begin{equation}\label{eq:hatdfinxtheta}
 \hat{d}_i(\theta) = e^{j\hat{u}_i(\theta)} \qquad \text{where} \qquad \hat{u}_i(\theta) = \round{\angle( e^{-j\theta}y_i)},
 \end{equation}
@@ -159,7 +158,7 @@ which is equivalent to the definition from~\eqref{eq:hatdfinxtheta} modulo $2\pi
 
 We only require to consider $\theta$ in the interval $[0, 2\pi)$.  Consider how $\hat{d}_i(\theta)$ changes as $\theta$ varies from $0$ to $2\pi$.  Let $b_i = \hat{d}_i(0)$ and let 
 \[
-z_i = \angle{y_i} - \hat{u}_i(0) = \angle{y_i} - \round{\angle{y_i}}
+z_i = \angle{y_i} - \hat{u}_i(0) = \angle{y_i} - \round{\angle{y_i}}.
 \]
 %be the phase difference between the received symbol $y_i$ and the hard decision resulting when $\theta = 0$, i.e. $\round{\angle{y_i}}$.  
 Then,
@@ -167,9 +166,9 @@ Then,
 \hat{d}_i(\theta) = 
 \begin{cases}
 b_i, &  0 \leq \theta < z_i + \frac{\pi}{M} \\
-b_i e^{-j2\pi/M}, & z_i + \frac{\pi}{M} \leq \theta < z_i + \frac{3\pi}{M} \\ 
+b_i e^{-j2\pi/M}, & \frac{\pi}{M} \leq \theta - z_i < + \frac{3\pi}{M} \\ 
 \vdots & \\
-b_i e^{-j2\pi k /M}, & z_i + \frac{\pi(2k - 1)}{M} \leq \theta < z_i + \frac{\pi(2k + 1)}{M}  \\ 
+b_i e^{-j2\pi k /M}, & \frac{\pi(2k - 1)}{M} \leq \theta - z_i < \frac{\pi(2k + 1)}{M}  \\ 
 \vdots & \\
 b_i e^{-j2\pi} = b_i, &  z_i + \frac{\pi(2M - 1)}{M} \leq \theta < 2\pi. \\
 \end{cases}
@@ -179,11 +178,11 @@ Let
 \[
 f(\theta) = \{ \hat{d}_i(\theta), i \in D \}
 \]
-be a function mapping the interval $[0, 2\pi)$ to a sequence of $M$-PSK symbols indexed by the elements of $D$.  Observe that $f(\theta)$ is piecewise continuous.  The subintervals of $[0, 2\pi)$ over which $f(\theta)$ remains constant are determined by the values of $\{z_i, i \in D\}$.  Let
+be a function mapping the interval $[0, 2\pi)$ to a sequence of $M$-PSK symbols indexed by the elements of $D$.  Observe that $f$ is piecewise continuous.  The subintervals of $[0, 2\pi)$ over which $f$ remains constant are determined by the values of $\{z_i, i \in D\}$.  Let
 \[
 S = \{ f(\theta) \mid \theta \in [0, 2 \pi) \}
 \]
-be the set of all sequences $f(\theta)$ as $\theta$ varies from $0$ to $2\pi$.  If $\hat{\theta}$ is the least squares estimator of the phase then $S$ contains the sequence $\{ \hat{d}_i(\hat{\theta}), i \in D \}$ corresponding to the least squares estimator of the data symbols, i.e., $S$ contains the minimiser of~\eqref{eq:SSdatasymbols}.  Observe from~\eqref{eq:uicombos} that there are at most $M\abs{D}$ sequences in $S$, because there are $M$ distinct values of $\hat{d}_i(\theta)$ for each $i \in D$ as $\theta$ varies from $0$ to $2\pi$.
+be the set of all sequences $f(\theta)$ as $\theta$ varies from $0$ to $2\pi$.  If $\hat{\theta}$ is the least squares estimator of the phase then $S$ contains the sequence $\{ \hat{d}_i(\hat{\theta}), i \in D \}$ corresponding to the least squares estimator of the data symbols, i.e., $S$ contains the minimiser of~\eqref{eq:LSdatasymbols}.  Observe from~\eqref{eq:uicombos} that there are at most $M\abs{D}$ sequences in $S$ because there are $M$ distinct values of $\hat{d}_i(\theta)$ for each $i \in D$ as $\theta$ varies from $0$ to $2\pi$.
 
 The sequences in $S$ can be enumerated as follows.  Let $\sigma$ denote the permutation of the indices in $D$ such that $z_{\sigma(i)}$ are in ascending order, that is,
 \begin{equation}\label{eq:sigmasortind}
@@ -207,11 +206,11 @@ f_{k+1} = f_{k} e_{\sigma(k)}.
 \end{equation}
 In this way, all $M\abs{D}$ sequences in $S$ can be recursively enumerated.
 
-We want to find the $f_k \in S$ corresponding to the minimiser of~(\ref{eq:SSdatasymbols}).  A na\"{\i}ve approach would be to compute $SS(f_k)$ for each $k \in \{0,1,\dots,M\abs{D}-1\}$.  Computing $SS(f_k)$ for any particular $k$ requires $O(L)$ arithmetic operations.  So, this na\"{\i}ve approach would require $O(L M \abs{D}) = O(L^2)$ operations in total.  Following Mackenthun~\cite{Mackenthun1994}, we show how $SS(f_k)$ can be computed recursively.
+We want to find the $f_k \in S$ corresponding to the minimiser of~(\ref{eq:LSdatasymbols}).  A na\"{\i}ve approach would be to compute $LS(f_k)$ for each $k \in \{0,1,\dots,M\abs{D}-1\}$.  Computing $LS(f_k)$ for any particular $k$ requires $O(L)$ arithmetic operations.  So, this na\"{\i}ve approach would require $O(L M \abs{D}) = O(L^2)$ operations in total.  Following Mackenthun~\cite{Mackenthun1994}, we show how $LS(f_k)$ can be computed recursively.
 
 Let,
-\begin{equation}\label{eq:SSfk}
-SS(f_k) = A - \frac{1}{L}\abs{Y_k}^2,
+\begin{equation}\label{eq:LSfk}
+LS(f_k) = A - \frac{1}{L}\abs{Y_k}^2,
 \end{equation}
 where, 
 \[
@@ -235,7 +234,7 @@ where $\eta = e^{j2\pi/M} - 1$.  In general,
 \[
 Y_{k+1} = Y_k + \eta g_{k\sigma(k)}.
 \]
-So, each $Y_k$ can be computed from its predecessor $Y_{k-1}$ in $O(1)$ arithmetic operations.  Given $Y_k$, the value of $SS(f_k)$ can be computed in $O(1)$ operations using~\eqref{eq:SSfk}.  Let $\hat{k} = \arg\min SS(f_k)$.  The least squares estimator of $a_0$ is then computed according to~\eqref{eq:hata},
+So, each $Y_k$ can be computed from its predecessor $Y_{k-1}$ in $O(1)$ arithmetic operations.  Given $Y_k$, the value of $LS(f_k)$ can be computed in $O(1)$ operations using~\eqref{eq:LSfk}.  Let $\hat{k} = \arg\min LS(f_k)$.  The least squares estimator of $a_0$ is then computed according to~\eqref{eq:hata},
 \[
 \hat{a} = \frac{1}{L} Y_{\hat{k}}.
 \]
@@ -408,17 +407,19 @@ B_1 = \expect R_1^2 \cos^2(\Phi_1) - 1, \;\;\; B_2 = \expect R_1^2 \cos^2\fracpa
 % \end{IEEEproof}
 
 The proof of Theorem~\ref{thm:consistency} is in Section~\ref{sec:proof-almost-sure} and the proof of Theorem~\ref{thm:normality} is in Section~\ref{sec:proof-asympt-norm}. Before giving the proofs we discuss some of the consequences and the assumptions made by these theorems.  
-First observe that the theorems place conditions on $\sfracpart{\theta_0 - \hat{\theta}}_\pi$ rather than directly on $\theta_0 - \hat{\theta}$.  This makes sense because the phases $\theta_0$ and $\theta_0 + 2\pi k$ are equivalent for any integer $k$. So, for example, we expect the phases $0.99\pi$ and $-0.99\pi$ to be close together, the difference between them being $\vert\sfracpart{0.99\pi + 0.99\pi}_\pi\vert = 0.02\pi$, and not $\vert 0.99\pi + 0.99\pi\vert = 1.98\pi$.  In the literature it is usual to write \emph{estimator} minus \emph{error}, i.e., $\hat{\theta} - \theta_0$ rather than $\theta_0 - \hat{\theta}$.  However, it will be notationally convenient in Sections~\ref{sec:proof-almost-sure} and~\ref{sec:proof-asympt-norm} to use $\langle\theta_0 - \hat{\theta}\rangle_\pi$.  The theorems require minor modification when the number of pilots symbols $\abs{P} = 0$.  Theorem statements for this special case appear in \cite{McKilliam_leastsqPSKnoncoICASSP_2012}.
+First observe that the theorems place conditions on $\sfracpart{\theta_0 - \hat{\theta}}_\pi$ rather than directly on $\theta_0 - \hat{\theta}$.  This makes sense because the phases $\theta_0$ and $\theta_0 + 2\pi k$ are equivalent for any integer $k$. So, for example, we expect the phases $0.99\pi$ and $-0.99\pi$ to be close together, the difference between them being $\vert\sfracpart{0.99\pi + 0.99\pi}_\pi\vert = 0.02\pi$, and not $\vert 0.99\pi + 0.99\pi\vert = 1.98\pi$.  %In the literature it is usual to write \emph{estimator} minus \emph{error}, i.e., $\hat{\theta} - \theta_0$ rather than $\theta_0 - \hat{\theta}$.  However, it will be notationally convenient in Sections~\ref{sec:proof-almost-sure} and~\ref{sec:proof-asympt-norm} to use $\langle\theta_0 - \hat{\theta}\rangle_\pi$.  
+The theorems require minor modification when the number of pilots symbols $\abs{P} = 0$.  Theorem statements for this special case appear in \cite{McKilliam_leastsqPSKnoncoICASSP_2012}.
 
-Part~\ref{thm:consistency:part1} of Theorem~\ref{thm:consistency} shows that the phase estimator error $\langle\theta_0 - \hat{\theta}\rangle_\pi$ converges almost surely to zero as $L\rightarrow \infty$, i.e., the estimator $\hat{\theta}$ is strongly consistent. In contrast, part~\ref{thm:consistency:part2} of the theorem shows that $\hat{\rho}$ is not a consistent estimator of the true amplitude $\rho_0$ and converges to $\rho_0 G(0)$.  The value $G(0)$ is a function of the noise distribution and $G(0)$ is close to $1$ when the variance of the noise is small, but grows without bound as the noise variance increases.  That is, the asymptotic bias is small when the SNR is large, but significant when the SNR is small.  We will further investigate the bias in Sec.~\ref{sec:simulations}.  Theorem~\ref{thm:normality} shows that $\sqrt{L}(\hat{\rho} - \rho_0 G(0))$ (i.e.\ the amplitude estimator error with bias removed) and $\sqrt{L}\langle\theta_0 - \hat{\theta}\rangle_\pi$ are asymptotically normally distributed and statistically independent as $L\rightarrow\infty$.
+Part~\ref{thm:consistency:part1} of Theorem~\ref{thm:consistency} shows that the phase estimator error $\langle\theta_0 - \hat{\theta}\rangle_\pi$ converges almost surely to zero as $L\rightarrow \infty$, i.e., the estimator $\hat{\theta}$ is strongly consistent. In contrast, part~\ref{thm:consistency:part2} of the theorem shows that $\hat{\rho}$ is not a consistent estimator of the true amplitude $\rho_0$ and converges to $\rho_0 G(0)$.  The value $G(0)$ is a function of the noise distribution and $G(0)$ is close to $1$ when the variance of the noise is small, but grows without bound as the noise variance increases.  Thus, the asymptotic bias is small when the SNR is large, but significant when the SNR is small.  We will further investigate the bias in Section~\ref{sec:simulations}.  Theorem~\ref{thm:normality} shows that $\sqrt{L}(\hat{\rho} - \rho_0 G(0))$ (the amplitude estimator error with bias removed) and $\sqrt{L}\langle\theta_0 - \hat{\theta}\rangle_\pi$ are asymptotically normally distributed and statistically independent as $L\rightarrow\infty$.
 
-We would like to stress that many practical estimators such as the SNR estimators in~\cite{Pauluzzi2000} are biased and, particularly at low SNR, the bias can be large.  To the best of the authors' knowledge, the value of the bias of these estimators has only been approximated by computer simulation and no theoretical analysis exists.  In contrast, we have presented a closed-form expression for the asymptotic bias of $\hat\rho$, thereby laying a foundation for an improved estimator.  Removal of the bias appears to require knowledge of $G(0)$, which may not be available at the receiver. Estimation of $G(0)$ is beyond the scope of this paper.
+We would like to stress that many practical estimators such as the SNR estimators in~\cite{Pauluzzi2000} are biased and, particularly at low SNR, the bias can be large.  To the authors' knowledge, the value of the bias of these estimators has only been approximated by computer simulation and no theoretical analysis exists~\cite{Pauluzzi2000}.  In contrast, we have presented a closed-form expression for the asymptotic bias of $\hat\rho$, thereby laying a foundation for an improved estimator.  Removal of the bias appears to require knowledge of $G(0)$, which may not be available at the receiver. Estimation of $G(0)$ is beyond the scope of this paper.
 
 The assumption that $w_1, \dots, w_L$ are circularly symmetric can be relaxed, but this comes at the expense of making the theorem statements more complicated.  If $w_i$ is not circularly symmetric then the distribution of $R_i$ and $\Phi_i$ may depend on $a_0$ and also on the transmitted symbols $\{s_i,i \in P \cup D\}$.  As a result the asymptotic variance described in Theorem~\ref{thm:normality} depends on $a_0$ and $\{s_i,i \in P \cup D\}$, rather than just $\rho_0$.  The circularly symmetric assumption may not always hold in practice, but we feel it provides a sensible trade off between simplicity and generality.  
 
 %The assumption that $\expect \sabs{w_1}^2 = \expect \sabs{w_i}^2$ is finite implies that $R_i$ has finite variance since $\expect R_i^2 = 1 + \expect \abs{w_i}^2$.  This is required in Theorem~\ref{thm:normality} so that the constants $A_1$, $A_2$, $B_1$ and $B_2$ exist.  We will also use the fact that $R_i$ has finite variance to simplify the proof of Theorem~\ref{thm:consistency} by use of Kolmogorov's strong law of large numbers~\cite{Billingsley1979_probability_and_measure}.
 
-Theorem~\ref{thm:normality} requires the function $g$ to be continuous at $\tfrac{2\pi}{M}k + \tfrac{\pi}{M}$ for each $k = 0, \dots, M-1$.  This places mild restrictions on the distribution of the noise $w_i$.  For example, the requirements are satisfied if the joint pdf of the real and imaginary parts of $w_i$ is continuous, since in this case $f(r,\phi)$ is continuous.  Because $f(r,\phi)$ has period $2\pi$ and is even on $[-\pi,\pi]$ with respect to $\phi$ it follows that $g$ has period $2\pi$ and is even on $[-\pi, \pi]$.
+Theorem~\ref{thm:normality} requires the function $g$ to be continuous at $\tfrac{2\pi}{M}k + \tfrac{\pi}{M}$ for each $k = 0, \dots, M-1$.  This places mild restrictions on the distribution of the noise $w_i$.  For example, the requirements are satisfied if the joint pdf of the real and imaginary parts of $w_i$ is continuous because then 
+$f(r,\phi)$ is continuous.  Because $f(r,\phi)$ has period $2\pi$ and is even on $[-\pi,\pi]$ with respect to $\phi$ it follows that $g$ has period $2\pi$ and is even on $[-\pi, \pi]$.
 
 %must exist at $\phi = \tfrac{2\pi}{M}k + \frac{\pi}{M}$ for $k = 0, \dots, M-1$ so that the constant $H$ exists.  The next proposition shows that the assumptions made in Theorem~\ref{thm:normality} are strong enough to ensure that the integral does exist at these points.  At the same time we derive some properties that will be useful during the proof of Theorem~\ref{thm:normality}.  %The proof is given in Appendix~\ref{appendix:prop1proof}.
 
@@ -441,7 +442,7 @@ Theorem~\ref{thm:normality} requires the function $g$ to be continuous at $\tfra
 % where $k = 1, 2$ and $\beta(\phi) = \cos(\phi) + \sqrt{z^2 - 1 + \cos^2(\phi)}$.  Since $\expect \abs{Z}^2$ is finite and non-zero $\int_0^\infty z^c dF(z)$ is finite for all $c = -1,0,1,2$.
 % \end{IEEEproof}
 
-A key assumption in Theorem~\ref{thm:consistency} is that $G(x)$ is uniquely maximised at $x = 0$ for $x \in [-\pi, \pi)$.  This assumption asserts that $G(x) \leq G(0)$ for all $x \in [-\pi, \pi)$ and that if $\{x_i\}$ is a sequence of numbers from $[-\pi,\pi)$ such that $G(x_i) \rightarrow G(0)$ as $i \rightarrow \infty$ then $x_i \rightarrow 0$ as $i \rightarrow \infty$.  Although we will not prove it here, this assumption is not only sufficient, but also necessary, for if $G(x)$ is uniquely maximised at some $x \neq 0$ then $\sfracpart{\theta_0 - \hat{\theta}}_\pi \rightarrow x$ almost surely as $L\rightarrow\infty$, while if $G(x)$ is not uniquely maximised then $\sfracpart{\theta_0 - \hat{\theta}}_\pi$ will not converge.  One can check that this assumption holds when $w_i$ is circularly symmetric and normally distributed.  We will not attempt to further classify those distributions for which the assumption holds here.
+A key assumption in Theorem~\ref{thm:consistency} is that $G(x)$ is uniquely maximised at $x = 0$ for $x \in [-\pi, \pi)$.  This assumption asserts that $G(x) \leq G(0)$ for all $x \in [-\pi, \pi)$ and that if $\{x_i\}$ is a sequence from $[-\pi,\pi)$ such that $G(x_i) \rightarrow G(0)$ as $i \rightarrow \infty$ then $x_i \rightarrow 0$ as $i \rightarrow \infty$.  Although we will not prove it here, this assumption is not only sufficient, but also necessary, for if $G(x)$ is uniquely maximised at some $x \neq 0$ then $\sfracpart{\theta_0 - \hat{\theta}}_\pi \rightarrow x$ almost surely as $L\rightarrow\infty$, while if $G(x)$ is not uniquely maximised then $\sfracpart{\theta_0 - \hat{\theta}}_\pi$ will not converge.  One can check that this assumption holds in the important case when $w_i$ is circularly symmetric and normally distributed.  We will not attempt to further classify those distributions for which the assumption holds here.
 
 %The next proposition describes a class of circularly symmetric distributions for which $G(x)$ is uniquely maximised at $x = 0$.  The zero mean complex Gaussian distribution with independent real and imaginary parts is in this class.  The proof is given in Appendix~\ref{appendix:prop2proof}.
 
@@ -486,9 +487,9 @@ This stronger condition is required to prove the asymptotic normality of $\sqrt{
 \section{Proof of almost sure convergence (Theorem~\ref{thm:consistency}) } \label{sec:proof-almost-sure}
 
 The proof of Theorem~\ref{thm:consistency} hinges on Lemmas \ref{lem:convtoexpGlamL} to~\ref{lem:GLtoG0}, which can be found in the appendix.
-Substituting $\{ \hat{d}_i(\theta), i \in D \}$ from~\eqref{eq:hatdfinxtheta} into~\eqref{eq:SSallparams} we obtain $SS$ minimised with respect to the data symbols,
+Substituting $\{ \hat{d}_i(\theta), i \in D \}$ from~\eqref{eq:hatdfinxtheta} into~\eqref{eq:LSallparams} we obtain $LS$ minimised with respect to the data symbols,
  \begin{align*}
-SS(\rho, \theta) &=\sum_{i \in P} \abs{ y_i - \rho e^{j\theta} p_i }^2 + \sum_{i \in D} \abs{ y_i - \rho e^{j\theta} \hat{d_i}(\theta) }^2 \\
+LS(\rho, \theta) &=\sum_{i \in P} \abs{ y_i - \rho e^{j\theta} p_i }^2 + \sum_{i \in D} \abs{ y_i - \rho e^{j\theta} \hat{d_i}(\theta) }^2 \\
 &= A - \rho Z(\theta) - \rho Z^*(\theta) + L \rho^2,
 \end{align*}
 where
@@ -497,19 +498,19 @@ Z(\theta)  = \sum_{i \in P} y_i e^{-j\theta} p_i^* + \sum_{i \in D} y_i e^{-j\th
 \]
 and $Z^*(\theta)$ is the conjugate of $Z(\theta)$.  Differentiating with respect to $\rho$ and setting the resulting expression to zero gives the least squares estimator of $\rho_0$ as a function of $\theta$,
 \begin{equation}\label{eq:hatrhoZ}
-\hat{\rho}(\theta) = \frac{Z(\theta) + Z^*(\theta)}{2L} = \frac{1}{L}\Re(Z(\theta)),
+\hat{\rho}(\theta) = \frac{Z(\theta) + Z^*(\theta)}{2L} = \frac{1}{L}\Re(Z(\theta)).
 \end{equation}
-where $\Re(\cdot)$ denotes the real part.  %Since $\hat{\rho}(\theta)$ is nonnegative it follows that $\Re(Z(\theta))$ is nonnegative for all $\theta \in [-\pi, \pi)$.  
-Substituting this expression into $SS(\rho, \theta)$ gives $SS$ minimised with respect to $\rho$ and the data symbols,
+%where $\Re(\cdot)$ denotes the real part.  %Since $\hat{\rho}(\theta)$ is nonnegative it follows that $\Re(Z(\theta))$ is nonnegative for all $\theta \in [-\pi, \pi)$.  
+Substituting this expression into $LS(\rho, \theta)$ gives $LS$ minimised with respect to $\rho$ and the data symbols,
 \[
-SS(\theta) = A - \frac{1}{L}\Re(Z(\theta))^2.
+LS(\theta) = A - \frac{1}{L}\Re(Z(\theta))^2.
 \]
-%We again abuse notation by reusing $SS$, but this should not cause confusion as $SS(\rho,\theta)$ and $SS(\theta)$ are easily told apart by their inputs.  
+%We again abuse notation by reusing $LS$, but this should not cause confusion as $LS(\rho,\theta)$ and $LS(\theta)$ are easily told apart by their inputs.  
 By definition the amplitude $\rho_0$ and its estimator $\hat{\rho}$ are positive.  However, $\hat{\rho}(\theta) = \Re(Z(\theta))$ may take negative values for some $\theta \in [-\pi,\pi)$.  %In this case we would replace $\theta$ with $\fracpart{\theta + \phi}$ and $\hat{\rho}(\theta)$ with $-\hat{\rho}(\theta)$ and observe that
 %\[
-%SS(\rho,\theta) = SS(-\rho, \fracpart{\theta + \pi})
+%LS(\rho,\theta) = LS(-\rho, \fracpart{\theta + \pi})
 %\]
-The least square estimator $\hat{\theta}$ of $\theta_0$ is the minimiser of $SS(\theta)$ under the constraint $\hat{\rho}(\theta) = \Re(Z(\theta)) > 0$.  Equivalently $\hat{\theta}$ is the maximiser of $\Re(Z(\theta))$ with no constraints required.
+The least square estimator $\hat{\theta}$ of $\theta_0$ is the minimiser of $LS(\theta)$ under the constraint $\hat{\rho}(\theta) = \Re(Z(\theta)) > 0$.  Equivalently $\hat{\theta}$ is the maximiser of $\Re(Z(\theta))$ with no constraints required.
  
 We are thus interested in analysing the behaviour of the maximiser of $\Re(Z(\theta))$.  Recalling the definition of $R_i$ and $\Phi_i$ from~\eqref{eq:RiandPhii},
 \begin{align*}
@@ -551,7 +552,7 @@ G_L(\lambda) &= \frac{1}{\rho_0 L} \Re(Z(\theta)) \label{eq:GLdefn} \\
 &= \frac{1}{L} \sum_{i \in P} R_i \cos(\lambda + \Phi_i) + \frac{1}{L} \sum_{i \in D} R_i \cos\sfracpart{\lambda + \Phi_i} \nonumber
 %\end{split}
 \end{align}
-and put $\hat{\lambda}_L = -\sfracpart{\hat{\theta} - \theta_0}_\pi = \sfracpart{\theta_0 - \hat{\theta}}_\pi$.  Since $\hat{\theta}$ is the maximiser of $\Re(Z(\theta))$ it follows that $\hat{\lambda}_L$ is the maximiser of $G_L(\lambda)$.  We will show that $\hat{\lambda}_L$ converges almost surely to zero as $L \rightarrow \infty$.  The proof of part 1 of Theorem~\ref{thm:consistency} follows from this.
+and put $\hat{\lambda}_L = \sfracpart{\theta_0 - \hat{\theta}}_\pi$.  Since $\hat{\theta}$ is the maximiser of $\Re(Z(\theta))$ it follows that $\hat{\lambda}_L$ is the maximiser of $G_L(\lambda)$.  We will show that $\hat{\lambda}_L$ converges almost surely to zero as $L \rightarrow \infty$.  The proof of part 1 of Theorem~\ref{thm:consistency} follows from this.
 
 Recall the functions $G$, $h_1$ and $h_2$ defined in the statement of Theorem~\ref{thm:consistency}.  Observe that
 \[
@@ -561,6 +562,7 @@ and since $\frac{\abs{P}}{L} \rightarrow p$ and $\frac{\abs{D}}{L} \rightarrow d
 \[
 \lim_{L \rightarrow\infty} \expect G_L(\lambda) = G(\lambda) = p h_1(\lambda)   +  d h_2(\lambda).
 \]
+%This is kind of disjointed without the ULL included.  Unfortunately there is no space.
 As is customary, let $\Omega$ be the sample space on which the random variables $\{w_i\}$ are defined.  Let $A$ be the subset of the sample space $\Omega$ on which $G(\hat{\lambda}_L) \rightarrow G(0)$ as $L\rightarrow\infty$.  Lemma~\ref{lem:convtoexpGlamL} shows that $\prob\{A\} = 1$.  Let $A'$ be the subset of the sample space on which $\hat{\lambda}_L \rightarrow 0$ as $L\rightarrow \infty$.  Because $G(x)$ is uniquely maximised at $x=0$, it follows that $G(\hat{\lambda}_L) \rightarrow G(0)$ only if $\hat{\lambda}_L \rightarrow 0$ as $L \rightarrow\infty$. So $A \subseteq A'$ and therefore $\prob\{A'\} \geq \prob\{A\} = 1$.  Part 1 of Theorem~\ref{thm:consistency} follows.  
 
 It remains to prove part 2 of the theorem regarding the convergence of the amplitude estimator $\hat{\rho}$.  From~\eqref{eq:hatrhoZ},
@@ -573,12 +575,16 @@ Lemma~\ref{lem:GLtoG0} in the appendix shows that $G_L(\hat{\lambda}_L)$ converg
 
 \section{Proof of asymptotic normality (Theorem~\ref{thm:normality}) } \label{sec:proof-asympt-norm}
 
-The proof of Theorem~\ref{thm:normality} hinges on Lemmas \ref{lem:diffatlambdaL} to~\ref{lem:XL}, which can be found in the appendix.  We first prove the asymptotic normality of $\sqrt{L} \hat{\lambda}_L$.  Once this is done we will be able to prove the normality of $\sqrt{L} \hat{m}_L$.  Recall that $\hat{\lambda}_L$ is the maximiser of the function $G_L$ defined in~\eqref{eq:GLdefn}.  The proof is complicated by the fact that $G_L$ is not differentiable everywhere due to the function $\fracpart{\cdot}$ not being differentiable at multiples of $\tfrac{\pi}{M}$.  This prevents the use of ``standard approaches'' to proving normality that are based on the mean value theorem~\cite{vonMises_diff_stats_1947,vanDerVart1971_asymptotic_stats,Pollard_new_ways_clts_1986,Pollard_conv_stat_proc_1984,Pollard_asymp_empi_proc_1989,van2009empirical}.  However, Lemma~\ref{lem:diffatlambdaL} shows that the derivative $G_L^\prime$ does exist, and is equal to zero, at $\hat{\lambda}_L$.  %Similar properties have been used by some of the present authors to analyse the behaviour of polynomial-phase estimators~\cite{McKilliam_LSU_polyest_part_arxiv_2012}.  %\cite{McKilliam_LSU_polyest_part1_2012,McKilliam_LSU_polyest_part2_2012}.
+The proof of Theorem~\ref{thm:normality} hinges on Lemmas \ref{lem:diffatlambdaL} to~\ref{lem:XL}, which can be found in the appendix.  We first prove the asymptotic normality of $\sqrt{L} \hat{\lambda}_L$.  Once this is done we will be able to prove the normality of $\sqrt{L} \hat{m}_L$.  Recall that $\hat{\lambda}_L$ is the maximiser of the function $G_L$ defined in~\eqref{eq:GLdefn}.  The proof is complicated by the fact that $G_L$ is not differentiable everywhere due to the function $\fracpart{\cdot}$ not being differentiable at multiples of $\tfrac{\pi}{M}$.  This prevents the use of standard approaches to proving normality that are based on the mean value theorem~\cite{vonMises_diff_stats_1947,vanDerVart1971_asymptotic_stats,Pollard_new_ways_clts_1986,Pollard_conv_stat_proc_1984,Pollard_asymp_empi_proc_1989,van2009empirical}.  However, Lemma~\ref{lem:diffatlambdaL} shows that the derivative $G_L^\prime$ does exist and is equal to zero at $\hat{\lambda}_L$.  %Similar properties have been used by some of the present authors to analyse the behaviour of polynomial-phase estimators~\cite{McKilliam_LSU_polyest_part_arxiv_2012}.  %\cite{McKilliam_LSU_polyest_part1_2012,McKilliam_LSU_polyest_part2_2012}.
 Define the function
 \begin{equation}\label{eq:RLdef}
 R_L(\lambda) = \frac{1}{L} \sum_{i \in P} R_i \sin(\lambda + \Phi_i) + \frac{1}{L} \sum_{i \in D} R_i \sin\sfracpart{\lambda + \Phi_i}.
 \end{equation}
-Whenever $G_L(\lambda)$ is differentiable $G_L^\prime(\lambda) = R_L(\lambda)$, and so $R_L(\hat{\lambda}_L) = G_L^\prime(\hat{\lambda}_L) = 0$ by Lemma~\ref{lem:diffatlambdaL}.  Let $Q_L(\lambda) = \expect R_L(\lambda) - \expect R_L(0)$ and write
+Whenever $G_L(\lambda)$ is differentiable $G_L^\prime(\lambda) = R_L(\lambda)$ and so $R_L(\hat{\lambda}_L) = G_L^\prime(\hat{\lambda}_L) = 0$ by Lemma~\ref{lem:diffatlambdaL}.  Define the function 
+\[
+Q_L(\lambda) = \expect R_L(\lambda) - \expect R_L(0)
+\]
+and write
 \begin{align*}
 0 &= R_L(\hat{\lambda}_L) - Q_L(\hat{\lambda}_L) + Q_L(\hat{\lambda}_L) \\
 &= \sqrt{L}\big( R_L(\hat{\lambda}_L) - Q_L(\hat{\lambda}_L) \big) + \sqrt{L}Q_L(\hat{\lambda}_L).
@@ -589,15 +595,15 @@ Lemma~\ref{lem:Qconv} shows that
 \]
 where $o_P(1)$ denotes a sequence of random variables converging in probability to zero as $L \rightarrow \infty$, and $p,d$ and $H$ are defined in the statement of Theorems~\ref{thm:consistency}~and~\ref{thm:normality}.  Lemma~\ref{lem:empiricprocc} shows that
 \[
-\sqrt{L}\big( R_L(\hat{\lambda}_L) - Q_L(\hat{\lambda}_L) \big) = o_P(1) + \sqrt{L} R_L(0).
+\sqrt{L}\big( R_L(\hat{\lambda}_L) - Q_L(\hat{\lambda}_L) \big) = \sqrt{L} R_L(0) + o_P(1).
 \]
 It follows from the three equations above that,
 \[
-0 = o_P(1) + \sqrt{L}R_L(0) + \sqrt{L} \hat{\lambda}_L \big( p + Hd  + o_P(1) \big)
+0 = \sqrt{L}R_L(0) + \sqrt{L} \hat{\lambda}_L \big( p + Hd  + o_P(1) \big) + o_P(1)
 \]
 and rearranging gives,
 \[
-\sqrt{L} \hat{\lambda}_L = o_P(1) - \frac{\sqrt{L}R_L(0)}{p + Hd  + o_P(1)}.
+\sqrt{L} \hat{\lambda}_L =  -\frac{\sqrt{L}R_L(0)}{p + Hd  + o_P(1)} + o_P(1).
 \]
 Lemma~\ref{lem:convdistGLdash} shows that the distribution of $\sqrt{L}R_L(0)$ converges to the normal with zero mean and variance $pA_1 + dA_2$ where $A_1$ and $A_2$ are defined in the statement of Theorem~\ref{thm:normality}.  It follows that the distribution of $\sqrt{L}\hat{\lambda}_L$ converges to the normal with zero mean and variance
 \[
@@ -611,7 +617,7 @@ We now analyse the asymptotic distribution of $\sqrt{L} \hat{m}_L$.  Let $T_L(\l
 \end{align*}
 Lemma~\ref{lem:empiricprocforrho} shows that 
 \[
-\sqrt{L}\big( G_L(\hat{\lambda}_L) - T_L(\hat{\lambda}_L)  \big) = o_P(1) + X_L,
+\sqrt{L}\big( G_L(\hat{\lambda}_L) - T_L(\hat{\lambda}_L)  \big) = X_L + o_P(1),
 \]
 where $X_L = \sqrt{L}\big( G_L(0) - T_L(0)  \big)$.  Lemma~\ref{lem:HLtoG} shows that
 \[
@@ -622,7 +628,7 @@ It follows that $\sqrt{L} \hat{m}_L =  \rho_0 X_L + o_P(1)$.  Lemma~\ref{lem:XL}
 \[
 \covar(\sqrt{L}\hat{m}_L, \sqrt{L}\hat{\lambda}_L) \rightarrow \covar(\rho_0 X_L, \sqrt{L}\hat{\lambda}_L) = 0
 \]
-as $L \rightarrow \infty$.  The lemmas that we have used are proved in the appendix.
+as $L \rightarrow \infty$.  This completes the proof of Theorem~\ref{thm:normality}.
 
 
 
@@ -669,8 +675,8 @@ The prediction is made by dividing the asymptotic covariance matrix by $L$.  The
 % where $\delta$ is a positive
 %The figures display some interesing behaviour.  When the SNR is small \dots.  When the SNR is large \dots.
 
-Figures~\ref{fig:plotphaseBPSK},~\ref{fig:plotphaseQPSK}~and~\ref{fig:plotphase8PSK} also display the sample MSE of the non data-aided phase estimator of Viterbi and Viterbi~\cite{ViterbiViterbi_phase_est_1983}.  This estimator requires selection of a function $F$ that transforms the amplitude of each sample prior to the final estimation step.  % (see equation (2) in~\cite{ViterbiViterbi_phase_est_1983}).  
-Viterbi and Viterbi propose several viable alternatives, from which we have chosen $F(x) = 1$.  The Viterbi and Viterbi estimator is only applicable in the non data-aided setting, i.e. when $\abs{P} = 0$.  The sample MSE of the least squares estimator (when $\abs{P} = 0$) and the Viterbi and Viterbi estimator is similar.  The least squares estimator appears slightly more accurate for some values of SNR.
+Figures~\ref{fig:plotphaseBPSK},~\ref{fig:plotphaseQPSK}~and~\ref{fig:plotphase8PSK} also display the sample MSE of the non-data-aided phase estimator of Viterbi and Viterbi~\cite{ViterbiViterbi_phase_est_1983}.  This estimator requires selection of a function $F$ that transforms the amplitude of each sample prior to the final estimation step.  % (see equation (2) in~\cite{ViterbiViterbi_phase_est_1983}).  
+Viterbi and Viterbi propose several viable alternatives, from which we have chosen $F(x) = 1$.  The Viterbi and Viterbi estimator is only applicable in the non-data-aided setting, i.e. when $\abs{P} = 0$.  The sample MSE of the least squares estimator (when $\abs{P} = 0$) and the Viterbi and Viterbi estimator is similar.  The least squares estimator appears slightly more accurate for some values of SNR.
 
 % Figure~\ref{fig:plotampBPSK} %,~\ref{fig:plotampQPSK}~and~\ref{fig:plotamp8PSK} 
 % shows the variance of the amplitude estimator when $M=2$ and with $L=32, 256, 2048$ and when the number of pilots symbols is $\abs{P} = 0, \tfrac{L}{2}, L$.  The solid lines are the variance predicted by Theorem~\ref{thm:normality}.  The dots and crosses show the results of Monte-Carlo simulations.  Each point is computed as the unbiased error $\tfrac{1}{T}\sum_{i=1}^T\big(\hat{\rho}_i - \rho_0G(0)\big)^2$.  This requires $G(0)$ to be known.  In practice $G(0)$ may not be known at the receiver, so Figure~\ref{fig:plotampBPSK} %,~\ref{fig:plotampQPSK}~and~\ref{fig:plotamp8PSK} 
@@ -681,16 +687,16 @@ shows the mean square error of the amplitude estimator when $M=2$ and $L=2048$ a
 \[
 \rho_0^2\big(1 - G(0)\big)^2 + \rho_0^2\frac{p B_1 + d B_2}{L}. 
 \]
-When SNR is large $G(0)$ is close to $1$ and the bias of the amplitude estimator is small.  However, $G(0)$ grows without bound as the variance of the noise increases, so the bias is significant when SNR is small.  Figure~\ref{fig:plotampBPSK} suggests our asymptotic theory to be an excellent predictor of the mean square error of the amplitude estimator.
+When SNR is large $G(0)$ is close to $1$ and the bias of the amplitude estimator is small.  However, $G(0)$ grows without bound as the variance of the noise increases so the bias is significant when SNR is small.  Figure~\ref{fig:plotampBPSK} suggests our asymptotic theory to be an excellent predictor of the mean square error of the amplitude estimator.
 
 Figure~\ref{fig:plotphaseQPSKmultL} shows the MSE of the phase estimator when $M=4$ and $L=32,256, 2048$ and the number of pilots is $\abs{P}=\tfrac{L}{8},L$.  The figure depicts an interesting phenomenon.  When $L=2048$ and $\abs{P} = \tfrac{L}{8} = 256$ the number of pilots symbols is the same as when $L=\abs{P} = 256$.  When the SNR is small (approximately less than \unit[0]{dB}) the least squares estimator using the $256$ pilots symbols and also the $2048-256=1792$ data symbols performs \emph{worse} than the estimator that uses only the $256$ pilots symbols.  A similar phenomenon occurs when $L=256$ and $\abs{P} = \tfrac{L}{8} = 32$.  This behaviour suggests that using the data symbols is counterproductive when the SNR is low.
 
 %Thus, when the SNR is small it is better to ignore the data symbols and use only the pilot symbols.   
- %This behaviour suggests modifying the objective function to give the pilots symbols more importance when the SNR is low.  For example, rather than minimise~\eqref{eq:SSdefn} we could instead minimise a weighted version of it,
+ %This behaviour suggests modifying the objective function to give the pilots symbols more importance when the SNR is low.  For example, rather than minimise~\eqref{eq:LSdefn} we could instead minimise a weighted version of it,
  % \[
- % SS_{\beta}(a, \{d_i, i \in D\}) = \sum_{i \in P} \abs{ y_i - a s_i }^2 + \beta \sum_{i \in D} \abs{ y_i - a d_i }^2,
+ % LS_{\beta}(a, \{d_i, i \in D\}) = \sum_{i \in P} \abs{ y_i - a s_i }^2 + \beta \sum_{i \in D} \abs{ y_i - a d_i }^2,
  % \] 
- % where the weight $\beta$ would be small when SNR is small and near $1$ when SNR is large.  Computing the $\hat{a}$ that minimises $SS_\beta$ can be achieved with only a minor modification to algorithm~\ref{alg:loglinear}.  Line~\ref{alg_gset} is modified to $g_i = \beta y_i e^{-j u}$ and lines~\ref{alg_hata1}~and~\ref{alg_hata2} are modified to $\hat{a} =  \frac{1}{\abs{P} + \beta\abs{D}} Y$.  For fixed $\beta$ the asymptotic properties of this weighted estimator could be derived using the techniques we have developed in Sections~\ref{sec:stat-prop-least},~\ref{sec:proof-almost-sure} and~\ref{sec:proof-asympt-norm}.  This would enable a rigorous theory for selection of $\beta$ at the receiver.  One caveat is that the receiver would require knowledge about the noise distribution in order to advantageously choose $\beta$.  We do not investigate this further here.
+ % where the weight $\beta$ would be small when SNR is small and near $1$ when SNR is large.  Computing the $\hat{a}$ that minimises $LS_\beta$ can be achieved with only a minor modification to algorithm~\ref{alg:loglinear}.  Line~\ref{alg_gset} is modified to $g_i = \beta y_i e^{-j u}$ and lines~\ref{alg_hata1}~and~\ref{alg_hata2} are modified to $\hat{a} =  \frac{1}{\abs{P} + \beta\abs{D}} Y$.  For fixed $\beta$ the asymptotic properties of this weighted estimator could be derived using the techniques we have developed in Sections~\ref{sec:stat-prop-least},~\ref{sec:proof-almost-sure} and~\ref{sec:proof-asympt-norm}.  This would enable a rigorous theory for selection of $\beta$ at the receiver.  One caveat is that the receiver would require knowledge about the noise distribution in order to advantageously choose $\beta$.  We do not investigate this further here.
 
 \begin{figure}[p]
 	\centering
@@ -811,11 +817,12 @@ Figure~\ref{fig:plotphaseQPSKmultL} shows the MSE of the phase estimator when $M
 
 \section{Conclusion}
 
-We considered least squares estimators of carrier phase and amplitude from noisy communications signals that contain both pilot signals, known to the receiver, and data signals, unknown to the receiver.  We focused on $M$-ary phase shift keying constellations.  The least squares estimator can be computed in $O(L\log L)$ operations using a modification of an algorithm due to Mackenthun~\cite{Mackenthun1994}, and is the maximum likelihood estimator in the case that the noise is additive white and Gaussian.  
+We considered least squares estimators of carrier phase and amplitude from noisy communications signals that contain both pilot signals, known to the receiver, and data signals, unknown to the receiver.  We focused on $M$-ary phase shift keying constellations.  The least squares estimator can be computed in $O(L\log L)$ operations using a modification of an algorithm due to Mackenthun~\cite{Mackenthun1994} and is the maximum likelihood estimator in the case that the noise is additive white and Gaussian.  
 
-We showed, under some reasonably general conditions on the distribution of the noise, that the phase estimator $\hat{\theta}$ is strongly consistent and asymptotically normally distributed.  However, the amplitude estimator $\hat{\rho}_0$ is biased, and converges to $G(0)\rho_0$.  This bias is large when the signal to noise ratio is small.  It would be interesting to investigate methods for correcting this bias.  A method for estimating $G(0)$ at the receiver appears to be required.
+Under reasonably general conditions on the distribution of the noise, it was shown that the phase estimator $\hat{\theta}$ is strongly consistent and asymptotically normally distributed.  However, the amplitude estimator $\hat{\rho}_0$ is biased, and converges to $G(0)\rho_0$.  This bias is large when the signal to noise ratio is small.  It would be interesting to investigate methods for correcting this bias.  A method for estimating $G(0)$ at the receiver appears to be required.
 
 Monte Carlo simulations were used to assess the performance of the least squares estimator and also to validate our asymptotic theory.  Interestingly, when the SNR is small, it is counterproductive to use the data symbols to estimate the phase (Figure~\ref{fig:plotphaseQPSKmultL}).  %This suggests the use of a weighted objective function, which would be an interesting topic for future research.
+The simulations also indicate our estimator to be an effective initialiser for turbo synchronisation proceedures.
 
 \small
 \bibliography{bib}
@@ -1104,27 +1111,27 @@ for all $i \in D$.  Thus, $\sfracpart{\hat{\lambda}_L + \Phi_i} \neq -\tfrac{\pi
 \begin{IEEEproof}
 Recall that $\{\hat{d}_i = \hat{d}_i(\hat{\theta}), i \in D\}$ defined in \eqref{eq:hatdfinxtheta} are the minimisers of the function 
 \[
-SS(\{d_i, i \in D\}) = A - \frac{1}{L}\sabs{Y(\{d_i, i \in D\})}^2,
+LS(\{d_i, i \in D\}) = A - \frac{1}{L}\sabs{Y(\{d_i, i \in D\})}^2,
 \]
-defined in~\eqref{eq:SSdatasymbols}. The proof now proceeds by contradiction.  Assume that 
+defined in~\eqref{eq:LSdatasymbols}. The proof now proceeds by contradiction.  Assume that 
 \begin{equation}\label{eq:fraclambassumption}
 \sfracpart{\hat{\lambda}_L + \Phi_k} > \frac{\pi}{M} + q_k
 \end{equation}
 for some $k \in D$.  Recalling the notation $e_k$ defined in Section~\ref{sec:least-squar-estim}, put $r_i = \hat{d}_i e_k$.  We will show that 
 \[
-SS(\{r_i, i \in D\}) < SS(\{\hat{d}_i, i \in D\}),
+LS(\{r_i, i \in D\}) < LS(\{\hat{d}_i, i \in D\}),
 \]
-violating the fact that $\{\hat{d}_i, i \in D\}$ are minimisers of $SS$.  First observe that,
+violating the fact that $\{\hat{d}_i, i \in D\}$ are minimisers of $LS$.  First observe that,
 \begin{align*}
 Y(\{ r_i, i \in D\}) = \sum_{i \in P} y_ip_i^* + \sum_{i \in D} y_i\hat{r}_i^* = \hat{Y} + \eta y_k\hat{d}_k^*,
 \end{align*}
 where $\eta = e^{-j2\pi/M} - 1$ and $\hat{Y} = Y(\{ \hat{d}_i, i \in D\})$.  Now,
 \begin{align*}
-SS&(\{r_i, i \in D\}) \\
+LS&(\{r_i, i \in D\}) \\
 &= A - \frac{1}{L} \sabs{ Y(\{ r_i, i \in D\}) }^2 \\
 &= A - \frac{1}{L} \sabs{ \hat{Y} + \eta y_k\hat{d}_k^* }^2 \\
 &= A - \frac{1}{L}\sabs{\hat{Y}}^2 - \frac{2}{L}\Re\left(\eta \hat{Y}^* y_k \hat{d}_k^* \right) -  \frac{1}{L}\sabs{ \eta y_k}^2\\
-&= SS(\{\hat{d}_i, i \in D\}) - C,
+&= LS(\{\hat{d}_i, i \in D\}) - C,
 \end{align*}
 where 
 \[
@@ -1154,11 +1161,11 @@ Because we assumed~\eqref{eq:fraclambassumption}, it follows that $0 > v > q_k$ 
 \]
 Substituting this into~\eqref{eq:Ddefn} gives $C > 0$, but then 
 \[
-SS(\{r_i, i \in D\}) < SS(\{\hat{d}_i, i \in D\}),
+LS(\{r_i, i \in D\}) < LS(\{\hat{d}_i, i \in D\}),
 \] 
-violating the fact that $\{\hat{d}_i, i \in D\}$ are minimisers of $SS$.  So~\eqref{eq:fraclambassumption} is false.
+violating the fact that $\{\hat{d}_i, i \in D\}$ are minimisers of $LS$.  So~\eqref{eq:fraclambassumption} is false.
 
-To show that $\sfracpart{\hat{\lambda}_L + \Phi_k} \geq -\frac{\pi}{M} - q_k$ we use contradiction again.  Assume that $\sfracpart{\hat{\lambda}_L + \Phi_k} < -\frac{\pi}{M} - q_k$.  Recalling the notation $e_k^*$ defined in Section~\ref{sec:least-squar-estim}, put $r_i = \hat{d}_i e_k^*$.  Now an analogous argument can be used to show that $SS(\{r_i, i \in D\}) < SS(\{\hat{d}_i, i \in D\})$ again.
+To show that $\sfracpart{\hat{\lambda}_L + \Phi_k} \geq -\frac{\pi}{M} - q_k$ we use contradiction again.  Assume that $\sfracpart{\hat{\lambda}_L + \Phi_k} < -\frac{\pi}{M} - q_k$.  Recalling the notation $e_k^*$ defined in Section~\ref{sec:least-squar-estim}, put $r_i = \hat{d}_i e_k^*$.  Now an analogous argument can be used to show that $LS(\{r_i, i \in D\}) < LS(\{\hat{d}_i, i \in D\})$ again.
 \end{IEEEproof}
 
 
@@ -1240,7 +1247,7 @@ q_2(\lambda) + j k_2(\lambda) = \expect\big[ R_1 e^{j\fracpart{\lambda + \Phi_1}
 We have $q_2(\hat{\lambda}_L) = \hat{\lambda}_L o_P(1)$ and $k_2(\hat{\lambda}_L) = \hat{\lambda}_L \big( H + o_P(1) \big)$ where $H$ is defined in the statement of Theorem~\ref{thm:normality}.
 \end{lemma}
 \begin{IEEEproof}
-Because $\hat{\lambda}_L \rightarrow 0$ almost surely as $L\rightarrow\infty$, it is only the behaviour of $q_2(\lambda)$ and $k_2(\lambda)$ around $\lambda = 0$ that is relevant.  We will examine $q_2(\lambda)$ and $k_2(\lambda)$ for $0 \leq \lambda < \tfrac{\pi}{M}$.  An analogous argument follows when $-\tfrac{\pi}{M} < \lambda < 0$.  To keep our notation clean put 
+Because $\hat{\lambda}_L \rightarrow 0$ almost surely as $L\rightarrow\infty$, it is only the behaviour of $q_2(\lambda)$ and $k_2(\lambda)$ around $\lambda = 0$ that is relevant.  We will examine $q_2(\lambda)$ and $k_2(\lambda)$ for $0 \leq \lambda < \tfrac{\pi}{M}$.  An analogous argument follows when $-\tfrac{\pi}{M} < \lambda < 0$.  To keep notation clean put 
 \[
 \psi_k = \frac{2\pi}{M}k + \frac{\pi}{M}
 \] 
@@ -1569,7 +1576,7 @@ Observe that $\sqrt{L} R_L(0) = C_L + D_L$ where
 \[
 C_L = \frac{1}{\sqrt{L}} \sum_{i \in P} R_i \sin(\Phi_i), \qquad D_L = \frac{1}{\sqrt{L}} \sum_{i \in D} R_i \sin\sfracpart{\Phi_i}.
 \]
-From the standard central limit theorem the distribution of $C_L$ converges to the normal with mean $\sqrt{p}\expect R_1 \sin(\Phi_1) = 0$ as a result of~\eqref{eq:expectImpartRphi}, and variance
+From the standard central limit theorem the distribution of $C_L$ converges to the normal with mean $\sqrt{p}\expect R_1 \sin(\Phi_1) = 0$, as a result of~\eqref{eq:expectImpartRphi}, and variance
 \[
 p A_1 = p \expect R_1^2 \sin^2(\Phi_1).
 \]
