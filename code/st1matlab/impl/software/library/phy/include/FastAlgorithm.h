@@ -225,7 +225,7 @@ public:
         for (unsigned int k = 1; k <= this->K; k++) {
             VALTYPE sum = 0.0;
             for(int i = 0; i < this->D.size(); i++) sum += std::abs(this->bfunc(k + this->c * (this->D[i] + 1)));
-            //for (int i : this->D) sum += std::abs(bfunc(k + this->c * (i + 1)));
+            //for (int i : this->D) sum += std::abs(this->bfunc(k + this->c * (i + 1)));
             this->Zgrid[k - 1] = sum;
         }
     }
@@ -287,7 +287,7 @@ public:
             for (int i = 0; i < this->D.size(); i++) sum += abs(this->bfunc(k + this->c * (this->D[i] + 1)));
             this->Zgrid[k - 1] = sum;
             for (int m = 0; k + (m + 1) * this->c <= this->K; m++)
-                this->Zgrid[k - 1 + (m + 1) * this->c] = this->Zgrid[k - 1 + m * this->c] - abs(this->bfunc(k + m * this->c + (this->Dmin + 1) * this->c)) + abs(bfunc(k + m * this->c + (this->Dmax + 1) * this->c + this->c));
+                this->Zgrid[k - 1 + (m + 1) * this->c] = this->Zgrid[k - 1 + m * this->c] - abs(this->bfunc(k + m * this->c + (this->Dmin + 1) * this->c)) + abs(this->bfunc(k + m * this->c + (this->Dmax + 1) * this->c + this->c));
         }
     }
 

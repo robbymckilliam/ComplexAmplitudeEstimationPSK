@@ -62,10 +62,10 @@ public:
         //sum squared matched filtered output complex exponential
         //complex<VALTYPE> X(0, 0);
         //for (int k = kmin; k <= kmax; k++)
-        //    X += polar<VALTYPE>((VALTYPE)1.0, -(2 * pi * k) / 4) * norm(dotr(k * T / 4));
+        //    X += polar<VALTYPE>((VALTYPE)1.0, -(2 * pi * k) / 4) * norm(this->dotr(k * T / 4));
         VALTYPE Xreal = 0; VALTYPE Ximag = 0;
         for (int k = kmin; k <= kmax; k++) {
-            VALTYPE d = norm(dotr(k * T / 4));
+            VALTYPE d = norm(this->dotr(k * T / 4));
             int mod = k%4;
             if(mod==0) Xreal += d;
             else if(mod==1) Ximag -= d;
@@ -175,7 +175,7 @@ protected:
     }
     
     inline virtual complex<VALTYPE> rho(const int k) const {
-        return dotr((k + 1) * this->T + gam);
+        return this->dotr((k + 1) * this->T + gam);
     }
 
 };
