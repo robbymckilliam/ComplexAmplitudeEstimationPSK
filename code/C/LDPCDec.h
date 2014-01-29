@@ -39,6 +39,14 @@ public:
     unsigned int getK();
     unsigned int getE();
 
+    ///Compute the log likelihood ration for binary phase shift keying with input x and
+    ///given amplitude and noise variance
+    static double llrBPSK(double x, double amplitude, double var) {
+        double p0 = (x - amplitude);
+        double p1 = (x + amplitude);
+        return (p1 * p1 - p0 * p0) / 2 / var;
+    }
+
 private:
     unsigned int m_N;
     unsigned int m_M;
@@ -68,5 +76,6 @@ private:
     void allocateMem();
     void freeMem();
 };
+
 
 #endif

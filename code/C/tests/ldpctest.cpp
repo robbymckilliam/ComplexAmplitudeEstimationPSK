@@ -64,8 +64,8 @@ bool testencodedecode() {
 
 bool testencodedecodeAWGN() {
     double snrdB = 10.0;
-    double power = 1.0; //power of BPSK transmission
-    double var = power*pow(10, -snrdB/10);
+    double amplitude = 1.0; //power of BPSK transmission
+    double var = amplitude*amplitude*pow(10, -snrdB/10);
     
     //get code
     CLDPCDec codec = CLDPCDec("RA1N128.dec");
@@ -81,11 +81,21 @@ bool testencodedecodeAWGN() {
     default_random_engine generator;
     normal_distribution<double> distribution(0.0,sqrt(var));
     double *y = (double*) malloc(codec.getN() * sizeof (double));
-    for(int i = 0; i < codec.getN(); i++) y[i] = 2.0*sqrt(power)*(0.5-codeword[i]) + distribution(generator);
+    for(int i = 0; i < codec.getN(); i++) y[i] = 2.0*amplitude*(0.5-codeword[i]) + distribution(generator);
     
+    //memory for llrs and fill channel llrs
+    double *Lch = (double*) malloc(codec.getN() * sizeof (double));
+    double *Lapp = (double*) malloc(codec.getN() * sizeof (double));
+    for(int i = 0; i < codec.getN(); i++) Lch[i] = CLDPCDec::llrBPSK(y[i],amplitude,var);
     
+    //run decoder for 50 iterations
+    codec.decode(Lch,Lapp,50);
     
-    return false;
+    bool pass = true;
+    for(int i = 0; i < codec.getN(); i++) 
+        pass &= ((codeword[i]==0)&&(Lapp[i] > 0)) || ((codeword[i]==1)&&(Lapp[i] < 0));
+    
+    return pass;
 }
 
 void runtest(string name, function<bool() > test) {
