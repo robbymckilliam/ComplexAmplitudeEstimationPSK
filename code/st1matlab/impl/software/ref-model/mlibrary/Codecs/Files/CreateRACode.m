@@ -23,7 +23,7 @@
 % 
 %---------------------------------------------------------------------
 
-datalen= 440; % number of input bits into R1/2 codec
+datalen= 128; % number of input bits into R1/2 codec
 vardegrees  = 'RA1.vdeg';
 chkdegrees  = 'RA1.cdeg';
 peg         = '../PEG/peg';
