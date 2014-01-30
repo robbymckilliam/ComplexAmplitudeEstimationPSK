@@ -78,6 +78,38 @@ bool testEstimateNoiseVar() {
     return pass;
 }
 
+bool testWithOnlyPilots() {
+    int M = 2;
+    int absP = 50;
+    int absD = 100;
+    int L = absP + absD;
+    complexd a0 = polar<double>(1.0, 0.6); //the complex amplitude
+    std::vector<int> P;
+    for(int i = 0; i < absP; i++) P.push_back(i); //pilots at the front
+    std::vector<int> D;
+    for(int i = absP; i < L; i++) D.push_back(i); //data at the back
+    
+    default_random_engine generator;
+    uniform_int_distribution<int> unifM(1, M); //for generating M-PSK symbols
+    vector<complexd> pilots(absP); //vector of pilot symbols
+    for(int i = 0; i < absP; i++) pilots[i] = polar<double>(1.0, 2 * pi * unifM(generator) / M);
+    
+    vector<complexd> s(L); //vector of symbols
+    for(int i = 0; i < absP; i++) s[P[i]] = pilots[i];
+    for(int i = 0; i < absD; i++) s[D[i]] = polar<double>(1.0, 2 * pi * unifM(generator) / M); //random M-psk symbols
+    
+    double var0 = 0.001;
+    normal_distribution<double> gn(0.0,sqrt(var0)); //Gaussian noise
+    std::vector<complexd> y(L);
+    for(int i = 0; i < L; i++) y[i] = a0*s[i] + complexd(gn(generator), gn(generator)); //compute transmitted signal
+    
+    CoherentMackenthun cmack(vector<int>(), P, pilots, M);
+    cmack.estimate(y);
+    bool pass = std::norm(a0 - cmack.complexGainEstimate()) < 0.01;
+    pass &= abs(2*var0 - cmack.noiseVarianceEstimate()) < 0.01;
+    return pass;
+}
+
 void runtest(string name, function<bool()> test) {
     cout << name << " ... ";
     if (!test()) cout << "FAIL" << endl;
@@ -85,8 +117,9 @@ void runtest(string name, function<bool()> test) {
 }
 
 int main(int argc, char** argv) {
-    //runtest("test coherent Mackenthun estimate", testEstimate);
+    runtest("test coherent Mackenthun estimate", testEstimate);
     runtest("test noise variance estimator", testEstimateNoiseVar);
+    runtest("test pilot only estimator", testWithOnlyPilots);
     return (EXIT_SUCCESS);
 }
 

@@ -3,6 +3,6 @@
 #./profile
 #gprof profile gmon.out > analysis.txt
 
-g++ -std=c++0x -pthread -O3 turbosyncsim.cpp -IC -o runturbo
+g++ -std=c++11 -O3 turbosyncsim.cpp C/LDPCDec.cpp C/CoherentMackenthun.cpp -pthread -Wl,--no-as-needed -IC -o runturbo
 chmod 777 runturbo
 ./runturbo

@@ -1,0 +1,15 @@
+This is MetaPost, version 1.803 (kpathsea version 6.1.1)  24 JAN 2014 08:36
+**plotM2.mp
+(mpost.mp (/usr/local/texlive/2013/texmf-dist/metapost/base/plain.mp
+Preloading the plain mem file, version 1.004) ) (./plotM2.mp
+(/usr/local/texlive/2013/texmf-dist/metapost/base/graph.mp
+(/usr/local/texlive/2013/texmf-dist/metapost/base/marith.mp
+(/usr/local/texlive/2013/texmf-dist/metapost/base/string.mp))
+(/usr/local/texlive/2013/texmf-dist/metapost/base/format.mp
+(/usr/local/texlive/2013/texmf-dist/metapost/base/string.mp)
+(/usr/local/texlive/2013/texmf-dist/metapost/base/texnum.mp)))
+(/usr/local/texlive/2013/texmf-dist/metapost/base/sarith.mp)
+(/usr/local/texlive/2013/texmf-dist/metapost/base/TEX.mp) [1{psfonts.map}]
+[2] [3] )
+3 output files written: plotM2-1.mps .. plotM2-3.mps
+

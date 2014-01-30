@@ -32,6 +32,12 @@
       <logicalFolder name="f2" displayName="TestLDPC" projectFiles="true" kind="TEST">
         <itemPath>tests/ldpctest.cpp</itemPath>
       </logicalFolder>
+      <logicalFolder name="f3"
+                     displayName="turbosynctest"
+                     projectFiles="true"
+                     kind="TEST">
+        <itemPath>tests/turbosynctest.cpp</itemPath>
+      </logicalFolder>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -98,9 +104,26 @@
           <output>${TESTDIR}/TestFiles/f2</output>
         </linkerTool>
       </folder>
+      <folder path="TestFiles/f3">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f3</output>
+        </linkerTool>
+      </folder>
       <item path="tests/CoherentMackenthunTest.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/ldpctest.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/turbosynctest.cpp" ex="false" tool="1" flavor2="0">
       </item>
     </conf>
     <conf name="Release" type="3">
@@ -168,9 +191,26 @@
           <output>${TESTDIR}/TestFiles/f2</output>
         </linkerTool>
       </folder>
+      <folder path="TestFiles/f3">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f3</output>
+        </linkerTool>
+      </folder>
       <item path="tests/CoherentMackenthunTest.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/ldpctest.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/turbosynctest.cpp" ex="false" tool="1" flavor2="0">
       </item>
     </conf>
   </confs>

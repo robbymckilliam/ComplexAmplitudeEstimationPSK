@@ -347,16 +347,16 @@ int CLDPCDec::readDecoder(const char *filename) {
     if (file == NULL)
         return 0;
 
-    fscanf(file, "%u %u %u", &m_N, &m_M, &m_E);
+    int dummy = fscanf(file, "%u %u %u", &m_N, &m_M, &m_E);
 
     allocateMem();
 
     for (n = 0; n < m_N; n++)
-        fscanf(file, "%u", &(m_vardegree[n]));
+        int dummy = fscanf(file, "%u", &(m_vardegree[n]));
     for (m = 0; m < m_M; m++)
-        fscanf(file, "%u", &(m_chkdegree[m]));
+        int dummy = fscanf(file, "%u", &(m_chkdegree[m]));
     for (e = 0; e < m_E; e++)
-        fscanf(file, "%u", &(m_interleaver[e]));
+        int dummy = fscanf(file, "%u", &(m_interleaver[e]));
 
     fclose(file);
 
