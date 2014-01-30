@@ -21,6 +21,7 @@ class PhaseEstimator
   virtual ~PhaseEstimator() {};
   virtual complexd complexGainEstimate() = 0;
   virtual double objectiveFunctionValue() = 0;
+  virtual double noiseVarianceEstimate() = 0;
   
   //Run estimator on data y.
   virtual void estimate(const std::vector<complexd>& y) = 0;
@@ -44,6 +45,7 @@ public:
   virtual void estimate(const std::vector<complexd>& y, const std::vector<complexd>& p);
   
   virtual inline complexd complexGainEstimate() { return chat;}
+  virtual double noiseVarianceEstimate() { return noisevarhat; }
   virtual double objectiveFunctionValue() { return Qhat; }
 
   const unsigned int L; //total number of pilots
@@ -66,6 +68,9 @@ protected:
   //estimator output variable
   complexd chat;
 
+  //estimate of noise variance
+  double noisevarhat;
+  
   //working memory
   std::vector<IndexedReal> z;
   std::vector<std::complex<double> > g;
@@ -84,15 +89,15 @@ class PerfectChannel : public PhaseEstimator {
     
 public:
     const complexd hatc;
+    const double variance;
     
-    PerfectChannel(const complexd c) : hatc(c) {}
+    PerfectChannel(const complexd c, const double v) : hatc(c), variance(v) {}
     
     virtual void estimate(const std::vector<complexd>& y) {}
     virtual void estimate(const std::vector<complexd>& y, const std::vector<complexd>& p) {}
     virtual inline complexd complexGainEstimate() { return hatc;}
+    virtual double noiseVarianceEstimate() { return variance; }
     virtual double objectiveFunctionValue() { return 0.0; }
-    
-protected:
     
 };
 

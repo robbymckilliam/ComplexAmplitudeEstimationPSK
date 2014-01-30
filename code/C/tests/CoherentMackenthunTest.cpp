@@ -43,6 +43,17 @@ bool testEstimate() {
     else return false;
 }
 
+bool testEstimateNoiseVar() {
+    int M = 2;
+    int absP = 100;
+    int absD = 50;
+    int L = absP + absD;
+    std::vector<int> P;
+    for(int i = 0; i < absP; i++) P.push_back(i); //pilots at the front
+    std::vector<int> D;
+    for(int i = absP; i < absD; i++) D.push_back(i); //data at the back
+}
+
 void runtest(string name, function<bool()> test) {
     cout << name << " ... ";
     if (!test()) cout << "FAIL" << endl;

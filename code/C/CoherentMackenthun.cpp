@@ -63,7 +63,11 @@ void CoherentMackenthun::estimate(const std::vector<complexd>& y, const std::vec
     str << p.size() << " but the number of indices is " << P.size();
     throw str.str();
   }
-
+  
+  //the value A, norm of received signal
+  double A = 0.0;
+  for(int i = 0; i < L; i++) A += std::norm(y[PUD[i]]);
+  
   //setup sequences and sort
   complexd Y(0.0,0.0);
   for(unsigned int i=0; i < P.size(); i++) Y += y[P[i]]*conj(p[i]);
@@ -76,16 +80,16 @@ void CoherentMackenthun::estimate(const std::vector<complexd>& y, const std::vec
   }
   std::sort(z.begin(), z.end());
 
-  double fL = (double) L;
-  chat = Y / fL;
-  Qhat = std::norm(Y) / fL;
+  chat = Y / ((double) L);
+  Qhat = std::norm(Y) / L;
   for(unsigned int k = 0; k < M*D.size(); k++ ){
     Y += nu*g[sigma(k)];
     g[sigma(k)] *= eta;
-    double Q = std::norm(Y) / fL;
+    double Q = std::norm(Y) / L;
     if( Q > Qhat ){
-      chat = Y / fL;
+      chat = Y / ((double) L);
       Qhat = Q;
+      noisevarhat = (A - std::norm(Y) / L)/ L;
     }
   }
   

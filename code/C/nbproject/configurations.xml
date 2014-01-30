@@ -7,6 +7,7 @@
       <itemPath>CoherentMackenthun.h</itemPath>
       <itemPath>IndexedReal.h</itemPath>
       <itemPath>LDPCDec.h</itemPath>
+      <itemPath>TurboSync.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -64,6 +65,8 @@
       <item path="LDPCDec.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="LDPCDec.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="TurboSync.h" ex="false" tool="3" flavor2="0">
       </item>
       <folder path="TestFiles/f1">
         <cTool>
@@ -132,6 +135,8 @@
       <item path="LDPCDec.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="LDPCDec.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="TurboSync.h" ex="false" tool="3" flavor2="0">
       </item>
       <folder path="TestFiles/f1">
         <cTool>
