@@ -5,6 +5,7 @@ mpost plotM8.mp
 mpost plotncM2.mp
 mpost plotncM4.mp
 mpost plotncM8.mp
+mpost plotturbo.mp
 cd ../..
 
 pdflatex paper.tex

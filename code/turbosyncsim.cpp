@@ -97,7 +97,7 @@ void runperfectchannelsim(string decoderfilename, const vector<double>& snrdbs, 
 int main(int argc, char** argv) {
     
   vector<double> snrdbs;//snrs in db we will run
-  for(double db = -3; db <= 4; db+=0.5) snrdbs.push_back(db);
+  for(double db = 0; db <= 4; db+=0.25) snrdbs.push_back(db);
   
   runperfectchannelsim("C/RA1N128.dec", snrdbs, "perfectchannel");
     
