@@ -82,6 +82,7 @@ void CoherentMackenthun::estimate(const std::vector<complexd>& y, const std::vec
 
   chat = Y / ((double) L);
   Qhat = std::norm(Y) / L;
+  noisevarhat = (A - Qhat) / L;
   for(unsigned int k = 0; k < M*D.size(); k++ ){
     Y += nu*g[sigma(k)];
     g[sigma(k)] *= eta;
@@ -89,7 +90,7 @@ void CoherentMackenthun::estimate(const std::vector<complexd>& y, const std::vec
     if( Q > Qhat ){
       chat = Y / ((double) L);
       Qhat = Q;
-      noisevarhat = (A - std::norm(Y) / L)/ L;
+      noisevarhat = (A - Qhat) / L;
     }
   }
   

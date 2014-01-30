@@ -21,6 +21,7 @@ class PhaseEstimator
   virtual ~PhaseEstimator() {};
   virtual complexd complexGainEstimate() = 0;
   virtual double objectiveFunctionValue() = 0;
+  ///return an estimate of the variance of the complex noise
   virtual double noiseVarianceEstimate() = 0;
   
   //Run estimator on data y.
