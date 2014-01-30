@@ -80,4 +80,20 @@ protected:
   
 };
 
+class PerfectChannel : public PhaseEstimator {
+    
+public:
+    const complexd hatc;
+    
+    PerfectChannel(const complexd c) : hatc(c) {}
+    
+    virtual void estimate(const std::vector<complexd>& y) {}
+    virtual void estimate(const std::vector<complexd>& y, const std::vector<complexd>& p) {}
+    virtual inline complexd complexGainEstimate() { return hatc;}
+    virtual double objectiveFunctionValue() { return 0.0; }
+    
+protected:
+    
+};
+
 #endif
