@@ -60,7 +60,7 @@ void runperfectchannelsim(string decoderfilename, const vector<double>& snrdbs, 
 	vector<complexd> s(L); //vector of symbols
 	vector<complexd> y(L); //vector of received symbols
 
-	//construct the channel inverter
+	//construct the channel inverter and decoder
 	InvertAndDecode invdec(&codec, D);
     
 	int countcodeworderrors = 0;
