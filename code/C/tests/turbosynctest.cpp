@@ -66,7 +66,7 @@ bool testInvertAndDecode() {
 bool testTurboSyncWithPerfectInitialiser() {
     
     int M = 2;
-    int absP = 50;
+    int absP = 5;
     int absD = 256;
     int L = absP + absD;
     complexd a0 = polar<double>(1.0, 0.6); //the complex amplitude
@@ -92,7 +92,7 @@ bool testTurboSyncWithPerfectInitialiser() {
     for(int i = 0; i < absP; i++) s[P[i]] = pilots[i];
     for(int i = 0; i < absD; i++) s[D[i]] = polar<double>(1.0, (2*pi*codeword[i]) / M); //random M-psk symbols
     
-    double var0 = 0.001;
+    double var0 = 0.1;
     normal_distribution<double> gn(0.0,sqrt(var0)); //Gaussian noise
     std::vector<complexd> y(L);
     for(int i = 0; i < L; i++) y[i] = a0*s[i] + complexd(gn(generator), gn(generator)); //compute transmitted signal
