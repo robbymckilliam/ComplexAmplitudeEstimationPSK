@@ -88,7 +88,7 @@ protected:
     
 };
 
-/** Implements a BPSK turbo synchroniser using an LDPC code for phase and amplitude */
+/** Implements a BPSK turbo synchroniser using an LDPC code for phase and amplitude.  Assumes BPSK.  */
 class TurboSyncroniser : public InvertAndDecode {
 public:
     
