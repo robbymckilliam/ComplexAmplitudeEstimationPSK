@@ -86,7 +86,7 @@ bool testencodedecodeAWGN() {
     //memory for llrs and fill channel llrs
     double *Lch = (double*) malloc(codec.getN() * sizeof (double));
     double *Lapp = (double*) malloc(codec.getN() * sizeof (double));
-    for(int i = 0; i < codec.getN(); i++) Lch[i] = CLDPCDec::llrBPSK(y[i],amplitude,var);
+    for(int i = 0; i < codec.getN(); i++) Lch[i] = CLDPCDec::BPSK2LLR(y[i],var);
     
     //run decoder for 50 iterations
     codec.decode(Lch,Lapp,50);

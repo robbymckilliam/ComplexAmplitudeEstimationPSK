@@ -61,7 +61,7 @@ public:
     }
     
     virtual const std::vector<unsigned int>& decode(const std::vector<complexd>& y, const complexd chat, const double varhat) {
-        invertanddecode(y, chat, varhat);
+        invertanddecode(y, chat, varhat, maxiterations);
         tobits();
         return bits;
     }
@@ -71,14 +71,14 @@ protected:
     const std::vector<int> D; //data positions
     
     //invert channel and run decoder. Returns llrs in Lapp array
-    void invertanddecode(const std::vector<complexd>& y, const complexd chat, const double varhat) {
+    void invertanddecode(const std::vector<complexd>& y, const complexd chat, const double varhat, unsigned int iters) {
         double rhohat = std::abs(chat); //channel amplitude estimate
         //fill channel log likelihood ratios
         for(int i = 0; i < codec->getN(); i++) {       
             double r = std::real(y[D[i]] / chat) * rhohat;
-            Lch[i] = CLDPCDec::llrBPSK(r, rhohat, varhat/2); //divide noise by 2 since taking variance of real part for BPSK
+            Lch[i] = CLDPCDec::BPSK2LLR(r, varhat/2); //divide noise by 2 since taking variance of real part for BPSK
         }
-        codec->decode(Lch,Lapp,maxiterations); //run decoder
+        codec->decode(Lch,Lapp,iters); //run decoder
     }
     
     //map LLRs in Lapp array to bits
@@ -91,17 +91,22 @@ protected:
 /** Implements a BPSK turbo synchroniser using an LDPC code for phase and amplitude */
 class TurboSyncroniser : public InvertAndDecode {
 public:
-
+    
+    ///total number of transmitted symbols
+    const int L;
+    
     /** 
      * Construct a turbo synchroniser  using a LDPC decoder
      * and data symbols in positions described by the set D
      */
     TurboSyncroniser(CLDPCDec* decoder, const std::vector<int>& Din, const std::vector<int>& Pin, const std::vector<complexd> pilotsin, const unsigned int maxitr=30) : 
-    InvertAndDecode(decoder,Din,maxitr), P(Pin), pilots(pilotsin) { }
+    InvertAndDecode(decoder,Din,maxitr), P(Pin), pilots(pilotsin), L(Din.size()+Pin.size()) { }
 
     virtual const std::vector<unsigned int>& decode(const std::vector<complexd>& y, const complexd chat, const double varhat) {
-        invertanddecode(y,chat,varhat);
-        decoderrec(maxiterations);
+        A = computeA(y);
+        Ypilots = computeYpilots(y);
+        //cout << A << ", " << Ypilots << ", " << Ypilots/((double)P.size()) << ", " << abs(Ypilots) << endl;
+        decoderrec(y, chat, varhat, maxiterations);
         tobits();
         return bits;
     }
@@ -109,12 +114,36 @@ public:
 protected:
     const std::vector<complexd> pilots; //pilots
     const std::vector<int> P; //data positions
+    complexd Ypilots; //stores the sum of y corresponding with pilots
+    double A; //store norm of received signal
 
     /** Recursively run the turbo decoder */
-    const std::vector<unsigned int>& decoderrec(const int itrcount){
-        if(itrcount==0) return bits;
-        //invertanddecode(y, chat, varhat);
-        return decoderrec(itrcount-1);
+    void decoderrec(const std::vector<complexd>& y, const complexd chat, const double varhat, const int itrcount){
+        if(itrcount==0) return;
+        invertanddecode(y,chat,varhat,1); //fill Lapp with LLRs given these channel estimates (only run a single iteration)
+        complexd Y = Ypilots;
+        for(int i = 0; i < D.size(); i++) {
+            double s = CLDPCDec::LLR2BPSK(Lapp[i]); //map LLR b
+            //cout << s << endl;
+            Y += y[D[i]]*s; //no need to conjugate since this is BPSK
+        }
+        complexd chatnew = Y/((double)L);
+        double varhatnew = (A - std::norm(Y)/L) / L;
+        //cout << chat << ", " << varhat << endl;
+        decoderrec(y, chatnew, varhatnew, itrcount-1);
+    }
+    
+    complexd computeYpilots(const std::vector<complexd>& y) {
+        complexd ret(0,0);
+        for(int i = 0; i < P.size(); i++) ret += y[P[i]]*conj(pilots[i]);
+        return ret;
+    }
+    
+    double computeA(const std::vector<complexd>& y) {
+        double ret = 0.0; 
+        for(int i = 0; i < P.size(); i++) ret += std::norm(y[P[i]]);
+        for(int i = 0; i < D.size(); i++) ret += std::norm(y[D[i]]);
+        return ret;
     }
     
 };

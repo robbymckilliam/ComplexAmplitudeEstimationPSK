@@ -41,11 +41,10 @@ public:
 
     ///Compute the log likelihood ration for binary phase shift keying with input x and
     ///given amplitude and noise variance
-    static double llrBPSK(double x, double amplitude, double var) {
-        double p0 = (x - amplitude);
-        double p1 = (x + amplitude);
-        return (p1 * p1 - p0 * p0) / 2 / var;
-    }
+    static double BPSK2LLR(double x, double var);
+    
+    ///Return expected BPSK value given a log likelihood ratio
+    static double LLR2BPSK(double llr);
 
 private:
     unsigned int m_N;

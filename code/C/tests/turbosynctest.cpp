@@ -115,6 +115,6 @@ void runtest(string name, function<bool() > test) {
 
 int main(int argc, char** argv) {
     runtest("test invert and decode", testInvertAndDecode);
-    runtest("test turbo synchroniser with perfect channel knowledge", testTurboSyncWithPerfectInitialiser);
+    runtest("test turbo synchroniser with perfect channel initialiser", testTurboSyncWithPerfectInitialiser);
     return (EXIT_SUCCESS);
 }
