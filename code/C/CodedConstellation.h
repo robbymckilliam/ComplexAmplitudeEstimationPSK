@@ -52,9 +52,9 @@ public:
         return codewordbits2constellation(cw);
     }
     
-    ///Decodes a sequence of complex numbers to bits
-    virtual const vector<unsigned int>& decode(const vector<complexd>& r, unsigned int iters=100) {
-        const vector<double>& lch = constellation2LLRs(r);
+    ///Decodes a sequence of complex numbers to bits.  Requires input channel variance var.
+    virtual const vector<unsigned int>& decode(const vector<complexd>& r, double var, unsigned int iters=100) {
+        const vector<double>& lch = constellation2LLRs(r, var);
         ldpcdecoder.decode(&lch[0],&Lapp[0],iters);
         for(int i = 0; i < N; i++) codewordbits[i] = LLR2bit(Lapp[i]);
         return codewordbits2infobits(codewordbits);
@@ -84,7 +84,7 @@ protected:
     vector<double> Lapp;
     
     ///Maps a sequence of constellation points to a sequence of log likelihood ratios
-    virtual const vector<double>& constellation2LLRs(const vector<complexd>& r) = 0;
+    virtual const vector<double>& constellation2LLRs(const vector<complexd>& r, double var) = 0;
     
     ////Maps LLRs to expected points on the complex plain (soft decisions)
     virtual const vector<complexd>& LLRs2constellation(const vector<double>& llrs) = 0;
@@ -108,6 +108,29 @@ protected:
         return codewordbits;
     }
 
+};
+
+/** Class for low density parity check coded binary phase shift keying */
+class CodedBPSK : public CodedConstellation {
+    
+public:
+
+    CodedBPSK(const string ldpcspec) : 
+        CodedConstellation(ldpcspec),
+        codeword(N)
+    {}
+    
+protected:
+    
+    //memory for BPSK signal
+    vector<complexd> codeword;
+    
+    virtual const vector<double>& constellation2LLRs(const vector<complexd>& r, double var) {
+        for(int i = 0; i < N; i++) Lch[i] = 2*real(codeword[i])/var;
+        return Lch;
+    }
+    
+    
 };
 
 #endif	/* CODEDCONSTELLATION_H */
