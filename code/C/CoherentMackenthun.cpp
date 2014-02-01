@@ -5,8 +5,6 @@
 #include <sstream> 
 #include <iostream>
 
-#define PI 3.1415926535897932384626433
-
 #ifdef _WIN32
 #define log2(x) 			(log(x)/log((double)2.0))
 #define round(x)			(floor((x)+0.5))
@@ -25,7 +23,7 @@ CoherentMackenthun::CoherentMackenthun(
   D(Din),
   P(Pin),
   p(pin),
-  w(2*PI/M),
+  w(2*pi/M),
   eta(std::polar<double>(1.0,w)),
   nu(std::polar<double>(1.0,w) - complexd(1.0,0.0))
 {

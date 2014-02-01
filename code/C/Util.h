@@ -8,6 +8,8 @@
 #ifndef UTIL_H
 #define	UTIL_H
 
+#include <complex>
+
 static constexpr double pi = 3.141592653589793238463;    
 
 typedef std::complex<double> complexd;

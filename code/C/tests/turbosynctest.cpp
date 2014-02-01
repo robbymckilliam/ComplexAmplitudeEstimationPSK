@@ -13,7 +13,6 @@
 #include "CoherentMackenthun.h"
 
 #define	TOL 1e-7
-static constexpr double pi = 3.141592653589793238463;
 
 using namespace std;
 /*
