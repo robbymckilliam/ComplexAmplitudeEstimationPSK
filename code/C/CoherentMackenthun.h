@@ -9,11 +9,10 @@
 #ifndef _CoherentMackenthun_h_included_
 #define _CoherentMackenthun_h_included_
 
+#include "Util.h"
 #include "IndexedReal.h"
 #include <complex>
 #include <vector>
-
-typedef std::complex<double> complexd;
 
 class PhaseEstimator
 {

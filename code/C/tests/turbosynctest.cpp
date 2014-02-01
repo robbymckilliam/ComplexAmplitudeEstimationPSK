@@ -26,7 +26,7 @@ bool testInvertAndDecode() {
     int absP = 50;
     int absD = 256;
     int L = absP + absD;
-    complexd a0 = polar<double>(1.0, 0.6); //the complex amplitude
+    complexd a0 = polar<double>(1.0, 0.6); //the c#include <string>omplex amplitude
     std::vector<int> P;
     for(int i = 0; i < absP; i++) P.push_back(i); //pilots at the front
     std::vector<int> D;

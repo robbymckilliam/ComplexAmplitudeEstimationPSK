@@ -1,3 +1,4 @@
+#include "Util.h"
 #include "LDPCDec.h"
 #include <math.h>
 #include <stdlib.h>
@@ -480,6 +481,5 @@ double CLDPCDec::BPSK2LLR(double x, double var) {
 }
 
 double CLDPCDec::LLR2BPSK(double llr) {
-    static constexpr double pi = 3.141592653589793238463;    
     return atan(llr/2)*2/pi;
 }

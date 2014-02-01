@@ -4,10 +4,12 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>CodedConstellation.h</itemPath>
       <itemPath>CoherentMackenthun.h</itemPath>
       <itemPath>IndexedReal.h</itemPath>
       <itemPath>LDPCDec.h</itemPath>
       <itemPath>TurboSync.h</itemPath>
+      <itemPath>Util.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -62,6 +64,8 @@
         <archiverTool>
         </archiverTool>
       </compileType>
+      <item path="CodedConstellation.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="CoherentMackenthun.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="CoherentMackenthun.h" ex="false" tool="3" flavor2="0">
@@ -73,6 +77,8 @@
       <item path="LDPCDec.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="TurboSync.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Util.h" ex="false" tool="3" flavor2="0">
       </item>
       <folder path="TestFiles/f1">
         <cTool>
@@ -149,6 +155,8 @@
         <archiverTool>
         </archiverTool>
       </compileType>
+      <item path="CodedConstellation.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="CoherentMackenthun.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="CoherentMackenthun.h" ex="false" tool="3" flavor2="0">
@@ -160,6 +168,8 @@
       <item path="LDPCDec.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="TurboSync.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Util.h" ex="false" tool="3" flavor2="0">
       </item>
       <folder path="TestFiles/f1">
         <cTool>

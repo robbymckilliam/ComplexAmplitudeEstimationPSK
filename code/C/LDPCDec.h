@@ -76,37 +76,4 @@ private:
     void freeMem();
 };
 
-///** Wraps a CLDPC just for encoding */
-//class LDPCEncoder {
-//    public:
-//    LDPCEncoder(const char* filename) : 
-//        codec(filename),
-//        codeword((unsigned int*) malloc(codec->getN() * sizeof (unsigned int))),
-//        info(codeword),
-//        parity(codeword+codec->getK()),
-//        N(codec->getN()),
-//        K(codec->getK()),
-//        bits(codec->getN())
-//    {  
-//    }
-//        
-//    ~LDPCEncoder() {
-//        free(codeword);
-//    }
-//    
-//    const std::vector<unsigned int>& encode(const std::vector<unsigned int>& b) {
-//        if(b.size() != K) throw "Wrong number of transmit bits";
-//        for(int i = 0; i < K; i++) info[i] = b[i];
-//        codec->encodeRA(info, parity);
-//        for(int i = 0; i < N; i++) bits[i] = codeword[i];
-//    }
-//    
-//    protected:
-//     const int N, K;
-//     std::vector<unsigned int> bits;
-//     std::vector<unsigned int> codeword;
-//     const CLDPCDec codec;
-//     const unsigned int *codeword, *info, *parity;
-//};
-
 #endif
