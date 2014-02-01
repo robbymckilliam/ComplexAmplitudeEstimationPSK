@@ -35,7 +35,6 @@ public:
         N(ldpcdecoder.getN()),
         codewordbits(N),
         infobits(K),
-        Lch(N),
         Lapp(N)
     {
     }
@@ -78,9 +77,6 @@ protected:
     //memory for output (mutable!)
     vector<unsigned int> codewordbits;
     vector<unsigned int> infobits;
-    
-    //memory for Gottfried's decoder
-    vector<double> Lch; 
     vector<double> Lapp;
     
     ///Maps a sequence of constellation points to a sequence of log likelihood ratios
@@ -117,19 +113,30 @@ public:
 
     CodedBPSK(const string ldpcspec) : 
         CodedConstellation(ldpcspec),
+         Lch(N),
         codeword(N)
     {}
     
 protected:
     
-    //memory for BPSK signal
+    //memory for output (mutable!)
     vector<complexd> codeword;
+    vector<double> Lch; 
     
     virtual const vector<double>& constellation2LLRs(const vector<complexd>& r, double var) {
         for(int i = 0; i < N; i++) Lch[i] = 2*real(codeword[i])/var;
         return Lch;
     }
     
+    virtual const vector<complexd>& LLRs2constellation(const vector<double>& llrs) {
+        for(int i = 0; i < N; i++) codeword[i] = atan(llrs[i]/2);
+        return codeword;
+    }
+    
+    virtual const vector<complexd>& codewordbits2constellation(const vector<unsigned int>& cw) {
+        for(int i = 0; i < N; i++) codeword[i] = (cw[i]==0) ? complexd(1,0) : complexd(-1,0); 
+        return codeword;
+    }
     
 };
 
