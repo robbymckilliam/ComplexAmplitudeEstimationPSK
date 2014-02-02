@@ -14,5 +14,21 @@ static constexpr double pi = 3.141592653589793238463;
 
 typedef std::complex<double> complexd;
 
+/** Class for sorting and storing permuations */
+class IndexedReal
+{
+
+public:
+  IndexedReal( double value, int index ) : v(value), i(index) {}
+
+  bool operator<(const IndexedReal& other) const {
+  return v < other.v;
+  }
+  
+  double v;
+  int i;
+
+};
+
 #endif	/* UTIL_H */
 

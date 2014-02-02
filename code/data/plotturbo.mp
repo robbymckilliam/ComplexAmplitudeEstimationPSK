@@ -99,10 +99,10 @@ draw begingraph(plotwidth, plotheight);
 
 %  gdraw (0, "1e-13")--(0, 2) dashed evenly; %glabel.bot(btex AWGN channel capacity etex, 0) rotated 90;
 
-%  gdraw "perfectchannel";
-  gdraw "cmack5"; gdraw "cmack5" plot(circle);
+  gdraw "perfectchannel";
+%  gdraw "cmack5"; gdraw "cmack5" plot(circle);
   %gdraw "cmack20"; gdraw "cmack20" plot(circle);
-  gdraw "pilotonly5" plot(dot);
+%  gdraw "pilotonly5" plot(dot);
   %gdraw "pilotonly20"; gdraw "pilotonly20" plot(dot);
 
   draw legend shifted(legendx,legendy);

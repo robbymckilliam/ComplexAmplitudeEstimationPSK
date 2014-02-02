@@ -87,6 +87,12 @@ public:
     ///Maps LLRs to bits.  Default is positive llrs to 0 and negative llrs to 1
     virtual const unsigned int LLR2bit(double llr) { return (llr > 0) ? 0 : 1; }
     
+    ///Return the number of symbols in the constellation
+    virtual const unsigned int numSymbols() = 0;
+    
+    ///Return the number of points in the complex constellation
+    virtual const unsigned int sizeOfConstellation() = 0;
+    
 protected:
     
     //memory for bit output
@@ -122,6 +128,12 @@ public:
         CodedConstellation(ldpcspec),
         codeword(N)
     {}
+        
+   ///Number of symbols is the same as the length of the code for BPSK, one symbol per bit
+    virtual const unsigned int numSymbols() { return N; }
+    
+   ///2 symbols in the BPSK constellation
+   virtual const unsigned int sizeOfConstellation() { return 2; }
     
 protected:
     

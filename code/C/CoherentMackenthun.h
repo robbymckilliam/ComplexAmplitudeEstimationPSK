@@ -32,22 +32,6 @@ public:
 
 };
 
-/** Class for sorting and storing permuations */
-class IndexedReal
-{
-
-public:
-  IndexedReal( double value, int index ) : v(value), i(index) {}
-
-  bool operator<(const IndexedReal& other) const {
-  return v < other.v;
-  }
-  
-  double v;
-  int i;
-
-};
-
 /** Semi-blind least squares estimator.  Requires O(LlogL) operations. */
 class CoherentMackenthun : public PhaseEstimator {
 public:

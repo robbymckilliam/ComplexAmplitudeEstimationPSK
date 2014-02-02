@@ -63,68 +63,64 @@ protected:
 
 };
 
-///** Implements a BPSK turbo synchroniser using an LDPC code for phase and amplitude.  Assumes BPSK.  */
-//class TurboSyncroniser : public InvertAndDecode {
-//public:
-//    
-//    ///total number of transmitted symbols
-//    const int L;
-//    
-//    //number of turbo iteration to perform
-//    const unsigned int turboiterations;
-//    
-//    /** 
-//     * Construct a turbo synchroniser  using a LDPC decoder
-//     * and data symbols in positions described by the set D
-//     */
-//    TurboSyncroniser(CLDPCDec* decoder, const std::vector<int>& Din, const std::vector<int>& Pin, const std::vector<complexd> pilotsin, const unsigned int maxitr=100, const unsigned int turboitr=4) : 
-//    InvertAndDecode(decoder,Din,maxitr), P(Pin), pilots(pilotsin), L(Din.size()+Pin.size()), turboiterations(turboitr) { }
-//
-//    virtual const std::vector<unsigned int>& decode(const std::vector<complexd>& y, const complexd chat, const double varhat) {
-//        A = computeA(y);
-//        Ypilots = computeYpilots(y);
-//        //cout << A << ", " << Ypilots << ", " << Ypilots/((double)P.size()) << ", " << abs(Ypilots) << endl;
-//        decoderrec(y, chat, varhat, turboiterations);
-//        tobits();
-//        return bits;
-//    }
-//
-//protected:
-//    const std::vector<complexd> pilots; //pilots
-//    const std::vector<int> P; //data positions
-//    complexd Ypilots; //stores the sum of y corresponding with pilots
-//    double A; //store norm of received signal
-//
-//    /** Recursively run the turbo decoder */
-//    void decoderrec(const std::vector<complexd>& y, const complexd chat, const double varhat, const int itrcount){
-//        if(itrcount==0) return;
-//        invertanddecode(y,chat,varhat); //fill Lapp with LLRs given these channel estimates (only run a single iteration)
-//        complexd Y = Ypilots;
-//        for(int i = 0; i < D.size(); i++) {
-//            double s = CLDPCDec::LLR2BPSK(Lapp[i]); //map LLR b
-//            //cout << s << endl;
-//            Y += y[D[i]]*s; //no need to conjugate since this is BPSK
-//        }
-//        complexd chatnew = Y/((double)L);
-//        double varhatnew = (A - std::norm(Y)/L) / L;
-//        //cout << chat << ", " << varhat/2 << endl;
-//        decoderrec(y, chatnew, varhatnew, itrcount-1);
-//    }
-//    
-//    complexd computeYpilots(const std::vector<complexd>& y) {
-//        complexd ret(0,0);
-//        for(int i = 0; i < P.size(); i++) ret += y[P[i]]*conj(pilots[i]);
-//        return ret;
-//    }
-//    
-//    double computeA(const std::vector<complexd>& y) {
-//        double ret = 0.0; 
-//        for(int i = 0; i < P.size(); i++) ret += std::norm(y[P[i]]);
-//        for(int i = 0; i < D.size(); i++) ret += std::norm(y[D[i]]);
-//        return ret;
-//    }
-//    
-//};
+/** Implements a BPSK turbo synchroniser using an LDPC code for phase and amplitude.  Assumes BPSK.  */
+class TurboSyncroniser : public InvertAndDecode {
+public:
+    
+    ///total number of transmitted symbols
+    const int L;
+    
+    //number of turbo iteration to perform
+    const unsigned int turboiterations;
+    
+    /** 
+     * Construct a turbo synchroniser  using a LDPC decoder
+     * and data symbols in positions described by the set D
+     */
+    TurboSyncroniser(CodedConstellation* decoder, const std::vector<int>& Din, const std::vector<int>& Pin, const std::vector<complexd> pilotsin, const unsigned int maxitr=100, const unsigned int turboitr=4) : 
+    InvertAndDecode(decoder,Din,maxitr), P(Pin), pilots(pilotsin), L(Din.size()+Pin.size()), turboiterations(turboitr), ydata(Din.size()) { }
+
+    virtual const std::vector<unsigned int>& decode(const std::vector<complexd>& y, const complexd chat, const double varhat) {
+        A = computeA(y);
+        Ypilots = computeYpilots(y);
+        //cout << A << ", " << Ypilots << ", " << Ypilots/((double)P.size()) << ", " << abs(Ypilots) << endl;
+        return decoderrec(y, chat, varhat, turboiterations);
+    }
+
+protected:
+    const std::vector<complexd> pilots; //pilots
+    const std::vector<int> P; //data positions
+    complexd Ypilots; //stores the sum of y corresponding with pilots
+    double A; //store norm of received signal
+    std::vector<complexd> ydata; //memory for data part of received signal
+
+    /** Recursively run the turbo decoder */
+    const std::vector<unsigned int>& decoderrec(const std::vector<complexd>& y, const complexd chat, const double varhat, const int itrcount){
+        for(int i = 0; i < D.size(); i++) ydata[i] = y[D[i]]/chat; //data symbols with channel removed (by estimate))
+        if(itrcount==0) return codec->decode(ydata, varhat, maxiterations); //if last iteration return decoded bits
+        //otherwise update channel and iterate
+        complexd Y = Ypilots;
+        const vector<complexd>& s = codec->expected(ydata,varhat,maxiterations); //expected symbols (soft symbols)
+        for(int i = 0; i < D.size(); i++)  Y += y[D[i]]*conj(s[i]);
+        complexd chatnew = Y/((double)L);
+        double varhatnew = (A - std::norm(Y)/L) / L;
+        decoderrec(y, chatnew, varhatnew, itrcount-1);
+    }
+    
+    complexd computeYpilots(const std::vector<complexd>& y) const {
+        complexd ret(0,0);
+        for(int i = 0; i < P.size(); i++) ret += y[P[i]]*conj(pilots[i]);
+        return ret;
+    }
+    
+    double computeA(const std::vector<complexd>& y) const {
+        double ret = 0.0; 
+        for(int i = 0; i < P.size(); i++) ret += std::norm(y[P[i]]);
+        for(int i = 0; i < D.size(); i++) ret += std::norm(y[D[i]]);
+        return ret;
+    }
+    
+};
 
 
 #endif	/* TURBOSYNC_H */
