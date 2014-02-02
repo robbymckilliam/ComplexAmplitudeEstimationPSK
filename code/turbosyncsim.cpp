@@ -23,7 +23,7 @@ typedef std::chrono::duration<double, std::ratio<1>> seconds;
 static constexpr double pi = 3.141592653589793238463;
 
 static constexpr unsigned int M = 2; //BPSK (you can't actually change this!)
-static constexpr unsigned int toerrs = 10000; //run until toerrs bit errors occur
+static constexpr unsigned int toerrs = 500; //run until toerrs bit errors occur
 static constexpr double absD = 128;
 static constexpr double amplitude = 1.0;
 
@@ -182,21 +182,21 @@ void runsim(const string decoderfilename, function<CoherentMackenthun(vector<int
 int main(int argc, char** argv) {
     
   vector<double> snrdbs;//snrs in db we will run
-  for(double db = 0; db <= 4.3; db+=0.25) snrdbs.push_back(db);
+  for(double db = 0; db <= 4; db+=0.25) snrdbs.push_back(db);
   
   //run simulation with perfect channel knowledge
   runperfectchannelsim("C/RA1N128.dec", snrdbs, "perfectchannel");
   
   //run turbo synchroniser initialised with least squares estimator
   auto cmack = [&] (vector<int>& D,vector<int>& P,vector<complexd>& p) { return CoherentMackenthun(D,P,p,2); };
-  runsim("C/RA1N128.dec", cmack, snrdbs, 5, "cmack5");
+  //runsim("C/RA1N128.dec", cmack, snrdbs, 5, "cmack5");
   //runsim("C/RA1N128.dec", cmack, snrdbs, 5, "cmack5");
   //runsim("C/RA1N128.dec", cmack, snrdbs, 20, "cmack20");
   //runsim("C/RA1N128.dec", cmack, snrdbs, 5, "cmack40");
 
   //run turbo synchroniser initial with pilots only
   auto pilotonly = [&] (vector<int>& D,vector<int>& P,vector<complexd>& p) { return CoherentMackenthun(vector<int>(),P,p,2); };
-  runsim("C/RA1N128.dec", pilotonly, snrdbs, 5, "pilotonly5");
+  //runsim("C/RA1N128.dec", pilotonly, snrdbs, 5, "pilotonly5");
   //runsim("C/RA1N128.dec", pilotonly, snrdbs, 5, "pilotonly5");
   //runsim("C/RA1N128.dec", pilotonly, snrdbs, 20, "pilotonly20");  
   //runsim("C/RA1N128.dec", pilotonly, snrdbs, 40, "pilotonly40");
