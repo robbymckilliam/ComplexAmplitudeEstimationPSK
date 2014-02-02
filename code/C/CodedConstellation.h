@@ -16,28 +16,42 @@
 #include <complex>
 #include <vector>
 #include <stdlib.h>
+#include <iostream>
+
 
 using namespace std;
 
 class CodedConstellation {
-public:
-    
+
+protected:
     ///the LDPC codec
-    const CLDPCDec ldpcdecoder;
+    CLDPCDec ldpcdecoder;    
+
+public:
+        
     ///number of information bits
     const unsigned int K;
     ///number bits in a codeword
     const unsigned int N;
     
-    CodedConstellation(const string ldpcspec) : 
-        ldpcdecoder(ldpcspec), 
+    CodedConstellation(const string ldpcspec) :
+        ldpcdecoder((char*)ldpcspec.c_str()),
         K(ldpcdecoder.getK()),
         N(ldpcdecoder.getN()),
-        codewordbits(N),
-        infobits(K),
-        Lapp(N)
+        infobitsout(K)
     {
+        Lch = (double*) malloc(N * sizeof (double));
+        Lapp = (double*) malloc(N * sizeof (double));
+        codewordbits = (unsigned int*) malloc(N * sizeof (unsigned int));
+        infobits = codewordbits; 
+        paritybits = codewordbits + K;
+        //std::cout << N << ", " << K << ", " << infobitsout.size() << ", " << ldpcdecoder.dec_loaded() << std::endl;
     }
+    
+    ~CodedConstellation(){
+       free(Lch);
+       free(Lapp);
+   }
     
     /** 
      * Copy constructor forbidden since I don't want to write a copy constructor for Gottfried's
@@ -47,25 +61,26 @@ public:
     
     ///Encodes bits to constellation points
     virtual const vector<complexd>& encode(const vector<unsigned int>& bits) {
-        vector<unsigned int>& cw = infobits2codewordbits(bits);
-        return codewordbits2constellation(cw);
+        for(int i = 0; i < K; i++) infobits[i] = bits[i]; //copy input bits to infobits for encode
+        ldpcdecoder.encodeRA(infobits,paritybits); //encode
+        return codewordbits2constellation(codewordbits);
     }
     
     ///Decodes a sequence of complex numbers to bits.  Requires input channel variance var.
     virtual const vector<unsigned int>& decode(const vector<complexd>& r, double var, unsigned int iters=100) {
-        const vector<double>& lch = constellation2LLRs(r, var);
-        ldpcdecoder.decode(&lch[0],&Lapp[0],iters);
-        for(int i = 0; i < N; i++) codewordbits[i] = LLR2bit(Lapp[i]);
-        return codewordbits2infobits(codewordbits);
+        constellation2LLRs(r, var);
+        ldpcdecoder.decode(Lch,Lapp,iters);
+        for(int i = 0; i < K; i++) infobitsout[i] = LLR2bit(Lapp[i]);
+        return infobitsout;
     }
     
     /**
      * Return expected value of symbols (soft symbols) after a specified number of
      * iterations of the decoder.  Default is 100 iteration
      */
-    virtual const vector<complexd>& expected(const vector<complexd>& r, unsigned int iters=100 ) {
-        const vector<double>& lch = constellation2LLRs(r);
-        ldpcdecoder.decode(&lch[0],&Lapp[0],iters);
+    virtual const vector<complexd>& expected(const vector<complexd>& r, double var, unsigned int iters=100 ) {
+        constellation2LLRs(r, var);
+        ldpcdecoder.decode(Lch,Lapp,iters);
         return LLRs2constellation(Lapp);
     }
     
@@ -74,35 +89,27 @@ public:
     
 protected:
     
-    //memory for output (mutable!)
-    vector<unsigned int> codewordbits;
-    vector<unsigned int> infobits;
-    vector<double> Lapp;
+    //memory for bit output
+    vector<unsigned int> infobitsout;
     
-    ///Maps a sequence of constellation points to a sequence of log likelihood ratios
-    virtual const vector<double>& constellation2LLRs(const vector<complexd>& r, double var) = 0;
-    
-    ////Maps LLRs to expected points on the complex plain (soft decisions)
-    virtual const vector<complexd>& LLRs2constellation(const vector<double>& llrs) = 0;
-    
-    ///Maps codeword to it's specified constellation point
-    virtual const vector<complexd>& codewordbits2constellation(const vector<unsigned int>& cw) = 0;
+    //memory for Gottfried's decoder
+    double *Lapp;
+    double *Lch;
+    unsigned int *codewordbits;
+    unsigned int *infobits;
+    unsigned int *paritybits;
     
     /** 
-     * Map codeword bits to info bits.  By default a systematic LDPC is uses, so we need only
-     * take the first K bits from the codeword.
+     * Maps a sequence of constellation points to a sequence of log likelihood ratios.
+     * Result goes in Lch memory.
      */
-    virtual const vector<unsigned int>& codewordbits2infobits(const vector<unsigned int>& cw) {
-        for(int i = 0; i < K; i++) infobits[i] = cw[i];
-        return infobits;
-    }
+    virtual void constellation2LLRs(const vector<complexd>& r, double var) = 0;
     
-    ///Map info bits to codeword, this is the LDPC encoder
-    virtual const vector<unsigned int>& infobits2codewordbits(const vector<unsigned int>& ib) {
-        ldpcdecoder.encodeRA(&ib[0],&codewordbits[K]);
-        for(int i = 0; i < K; i++) codewordbits[i] = ib[i]; //copy info bits to front of codeword (a systematic code))
-        return codewordbits;
-    }
+    ////Maps LLRs to expected points on the complex plain (soft decisions)
+    virtual const vector<complexd>& LLRs2constellation(double* llrs) = 0;
+    
+    ///Maps codeword to its specified constellation point
+    virtual const vector<complexd>& codewordbits2constellation(unsigned int* cw) = 0;
 
 };
 
@@ -110,10 +117,9 @@ protected:
 class CodedBPSK : public CodedConstellation {
     
 public:
-
-    CodedBPSK(const string ldpcspec) : 
+    
+    CodedBPSK(const char* ldpcspec) : 
         CodedConstellation(ldpcspec),
-         Lch(N),
         codeword(N)
     {}
     
@@ -121,19 +127,17 @@ protected:
     
     //memory for output (mutable!)
     vector<complexd> codeword;
-    vector<double> Lch; 
     
-    virtual const vector<double>& constellation2LLRs(const vector<complexd>& r, double var) {
-        for(int i = 0; i < N; i++) Lch[i] = 2*real(codeword[i])/var;
-        return Lch;
+    virtual void constellation2LLRs(const vector<complexd>& r, double var) {
+        for(int i = 0; i < N; i++) Lch[i] = 2*real(r[i])/var;
     }
     
-    virtual const vector<complexd>& LLRs2constellation(const vector<double>& llrs) {
-        for(int i = 0; i < N; i++) codeword[i] = atan(llrs[i]/2);
+    virtual const vector<complexd>& LLRs2constellation(double* llrs) {
+        for(int i = 0; i < N; i++) codeword[i] = atan(llrs[i]/2)*2/pi;
         return codeword;
     }
     
-    virtual const vector<complexd>& codewordbits2constellation(const vector<unsigned int>& cw) {
+    virtual const vector<complexd>& codewordbits2constellation(unsigned int* cw) {
         for(int i = 0; i < N; i++) codeword[i] = (cw[i]==0) ? complexd(1,0) : complexd(-1,0); 
         return codeword;
     }

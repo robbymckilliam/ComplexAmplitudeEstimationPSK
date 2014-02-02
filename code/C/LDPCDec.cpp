@@ -3,6 +3,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <iostream>
 
 #ifdef FAST_MATH
 #include "fastexp.h"
@@ -38,7 +39,7 @@
 /// \brief	Standard constructor.
 ///
 
-CLDPCDec::CLDPCDec(const char *filename) {
+CLDPCDec::CLDPCDec(const char* filename) {
     m_N = 0;
     m_M = 0;
     m_E = 0;
@@ -58,9 +59,9 @@ CLDPCDec::CLDPCDec(const char *filename) {
 
     m_corrveclen = 0;
     m_corrvec = NULL;
-    
+       
     readDecoder(filename);
-    
+  
 }
 
 /// \brief	Standard destructor.
@@ -116,28 +117,28 @@ void CLDPCDec::freeMem() {
 /// \brief	Returns the length of the codeword.
 ///
 
-unsigned int CLDPCDec::getN() {
+unsigned int CLDPCDec::getN() const {
     return m_N;
 }
 
 /// \brief	Returns the number of parity-checks.
 ///
 
-unsigned int CLDPCDec::getM() {
+unsigned int CLDPCDec::getM() const {
     return m_M;
 }
 
 /// \brief	Returns the number of information bits.
 ///
 
-unsigned int CLDPCDec::getK() {
+unsigned int CLDPCDec::getK() const {
     return m_N - m_M;
 }
 
 /// \brief	Returns the number of edges.
 ///
 
-unsigned int CLDPCDec::getE() {
+unsigned int CLDPCDec::getE() const {
     return m_E;
 }
 
@@ -340,7 +341,7 @@ unsigned int CLDPCDec::decodeMSA(double *Lch, double *Lapp, unsigned int maxit) 
 ///
 /// Reads a parity-check matrix from a file which is in our format.
 
-int CLDPCDec::readDecoder(const char *filename) {
+int CLDPCDec::readDecoder(const char* filename) {
     FILE *file;
     unsigned int n, m, e;
 

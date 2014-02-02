@@ -4,6 +4,8 @@
 #define DECODER_SPA		0
 #define DECODER_MSA		1
 
+#include <string>
+
 /// \brief		Main class for LDPC decoding
 /// \author		Gottfried Lechner (gottfried.lechner@unisa.edu.au)
 /// \version	3.0
@@ -14,7 +16,7 @@
 
 class CLDPCDec {
 public:
-    CLDPCDec(const char *filename);
+    CLDPCDec(const char* filename);
     ~CLDPCDec(void);
 
     int readDecoder(const char* filename);
@@ -34,10 +36,10 @@ public:
         return m_decloaded;
     }
 
-    unsigned int getN();
-    unsigned int getM();
-    unsigned int getK();
-    unsigned int getE();
+    unsigned int getN() const;
+    unsigned int getM() const;
+    unsigned int getK() const;
+    unsigned int getE() const;
 
     ///Compute the log likelihood ration for binary phase shift keying with input x and
     ///given amplitude and noise variance

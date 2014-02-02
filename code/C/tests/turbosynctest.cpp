@@ -11,21 +11,21 @@
 #include <random>
 #include "TurboSync.h"
 #include "CoherentMackenthun.h"
+#include "CodedConstellation.h"
 
 #define	TOL 1e-7
 
 using namespace std;
-/*
- * Simple C++ Test Suite
- */
 
 bool testInvertAndDecode() {
     
+    CodedBPSK codec("RA1N128.dec");
+
     int M = 2;
-    int absP = 50;
-    int absD = 256;
-    int L = absP + absD;
-    complexd a0 = polar<double>(1.0, 0.6); //the c#include <string>omplex amplitude
+    int absP = 50; //number of pilot symbols
+    int absD = codec.N; //number of data symbols.  BPSK so one symbol per bit
+    int L = absP + absD; //total number of symbols
+    complexd a0 = polar<double>(1.0, 0.6); //the complex amplitude
     std::vector<int> P;
     for(int i = 0; i < absP; i++) P.push_back(i); //pilots at the front
     std::vector<int> D;
@@ -36,17 +36,13 @@ bool testInvertAndDecode() {
     vector<complexd> pilots(absP); //vector of pilot symbols
     for(int i = 0; i < absP; i++) pilots[i] = polar<double>(1.0, 2 * pi * unifM(generator) / M);
     
-    CLDPCDec codec("RA1N128.dec");
-    unsigned int *codeword = (unsigned int*) malloc(codec.getN() * sizeof (unsigned int)); //memory for encoding
-    unsigned int *info = codeword;
-    unsigned int *parity = codeword+codec.getK();
-    
-    for(int i = 0; i < codec.getK(); i++) info[i] = (unsigned int) unifM(generator); //generate some random bits
-    codec.encodeRA(info, parity); //encode the bits, result goes in codeword
+    vector<unsigned int> info(codec.K);
+    for(int i = 0; i < codec.K; i++) info[i] = (unsigned int) unifM(generator); //generate some random bits
+    const vector<complexd>& codeword = codec.encode(info); //encode the bits, result goes in codeword
     
     vector<complexd> s(L); //vector of symbols
-    for(int i = 0; i < absP; i++) s[P[i]] = pilots[i];
-    for(int i = 0; i < absD; i++) s[D[i]] = polar<double>(1.0, (2*pi*codeword[i]) / M); //random M-psk symbols
+    for(int i = 0; i < absP; i++) s[P[i]] = pilots[i]; //pilots
+    for(int i = 0; i < absD; i++) s[D[i]] = codeword[i]; //codeword
     
     double var0 = 0.001;
     normal_distribution<double> gn(0.0,sqrt(var0)); //Gaussian noise
@@ -57,54 +53,54 @@ bool testInvertAndDecode() {
     const std::vector<unsigned int>& bits = invdec.decode(y,a0,var0);
     
     bool pass = true;
-    for(int i = 0; i < codec.getK(); i++) pass &= (bits[i] == info[i]); //check decoded correctly
+    for(int i = 0; i < codec.K; i++) pass &= (bits[i] == info[i]); //check decoded correctly
    
     return pass;
 }
 
-bool testTurboSyncWithPerfectInitialiser() {
-    
-    int M = 2;
-    int absP = 5;
-    int absD = 256;
-    int L = absP + absD;
-    complexd a0 = polar<double>(1.0, 0.6); //the complex amplitude
-    std::vector<int> P;
-    for(int i = 0; i < absP; i++) P.push_back(i); //pilots at the front
-    std::vector<int> D;
-    for(int i = absP; i < L; i++) D.push_back(i); //data at the back
-    
-    default_random_engine generator;
-    uniform_int_distribution<int> unifM(0, M-1); //for generating M-PSK symbols
-    vector<complexd> pilots(absP); //vector of pilot symbols
-    for(int i = 0; i < absP; i++) pilots[i] = polar<double>(1.0, 2 * pi * unifM(generator) / M);
-    
-    CLDPCDec codec("RA1N128.dec");
-    unsigned int *codeword = (unsigned int*) malloc(codec.getN() * sizeof (unsigned int)); //memory for encoding
-    unsigned int *info = codeword;
-    unsigned int *parity = codeword+codec.getK();
-    
-    for(int i = 0; i < codec.getK(); i++) info[i] = (unsigned int) unifM(generator); //generate some random bits
-    codec.encodeRA(info, parity); //encode the bits, result goes in codeword
-    
-    vector<complexd> s(L); //vector of symbols
-    for(int i = 0; i < absP; i++) s[P[i]] = pilots[i];
-    for(int i = 0; i < absD; i++) s[D[i]] = polar<double>(1.0, (2*pi*codeword[i]) / M); //random M-psk symbols
-    
-    double var0 = 0.1;
-    normal_distribution<double> gn(0.0,sqrt(var0)); //Gaussian noise
-    std::vector<complexd> y(L);
-    for(int i = 0; i < L; i++) y[i] = a0*s[i] + complexd(gn(generator), gn(generator)); //compute transmitted signal
-    
-    TurboSyncroniser turbodec(&codec, D, P, pilots);
-    const std::vector<unsigned int>& bits = turbodec.decode(y,a0,var0);
-    
-    bool pass = true;
-    for(int i = 0; i < codec.getK(); i++) pass &= (bits[i] == info[i]); //check decoded correctly
-    
-    return pass;
-    
-}
+//bool testTurboSyncWithPerfectInitialiser() {
+//    
+//    int M = 2;
+//    int absP = 5;
+//    int absD = 256;
+//    int L = absP + absD;
+//    complexd a0 = polar<double>(1.0, 0.6); //the complex amplitude
+//    std::vector<int> P;
+//    for(int i = 0; i < absP; i++) P.push_back(i); //pilots at the front
+//    std::vector<int> D;
+//    for(int i = absP; i < L; i++) D.push_back(i); //data at the back
+//    
+//    default_random_engine generator;
+//    uniform_int_distribution<int> unifM(0, M-1); //for generating M-PSK symbols
+//    vector<complexd> pilots(absP); //vector of pilot symbols
+//    for(int i = 0; i < absP; i++) pilots[i] = polar<double>(1.0, 2 * pi * unifM(generator) / M);
+//    
+//    CLDPCDec codec("RA1N128.dec");
+//    unsigned int *codeword = (unsigned int*) malloc(codec.getN() * sizeof (unsigned int)); //memory for encoding
+//    unsigned int *info = codeword;
+//    unsigned int *parity = codeword+codec.getK();
+//    
+//    for(int i = 0; i < codec.getK(); i++) info[i] = (unsigned int) unifM(generator); //generate some random bits
+//    codec.encodeRA(info, parity); //encode the bits, result goes in codeword
+//    
+//    vector<complexd> s(L); //vector of symbols
+//    for(int i = 0; i < absP; i++) s[P[i]] = pilots[i];
+//    for(int i = 0; i < absD; i++) s[D[i]] = polar<double>(1.0, (2*pi*codeword[i]) / M); //random M-psk symbols
+//    
+//    double var0 = 0.1;
+//    normal_distribution<double> gn(0.0,sqrt(var0)); //Gaussian noise
+//    std::vector<complexd> y(L);
+//    for(int i = 0; i < L; i++) y[i] = a0*s[i] + complexd(gn(generator), gn(generator)); //compute transmitted signal
+//    
+//    TurboSyncroniser turbodec(&codec, D, P, pilots);
+//    const std::vector<unsigned int>& bits = turbodec.decode(y,a0,var0);
+//    
+//    bool pass = true;
+//    for(int i = 0; i < codec.getK(); i++) pass &= (bits[i] == info[i]); //check decoded correctly
+//    
+//    return pass;
+//    
+//}
 
 void runtest(string name, function<bool() > test) {
     cout << name << " ... ";
@@ -114,6 +110,6 @@ void runtest(string name, function<bool() > test) {
 
 int main(int argc, char** argv) {
     runtest("test invert and decode", testInvertAndDecode);
-    runtest("test turbo synchroniser with perfect channel initialiser", testTurboSyncWithPerfectInitialiser);
+    //runtest("test turbo synchroniser with perfect channel initialiser", testTurboSyncWithPerfectInitialiser);
     return (EXIT_SUCCESS);
 }
