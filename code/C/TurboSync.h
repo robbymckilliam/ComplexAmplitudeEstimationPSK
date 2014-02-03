@@ -8,25 +8,21 @@
 #ifndef TURBOSYNC_H
 #define	TURBOSYNC_H
 
+#include "CodedConstellation.h"
 #include "CoherentMackenthun.h"
 #include "LDPCDec.h"
 
 using namespace std;
 
 /** Base class for coded BPSK transmission */
-class CodedTransmission {
+class CodedBandpassReciever {
     
 public:
     
     /// maximum number of decoder iterations.
     const unsigned int maxiterations;
     
-    CodedTransmission() = delete;
-    
-    ~CodedTransmission(){
-       free(Lch);
-       free(Lapp);
-   }
+    CodedBandpassReciever() = delete;
     
     /**
      * Decode and return recieved bits from recieved signal y given channel estimate chat and
@@ -36,113 +32,93 @@ public:
     
 protected:
     
-     CodedTransmission(CLDPCDec* decoder, const unsigned int maxitr=30) : codec(decoder), maxiterations(maxitr) {
-        Lch = (double*) malloc(codec->getN() * sizeof (double));
-        Lapp = (double*) malloc(codec->getN() * sizeof (double));
-    }
+     CodedConstellation* codec;
     
-     CLDPCDec* codec;
-     double *Lch; //memory for Gottfrieds decoder
-     double *Lapp;
+     CodedBandpassReciever(CodedConstellation* decoder, const unsigned int maxitr=100) : codec(decoder), maxiterations(maxitr) {}
     
 };
 
 /** Standard channel inversion and decoding. Uses and LDPC code and assumes BPSK */
-class InvertAndDecode : public CodedTransmission {
-    
+class InvertAndDecode : public CodedBandpassReciever {
 public:
-    
-    InvertAndDecode(CLDPCDec* decoder, const std::vector<int>& Din, const unsigned int maxitr=100) : 
-    CodedTransmission(decoder, maxitr),
+
+    InvertAndDecode(CodedConstellation* decoder, const std::vector<int>& Din, const unsigned int maxitr = 100) :
+    CodedBandpassReciever(decoder, maxitr),
     D(Din),
-    bits(decoder->getK())
-    {
-        if(D.size() != codec->getN()) throw "The number of data symbols must be the same as the length of the code";
+    r(Din.size()) {
+        if (D.size() != decoder->N) throw "The number of data symbols must be the same as the length of the code";
     }
-    
+
     virtual const std::vector<unsigned int>& decode(const std::vector<complexd>& y, const complexd chat, const double varhat) {
-        invertanddecode(y, chat, varhat);
-        tobits();
-        return bits;
+        for (int i = 0; i < D.size(); i++) r[i] = y[D[i]] / chat;
+        return codec->decode(r, varhat, maxiterations); //run decoder
     }
-    
+
 protected:
-    std::vector<unsigned int> bits; //decoded information bits.
+
     const std::vector<int> D; //data positions
-    
-    //invert channel and run decoder. Returns llrs in Lapp array
-    void invertanddecode(const std::vector<complexd>& y, const complexd chat, const double varhat) {
-        double rhohat = std::abs(chat); //channel amplitude estimate
-        //fill channel log likelihood ratios
-        for(int i = 0; i < codec->getN(); i++) {       
-            double r = std::real(y[D[i]] / chat) * rhohat;
-            Lch[i] = CLDPCDec::BPSK2LLR(r, varhat/2); //divide noise by 2 since taking variance of real part for BPSK
-        }
-        codec->decode(Lch,Lapp,maxiterations); //run decoder
-    }
-    
-    //map LLRs in Lapp array to bits
-    void tobits() {
-        for(int i = 0; i < codec->getK(); i++) bits[i] = (Lapp[i] > 0) ? 0 : 1; 
-    }
-    
+    std::vector<complexd> r; //holds received signal after channel is inverted
+
 };
 
 /** Implements a BPSK turbo synchroniser using an LDPC code for phase and amplitude.  Assumes BPSK.  */
-class TurboSyncroniser : public InvertAndDecode {
+class TurboSyncroniser : public CodedBandpassReciever {
 public:
-    
-    ///total number of transmitted symbols
-    const int L;
-    
-    //number of turbo iteration to perform
-    const unsigned int turboiterations;
-    
+        
     /** 
      * Construct a turbo synchroniser  using a LDPC decoder
      * and data symbols in positions described by the set D
      */
-    TurboSyncroniser(CLDPCDec* decoder, const std::vector<int>& Din, const std::vector<int>& Pin, const std::vector<complexd> pilotsin, const unsigned int maxitr=100, const unsigned int turboitr=4) : 
-    InvertAndDecode(decoder,Din,maxitr), P(Pin), pilots(pilotsin), L(Din.size()+Pin.size()), turboiterations(turboitr) { }
+    TurboSyncroniser(CodedConstellation* decoder, const std::vector<int>& Din, const std::vector<int>& Pin, const std::vector<complexd> pilotsin, const unsigned int maxitr=100, const unsigned int turboitr=4) : 
+    CodedBandpassReciever(decoder,maxitr), D(Din), P(Pin), pilots(pilotsin), L(Din.size()+Pin.size()), turboiterations(turboitr), ydata(Din.size()), fakeret(decoder->K) { }
 
     virtual const std::vector<unsigned int>& decode(const std::vector<complexd>& y, const complexd chat, const double varhat) {
         A = computeA(y);
         Ypilots = computeYpilots(y);
         //cout << A << ", " << Ypilots << ", " << Ypilots/((double)P.size()) << ", " << abs(Ypilots) << endl;
-        decoderrec(y, chat, varhat, turboiterations);
-        tobits();
-        return bits;
+        return decoderrec(y, chat, varhat, turboiterations);
     }
+    
+     ///total number of transmitted symbols
+    const int L;
+    
+    //number of turbo iteration to perform
+    const unsigned int turboiterations;
 
 protected:
+
+    const std::vector<int> D; //data positions
     const std::vector<complexd> pilots; //pilots
     const std::vector<int> P; //data positions
     complexd Ypilots; //stores the sum of y corresponding with pilots
     double A; //store norm of received signal
+    std::vector<complexd> ydata; //memory for data part of received signal
+    std::vector<unsigned int> fakeret;
 
     /** Recursively run the turbo decoder */
-    void decoderrec(const std::vector<complexd>& y, const complexd chat, const double varhat, const int itrcount){
-        if(itrcount==0) return;
-        invertanddecode(y,chat,varhat); //fill Lapp with LLRs given these channel estimates (only run a single iteration)
-        complexd Y = Ypilots;
-        for(int i = 0; i < D.size(); i++) {
-            double s = CLDPCDec::LLR2BPSK(Lapp[i]); //map LLR b
-            //cout << s << endl;
-            Y += y[D[i]]*s; //no need to conjugate since this is BPSK
+    const std::vector<unsigned int>& decoderrec(const std::vector<complexd>& y, const complexd chat, const double varhat, const int itrcount){
+        for(int i = 0; i < D.size(); i++) ydata[i] = y[D[i]]/chat; //data symbols with channel removed (by estimate))
+        if(itrcount==0) {
+            const std::vector<unsigned int>& r = codec->decode(ydata, varhat, maxiterations);
+            for(int i = 0; i < r.size(); i++) fakeret[i] = r[i]; //copy memory, I have no idea why this is necessary, since the memory in codec should be just as good.  However, without this I was getting segfaults for reasons I can't explain!
+            return fakeret;
         }
+        //otherwise update channel and iterate
+        complexd Y = Ypilots;
+        const vector<complexd>& s = codec->expected(ydata,varhat,maxiterations); //expected symbols (soft symbols)
+        for(int i = 0; i < D.size(); i++)  Y += y[D[i]]*conj(s[i]);
         complexd chatnew = Y/((double)L);
         double varhatnew = (A - std::norm(Y)/L) / L;
-        //cout << chat << ", " << varhat/2 << endl;
         decoderrec(y, chatnew, varhatnew, itrcount-1);
     }
     
-    complexd computeYpilots(const std::vector<complexd>& y) {
+    complexd computeYpilots(const std::vector<complexd>& y) const {
         complexd ret(0,0);
         for(int i = 0; i < P.size(); i++) ret += y[P[i]]*conj(pilots[i]);
         return ret;
     }
     
-    double computeA(const std::vector<complexd>& y) {
+    double computeA(const std::vector<complexd>& y) const {
         double ret = 0.0; 
         for(int i = 0; i < P.size(); i++) ret += std::norm(y[P[i]]);
         for(int i = 0; i < D.size(); i++) ret += std::norm(y[D[i]]);

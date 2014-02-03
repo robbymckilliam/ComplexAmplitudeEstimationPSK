@@ -99,7 +99,8 @@ These estimators typically apply the expectation maximisation (EM) algorithm und
 The paper is organised in the following way.  Section~\ref{sec:least-squar-estim} extends Mackenthun's algorithm for the case when both pilot symbols and data symbols exist.  %Section~\ref{sec:circ-symm-compl} describes properties of complex random variables that we need.  
 Section~\ref{sec:stat-prop-least} states two theorems that describe the statistical properties of the least squares estimator of carrier phase and amplitude.  %We show, under reasonably general assumptions about the distribution of the noise $w_1,\dots,w_L$, that $\langle\theta_0 - \hat{\theta}\rangle_\pi$ converges almost surely to zero and that $\sqrt{L}\langle\theta_0 - \hat{\theta}\rangle_\pi$ is asymptotically normally distributed as $L\rightarrow \infty$.  However, $\hat{\rho}$ is not a consistent estimator of the amplitude $\rho_0$.  The asymptotic bias of $\hat{\rho}$ is small when the signal to noise ratio (SNR) is large, but the asymptotic bias is significant when the SNR is small.  
 Sections~\ref{sec:proof-almost-sure} and~\ref{sec:proof-asympt-norm} provide proofs of the theorems stated in Section~\ref{sec:stat-prop-least}.  %In Section~\ref{sec:gaussian-noise-case} we consider the special case when the noise is Gaussian.  In this case, our expressions for the asymptotic distribution can be simplified.  
-Section~\ref{sec:simulations} presents the results of Monte-Carlo simulations.  These simulations agree with the derived asymptotic properties.  Simulations showing the effectivness of our estimator as an initialiser for a turbo synchonisation proceedure are also presented.
+Section~\ref{sec:simulations} presents the results of Monte-Carlo simulations.  These simulations agree with the derived asymptotic properties.  
+Simulations showing the effectivness of our estimator as an initialiser for a turbo synchonisation proceedure are also presented.
 
 %It is worth commenting on our use of $\prob$ rather than the more usual $\expect$ or $E$ for the expected value operator.  The notation comes from Pollard~\cite[Ch 1]{Pollard_users_guide_prob_2002}.  The notation is good because it removes unecessary distinction between `probability' and expectation.  Given a random variable $X$ with cumulative density function $F$, the probability of an event, say $X \in S$, where $S$ is some subset of the range of $X$, is 
 %\[
@@ -689,7 +690,7 @@ shows the mean square error of the amplitude estimator when $M=2$ and $L=2048$ a
 \]
 When SNR is large $G(0)$ is close to $1$ and the bias of the amplitude estimator is small.  However, $G(0)$ grows without bound as the variance of the noise increases so the bias is significant when SNR is small.  Figure~\ref{fig:plotampBPSK} suggests our asymptotic theory to be an excellent predictor of the mean square error of the amplitude estimator.
 
-Figure~\ref{fig:plotphaseQPSKmultL} shows the MSE of the phase estimator when $M=4$ and $L=32,256, 2048$ and the number of pilots is $\abs{P}=\tfrac{L}{8},L$.  The figure depicts an interesting phenomenon.  When $L=2048$ and $\abs{P} = \tfrac{L}{8} = 256$ the number of pilots symbols is the same as when $L=\abs{P} = 256$.  When the SNR is small (approximately less than \unit[0]{dB}) the least squares estimator using the $256$ pilots symbols and also the $2048-256=1792$ data symbols performs \emph{worse} than the estimator that uses only the $256$ pilots symbols.  A similar phenomenon occurs when $L=256$ and $\abs{P} = \tfrac{L}{8} = 32$.  This behaviour suggests that using the data symbols is counterproductive when the SNR is low.
+%Figure~\ref{fig:plotphaseQPSKmultL} shows the MSE of the phase estimator when $M=4$ and $L=32,256, 2048$ and the number of pilots is $\abs{P}=\tfrac{L}{8},L$.  The figure depicts an interesting phenomenon.  When $L=2048$ and $\abs{P} = \tfrac{L}{8} = 256$ the number of pilots symbols is the same as when $L=\abs{P} = 256$.  When the SNR is small (approximately less than \unit[0]{dB}) the least squares estimator using the $256$ pilots symbols and also the $2048-256=1792$ data symbols performs \emph{worse} than the estimator that uses only the $256$ pilots symbols.  A similar phenomenon occurs when $L=256$ and $\abs{P} = \tfrac{L}{8} = 32$.  This behaviour suggests that using the data symbols is counterproductive when the SNR is low.
 
 %Thus, when the SNR is small it is better to ignore the data symbols and use only the pilot symbols.   
  %This behaviour suggests modifying the objective function to give the pilots symbols more importance when the SNR is low.  For example, rather than minimise~\eqref{eq:LSdefn} we could instead minimise a weighted version of it,
@@ -749,12 +750,12 @@ Figure~\ref{fig:plotphaseQPSKmultL} shows the MSE of the phase estimator when $M
 %		\label{fig:plotphase}
 %\end{figure}
 
-\begin{figure}[tp]
-	\centering
-		\includegraphics[width=\linewidth]{code/data/plotM4-3.mps}
-		\caption{Phase error versus SNR for QPSK.}
-		\label{fig:plotphaseQPSKmultL}
-\end{figure}
+% \begin{figure}[tp]
+% 	\centering
+% 		\includegraphics[width=\linewidth]{code/data/plotM4-3.mps}
+% 		\caption{Phase error versus SNR for QPSK.}
+% 		\label{fig:plotphaseQPSKmultL}
+% \end{figure}
 
 \begin{figure}[tp]
 	\centering
@@ -828,7 +829,7 @@ We considered least squares estimators of carrier phase and amplitude from noisy
 
 Under reasonably general conditions on the distribution of the noise, it was shown that the phase estimator $\hat{\theta}$ is strongly consistent and asymptotically normally distributed.  However, the amplitude estimator $\hat{\rho}_0$ is biased, and converges to $G(0)\rho_0$.  This bias is large when the signal to noise ratio is small.  It would be interesting to investigate methods for correcting this bias.  A method for estimating $G(0)$ at the receiver appears to be required.
 
-Monte Carlo simulations were used to assess the performance of the least squares estimator and also to validate our asymptotic theory.  Interestingly, when the SNR is small, it is counterproductive to use the data symbols to estimate the phase (Figure~\ref{fig:plotphaseQPSKmultL}).  %This suggests the use of a weighted objective function, which would be an interesting topic for future research.
+Monte Carlo simulations were used to assess the performance of the least squares estimator and also to validate our asymptotic theory.  %Interestingly, when the SNR is small, it is counterproductive to use the data symbols to estimate the phase (Figure~\ref{fig:plotphaseQPSKmultL}).  %This suggests the use of a weighted objective function, which would be an interesting topic for future research.
 The simulations also indicate our estimator to be an effective initialiser for turbo synchronisation proceedures.
 
 \small

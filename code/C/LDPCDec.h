@@ -4,6 +4,8 @@
 #define DECODER_SPA		0
 #define DECODER_MSA		1
 
+#include <string>
+
 /// \brief		Main class for LDPC decoding
 /// \author		Gottfried Lechner (gottfried.lechner@unisa.edu.au)
 /// \version	3.0
@@ -14,7 +16,7 @@
 
 class CLDPCDec {
 public:
-    CLDPCDec(const char *filename);
+    CLDPCDec(const char* filename);
     ~CLDPCDec(void);
 
     int readDecoder(const char* filename);
@@ -34,10 +36,10 @@ public:
         return m_decloaded;
     }
 
-    unsigned int getN();
-    unsigned int getM();
-    unsigned int getK();
-    unsigned int getE();
+    unsigned int getN() const;
+    unsigned int getM() const;
+    unsigned int getK() const;
+    unsigned int getE() const;
 
     ///Compute the log likelihood ration for binary phase shift keying with input x and
     ///given amplitude and noise variance
@@ -75,38 +77,5 @@ private:
     void allocateMem();
     void freeMem();
 };
-
-///** Wraps a CLDPC just for encoding */
-//class LDPCEncoder {
-//    public:
-//    LDPCEncoder(const char* filename) : 
-//        codec(filename),
-//        codeword((unsigned int*) malloc(codec->getN() * sizeof (unsigned int))),
-//        info(codeword),
-//        parity(codeword+codec->getK()),
-//        N(codec->getN()),
-//        K(codec->getK()),
-//        bits(codec->getN())
-//    {  
-//    }
-//        
-//    ~LDPCEncoder() {
-//        free(codeword);
-//    }
-//    
-//    const std::vector<unsigned int>& encode(const std::vector<unsigned int>& b) {
-//        if(b.size() != K) throw "Wrong number of transmit bits";
-//        for(int i = 0; i < K; i++) info[i] = b[i];
-//        codec->encodeRA(info, parity);
-//        for(int i = 0; i < N; i++) bits[i] = codeword[i];
-//    }
-//    
-//    protected:
-//     const int N, K;
-//     std::vector<unsigned int> bits;
-//     std::vector<unsigned int> codeword;
-//     const CLDPCDec codec;
-//     const unsigned int *codeword, *info, *parity;
-//};
 
 #endif

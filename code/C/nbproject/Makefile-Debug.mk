@@ -35,7 +35,6 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/CoherentMackenthun.o \
 	${OBJECTDIR}/LDPCDec.o
 
 # Test Directory
@@ -72,11 +71,6 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libc.a: ${OBJECTFILES}
 	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libc.a
 	${AR} -rv ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libc.a ${OBJECTFILES} 
 	$(RANLIB) ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libc.a
-
-${OBJECTDIR}/CoherentMackenthun.o: CoherentMackenthun.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF $@.d -o ${OBJECTDIR}/CoherentMackenthun.o CoherentMackenthun.cpp
 
 ${OBJECTDIR}/LDPCDec.o: LDPCDec.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -118,19 +112,6 @@ ${TESTDIR}/tests/turbosynctest.o: tests/turbosynctest.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -I. -std=c++11 -MMD -MP -MF $@.d -o ${TESTDIR}/tests/turbosynctest.o tests/turbosynctest.cpp
 
-
-${OBJECTDIR}/CoherentMackenthun_nomain.o: ${OBJECTDIR}/CoherentMackenthun.o CoherentMackenthun.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	@NMOUTPUT=`${NM} ${OBJECTDIR}/CoherentMackenthun.o`; \
-	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
-	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
-	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
-	then  \
-	    ${RM} $@.d;\
-	    $(COMPILE.cc) -g -std=c++11 -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/CoherentMackenthun_nomain.o CoherentMackenthun.cpp;\
-	else  \
-	    ${CP} ${OBJECTDIR}/CoherentMackenthun.o ${OBJECTDIR}/CoherentMackenthun_nomain.o;\
-	fi
 
 ${OBJECTDIR}/LDPCDec_nomain.o: ${OBJECTDIR}/LDPCDec.o LDPCDec.cpp 
 	${MKDIR} -p ${OBJECTDIR}

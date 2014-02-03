@@ -5,11 +5,12 @@
  * Created on 29/01/2014, 1:58:37 PM
  */
 
+#include "LDPCDec.h"
+#include "CodedConstellation.h"
 #include <stdlib.h>
 #include <iostream>
 #include <functional>
 #include <random>
-#include "LDPCDec.h"
 
 #define	TOL 1e-7
 
@@ -98,6 +99,52 @@ bool testencodedecodeAWGN() {
     return pass;
 }
 
+bool testCodedBPSKConstruct() {
+    CodedBPSK cbpsk("RA1N128.dec");
+    return true;
+}
+
+bool testCodedBPSKEncode() {
+    CodedBPSK cbpsk("RA1N128.dec");
+    vector<unsigned int> infobits(cbpsk.K);
+    for(int i = 0; i < cbpsk.K; i++) infobits[i] = rand()%2;
+    const vector<complexd>& cw = cbpsk.encode(infobits);
+    bool pass = true;
+    for(int i = 0; i < cbpsk.K; i++) {
+        bool azero = (abs(cw[i]-complexd(1,0))<TOL) && (infobits[i] == 0);
+        bool aone = (abs(cw[i]-complexd(-1,0))<TOL) && (infobits[i] == 1);
+        pass &= azero || aone;
+    }
+    return pass;
+}
+
+bool testCodedBPSKAWGN() {
+    double snrdB = 10.0;
+    double amplitude = 1.0; //power of BPSK transmission
+    double var = amplitude*amplitude*pow(10, -snrdB/10);
+    default_random_engine gen;
+    normal_distribution<double> gn(0.0,sqrt(var));
+    
+    CodedBPSK cbpsk("RA1N128.dec");
+    vector<unsigned int> infobits(cbpsk.K);
+    for(int i = 0; i < cbpsk.K; i++) infobits[i] = rand()%2;
+    const vector<complexd>& cw = cbpsk.encode(infobits);
+    
+    //generate received signal with noise
+    vector<complexd> y(cbpsk.N);
+    for(int i = 0; i < cbpsk.N; i++) y[i] = cw[i] + complexd(gn(gen),gn(gen));
+    
+    //decode signal
+    const vector<unsigned int>& decodedbits = cbpsk.decode(y,var);
+    
+    bool pass = true;
+    for(int i = 0; i < cbpsk.K; i++)
+        pass &= decodedbits[i] == infobits[i];
+    
+    return pass;
+    
+}
+
 void runtest(string name, function<bool() > test) {
     cout << name << " ... ";
     if (!test()) cout << "FAIL" << endl;
@@ -109,6 +156,9 @@ int main(int argc, char** argv) {
     runtest("test encode RA", testencode);
     runtest("test encode and decode RA", testencodedecode);
     runtest("test encode and decode RA in AWGN", testencodedecodeAWGN);
+    runtest("test construct coded BPSK", testCodedBPSKConstruct);
+    runtest("test coded BPSK encode", testCodedBPSKEncode);
+    runtest("test coded BPSK in AWGN", testCodedBPSKAWGN);
     return (EXIT_SUCCESS);
 }
 

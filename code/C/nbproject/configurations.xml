@@ -4,10 +4,11 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>CodedConstellation.h</itemPath>
       <itemPath>CoherentMackenthun.h</itemPath>
-      <itemPath>IndexedReal.h</itemPath>
       <itemPath>LDPCDec.h</itemPath>
       <itemPath>TurboSync.h</itemPath>
+      <itemPath>Util.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -16,7 +17,6 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <itemPath>CoherentMackenthun.cpp</itemPath>
       <itemPath>LDPCDec.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -62,17 +62,17 @@
         <archiverTool>
         </archiverTool>
       </compileType>
-      <item path="CoherentMackenthun.cpp" ex="false" tool="1" flavor2="0">
+      <item path="CodedConstellation.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="CoherentMackenthun.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="IndexedReal.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="LDPCDec.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="LDPCDec.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="TurboSync.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Util.h" ex="false" tool="3" flavor2="0">
       </item>
       <folder path="TestFiles/f1">
         <cTool>
@@ -149,17 +149,17 @@
         <archiverTool>
         </archiverTool>
       </compileType>
-      <item path="CoherentMackenthun.cpp" ex="false" tool="1" flavor2="0">
+      <item path="CodedConstellation.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="CoherentMackenthun.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="IndexedReal.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="LDPCDec.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="LDPCDec.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="TurboSync.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Util.h" ex="false" tool="3" flavor2="0">
       </item>
       <folder path="TestFiles/f1">
         <cTool>

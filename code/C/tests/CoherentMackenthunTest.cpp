@@ -15,8 +15,6 @@
 
 using namespace std;
 
-static constexpr double pi = 3.141592653589793238463;
-
 /*
  * Test Coherent Mackenthun code.
  */
