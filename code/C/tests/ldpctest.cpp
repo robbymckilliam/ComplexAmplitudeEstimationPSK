@@ -145,6 +145,26 @@ bool testCodedBPSKAWGN() {
     
 }
 
+/** Class for extracting protected methods for testing */
+class TestCodedBPSK : public CodedBPSK {
+public:
+    TestCodedBPSK(const char* ldpcspec) : CodedBPSK(ldpcspec) {}
+    const vector<complexd>& testLLRs2constellation(double* llrs) {
+        return LLRs2constellation(llrs);
+    }
+};
+
+bool testCodedBPSKLLR2Expected() {
+    double llr[3] = {-10000.0, 10000.0, 0.0};
+    TestCodedBPSK cbpsk("RA1N128.dec");
+    auto s = cbpsk.testLLRs2constellation(llr);
+    //cout << s[0] << ", " << s[1] << ", " << s[2] << endl;
+    bool pass = std::abs(s[0]-complexd(-1.0,0)) < 0.01;
+    pass &= std::abs(s[1]-complexd(1.0,0)) < 0.01;
+    pass &= std::abs(s[2]-complexd(0.0,0)) < 0.01;
+    return pass;
+}
+
 void runtest(string name, function<bool() > test) {
     cout << name << " ... ";
     if (!test()) cout << "FAIL" << endl;
@@ -159,6 +179,7 @@ int main(int argc, char** argv) {
     runtest("test construct coded BPSK", testCodedBPSKConstruct);
     runtest("test coded BPSK encode", testCodedBPSKEncode);
     runtest("test coded BPSK in AWGN", testCodedBPSKAWGN);
+    runtest("test mapping LLR to BPSK", testCodedBPSKLLR2Expected);
     return (EXIT_SUCCESS);
 }
 
