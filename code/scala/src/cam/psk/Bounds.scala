@@ -20,7 +20,8 @@ trait CramerRaoBound {
 class BPSKCRB extends CramerRaoBound {
   
   final def variance(v : Double, L : Int) : Double = {  
-    return RealIntegral.trapezoidal( n => f(v,n), -100.0, 100.0, 1000000) 
+    val Fb = RealIntegral.trapezoidal( n => f(v,n), -30.0*v, 30.0*v, 100000)
+    return v/L/Fb
   }
   
   private def f(v : Double, n : Double) : Double = {
