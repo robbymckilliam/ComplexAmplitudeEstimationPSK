@@ -47,7 +47,6 @@ void runperfectchannelsim(const function<CodedConstellation*()> codedconstf, con
   	double snrdB = snrdbs[snrind]; 
   	double var = amplitude*amplitude*pow(10, -snrdB/10); //variance of real and imaginary parts of noise
   	default_random_engine gen((long)clock()); //random number generator, seed with clock 
-  	uniform_int_distribution<int> unifM(0, M-1); //for generating M-PSK symbols
   	uniform_real_distribution<double> unifphase(-pi,pi); //generator for true timeoffset 
   	normal_distribution<double> gn(0.0,sqrt(var));
 
@@ -62,11 +61,11 @@ void runperfectchannelsim(const function<CodedConstellation*()> codedconstf, con
   	int itrcount = 0; //count total number of iterations
   	while( numerrs < toerrs ) {
   	  const complex<double> a0 = polar<double>(amplitude, unifphase(gen)); //amplitude random phase
-  	  for(int i = 0; i < K; i++) info[i] = (unsigned int) unifM(gen); //generate some random bits
+  	  for(int i = 0; i < K; i++) info[i] = rand() % 2; //generate some random bits
   	  const vector<complexd>& cw = codec->encode(info); //encode the bits, result goes in cw
-  	  for(int i = 0; i < L; i++) s[D[i]] = cw[i]; //convert to M-psk symbols
+  	  for(int i = 0; i < L; i++) s[D[i]] = cw[i]; //fill data symbols
   	  for(int i = 0; i < L; i++) y[i] = a0*s[i] + complexd(gn(gen), gn(gen)); //compute transmitted signal
-  	  const std::vector<unsigned int>& rbits = invdec.decode(y, a0, var); //decode recieved signal
+  	  const std::vector<unsigned int>& rbits = invdec.decode(y, a0, 2*var); //decode recieved signal (pass in variance of complex noise!)
   	  for(int i = 0; i < K; i++) numerrs += (rbits[i] == info[i]) ? 0 : 1;
   	  itrcount++;
   	}
@@ -91,7 +90,7 @@ void runperfectchannelsim(const function<CodedConstellation*()> codedconstf, con
 }
 
 //run simulation with given initial channel estimator
-void runsim(function<CodedConstellation*()> codedconstf, function<CoherentMackenthun(vector<int>&,vector<int>&,vector<complexd>&)> phestf, 
+void runsim(function<CodedConstellation*()> codedconstf, function<CoherentMackenthun(vector<int>&,vector<int>&,vector<complexd>&,int)> phestf, 
 	    const vector<double>& snrdbs, const int numpilots, const string name) {
     
   cout << "Running simulation " << name << " " << flush;
@@ -119,7 +118,7 @@ void runsim(function<CodedConstellation*()> codedconstf, function<CoherentMacken
   	for(int i = 0; i < numpilots; i++) pilots[i] = polar<double>(1.0, (2*pi*unifM(gen)) / M);
 	
   	//construct phase estimator
-  	CoherentMackenthun phest = phestf(D,P,pilots);
+  	CoherentMackenthun phest = phestf(D,P,pilots,M);
 	
   	double snrdB = snrdbs[snrind]; 
   	double var = amplitude*amplitude*pow(10, -snrdB/10); //variance of real and imaginary parts of noise
@@ -138,11 +137,12 @@ void runsim(function<CodedConstellation*()> codedconstf, function<CoherentMacken
   	int countcodeworderrors = 0;
   	int numerrs = 0; //count number of bit errors
   	int itrcount = 0; //count total number of iterations
+	//double mse =0;
   	while( numerrs < toerrs ) {
   	  const complex<double> a0 = polar<double>(amplitude, unifphase(gen)); //amplitude random phase
-  	  for(int i = 0; i < K; i++) info[i] = (unsigned int) unifM(gen); //generate some random bits
+  	  for(int i = 0; i < K; i++) info[i] = rand() % 2; //generate some random bits
   	  const vector<complexd>& cw = codec->encode(info); //encode the bits, result goes in cw
-  	  for(int i = 0; i < absD; i++) s[D[i]] = cw[i]; //convert to M-psk symbols
+	  for(int i = 0; i < absD; i++) s[D[i]] = cw[i]; //fill data symbols
   	  for(int i = 0; i < L; i++) y[i] = a0*s[i] + complexd(gn(gen), gn(gen)); //compute transmitted signal
   	  phest.estimate(y); //run channel estimator
   	  complexd ahat = phest.complexGainEstimate();
@@ -150,11 +150,13 @@ void runsim(function<CodedConstellation*()> codedconstf, function<CoherentMacken
   	  const std::vector<unsigned int>& rbits = turbosync.decode(y, ahat, varhat); //decode recieved signal
   	  for(int i = 0; i < K; i++) numerrs += (rbits[i] == info[i]) ? 0 : 1;
 	  itrcount++;
+	  //mse += std::norm(a0 - ahat);
   	}
 
   	delete codec;
   	cout << "." << flush;
 	return ((double)numerrs)/K/itrcount;
+	//return mse/itrcount;
       } );
   }
 
@@ -173,21 +175,25 @@ void runsim(function<CodedConstellation*()> codedconstf, function<CoherentMacken
 
 int main(int argc, char** argv) {
     
-  int M = 2; //QPSK at the moment
-
   vector<double> snrdbs;//snrs in db we will run
-  for(double db = 0; db <= 4; db+=0.25) snrdbs.push_back(db);
+  for(double db = 2; db <= 5.5; db+=0.25) snrdbs.push_back(db);
  
-  auto codedbpsk = [&] () { return new CodedBPSK("C/RA1N128.dec"); };
+  auto codedbpsk = [&] () { return new CodedQPSKRotated("C/RA1N232.dec"); };
 
-  //run simulation with perfect channel knowledge
-  runperfectchannelsim(codedbpsk, snrdbs, "perfectchannel");
-  
-  //run turbo synchroniser initialised with least squares estimator
-  auto cmack = [&] (vector<int>& D,vector<int>& P,vector<complexd>& p) { return CoherentMackenthun(D,P,p,M); };
-  runsim(codedbpsk, cmack, snrdbs, 5, "cmack5");
+  try{
+    //run simulation with perfect channel knowledge
+    runperfectchannelsim(codedbpsk, snrdbs, "perfectchannel");
 
-  //run turbo synchroniser initial with pilots only
-  auto pilotonly = [&] (vector<int>& D,vector<int>& P,vector<complexd>& p) { return CoherentMackenthun(vector<int>(),P,p,M); };
-  runsim(codedbpsk, pilotonly, snrdbs, 5, "pilotonly5");
+    //run turbo synchroniser initialised with least squares estimator
+    auto cmack = [&] (vector<int>& D,vector<int>& P,vector<complexd>& p, int M) { return CoherentMackenthun(D,P,p,M); };
+    runsim(codedbpsk, cmack, snrdbs, 10, "cmack5");
+
+    //run turbo synchroniser initial with pilots only
+    auto pilotonly = [&] (vector<int>& D,vector<int>& P,vector<complexd>& p, int M) { return CoherentMackenthun(vector<int>(),P,p,M); };
+    runsim(codedbpsk, pilotonly, snrdbs, 10, "pilotonly5");
+
+  } catch( const char* ex ) {
+    cout << ex << endl;
+  }
+
 }

@@ -107,7 +107,7 @@ protected:
     
     /** 
      * Maps a sequence of constellation points to a sequence of log likelihood ratios.
-     * Result goes in Lch memory.
+     * Result goes in Lch memory.  var is the variance of the real (or imaginary) part of the noise.
      */
     virtual void constellation2LLRs(const vector<complexd>& r, double var) = 0;
     
@@ -151,6 +151,96 @@ protected:
     
     virtual const vector<complexd>& codewordbits2constellation(unsigned int* cw) {
         for(int i = 0; i < N; i++) codeword[i] = (cw[i]==0) ? complexd(1,0) : complexd(-1,0); 
+        return codeword;
+    }
+    
+};
+
+/** Class for LDPC codes quaternary phase shift keying */
+class CodedQPSK : public CodedConstellation {
+public:
+
+    CodedQPSK(const char* ldpcspec) :
+    CodedConstellation(ldpcspec),
+    codeword(N/2) {
+        if (N%2 != 0) throw "Number of bits in codeword must be even for QPSK";
+    }
+    
+    ///Number of symbols is half the length of the code for QPSK, one symbol per 2 bits
+    virtual const unsigned int numSymbols() { return N/2; }
+    
+   ///4 symbols in the QPSK constellation
+   virtual const unsigned int sizeOfConstellation() { return 4; }
+
+protected:
+
+    //memory for output (mutable!)
+    vector<complexd> codeword;
+    
+    virtual void constellation2LLRs(const vector<complexd>& r, double var) {
+        for(int i = 0; i < N/2; i++) {
+            Lch[2*i] = 2*real(r[i])/var; //even bits encoded by real part
+            Lch[2*i+1] = 2*imag(r[i])/var; //odd bits encoded by imaginary par
+        }
+    }
+    
+    virtual const vector<complexd>& codewordbits2constellation(unsigned int* cw) {
+        for(int i = 0; i < N/2; i++) {
+            double re = (cw[2*i]==0) ? sqrt(2)/2 : -sqrt(2)/2; //sqrt(2)/2 so that symbols have magnitude 1
+            double im = (cw[2*i+1]==0) ? sqrt(2)/2 : -sqrt(2)/2; 
+            codeword[i] = complexd(re,im); 
+        }
+        return codeword;
+    }
+    
+    virtual const vector<complexd>& LLRs2constellation(double* llrs) {
+        for(int i = 0; i < N/2; i++) {
+            double re = sqrt(2)/pi * atan(llrs[2*i]/2);
+            double im = sqrt(2)/pi * atan(llrs[2*i+1]/2);
+            codeword[i] = complexd(re,im); 
+        }
+        return codeword;
+    }
+
+};
+
+/** 
+ * Class for LDPC coded QPSK with constellation rotated by pi/4 so that it's either on the real or
+ * imaginary axis.
+ */
+class CodedQPSKRotated : public CodedQPSK {
+    
+public:
+     
+    const complexd rotate;
+    
+    CodedQPSKRotated(const char* ldpcspec) : CodedQPSK(ldpcspec) , rotate(std::polar<double>(1.0,pi/4)) {}
+    
+protected:
+    
+    virtual void constellation2LLRs(const vector<complexd>& r, double var) {
+        for(int i = 0; i < N/2; i++) {
+            complexd s = r[i] / rotate;
+            Lch[2*i] = 2*real(s)/var; //even bits encoded by real part
+            Lch[2*i+1] = 2*imag(s)/var; //odd bits encoded by imaginary par
+        }
+    }
+    
+    virtual const vector<complexd>& codewordbits2constellation(unsigned int* cw) {
+        for(int i = 0; i < N/2; i++) {
+            double re = (cw[2*i]==0) ? sqrt(2)/2 : -sqrt(2)/2; //sqrt(2)/2 so that symbols have magnitude 1
+            double im = (cw[2*i+1]==0) ? sqrt(2)/2 : -sqrt(2)/2; 
+            codeword[i] = complexd(re,im) * rotate; 
+        }
+        return codeword;
+    }
+    
+    virtual const vector<complexd>& LLRs2constellation(double* llrs) {
+        for(int i = 0; i < N/2; i++) {
+            double re = sqrt(2)/pi * atan(llrs[2*i]/2);
+            double im = sqrt(2)/pi * atan(llrs[2*i+1]/2);
+            codeword[i] = complexd(re,im) * rotate; 
+        }
         return codeword;
     }
     

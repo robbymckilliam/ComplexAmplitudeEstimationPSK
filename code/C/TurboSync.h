@@ -26,7 +26,8 @@ public:
     
     /**
      * Decode and return recieved bits from recieved signal y given channel estimate chat and
-     * noise variance estimate varhat.
+     * noise variance estimate varhat.  varhat is the the variance of the complex noise, i.e., the
+     * var(re) + var(im).
      */
     virtual const vector<unsigned int>& decode(const vector<complexd>& y, const complexd chat, const double varhat) = 0;
     
@@ -46,12 +47,12 @@ public:
     CodedBandpassReciever(decoder, maxitr),
     D(Din),
     r(Din.size()) {
-        if (D.size() != decoder->N) throw "The number of data symbols must be the same as the length of the code";
+        if (D.size() != decoder->numSymbols()) throw "The number of data symbols must be the same as the number of symbols in a codeword";
     }
 
     virtual const std::vector<unsigned int>& decode(const std::vector<complexd>& y, const complexd chat, const double varhat) {
         for (int i = 0; i < D.size(); i++) r[i] = y[D[i]] / chat;
-        return codec->decode(r, varhat, maxiterations); //run decoder
+        return codec->decode(r, varhat/2, maxiterations); //run decoder, divide by 2 since varhat is the variance of the complex noise.
     }
 
 protected:
@@ -76,7 +77,7 @@ public:
         A = computeA(y);
         Ypilots = computeYpilots(y);
         //cout << A << ", " << Ypilots << ", " << Ypilots/((double)P.size()) << ", " << abs(Ypilots) << endl;
-        return decoderrec(y, chat, varhat, turboiterations);
+        return decoderrec(y, chat, varhat/2, turboiterations); //divide by 2 since varhat is the variance of the complex noise.
     }
     
      ///total number of transmitted symbols
