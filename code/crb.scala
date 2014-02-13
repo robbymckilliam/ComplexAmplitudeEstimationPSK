@@ -40,8 +40,8 @@ val SNRdBs = -20.0 to 20.0 by 0.5 //snrs we will use
 
 //list of CRBS we will compute with names
 val crbfs = List[((Double)=>CramerRaoBound, String)](
-//( (v : Double) => new BPSKCRB(v), "BPSKCRB" ),
-//( (v : Double) => new QPSKCRB(v), "QPSKCRB" ),
+( (v : Double) => new BPSKCRB(v), "BPSKCRB" ),
+( (v : Double) => new QPSKCRB(v), "QPSKCRB" ),
 )
 
 val starttime = (new java.util.Date).getTime

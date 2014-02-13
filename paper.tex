@@ -154,7 +154,7 @@ where $\angle(\cdot)$ denotes the complex argument (or phase), and $\round{\cdot
 \[
 \round{x} = \tfrac{2\pi}{M}\operatorname{round}\left(\tfrac{M}{2\pi}x\right).
 \] 
-Note that $\hat{d}_i(\theta)$ does not depend on $\rho$.  As defined, $\hat{u}_i(\theta)$ is not strictly inside the set $\{0, \tfrac{2\pi}{M}, \dots, \tfrac{2\pi(M-1)}{M}\}$, but this is not of consequence, as we intend its value to be considered equivalent modulo $2\pi$.  With this in mind,
+It is common to call $\hat{d}_i(\theta)$ a `hard decision'  made for the $i$th data symbol under the hypothesis that the channel phase is $\theta$.  Note that $\hat{d}_i(\theta)$ does not depend on $\rho$.  As defined, $\hat{u}_i(\theta)$ is not strictly inside the set $\{0, \tfrac{2\pi}{M}, \dots, \tfrac{2\pi(M-1)}{M}\}$, but this is not of consequence, as we intend its value to be considered equivalent modulo $2\pi$.  With this in mind,
 \[
 \hat{u}_i(\theta) = \round{\angle{y_i} - \theta }
 \]
@@ -681,8 +681,7 @@ The prediction is made by dividing the asymptotic covariance matrix by $L$.  The
 
 Figures~\ref{fig:plotphaseBPSK},~\ref{fig:plotphaseQPSK}~and~\ref{fig:plotphase8PSK} also display the sample MSE of the non-data-aided phase estimator of Viterbi and Viterbi~\cite{ViterbiViterbi_phase_est_1983}.  This estimator requires selection of a function $F$ that transforms the amplitude of each sample prior to the final estimation step.  % (see equation (2) in~\cite{ViterbiViterbi_phase_est_1983}).  
 Viterbi and Viterbi propose several viable alternatives, from which we have chosen $F(x) = 1$.  The Viterbi and Viterbi estimator is only applicable in the non-data-aided setting, i.e. when $\abs{P} = 0$.  The sample MSE of the least squares estimator (when $\abs{P} = 0$) and the Viterbi and Viterbi estimator is similar.  The least squares estimator appears slightly more accurate for some values of SNR.
-
-Figures~\ref{fig:plotphaseBPSK} and~\ref{fig:plotphaseQPSK} display the non-data aided Cram\'{e}r-Rao lower bound (CRB) for carrier phase given in~\cite{Cowley_crbs_phase_freq_1996}.  To the authors' knowledge, simple expression for the CRB for $8$-PSK do not exist in the literature and so the CRB is only shown when $M=2$ (BPSK) and $M=4$ (QPSK).  These CRBs are derived for the non-data aided setting and are only valid for estimators that do not make use of pilots symbols, i.e., $\abs{P}=0$.
+Figures~\ref{fig:plotphaseBPSK},~\ref{fig:plotphaseQPSK}~and~\ref{fig:plotphase8PSK} also display the non-data aided Cram\'{e}r-Rao lower bound (CRB) for carrier phase given in~\cite{Cowley_crbs_phase_freq_1996}.  These CRBs are derived for the non-data aided setting and are only valid for estimators that do not make use of pilots symbols, i.e., $\abs{P}=0$.
 
 % Figure~\ref{fig:plotampBPSK} %,~\ref{fig:plotampQPSK}~and~\ref{fig:plotamp8PSK} 
 % shows the variance of the amplitude estimator when $M=2$ and with $L=32, 256, 2048$ and when the number of pilots symbols is $\abs{P} = 0, \tfrac{L}{2}, L$.  The solid lines are the variance predicted by Theorem~\ref{thm:normality}.  The dots and crosses show the results of Monte-Carlo simulations.  Each point is computed as the unbiased error $\tfrac{1}{T}\sum_{i=1}^T\big(\hat{\rho}_i - \rho_0G(0)\big)^2$.  This requires $G(0)$ to be known.  In practice $G(0)$ may not be known at the receiver, so Figure~\ref{fig:plotampBPSK} %,~\ref{fig:plotampQPSK}~and~\ref{fig:plotamp8PSK} 
@@ -2395,30 +2394,30 @@ The lemma follows since $C_L^\prime$ and $D_L^\prime$ are independent.
 % % and since the term inside the integral is negative, the integral is negative.  Since $\sin(\phi)$ is negative on $(-\pi,0)$ and positive on $(0,\pi)$ it follows that the derivative $g^\prime(\phi)$ is positive on $(-\pi,0)$ and negative on $(0,\pi)$.  Thus $g(\phi)$ is unimodal with mode at $\phi = 0$.
 % % \end{IEEEproof}
 
-The function below is derived by Rice, Cowley, Moran and Rice~\cite{950345}.  It is involved in the computation of CRBs for 8PSK (and QAM).  The function $\Lambda : \complex \mapsto \reals$ is defined as
-\[
-\Lambda(x) = -\frac{A(x)^2}{\sigma^2D(x)^2} + \frac{B(x)}{\sigma^2 D(x)} - \frac{C(x)}{D(x)}
-\]
-where
-\[
-A(x) = \sum_{a\in Q}\big( s(ax)\Im(ax) + s(a^*x)\Im(a^*x) \big)
-\]
-\[
-B(x) = \sum_{a\in Q}\big( c(ax)\Im(ax)^2 + c(a^*x)\Im(a^*x)^2 \big)
-\]
-\[
-C(x) = \sum_{a\in Q}\big( s(ax)\Re(ax) + s(a^*x)\Re(a^*x) \big)
-\]
-\[
-D(x) = \sum_{a\in Q}\big( c(ax) + c(a^*x) \big)
-\]
-and where
-\[
-s(x) = \sinh(\Re{x}/\sigma^2)
-\]
-and 
-\[
-c(x) = \cosh(\Re{x}/\sigma^2)
-\]
+% The function below is derived by Rice, Cowley, Moran and Rice~\cite{950345}.  It is involved in the computation of CRBs for 8PSK (and QAM).  The function $\Lambda : \complex \mapsto \reals$ is defined as
+% \[
+% \Lambda(x) = -\frac{A(x)^2}{\sigma^2D(x)^2} + \frac{B(x)}{\sigma^2 D(x)} - \frac{C(x)}{D(x)}
+% \]
+% where
+% \[
+% A(x) = \sum_{a\in Q}\big( s(ax)\Im(ax) + s(a^*x)\Im(a^*x) \big)
+% \]
+% \[
+% B(x) = \sum_{a\in Q}\big( c(ax)\Im(ax)^2 + c(a^*x)\Im(a^*x)^2 \big)
+% \]
+% \[
+% C(x) = \sum_{a\in Q}\big( s(ax)\Re(ax) + s(a^*x)\Re(a^*x) \big)
+% \]
+% \[
+% D(x) = \sum_{a\in Q}\big( c(ax) + c(a^*x) \big)
+% \]
+% and where
+% \[
+% s(x) = \sinh(\Re{x}/\sigma^2)
+% \]
+% and 
+% \[
+% c(x) = \cosh(\Re{x}/\sigma^2)
+% \]
 
 \end{document}
