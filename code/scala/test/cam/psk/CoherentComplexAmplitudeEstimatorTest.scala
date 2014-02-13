@@ -18,10 +18,6 @@ class CoherentComplexAmplitudeEstimatorTest {
   @After
   def tearDown: Unit = {
   }
-
-  @Test
-  def example = {
-  }
   
   @Test
   def testError = {
