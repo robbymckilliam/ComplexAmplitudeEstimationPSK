@@ -2395,4 +2395,30 @@ The lemma follows since $C_L^\prime$ and $D_L^\prime$ are independent.
 % % and since the term inside the integral is negative, the integral is negative.  Since $\sin(\phi)$ is negative on $(-\pi,0)$ and positive on $(0,\pi)$ it follows that the derivative $g^\prime(\phi)$ is positive on $(-\pi,0)$ and negative on $(0,\pi)$.  Thus $g(\phi)$ is unimodal with mode at $\phi = 0$.
 % % \end{IEEEproof}
 
+The function below is derived by Rice, Cowley, Moran and Rice~\cite{950345}.  It is involved in the computation of CRBs for 8PSK (and QAM).  The function $\Lambda : \complex \mapsto \reals$ is defined as
+\[
+\Lambda(x) = -\frac{A(x)^2}{\sigma^2D(x)^2} + \frac{B(x)}{\sigma^2 D(x)} - \frac{C(x)}{D(x)}
+\]
+where
+\[
+A(x) = \sum_{a\in Q}\big( s(ax)\Im(ax) + s(a^*x)\Im(a^*x) \big)
+\]
+\[
+B(x) = \sum_{a\in Q}\big( c(ax)\Im(ax)^2 + c(a^*x)\Im(a^*x)^2 \big)
+\]
+\[
+C(x) = \sum_{a\in Q}\big( s(ax)\Re(ax) + s(a^*x)\Re(a^*x) \big)
+\]
+\[
+D(x) = \sum_{a\in Q}\big( c(ax) + c(a^*x) \big)
+\]
+and where
+\[
+s(x) = \sinh(\Re{x}/\sigma^2)
+\]
+and 
+\[
+c(x) = \cosh(\Re{x}/\sigma^2)
+\]
+
 \end{document}
