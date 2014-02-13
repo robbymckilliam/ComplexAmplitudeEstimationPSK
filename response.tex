@@ -79,7 +79,7 @@ A few minor remarks are:
 		
 We have included CRBs for figures in the simulations section.  The following paragraph has been included:
 
-``Figures~\zref{fig:plotphaseBPSK} and~\zref{fig:plotphaseQPSK} display the non-data aided Cram\'{e}r-Rao lower bound (CRB) for carrier phase given in~\cite{Cowley_crbs_phase_freq_1996}.  To the authors knowledge, simple expression for the CRB for $8$-PSK do not exist in the literature and so the CRB is only shown when $M=2$ (BPSK) and $M=4$ (QPSK).  These CRBs are derived for the non-data aided setting and are only valid for estimators that do not make use of pilots symbols, i.e., $\abs{P}=\emptyset$.''
+``Figures~\zref{fig:plotphaseBPSK} and~\zref{fig:plotphaseQPSK} display the non-data aided Cram\'{e}r-Rao lower bound (CRB) for carrier phase given in~\cite{Cowley_crbs_phase_freq_1996}.  To the authors' knowledge, simple expression for the CRB for $8$-PSK do not exist in the literature and so the CRB is only shown when $M=2$ (BPSK) and $M=4$ (QPSK).  These CRBs are derived for the non-data aided setting and are only valid for estimators that do not make use of pilots symbols, i.e., $\abs{P}=\emptyset$.''
 
 
 \end{enumerate}
@@ -136,14 +136,14 @@ and in the new introduction we affirm that
 
 ``while the specific results given here apply only to the least square estimator, the techniques that we develop to derive these results are now able to be deployed for the analysis of other estimators.''
 
-Thus, the techniques in our paper can potentially be deployed to accurately model the bias and variance of a non-data-aided SNR estimator in order to implement the reviewers proposal.  We confirm, however, that analysing and implementing the reviewers suggested technique is beyond the scope of the present paper which places primary interest in analysing the least squares estimator.
+Thus, the techniques in our paper can potentially be deployed to accurately model the bias and variance of a non-data-aided SNR estimator in order to implement the reviewer's proposal.  We confirm, however, that analysing and implementing the reviewer's suggested technique is beyond the scope of the present paper which places primary interest in analysing the least squares estimator.
 
 \item\textbf{Comment:} \label{rev2:biasmse}
 	By detailed inspection of Fig.\ 4 showing the jitter variance for amplitude estimates, it is easily observed that $|P| < L$ performs better than $|P| = L$ in the medium-to-low SNR range. In my mind this is somewhat strange, since it should be the other way round (similar to the evolution of the phase curves in Figs.\ 1Ð3 and 5). Can you comment on this phenomenon ?
 	\\\textbf{Response:}
 In the original manuscript we plotted the \emph{variance} of the amplitude estimator, not the mean square error. That is, the solid lines displayed the asymptotic variance of $\hat{m}_L = \hat{\rho} - \rho_0 G(0)$ and each point from the Monte-Carlo simulations was computed as the unbiased error $\tfrac{1}{T}\sum_{i=1}^T\big(\hat{\rho}_i - \rho_0G(0)\big)^2$.  We chose this approach in order to highlight the correctness of our asymptotic theory. This was described in the 4th paragraph of the old Section~8 containing the simulations section.
 
-We do agree with the reviewer this this plot by itself initially appears misleading.  To alleviate this confusion in the new manuscript we instead plot the average square error computed in the usual way by Monte-Carlo simulation and the solid line is given by the asymptotic squared bias plus variance.  The following paragraph has also included in the simulations section (Section~\zref{sec:simulations}) in the new manuscript. 
+We do agree with the reviewer that this plot by itself initially appears misleading.  To alleviate this confusion in the new manuscript we instead plot the average square error computed in the usual way by Monte-Carlo simulation and the solid line is given by the asymptotic squared bias plus variance.  The following paragraph has also been included in the simulations section (Section~\zref{sec:simulations}) in the new manuscript. 
 
 ``Figure~\zref{fig:plotampBPSK} %,~\ref{fig:plotampQPSK}~and~\ref{fig:plotamp8PSK} 
 shows the mean square error of the amplitude estimator when $M=2$ and $L=2048$ and when the number of pilots symbols is $\abs{P} = 0, \tfrac{L}{2}, L$.  The solid lines show the mean square error predicted by the squared bias $\rho_0^2\big(1 - G(0)\big)^2$ plus the variance of $\hat{m}_L = \hat{\rho} - \rho_0G(0)$ predicted by Theorem~\zref{thm:normality}.  That is, the solid lines are given by
@@ -177,7 +177,7 @@ The paper studies the estimation of amplitude and phase due to the distortion in
 
 The major contribution of this paper is the description of the asymptotic properties of the least squares estimator for the phase and amplitude. Although it seems technically correct, the authors do not make clear the relevance of their work to signal processing applications and to timely problems. They limit themselves in presenting several lemmas and proofs. Therefore, I cannot recommend this manuscript for publication in the IEEE Transactions on Signal Processing.
 	\\\textbf{Response:}
-We have greatly expanded the introduction of the manuscript to make the practical and theoretical importance of our of results clear.  Also see our response to comment~\ref{rev4:shouldbettermotivate} of reviewer~4.
+We have greatly expanded the introduction of the manuscript to make the practical and theoretical importance of our results clear.  Also see our response to comment~\ref{rev4:shouldbettermotivate} of reviewer~4.
 \end{enumerate}
 
 \section*{Reviewer 4}
@@ -200,7 +200,7 @@ Some additional comments:
 	\\\textbf{Response:}
 We have expanded the introduction of the paper to better motivate the work.  In particular, the following paragraph has been added:
 
-``That this paper contains novel theoretical developments does not imply that our results are of no immediate practical interest.  The design of our estimator was motivated by a project at the University of South Australia's Institute for Telecommunications Research to develop a narrowband multiuser communication system to collect sensor network data using a satellite in orbit.  This estimator has been implemented on a prototype that was successfully trialled from April to July of 2013 with signals from multiple low power ground-based transmitters being successfully received and decoded by both aircraft and satellites in orbit~\cite{ASRPpromovideo}.  Our theoretical analysis aided design of this system.  Based on our Theorem~\zref{thm:normality} in Section~\zref{sec:stat-prop-least} the performance of the least squares estimator can be accurately predicted without the need for time consuming Monte-Carlo simulations.  This provides easy to use and rigourously justified methods for choosing systems parameters, such as the number and placement of pilot symbols, and also provides useful information to other reciever components, such as channel tracking systems.''
+``That this paper contains novel theoretical developments does not imply that our results are of no immediate practical interest.  The design of our estimator was motivated by a project at the University of South Australia's Institute for Telecommunications Research to develop a narrowband multiuser communication system to collect sensor network data using a satellite in orbit.  This estimator has been implemented on a prototype that was successfully trialled from April to July of 2013 with signals from multiple low power ground-based transmitters being successfully received and decoded by both aircraft and satellites in orbit~\cite{ASRPpromovideo}.  Our theoretical analysis aided design of this system.  Based on our Theorem~\zref{thm:normality} in Section~\zref{sec:stat-prop-least} the performance of the least squares estimator can be accurately predicted without the need for time consuming Monte-Carlo simulations.  This provides easy to use and rigourously justified methods for choosing system parameters, such as the number and placement of pilot symbols, and also provides useful information to other reciever components, such as channel tracking systems.''
 
 
 \item\textbf{Comment:} 
