@@ -1,0 +1,160 @@
+\documentclass{article}
+
+\usepackage[pdftex]{graphicx}
+%\usepackage{thumbpdf}
+%\usepackage[naturalnames]{hyperref}
+\usepackage{xr}
+\externaldocument{../async}
+
+\usepackage{bm, booktabs}
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+%\usepackage{amsthm}
+\usepackage{mathrsfs}
+%\usepackage{graphicx}
+%\usepackage{setspace}
+\usepackage{cite}
+\usepackage{units}
+	%nice looking units
+%\usepackage{times}
+\usepackage[normalem]{ulem}
+%\usepackage{algorithmic}
+%\usepackage[figure, vlined, linesnumbered]{algorithm2e}
+\usepackage[vlined, linesnumbered]{algorithm2e}
+%\usepackage{algorithm}
+
+%%%%% set up the bibliography style
+\bibliographystyle{../IEEEbst}
+%\usepackage[square,comma,numbers]{natbib}
+
+\newcommand{\round}[1]{\lfloor #1 \rceil}
+\newcommand{\floor}[1]{\lfloor #1 \rfloor}
+\newcommand{\ceil}[1]{\lceil #1 \rceil}
+\newcommand{\reals}{{\mathbb R}}
+\newcommand{\ints}{{\mathbb Z}}
+\newcommand{\integers}{{\mathbb Z}}
+\newcommand{\uy}{\underline{\bm{Y}}}
+\newcommand{\uey}{\underline{Y}}
+\newcommand{\sign}[1]{\mathtt{sign}(#1)}
+\newcommand{\Qbf}{{\mathbf Q}}
+\newcommand{\Bbf}{{\mathbf B}}
+\newcommand{\Ibf}{{\mathbf I}}
+\newcommand{\ybf}{{\mathbf y}}
+\newcommand{\xbf}{{\mathbf x}}
+\newcommand{\zbf}{{\mathbf z}}
+\newcommand{\ebf}{{\mathbf e}}
+\newcommand{\vbf}{{\mathbf v}}
+\newcommand{\wbf}{{\mathbf w}}
+\newcommand{\kbf}{{\mathbf k}}
+\newcommand{\sbf}{{\mathbf s}}
+\newcommand{\tbf}{{\mathbf t}}
+\newcommand{\pbf}{{\mathbf p}}
+\newcommand{\Pibf}{{\mathbf \Pi}}
+\newcommand{\onebf}{{\mathbf 1}}
+\newcommand{\fbf}{{\mathbf f}}
+\newcommand{\ubf}{{\mathbf u}}
+
+\newcommand{\NP}{\operatorname{NearestPt}}
+\newcommand{\NS}{\operatorname{NearestSet}}
+\newcommand{\bres}{\operatorname{Bres}}
+\newcommand{\vol}{\operatorname{vol}}
+\newcommand{\vor}{\operatorname{Vor}}
+\newcommand{\coef}{\operatorname{Coef}}
+\newcommand{\Int}{\operatorname{Int}}
+
+\newtheorem{theorem}{Theorem}
+
+\begin{document}
+
+
+\section{Comments from reviewer 1}
+
+\begin{enumerate}
+
+\item \textbf{Comment:} Consistently write ``non-data-aided'' throughout the whole text \\
+\textbf{Response:}
+
+\item \textbf{Comment:} Page (P) 42, right column (RC), line (L) 50: Aside from this extension of \dots \\
+\textbf{Response:} 
+
+
+\item \textbf{Comment:} P 43, LC, L 44: \dots convincing response \dots \\
+\textbf{Response:}
+
+\item \textbf{Comment:} P 43, RC, L 2+4: \dots as multiple antenna systems \dots must withstand rapidly \dots \\
+\textbf{Response:}
+
+\item \textbf{Comment:} P 43, RC, L 21+28: \dots aided the design of \dots to other receiver components \dots \\
+\textbf{Response:}
+
+\item \textbf{Comment:} Conference papers: location missing \\
+\textbf{Response:}
+
+\item \textbf{Comment:} Some journal papers: month of publication missing \\
+\textbf{Response:}
+
+\item \textbf{Comment:} [8] \dots IEEE Commun. Letters \dots \\
+\textbf{Response:}
+
+\item \textbf{Comment:} [31] N. Noels, V. Lottici, \dots \\
+\textbf{Response:}
+
+\end{enumerate}
+
+\section{Comments from reviewer 2}
+
+\begin{enumerate}
+
+\item \textbf{Comment:} In the abstract: non data-aided --> change to: non-data-aided \\
+\textbf{Response:}
+
+\item \textbf{Comment:} In the abstract: non data-aided --> change to: non-data-aided \\
+\textbf{Response:}
+
+\item \textbf{Comment:} In the abstract: non data-aided --> change to: non-data-aided \\
+\textbf{Response:}
+
+- In the introductory section:
+     * "we assume that the time-offset has been previously handled" --> perhaps some motivation for this assumption and the consequences with respect to the system model would be in place
+     * "such as binary phase shift keying (BPSK),...." --> mentioning BPSK and QPSK apart from general M-PSK is pure overhead in this stage, I would drop it
+     * "the data symbols are not known to the receiver and must also be estimated" --> I would drop the second part of the sentence because (e.g. Viterbi and Vterbi estimator) non-data-aided estimators typically do not actually estimate the unknown data symbols
+     * p. 3: "bounds that are valid asymptoticially": typo in asymptotically
+     * p. 3: "all of the exiting bounds are applicable only in the fully non-data-aided case or in the completely data aided case..." --> bounds for the common scenario where there is a mixture of pilot and data symbols can be found in "N. Noels, H. Steendam, M. Moeneclaey en H. Bruneel, "Carrier Phase and Frequency Estimation for Pilot Symbol Assisted Transmission: Bounds and Algorithms, IEEE TSP, Vol. 53, No. 12, p. 4578-4587, Dec. 2005. "
+     * p. 3: "the situations is" --> drop 's' at the end of situations
+     * p. 3: in continuous text I prefer the use of "approached infinity" rather than "--> \infty"
+     * p. 3: last line: typo in "convincing"
+     * p. 4: "systems such as mulitple anntannae" --> should be "multiple antennae"
+     * p. 4: "the other reciever components" --> should be "receiver components"
+     * p. 5 (and further throughout the text): "pilots symbols" (with 's') and "pilot symbols" (without 's') are both used --> use only 1, I prefer "pilot symbols"
+     * I think it would be a good idea to specify the main notational conventions at the end of the introductory section
+- section II:
+     * between (5) and (6): start new paragraph
+     * before (6): drop the 'to'
+     * before (7): change "for given \theta" to "for given \theta and \rho"
+     * what is the use of keeping the constants 'A' and 'B' in the expressions --> can they not be dropped?
+     * I would prefer to see comma's between two subindices; so, 'k,i' rather than 'ki'
+     * below (11) 'g_ik' should be 'g_ki' (change order of the subscripts)
+- section III:
+     * I would prefer to see brackets around the functions of which the mean is computed (use of the operator \mathbb E)
+     * p. 12: "the amplitude estimation error with bias removed" --> bit strange formulation
+- section IV:
+     * p. 14: "Equivalently \hat\theta is the maximiser of ..." --> could you please provide some further explanation (is the maximum of \Re(Z(\theta)) never negative? and why)
+     * p. 15: the use of 'A' as notation for a sample space is confusing since 'A' has already been used as a constant
+- section VI:
+     * in general, I find the numerical results section rather short
+     * although different figures are shown for M=2,4,8 (phase estimation), the effect of the constellation size is not addressed in the text
+     * p. 18, first sentence: "when L is sufficiently large" --> in these figures the value of L is fixed, should this be "when the SNR is sufficiently large"
+     * a qualitative explanation for the fact the theory and simulations diverge at low SNR would be appreciated
+     * p.18, last sentence of first paragraph: non-data aided --> should be "non-data-aided"
+     * although the most important contribution of the paper is with respect to the biased amplitude estimate, only 1 figure is presented for amplitude estimation, namely for L=2048 and BPSK --> this seems not well balanced
+     * a separate plot of the two terms that contribute to Fig. 4 would be welcome
+
+\end{enumerate}
+
+\section{Comments from reviewer 3}
+
+
+\bibliography{../../../bib/bib}
+
+\end{document}
