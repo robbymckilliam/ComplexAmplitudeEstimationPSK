@@ -28,6 +28,8 @@
 \bibliographystyle{../IEEEbst}
 %\usepackage[square,comma,numbers]{natbib}
 
+\newcommand{\fracpart}[1]{\left\langle #1 \right\rangle}
+\newcommand{\sfracpart}[1]{\langle #1 \rangle}
 \newcommand{\round}[1]{\lfloor #1 \rceil}
 \newcommand{\floor}[1]{\lfloor #1 \rfloor}
 \newcommand{\ceil}[1]{\lceil #1 \rceil}
@@ -106,53 +108,126 @@
 
 \begin{enumerate}
 
-\item \textbf{Comment:} In the abstract: non data-aided --> change to: non-data-aided \\
+\item \textbf{Comment:} In the abstract: non data-aided $\to$ change to: non-data-aided \\
 \textbf{Response:}
 
-\item \textbf{Comment:} In the abstract: non data-aided --> change to: non-data-aided \\
+\item \textbf{Comment:} ``we assume that the time-offset has been previously handled'' $\to$ perhaps some motivation for this assumption and the consequences with respect to the system model would be in place \\
 \textbf{Response:}
 
-\item \textbf{Comment:} In the abstract: non data-aided --> change to: non-data-aided \\
+\item \textbf{Comment:} ``such as binary phase shift keying (BPSK), \dots'' $\to$ mentioning BPSK and QPSK apart from general M-PSK is pure overhead in this stage, I would drop it \\
 \textbf{Response:}
 
-- In the introductory section:
-     * "we assume that the time-offset has been previously handled" --> perhaps some motivation for this assumption and the consequences with respect to the system model would be in place
-     * "such as binary phase shift keying (BPSK),...." --> mentioning BPSK and QPSK apart from general M-PSK is pure overhead in this stage, I would drop it
-     * "the data symbols are not known to the receiver and must also be estimated" --> I would drop the second part of the sentence because (e.g. Viterbi and Vterbi estimator) non-data-aided estimators typically do not actually estimate the unknown data symbols
-     * p. 3: "bounds that are valid asymptoticially": typo in asymptotically
-     * p. 3: "all of the exiting bounds are applicable only in the fully non-data-aided case or in the completely data aided case..." --> bounds for the common scenario where there is a mixture of pilot and data symbols can be found in "N. Noels, H. Steendam, M. Moeneclaey en H. Bruneel, "Carrier Phase and Frequency Estimation for Pilot Symbol Assisted Transmission: Bounds and Algorithms, IEEE TSP, Vol. 53, No. 12, p. 4578-4587, Dec. 2005. "
-     * p. 3: "the situations is" --> drop 's' at the end of situations
-     * p. 3: in continuous text I prefer the use of "approached infinity" rather than "--> \infty"
-     * p. 3: last line: typo in "convincing"
-     * p. 4: "systems such as mulitple anntannae" --> should be "multiple antennae"
-     * p. 4: "the other reciever components" --> should be "receiver components"
-     * p. 5 (and further throughout the text): "pilots symbols" (with 's') and "pilot symbols" (without 's') are both used --> use only 1, I prefer "pilot symbols"
-     * I think it would be a good idea to specify the main notational conventions at the end of the introductory section
-- section II:
-     * between (5) and (6): start new paragraph
-     * before (6): drop the 'to'
-     * before (7): change "for given \theta" to "for given \theta and \rho"
-     * what is the use of keeping the constants 'A' and 'B' in the expressions --> can they not be dropped?
-     * I would prefer to see comma's between two subindices; so, 'k,i' rather than 'ki'
-     * below (11) 'g_ik' should be 'g_ki' (change order of the subscripts)
-- section III:
-     * I would prefer to see brackets around the functions of which the mean is computed (use of the operator \mathbb E)
-     * p. 12: "the amplitude estimation error with bias removed" --> bit strange formulation
-- section IV:
-     * p. 14: "Equivalently \hat\theta is the maximiser of ..." --> could you please provide some further explanation (is the maximum of \Re(Z(\theta)) never negative? and why)
-     * p. 15: the use of 'A' as notation for a sample space is confusing since 'A' has already been used as a constant
-- section VI:
-     * in general, I find the numerical results section rather short
-     * although different figures are shown for M=2,4,8 (phase estimation), the effect of the constellation size is not addressed in the text
-     * p. 18, first sentence: "when L is sufficiently large" --> in these figures the value of L is fixed, should this be "when the SNR is sufficiently large"
-     * a qualitative explanation for the fact the theory and simulations diverge at low SNR would be appreciated
-     * p.18, last sentence of first paragraph: non-data aided --> should be "non-data-aided"
-     * although the most important contribution of the paper is with respect to the biased amplitude estimate, only 1 figure is presented for amplitude estimation, namely for L=2048 and BPSK --> this seems not well balanced
-     * a separate plot of the two terms that contribute to Fig. 4 would be welcome
+\item \textbf{Comment:} ``the data symbols are not known to the receiver and must also be estimated'' $\to$ I would drop the second part of the sentence because (e.g. Viterbi and Vterbi estimator) non-data-aided estimators typically do not actually estimate the unknown data symbols \\
+\textbf{Response:}
+
+\item \textbf{Comment:} p. 3: ``bounds that are valid asymptoticially'': typo in asymptotically \\
+\textbf{Response:}
+
+\item \textbf{Comment:} p. 3: ``all of the exiting bounds are applicable only in the fully non-data-aided case or in the completely data aided case \dots'' --> bounds for the common scenario where there is a mixture of pilot and data symbols can be found in "N. Noels, H. Steendam, M. Moeneclaey en H. Bruneel, Carrier Phase and Frequency Estimation for Pilot Symbol Assisted Transmission: Bounds and Algorithms, IEEE TSP, Vol. 53, No. 12, p. 4578-4587, Dec. 2005. \\
+\textbf{Response:}
+
+\item \textbf{Comment:} p. 3: ``the situations is'' --> drop `s' at the end of situations \\
+\textbf{Response:}
+
+\item \textbf{Comment:} p. 3: in continuous text I prefer the use of ``approached infinity'' rather than ``$\to \infty$'' \\
+\textbf{Response:}
+
+\item \textbf{Comment:} p. 3: last line: typo in ``convincing'' \\
+\textbf{Response:}
+
+\item \textbf{Comment:} p. 4: ``systems such as mulitple anntannae'' $\to$ should be ``multiple antennae'' \\
+\textbf{Response:}
+
+\item \textbf{Comment:} p. 4: ``the other reciever components'' $\to$ should be ``receiver components'' \\
+\textbf{Response:}
+
+\item \textbf{Comment:} p. 5 (and further throughout the text): ``pilots symbols" (with `s') and ``pilot symbols'' (without `s') are both used $\to$ use only 1, I prefer ``pilot symbols'' \\
+\textbf{Response:}
+
+\item \textbf{Comment:} I think it would be a good idea to specify the main notational conventions at the end of the introductory section \\
+\textbf{Response:}
+
+\item \textbf{Comment:} between (5) and (6): start new paragraph \\
+\textbf{Response:}
+
+\item \textbf{Comment:} before (6): drop the 'to' \\
+\textbf{Response:}
+
+\item \textbf{Comment:} before (7): change ``for given $\theta$'' to ``for given $\theta$ and $\rho$'' \\
+\textbf{Response:}
+
+\item \textbf{Comment:} what is the use of keeping the constants `A' and `B' in the expressions $\to$ can they not be dropped? \\
+\textbf{Response:}
+
+\item \textbf{Comment:} I would prefer to see comma's between two subindices; so, `$k,i$' rather than`'$ki$' \\
+\textbf{Response:}
+
+\item \textbf{Comment:} below (11) '$g_{ik}$' should be '$g_{ki}$' (change order of the subscripts) \\
+\textbf{Response:}
+
+\item \textbf{Comment:} I would prefer to see brackets around the functions of which the mean is computed (use of the operator $\mathbb E$) \\
+\textbf{Response:}
+
+\item \textbf{Comment:} p. 12: ``the amplitude estimation error with bias removed'' $\to$ bit strange formulation \\
+\textbf{Response:}
+
+\item \textbf{Comment:} p. 14: "Equivalently $\hat\theta$ is the maximiser of \dots" $\to$ could you please provide some further explanation (is the maximum of $\Re(Z(\theta)$) never negative? and why) \\
+\textbf{Response:}
+
+\item \textbf{Comment:} p. 15: the use of `A' as notation for a sample space is confusing since `A' has already been used as a constant \\
+\textbf{Response:}
+
+\item \textbf{Comment:} in general, I find the numerical results section rather short \\
+\textbf{Response:}
+
+\item \textbf{Comment:} although different figures are shown for M=2,4,8 (phase estimation), the effect of the constellation size is not addressed in the text  \\
+\textbf{Response:}
+
+\item \textbf{Comment:} p. 18, first sentence: ``when $L$ is sufficiently large'' $\to$ in these figures the value of $L$ is fixed, should this be ``when the SNR is sufficiently large''  \\
+\textbf{Response:}
+
+\item \textbf{Comment:} p. 18, first sentence: a qualitative explanation for the fact the theory and simulations diverge at low SNR would be appreciated  \\
+\textbf{Response:}
+
+\item \textbf{Comment:} p.18, last sentence of first paragraph: ``non-data aided'' $\to$ should be ``non-data-aided''  \\
+\textbf{Response:}
+
+\item \textbf{Comment:}  although the most important contribution of the paper is with respect to the biased amplitude estimate, only 1 figure is presented for amplitude estimation, namely for L=2048 and BPSK --> this seems not well balanced  \\
+\textbf{Response:}
+
+\item \textbf{Comment:}  a separate plot of the two terms that contribute to Fig. 4 would be welcome \\
+\textbf{Response:}
 
 \end{enumerate}
 
 \section{Comments from reviewer 3}
+
+\begin{enumerate}
+
+\item \textbf{Comment:}  Eq. (14) would be easier to follow with the intermediate step inserted $\dots = (a_0s_i + w_i)/(a_0s_i) = \dots$ \\
+\textbf{Response:}
+
+\item \textbf{Comment:}  There are many formulas (starting from page 11) with the notation $\fracpart{x}$ meaning ``$x$ taken modulo $2\pi/M$''. These angle brackets don't strike the eye and can be easily confused with ordinary parentheses. To make them much more visible, the authors could use the same approach as for ``$x$ taken modulo $2\pi$'' - by using corresponding subscript, i.e. use $\fracpart{x}_{2\pi/M}$ instead of $\fracpart{x}$. \\
+\textbf{Response:}
+
+ \end{enumerate}
+
+\section{Comments from reviewer 4}
+
+\begin{enumerate}
+
+\item \textbf{Comment:}  The variable  ``a'' in the equation 2 is not defined in the text \\
+\textbf{Response:}
+
+\item \textbf{Comment:}  There are typografical errors in the words  ``multiple antenna'' in line 2, page 2, section 1 \\
+\textbf{Response:}
+
+\item \textbf{Comment:}  And also in the word ``receiver" in line 28 of the same page.
+ \\
+\textbf{Response:}
+
+
+\end{enumerate}
 
 
 \bibliography{../../../bib/bib}
