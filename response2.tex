@@ -33,6 +33,8 @@
 \newcommand{\round}[1]{\lfloor #1 \rceil}
 \newcommand{\floor}[1]{\lfloor #1 \rfloor}
 \newcommand{\ceil}[1]{\lceil #1 \rceil}
+\newcommand{\abs}[1]{{\left\vert #1 \right\vert}}
+\newcommand{\sabs}[1]{{\vert #1 \vert}}
 \newcommand{\reals}{{\mathbb R}}
 \newcommand{\ints}{{\mathbb Z}}
 \newcommand{\integers}{{\mathbb Z}}
@@ -135,7 +137,7 @@ to inform the reader of some of these methods.  The interested reader will find 
 \textbf{Response:} Fixed.
 
 \item \textbf{Comment:} p. 3: in continuous text I prefer the use of ``approached infinity'' rather than ``$\to \infty$'' \\
-\textbf{Response:}
+\textbf{Response:} This change has been made wherever it occurs in the introduction, but not throughout the whole text. This is a personal preference of the authors.
 
 \item \textbf{Comment:} p. 3: last line: typo in ``convincing'' \\
 \textbf{Response:} Fixed.
@@ -147,40 +149,45 @@ to inform the reader of some of these methods.  The interested reader will find 
 \textbf{Response:} Fixed.
 
 \item \textbf{Comment:} p. 5 (and further throughout the text): ``pilots symbols" (with `s') and ``pilot symbols'' (without `s') are both used $\to$ use only 1, I prefer ``pilot symbols'' \\
-\textbf{Response:}
+\textbf{Response:} All occurences of pilots symbols have been changed to pilot symbols. 
 
-\item \textbf{Comment:} I think it would be a good idea to specify the main notational conventions at the end of the introductory section \\
-\textbf{Response:}
+\item \label{rev2:commentnotationsection} \textbf{Comment:} I think it would be a good idea to specify the main notational conventions at the end of the introductory section \\
+\textbf{Response:} It is the authors preference to introduce notation as it is used in the text rather than in a dedicated notation section. %BLERG. This need to be done. It's connected with comment~\ref{rev2:commentE}.
 
 \item \textbf{Comment:} between (5) and (6): start new paragraph \\
-\textbf{Response:}
+\textbf{Response:} The paragraph ends at ``\dots least squares estimator of the data symbols~\cite{Sweldens2001,Mackenthun1994}'' and the new paragraph begins with ``To see this, let $a = \rho e^{j\theta}$ \dots''
 
 \item \textbf{Comment:} before (6): drop the 'to' \\
-\textbf{Response:}
+\textbf{Response:} Done.
 
 \item \textbf{Comment:} before (7): change ``for given $\theta$'' to ``for given $\theta$ and $\rho$'' \\
-\textbf{Response:}
+\textbf{Response:} Done.
 
 \item \textbf{Comment:} what is the use of keeping the constants `A' and `B' in the expressions $\to$ can they not be dropped? \\
-\textbf{Response:}
+\textbf{Response:} The constants are retained so that statements of equality, such as
+\[
+LS(\{d_i, i \in D\}) = A - \frac{1}{L}\abs{Y}^2
+\]
+are valid. For the purpose of minimisation the constants have no effect.  However, in this case, we feel that introducing notation to describe ``equivalent for the purpose of minimisation'' is more cumbersome than simply retaining constants in the few cases that they occur.
 
 \item \textbf{Comment:} I would prefer to see comma's between two subindices; so, `$k,i$' rather than`'$ki$' \\
-\textbf{Response:}
+\textbf{Response:} Done.
 
 \item \textbf{Comment:} below (11) '$g_{ik}$' should be '$g_{ki}$' (change order of the subscripts) \\
-\textbf{Response:}
+\textbf{Response:} Fixed.
 
-\item \textbf{Comment:} I would prefer to see brackets around the functions of which the mean is computed (use of the operator $\mathbb E$) \\
-\textbf{Response:}
+\item \label{rev2:commentE} \textbf{Comment:} I would prefer to see brackets around the functions of which the mean is computed (use of the operator $\mathbb E$) \\
+\textbf{Response:} BLERG.  Connected with comment~\ref{rev2:commentnotationsection}.
 
 \item \textbf{Comment:} p. 12: ``the amplitude estimation error with bias removed'' $\to$ bit strange formulation \\
-\textbf{Response:}
+\textbf{Response:} This phrase has been removed.
 
 \item \textbf{Comment:} p. 14: "Equivalently $\hat\theta$ is the maximiser of \dots" $\to$ could you please provide some further explanation (is the maximum of $\Re(Z(\theta)$) never negative? and why) \\
 \textbf{Response:}
 
 \item \textbf{Comment:} p. 15: the use of `A' as notation for a sample space is confusing since `A' has already been used as a constant \\
-\textbf{Response:}
+\textbf{Response:} $A$ has been replaced by $\Sigma$ and $A^\prime$ by $\Sigma^\prime$.
+
 
 \item \textbf{Comment:} in general, I find the numerical results section rather short \\
 \textbf{Response:}
@@ -210,7 +217,7 @@ to inform the reader of some of these methods.  The interested reader will find 
 \begin{enumerate}
 
 \item \textbf{Comment:}  Eq. (14) would be easier to follow with the intermediate step inserted $\dots = (a_0s_i + w_i)/(a_0s_i) = \dots$ \\
-\textbf{Response:}
+\textbf{Response:} Done.
 
 \item \textbf{Comment:}  There are many formulas (starting from page 11) with the notation $\fracpart{x}$ meaning ``$x$ taken modulo $2\pi/M$''. These angle brackets don't strike the eye and can be easily confused with ordinary parentheses. To make them much more visible, the authors could use the same approach as for ``$x$ taken modulo $2\pi$'' - by using corresponding subscript, i.e. use $\fracpart{x}_{2\pi/M}$ instead of $\fracpart{x}$. \\
 \textbf{Response:}
@@ -222,14 +229,20 @@ to inform the reader of some of these methods.  The interested reader will find 
 \begin{enumerate}
 
 \item \textbf{Comment:}  The variable  ``a'' in the equation 2 is not defined in the text \\
-\textbf{Response:}
+\textbf{Response:} In~\eqref{eq:LSdefn} the variable $a$ is an argument of the function $LS$, that is,
+\[
+\begin{split}
+LS(a, &\{d_i, i \in D\}) = \sum_{i \in P \cup D} \abs{ y_i - a s_i }^2  \\
+&= \sum_{i \in P} \abs{ y_i - a p_i }^2 + \sum_{i \in D} \abs{ y_i - a d_i }^2.
+\end{split}
+\]
 
 \item \textbf{Comment:}  There are typografical errors in the words  ``multiple antenna'' in line 2, page 2, section 1 \\
-\textbf{Response:}
+\textbf{Response:} Fixed.
 
 \item \textbf{Comment:}  And also in the word ``receiver" in line 28 of the same page.
  \\
-\textbf{Response:}
+\textbf{Response:} Fixed.
 
 
 \end{enumerate}
