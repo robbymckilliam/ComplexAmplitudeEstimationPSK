@@ -4,7 +4,7 @@
 %\usepackage{thumbpdf}
 %\usepackage[naturalnames]{hyperref}
 \usepackage{xr}
-\externaldocument{../async}
+\externaldocument{paper}
 
 \usepackage{bm, booktabs}
 \usepackage{amsmath}%
@@ -75,23 +75,23 @@
 \begin{enumerate}
 
 \item \textbf{Comment:} Consistently write ``non-data-aided'' throughout the whole text \\
-\textbf{Response:}
+\textbf{Response:} Done.
 
 \item \textbf{Comment:} Page (P) 42, right column (RC), line (L) 50: Aside from this extension of \dots \\
-\textbf{Response:} 
+\textbf{Response:} Fixed.
 
 
 \item \textbf{Comment:} P 43, LC, L 44: \dots convincing response \dots \\
-\textbf{Response:}
+\textbf{Response:} Fixed.
 
-\item \textbf{Comment:} P 43, RC, L 2+4: \dots as multiple antenna systems \dots must withstand rapidly \dots \\
-\textbf{Response:}
+\item \label{eq:rev1:multantenna} \textbf{Comment:} P 43, RC, L 2+4: \dots as multiple antenna systems \dots must withstand rapidly \dots \\
+\textbf{Response:} Fixed.
 
 \item \textbf{Comment:} P 43, RC, L 21+28: \dots aided the design of \dots to other receiver components \dots \\
-\textbf{Response:}
+\textbf{Response:} Fixed.
 
 \item \textbf{Comment:} Conference papers: location missing \\
-\textbf{Response:}
+\textbf{Response:} 
 
 \item \textbf{Comment:} Some journal papers: month of publication missing \\
 \textbf{Response:}
@@ -109,37 +109,42 @@
 \begin{enumerate}
 
 \item \textbf{Comment:} In the abstract: non data-aided $\to$ change to: non-data-aided \\
-\textbf{Response:}
+\textbf{Response:} Fixed.
 
 \item \textbf{Comment:} ``we assume that the time-offset has been previously handled'' $\to$ perhaps some motivation for this assumption and the consequences with respect to the system model would be in place \\
-\textbf{Response:}
+\textbf{Response:}  There exist numerous estimators for the time offset in the literature.  We have added the sentence 
+
+``Methods for estimating the time offset are given in~\cite{Massey1972optimumframe,Oerder_synch_square_circstat_2008,McKilliam_time_offset_pilots_data_2013}.'' 
+
+to inform the reader of some of these methods.  The interested reader will find further discussion about time offset estimation within these references.  The assumption of an accurate time offset estimator is common in this literature~\cite{ViterbiViterbi_phase_est_1983,Cowley_ref_sym_carr_1998,Wilson1989,Makrakis1990,Liu1991,Mackenthun1994,Sweldens2001,McKilliamLinearTimeBlockPSK2009,Divsalar1990}.
+
 
 \item \textbf{Comment:} ``such as binary phase shift keying (BPSK), \dots'' $\to$ mentioning BPSK and QPSK apart from general M-PSK is pure overhead in this stage, I would drop it \\
-\textbf{Response:}
+\textbf{Response:} Done.
 
 \item \textbf{Comment:} ``the data symbols are not known to the receiver and must also be estimated'' $\to$ I would drop the second part of the sentence because (e.g. Viterbi and Vterbi estimator) non-data-aided estimators typically do not actually estimate the unknown data symbols \\
-\textbf{Response:}
+\textbf{Response:} Done.
 
 \item \textbf{Comment:} p. 3: ``bounds that are valid asymptoticially'': typo in asymptotically \\
-\textbf{Response:}
+\textbf{Response:} Fixed.
 
 \item \textbf{Comment:} p. 3: ``all of the exiting bounds are applicable only in the fully non-data-aided case or in the completely data aided case \dots'' --> bounds for the common scenario where there is a mixture of pilot and data symbols can be found in "N. Noels, H. Steendam, M. Moeneclaey en H. Bruneel, Carrier Phase and Frequency Estimation for Pilot Symbol Assisted Transmission: Bounds and Algorithms, IEEE TSP, Vol. 53, No. 12, p. 4578-4587, Dec. 2005. \\
-\textbf{Response:}
+\textbf{Response:} BLERG. I've removed this paragraph from the introduction but will have to update the code and simulations.
 
 \item \textbf{Comment:} p. 3: ``the situations is'' --> drop `s' at the end of situations \\
-\textbf{Response:}
+\textbf{Response:} Fixed.
 
 \item \textbf{Comment:} p. 3: in continuous text I prefer the use of ``approached infinity'' rather than ``$\to \infty$'' \\
 \textbf{Response:}
 
 \item \textbf{Comment:} p. 3: last line: typo in ``convincing'' \\
-\textbf{Response:}
+\textbf{Response:} Fixed.
 
 \item \textbf{Comment:} p. 4: ``systems such as mulitple anntannae'' $\to$ should be ``multiple antennae'' \\
-\textbf{Response:}
+\textbf{Response:} Reviewer 1 comment~\eqref{eq:rev1:multantenna} wanted ``antenna'' and I have used this spelling.
 
 \item \textbf{Comment:} p. 4: ``the other reciever components'' $\to$ should be ``receiver components'' \\
-\textbf{Response:}
+\textbf{Response:} Fixed.
 
 \item \textbf{Comment:} p. 5 (and further throughout the text): ``pilots symbols" (with `s') and ``pilot symbols'' (without `s') are both used $\to$ use only 1, I prefer ``pilot symbols'' \\
 \textbf{Response:}
@@ -229,7 +234,6 @@
 
 \end{enumerate}
 
-
-\bibliography{../../../bib/bib}
+\input{paper.bbl}
 
 \end{document}
