@@ -76,7 +76,7 @@ where $\abs{x}$ denotes the magnitude of the complex number $x$.  The least squa
 
 An important paper is by Mackenthun~\cite{Mackenthun1994} who described an algorithm to compute the least squares estimator requiring only $O(L \log L)$ arithmetic operations.  Sweldens~\cite{Sweldens2001} rediscovered Mackenthun's algorithm in 2001.  Both Mackenthun and Sweldens considered what is called \emph{non-data-aided detection} (also know as \emph{blind}, or \emph{non-decision-directed detection}) where no pilot symbols exist ($P = \emptyset$).  We show in Section~\ref{sec:least-squar-estim}~that Mackenthun's algorithm can be modified to include pilot symbols. Our model includes the non-data-aided case by setting the number of pilot symbols to zero, that is, putting $P = \emptyset$.
 
-Aside from this extension of Mackenthun's algorithm, the primary purpose of this paper is to analyse the least squares estimators of carrier phase and amplitude obtained by minimising~\eqref{eq:LSdefn}.  In the literature, analytic study of non-data-aided estimators of carrier phase has primarily involved the derivation of Cram\'{e}r-Rao lower bounds under the assumption that the noise $\{w_i\}$ is complex Gaussian distributed~\cite{Delmas_exact_crb_psk_2008,950345,Steendam_lowsnr_crb_2001,Cowley_crbs_phase_freq_1996,DAndrea_modified_bounds_1994}.  The bounds themselves are often complicated to compute and analyse and for this reason it is common to make approximations, known as \emph{modified} Cram\'{e}r-Rao bounds~\cite{DAndrea_modified_bounds_1994,Pollok_mckilliam_crb_cpm_2013}, or to analyse bounds that are valid asymptotically as the noise variance increases to infinity or decreases to zero~\cite{Moeneclaey_limit_crbs_1998,Steendam_lowsnr_crb_2001,Delmas_exact_crb_psk_2008}.  %To the authors' knowledge, all of the existing bounds are applicable only in the fully non-data-aided case or in the completely data aided case, that is, when either no pilot symbols exist, or when no data symbols exist.  Deriving bounds for the common practical scenario where there is a mixture of pilot and data symbols might be possible, but would further complicate already complicated bounds.
+Aside from this extension of Mackenthun's algorithm, the primary purpose of this paper is to analyse the least squares estimators of carrier phase and amplitude obtained by minimising~\eqref{eq:LSdefn}.  In the literature, analytic study of non-data-aided estimators of carrier phase has primarily involved the derivation of Cram\'{e}r-Rao lower bounds under the assumption that the noise $\{w_i\}$ is complex Gaussian distributed~\cite{Delmas_exact_crb_psk_2008,950345,Steendam_lowsnr_crb_2001,Cowley_crbs_phase_freq_1996,DAndrea_modified_bounds_1994}.  The bounds themselves are often complicated to compute and analyse and for this reason it is common to make approximations, known as \emph{modified} Cram\'{e}r-Rao bounds~\cite{DAndrea_modified_bounds_1994,Pollok_mckilliam_crb_cpm_2013}, or to analyse bounds that are valid asymptotically as the noise variance increases to infinity or decreases to zero~\cite{Moeneclaey_limit_crbs_1998,Steendam_lowsnr_crb_2001,Delmas_exact_crb_psk_2008}.  %To the authors' knowledge, all of the existing bounds are applicable only in the fully non-data-aided case or in the completely data-aided case, that is, when either no pilot symbols exist, or when no data symbols exist.  Deriving bounds for the common practical scenario where there is a mixture of pilot and data symbols might be possible, but would further complicate already complicated bounds.
 
 For the case of carrier amplitude the situation is more complicated.  A simulation study conducted by Pauluzzi~\cite{Pauluzzi2000} suggests that known non-data-aided estimators for carrier amplitude exhibit bias.  The bias is often small when the noise variance is small, but typically becomes significant as the noise variance increases.  Neverthess, Cram\'{e}r-Rao bounds have been derived for \emph{unbiased} estimators of carrier amplitude~\cite{Alagha_crb_snr_bpsk_qpsk_2001,Delmas_exact_crb_psk_2008}.  Unfortunately, these bounds may not be meaningful since known non-data-aided amplitude estimators appear to be biased~\cite{Pauluzzi2000}. 
 
@@ -491,7 +491,7 @@ This stronger condition is required to prove the asymptotic normality of $\sqrt{
 
 \section{Proof of almost sure convergence (Theorem~\ref{thm:consistency}) } \label{sec:proof-almost-sure}
 
-The proof of Theorem~\ref{thm:consistency} hinges on Lemmas \ref{lem:convtoexpGlamL} to~\ref{lem:GLtoG0}, which can be found in the appendix.
+The proof of Theorem~\ref{thm:consistency} relies on Lemmas \ref{lem:convtoexpGlamL} to~\ref{lem:GLtoG0}, which can be found in the appendix.
 Substituting $\{ \hat{d}_i(\theta), i \in D \}$ from~\eqref{eq:hatdfinxtheta} into~\eqref{eq:LSallparams} we obtain $LS$ minimised with respect to the data symbols,
  \begin{align*}
 LS(\rho, \theta) &=\sum_{i \in P} \abs{ y_i - \rho e^{j\theta} p_i }^2 + \sum_{i \in D} \abs{ y_i - \rho e^{j\theta} \hat{d_i}(\theta) }^2 \\
@@ -580,7 +580,7 @@ Lemma~\ref{lem:GLtoG0} in the appendix shows that $G_L(\hat{\lambda}_L)$ converg
 
 \section{Proof of asymptotic normality (Theorem~\ref{thm:normality}) } \label{sec:proof-asympt-norm}
 
-The proof of Theorem~\ref{thm:normality} hinges on Lemmas \ref{lem:diffatlambdaL} to~\ref{lem:XL}, which can be found in the appendix.  We first prove the asymptotic normality of $\sqrt{L} \hat{\lambda}_L$.  Once this is done we will be able to prove the normality of $\sqrt{L} \hat{m}_L$.  Recall that $\hat{\lambda}_L$ is the maximiser of the function $G_L$ defined in~\eqref{eq:GLdefn}.  The proof is complicated by the fact that $G_L$ is not differentiable everywhere due to the function $\fracpart{\cdot}$ not being differentiable at multiples of $\tfrac{\pi}{M}$.  This prevents the use of standard approaches to proving normality that are based on the mean value theorem~\cite{vonMises_diff_stats_1947,vanDerVart1971_asymptotic_stats,Pollard_new_ways_clts_1986,Pollard_conv_stat_proc_1984,Pollard_asymp_empi_proc_1989,van2009empirical}.  However, Lemma~\ref{lem:diffatlambdaL} shows that the derivative $G_L^\prime$ does exist and is equal to zero at $\hat{\lambda}_L$.  %Similar properties have been used by some of the present authors to analyse the behaviour of polynomial-phase estimators~\cite{McKilliam_LSU_polyest_part_arxiv_2012}.  %\cite{McKilliam_LSU_polyest_part1_2012,McKilliam_LSU_polyest_part2_2012}.
+The proof of Theorem~\ref{thm:normality} relies on Lemmas \ref{lem:diffatlambdaL} to~\ref{lem:XL}, which can be found in the appendix.  We first prove the asymptotic normality of $\sqrt{L} \hat{\lambda}_L$.  Once this is done we will be able to prove the normality of $\sqrt{L} \hat{m}_L$.  Recall that $\hat{\lambda}_L$ is the maximiser of the function $G_L$ defined in~\eqref{eq:GLdefn}.  The proof is complicated by the fact that $G_L$ is not differentiable everywhere due to the function $\fracpart{\cdot}$ not being differentiable at multiples of $\tfrac{\pi}{M}$.  This prevents the use of standard approaches to proving normality that are based on the mean value theorem~\cite{vonMises_diff_stats_1947,vanDerVart1971_asymptotic_stats,Pollard_new_ways_clts_1986,Pollard_conv_stat_proc_1984,Pollard_asymp_empi_proc_1989,van2009empirical}.  However, Lemma~\ref{lem:diffatlambdaL} shows that the derivative $G_L^\prime$ does exist and is equal to zero at $\hat{\lambda}_L$.  %Similar properties have been used by some of the present authors to analyse the behaviour of polynomial-phase estimators~\cite{McKilliam_LSU_polyest_part_arxiv_2012}.  %\cite{McKilliam_LSU_polyest_part1_2012,McKilliam_LSU_polyest_part2_2012}.
 Define the function
 \begin{equation}\label{eq:RLdef}
 R_L(\lambda) = \frac{1}{L} \sum_{i \in P} R_i \sin(\lambda + \Phi_i) + \frac{1}{L} \sum_{i \in D} R_i \sin\sfracpart{\lambda + \Phi_i}.
@@ -671,7 +671,7 @@ as $L \rightarrow \infty$.  This completes the proof of Theorem~\ref{thm:normali
 We present the results of Monte-Carlo simulations with the least squares estimator.  In all simulations the noise samples $w_1,\dots,w_L$ are independent and identically distributed circularly symmetric and Gaussian with real and imaginary parts having variance $\sigma^2$.  Under these conditions the least squares estimator is also the maximum likelihood estimator.  Simulations are run with $M=2,4,8$ (BPSK, QPSK, $8$-PSK) and with signal to noise ratio $\text{SNR} = \tfrac{\rho_0^2}{2\sigma^2}$ between \unit[-20]{dB} and \unit[20]{dB} in steps of \unit[1]{dB}.  The amplitude $\rho_0=1$ and $\theta_0$ is uniformly distributed on $[-\pi, \pi)$.  For each value of SNR, $T = 5000$ replications are performed to obtain $T$ estimates $\hat{\rho}_1, \dots, \hat{\rho}_T$ and $\hat{\theta}_1, \dots, \hat{\theta}_T$.  
 
 Figures~\ref{fig:plotphaseBPSK},~\ref{fig:plotphaseQPSK}~and~\ref{fig:plotphase8PSK} show the sample mean square error (MSE) of the phase estimator when $M=2,4,8$ with $L=4096$ and for varying proportions of pilot symbols $\abs{P} = 0, \tfrac{L}{32}, \tfrac{L}{8}, \tfrac{L}{2}, L$.  When $\abs{P} \neq 0$ the mean square error is computed as $\tfrac{1}{T}\sum_{i=1}^T\sfracpart{\hat{\theta}_i - \theta_0}_\pi^2$.  Otherwise, when $\abs{P}=0$ the mean square error is computed as $\tfrac{1}{T}\sum_{i=1}^T\sfracpart{\hat{\theta}_i - \theta_0}^2$ as in~\cite{McKilliam_leastsqPSKnoncoICASSP_2012}.  The dots, squares, circles and crosses are the results of Monte-Carlo simulations with the least square estimator.  The solid lines are the estimator MSEs predicted by Theorem~\ref{thm:normality}.   %(and by Theorem~2 from~\cite{McKilliam_leastsqPSKnoncoICASSP_2012} when $\abs{P} = 0$).  
-The prediction is made by dividing the asymptotic covariance matrix by $L$.  The theorem accurately predicts the behaviour of the phase estimator when $L$ is sufficiently large.  As the SNR decreases the variance of the phase estimator approaches that of the uniform distribution on $[-\pi, \pi)$ when $\abs{P} \neq 0$, and the uniform distribution on $[-\tfrac{\pi}{M}, \tfrac{\pi}{M})$ when $\abs{P}=0$~\cite{McKilliam_leastsqPSKnoncoICASSP_2012}.  As the SNR increases the variance of the estimators converge to that of the estimator where all symbols are pilots, i.e. $\abs{P} = L$.
+The prediction is made by dividing the asymptotic covariance matrix by $L$.  The theorem accurately predicts the behaviour of the phase estimator when SNR is sufficiently large.  As the SNR decreases the variance of the phase estimator approaches that of the uniform distribution on $[-\pi, \pi)$ when $\abs{P} \neq 0$, and the uniform distribution on $[-\tfrac{\pi}{M}, \tfrac{\pi}{M})$ when $\abs{P}=0$~\cite{McKilliam_leastsqPSKnoncoICASSP_2012}.  As the SNR increases the variance of the estimators converge to that of the estimator where all symbols are pilots, i.e. $\abs{P} = L$.
 
 % We can use our asymptotic theorem to predict the SNR at which the least squares estimator will be close to that of the unmodulated carrier estimate.  The asymptotic variance on the unmodulated carrier estimator is given by setting $p = 1$ and $d=0$ in Theorem~\ref{thm:normality}.  We obtain the variance to be $A_1$.  Thus, if we desire the least squares estimator to have variance close to $A_1$, say $(1 + \delta)A_1$ for some small $\delta > 0$, then we require SNR at which 
 % \[
@@ -682,7 +682,7 @@ The prediction is made by dividing the asymptotic covariance matrix by $L$.  The
 
 Figures~\ref{fig:plotphaseBPSK},~\ref{fig:plotphaseQPSK}~and~\ref{fig:plotphase8PSK} also display the sample MSE of the non-data-aided phase estimator of Viterbi and Viterbi~\cite{ViterbiViterbi_phase_est_1983}.  This estimator requires selection of a function $F$ that transforms the amplitude of each sample prior to the final estimation step.  % (see equation (2) in~\cite{ViterbiViterbi_phase_est_1983}).  
 Viterbi and Viterbi propose several viable alternatives, from which we have chosen $F(x) = 1$.  The Viterbi and Viterbi estimator is only applicable in the non-data-aided setting, i.e. when $\abs{P} = 0$.  The sample MSE of the least squares estimator (when $\abs{P} = 0$) and the Viterbi and Viterbi estimator is similar.  The least squares estimator appears slightly more accurate for some values of SNR.
-Figures~\ref{fig:plotphaseBPSK},~\ref{fig:plotphaseQPSK}~and~\ref{fig:plotphase8PSK} also display the non-data aided Cram\'{e}r-Rao lower bound (CRB) for carrier phase given in~\cite{Cowley_crbs_phase_freq_1996,950345}.  These CRBs are derived for the non-data aided setting and are only valid for estimators that do not make use of pilot symbols, i.e., $\abs{P}=0$.
+Figures~\ref{fig:plotphaseBPSK},~\ref{fig:plotphaseQPSK}~and~\ref{fig:plotphase8PSK} also display the non-data-aided Cram\'{e}r-Rao lower bound (CRB) for carrier phase given in~\cite{Cowley_crbs_phase_freq_1996,950345}.  These CRBs are derived for the non-data-aided setting and are only valid for estimators that do not make use of pilot symbols, i.e., $\abs{P}=0$.
 
 % Figure~\ref{fig:plotampBPSK} %,~\ref{fig:plotampQPSK}~and~\ref{fig:plotamp8PSK} 
 % shows the variance of the amplitude estimator when $M=2$ and with $L=32, 256, 2048$ and when the number of pilot symbols is $\abs{P} = 0, \tfrac{L}{2}, L$.  The solid lines are the variance predicted by Theorem~\ref{thm:normality}.  The dots and crosses show the results of Monte-Carlo simulations.  Each point is computed as the unbiased error $\tfrac{1}{T}\sum_{i=1}^T\big(\hat{\rho}_i - \rho_0G(0)\big)^2$.  This requires $G(0)$ to be known.  In practice $G(0)$ may not be known at the receiver, so Figure~\ref{fig:plotampBPSK} %,~\ref{fig:plotampQPSK}~and~\ref{fig:plotamp8PSK} 
@@ -725,37 +725,28 @@ Figure~\ref{fig:plotphaseQPSKmultL} shows the MSE of the phase estimator when $M
 		\label{fig:plotphase8PSK}
 \end{figure}
 
-
-
 \begin{figure}[tp]
 	\centering
 		\includegraphics[width=\linewidth]{code/data/plotM2-1.mps}
-		\caption{Amplitude estimator versus SNR for BPSK with $L=2048$}
+		\caption{Amplitude estimator versus SNR for BPSK with $L=4096$.}
 		\label{fig:plotampBPSK}
 \end{figure}
 
-% \begin{figure}[p]
-% 	\centering
-% 		\includegraphics[width=\linewidth]{code/data/plotM4-1.mps}
-% 		\caption{Unbiased amplitude error versus SNR for QPSK.}
-% 		\label{fig:plotampQPSK}
-% \end{figure}
+\begin{figure}[p]
+	\centering
+		\includegraphics[width=\linewidth]{code/data/plotM4-1.mps}
+		\caption{Amplitude error versus SNR for QPSK with $L=4096$.}
+		\label{fig:plotampQPSK}
+\end{figure}
 
-% \begin{figure}[p]
-% 	\centering
-% 		\includegraphics[width=\linewidth]{code/data/plotM8-1.mps}
-% 		\caption{Unbiased amplitude error versus SNR for $8$-PSK.}
-% 		\label{fig:plotamp8PSK}
-% \end{figure}
+\begin{figure}[p]
+	\centering
+		\includegraphics[width=\linewidth]{code/data/plotM8-1.mps}
+		\caption{Amplitude error versus SNR for $8$-PSK with $L=4096$.}
+		\label{fig:plotamp8PSK}
+\end{figure}
 
-%\begin{figure}[tp]
-%	\centering
-%		\includegraphics[width=\linewidth]{code/data/plotM2-3.mps}
-%		\caption{Phase error versus SNR for BPSK.}
-%		\label{fig:plotphase}
-%\end{figure}
-
-\begin{figure}[tp]
+\begin{figure}[tp] 
 	\centering
 		\includegraphics[width=\linewidth]{code/data/plotM4-3.mps}
 		\caption{Phase error versus SNR for QPSK.}
