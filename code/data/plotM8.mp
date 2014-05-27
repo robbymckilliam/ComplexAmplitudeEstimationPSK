@@ -170,7 +170,7 @@ beginfig(1);
 draw begingraph(plotwidth, plotheight);
  setcoords(linear,log);
  glabel.bot(btex SNR (dB) etex, OUT) shifted (0cm,1.3cm);
-  glabel.lft(btex MSE $\hat{\rho}$ etex, OUT) rotated 90 shifted (1.5cm,1cm);
+  glabel.lft(btex MSE $\hat{\rho}$ etex, OUT) rotated 90 shifted (1.5cm,0cm);
   
   %setrange(whatever,whatever, whatever,5);
   %setrange(4.9,"1e-13", 22,2);

@@ -39,7 +39,7 @@
 \newcommand{\ints}{{\mathbb Z}}
 \newcommand{\integers}{{\mathbb Z}}
 \newcommand{\uy}{\underline{\bm{Y}}}
-\newcommand{\uey}{\underline{Y}}
+\newcommand{\uey}{\underline{Y}} 
 \newcommand{\sign}[1]{\mathtt{sign}(#1)}
 \newcommand{\Qbf}{{\mathbf Q}}
 \newcommand{\Bbf}{{\mathbf B}}
@@ -58,6 +58,7 @@
 \newcommand{\onebf}{{\mathbf 1}}
 \newcommand{\fbf}{{\mathbf f}}
 \newcommand{\ubf}{{\mathbf u}}
+\newcommand{\expect}{{\mathbb E}}
 
 \newcommand{\NP}{\operatorname{NearestPt}}
 \newcommand{\NS}{\operatorname{NearestSet}}
@@ -131,7 +132,7 @@ to inform the reader of some of these methods.  The interested reader will find 
 \textbf{Response:} Fixed.
 
 \item \textbf{Comment:} p. 3: ``all of the exiting bounds are applicable only in the fully non-data-aided case or in the completely data aided case \dots'' --> bounds for the common scenario where there is a mixture of pilot and data symbols can be found in "N. Noels, H. Steendam, M. Moeneclaey en H. Bruneel, Carrier Phase and Frequency Estimation for Pilot Symbol Assisted Transmission: Bounds and Algorithms, IEEE TSP, Vol. 53, No. 12, p. 4578-4587, Dec. 2005. \\
-\textbf{Response:} BLERG. I've removed this paragraph from the introduction but will have to update the code and simulations.
+\textbf{Response:} We have added this reference and have removed the sentence begining ``To the authors' knowledge, all of the existing bounds are applicable only in the fully non-data-aided case \dots''. Note that the model considered in the paper by Noels~et.~al. treats the amplitude as fixed and known and includes a frequency offset term.  Thus, the bounds are not immediately applicable in our setting and we are not able to meaningfully compare these bounds with our simulation results.  For this reason with have kept with the bound described in~\cite{950345} as in the previous version of the manuscript.
 
 \item \textbf{Comment:} p. 3: ``the situations is'' $\to$ drop `s' at the end of situations \\
 \textbf{Response:} Fixed.
@@ -149,10 +150,10 @@ to inform the reader of some of these methods.  The interested reader will find 
 \textbf{Response:} Fixed.
 
 \item \textbf{Comment:} p. 5 (and further throughout the text): ``pilots symbols" (with `s') and ``pilot symbols'' (without `s') are both used $\to$ use only 1, I prefer ``pilot symbols'' \\
-\textbf{Response:} All occurences of pilots symbols have been changed to pilot symbols. 
+\textbf{Response:} All occurences of ``pilots symbols'' have been changed to ``pilot symbols''. 
 
 \item \label{rev2:commentnotationsection} \textbf{Comment:} I think it would be a good idea to specify the main notational conventions at the end of the introductory section \\
-\textbf{Response:} It is the authors preference to introduce notation as it is used in the text rather than in a dedicated notation section. %BLERG. This need to be done. It's connected with comment~\ref{rev2:commentE}.
+\textbf{Response:} We request not to make this change.  It is the authors' preference to introduce notation as it is used in the text rather than in a dedicated notation section. %BLERG. This need to be done. It's connected with comment~\ref{rev2:commentE}.
 
 \item \textbf{Comment:} between (5) and (6): start new paragraph \\
 \textbf{Response:} The paragraph ends at ``\dots least squares estimator of the data symbols~\cite{Sweldens2001,Mackenthun1994}'' and the new paragraph begins with ``To see this, let $a = \rho e^{j\theta}$ \dots''
@@ -177,7 +178,11 @@ are valid. For the purpose of minimisation the constants have no effect.  Howeve
 \textbf{Response:} Fixed.
 
 \item \label{rev2:commentE} \textbf{Comment:} I would prefer to see brackets around the functions of which the mean is computed (use of the operator $\mathbb E$) \\
-\textbf{Response:} BLERG.  Connected with comment~\ref{rev2:commentnotationsection}.
+\textbf{Response:} We prefer not to use brackets whenever there is no chance of ambiguity.  To clarify this for the reader the following sentences have been added to Section~\ref{sec:stat-prop-least}:
+
+``Whenever there is no chance of ambiguity we write simply $\expect X$ rather than $\expect(X)$ to denote the expected value of the random variable $X$.  For two random variables $X$ and $Y$ the notation $\expect X Y$ will always mean the expected value of the product $XY$, that is, $\expect(XY)$ and not $\expect(X)Y$.''
+
+The bracketless notation is heavily employed in the statistical literature on empirical processes~\cite{Pollard_new_ways_clts_1986,Pollard_conv_stat_proc_1984,Pollard_asymp_empi_proc_1989,van2009empirical}. The notation would become heavily cluttered with brackets otherwise.  Our proofs in the appendix rely upon this literature.
 
 \item \textbf{Comment:} p. 12: ``the amplitude estimation error with bias removed'' $\to$ bit strange formulation \\
 \textbf{Response:} This phrase has been removed.
@@ -187,7 +192,6 @@ are valid. For the purpose of minimisation the constants have no effect.  Howeve
 
 \item \textbf{Comment:} p. 15: the use of `A' as notation for a sample space is confusing since `A' has already been used as a constant \\
 \textbf{Response:} $A$ has been replaced by $\Sigma$ and $A^\prime$ by $\Sigma^\prime$.
-
 
 \item \textbf{Comment:} in general, I find the numerical results section rather short \\
 \textbf{Response:} We have greatly expanded the simulation section. BLERG: this includes \dots ref to below.
@@ -205,7 +209,7 @@ are valid. For the purpose of minimisation the constants have no effect.  Howeve
 \textbf{Response:} Fixed.
 
 \item \textbf{Comment:}  although the most important contribution of the paper is with respect to the biased amplitude estimate, only 1 figure is presented for amplitude estimation, namely for $L=2048$ and BPSK $\to$ this seems not well balanced  \\
-\textbf{Response:} Figures have been added showing the amplitude estimation error for BSPK, QPSK, and 8-PSK. 
+\textbf{Response:} Figures have been added showing the amplitude estimation error for BSPK, QPSK, and 8-PSK. BLERG: Add to text!
 
 \item \textbf{Comment:}  a separate plot of the two terms that contribute to Fig. 4 would be welcome \\
 \textbf{Response:}
@@ -220,7 +224,31 @@ are valid. For the purpose of minimisation the constants have no effect.  Howeve
 \textbf{Response:} Done.
 
 \item \textbf{Comment:}  There are many formulas (starting from page 11) with the notation $\fracpart{x}$ meaning ``$x$ taken modulo $2\pi/M$''. These angle brackets don't strike the eye and can be easily confused with ordinary parentheses. To make them much more visible, the authors could use the same approach as for ``$x$ taken modulo $2\pi$'' - by using corresponding subscript, i.e. use $\fracpart{x}_{2\pi/M}$ instead of $\fracpart{x}$. \\
-\textbf{Response:}
+\textbf{Response:} We request not to make this change.  There are two reasons.  The first is that this notation leads to situations where there are subscripts withing superscripts.  For example, in the proof of Theorem 1 we would have expressions of the form
+\[
+\rho_0 R_i e^{j\sfracpart{\lambda + \Phi_i}_{2\pi/M}}
+\]
+and in the appendix we would obtain expressions such as
+\[
+2 \hat{\rho} \rho_0 R_k \Re\left( \eta e^{j\sfracpart{\hat{\lambda}_L + \Phi_k}_{2\pi/M}}\right)
+\]
+and
+\[
+q_2(\lambda) + j k_2(\lambda) = \expect\big[ R_1 e^{j\fracpart{\lambda + \Phi_1}_{2\pi/M}} - R_1 e^{j\fracpart{\Phi_1}_{2\pi/M}}  \big].
+\]
+We feel that these are more difficult to parse that the existing simpler
+\[
+\rho_0 R_i e^{j\sfracpart{\lambda + \Phi_i}},
+\]
+\[
+2 \hat{\rho} \rho_0 R_k \Re\left( \eta e^{j\sfracpart{\hat{\lambda}_L + \Phi_k}}\right),
+\]
+and
+\[
+q_2(\lambda) + j k_2(\lambda) = \expect\big[ R_1 e^{j\fracpart{\lambda + \Phi_1}} - R_1 e^{j\fracpart{\Phi_1}}  \big].
+\]
+
+The second reason is that some of the authors have made use of the notation $\fracpart{\cdot}$ is previous work~\cite{McKilliamFrequencyEstimationByPhaseUnwrapping2009,McKilliam_mean_dir_est_sq_arc_length2010,McKilliam_pps_unwrapping_tsp_2014} and there is a desire for continuity in the notation between these papers.
 
  \end{enumerate}
 
