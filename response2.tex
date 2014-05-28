@@ -115,11 +115,11 @@
 \textbf{Response:} Fixed.
 
 \item \textbf{Comment:} ``we assume that the time-offset has been previously handled'' $\to$ perhaps some motivation for this assumption and the consequences with respect to the system model would be in place \\
-\textbf{Response:}  There exist numerous estimators for the time offset in the literature.  We have added the sentence 
+\textbf{Response:}  The assumption of an accurate time offset estimator is common in this literature~\cite{ViterbiViterbi_phase_est_1983,Cowley_ref_sym_carr_1998,Wilson1989,Makrakis1990,Liu1991,Mackenthun1994,Sweldens2001,McKilliamLinearTimeBlockPSK2009,Divsalar1990} and is unlikely to come as a surprise to the intended audience.  There exist numerous estimators for the time offset in the literature.  We have added the sentence 
 
 ``Methods for estimating the time offset are given in~\cite{Massey1972optimumframe,Oerder_synch_square_circstat_2008,McKilliam_time_offset_pilots_data_2013}.'' 
 
-to inform the reader of some of these methods.  The interested reader will find further discussion about time offset estimation within these references.  The assumption of an accurate time offset estimator is common in this literature~\cite{ViterbiViterbi_phase_est_1983,Cowley_ref_sym_carr_1998,Wilson1989,Makrakis1990,Liu1991,Mackenthun1994,Sweldens2001,McKilliamLinearTimeBlockPSK2009,Divsalar1990}.
+to inform the reader of some of these methods.  The reader interested in the motivation and consequences of this assumption can consult this literature.
 
 
 \item \textbf{Comment:} ``such as binary phase shift keying (BPSK), \dots'' $\to$ mentioning BPSK and QPSK apart from general M-PSK is pure overhead in this stage, I would drop it \\
@@ -131,8 +131,8 @@ to inform the reader of some of these methods.  The interested reader will find 
 \item \textbf{Comment:} p. 3: ``bounds that are valid asymptoticially'': typo in asymptotically \\
 \textbf{Response:} Fixed.
 
-\item \textbf{Comment:} p. 3: ``all of the exiting bounds are applicable only in the fully non-data-aided case or in the completely data aided case \dots'' --> bounds for the common scenario where there is a mixture of pilot and data symbols can be found in "N. Noels, H. Steendam, M. Moeneclaey en H. Bruneel, Carrier Phase and Frequency Estimation for Pilot Symbol Assisted Transmission: Bounds and Algorithms, IEEE TSP, Vol. 53, No. 12, p. 4578-4587, Dec. 2005. \\
-\textbf{Response:} We have added this reference and have removed the sentence begining ``To the authors' knowledge, all of the existing bounds are applicable only in the fully non-data-aided case \dots''. Note that the model considered in the paper by Noels~et.~al.~\cite{Noels_crbs_with_pilots_2005} treats the amplitude as fixed and known and includes a frequency offset term.  Thus, the bounds are not immediately applicable in our setting and we are not able to meaningfully compare these bounds with our simulation results.  %For this reason with have kept with the bound described in~\cite{950345} as in the previous version of the manuscript.
+\item \textbf{Comment:} p. 3: ``all of the exiting bounds are applicable only in the fully non-data-aided case or in the completely data-aided case \dots'' $\to$ bounds for the common scenario where there is a mixture of pilot and data symbols can be found in ``N. Noels, H. Steendam, M. Moeneclaey en H. Bruneel, Carrier Phase and Frequency Estimation for Pilot Symbol Assisted Transmission: Bounds and Algorithms, IEEE TSP, Vol. 53, No. 12, p. 4578-4587, Dec. 2005.'' \\
+\textbf{Response:} We have added this reference and have removed the sentences begining ``To the authors' knowledge, all of the existing bounds are applicable only in the fully non-data-aided case \dots''. Note that the model considered in the paper by Noels~et.~al.~\cite{Noels_crbs_with_pilots_2005} treats the amplitude as fixed and known and includes a frequency offset term.  Thus, the bounds are not immediately applicable in our setting and we are not able to meaningfully compare these bounds with our simulation results.  %For this reason with have kept with the bound described in~\cite{950345} as in the previous version of the manuscript.
 
 \item \textbf{Comment:} p. 3: ``the situations is'' $\to$ drop `s' at the end of situations \\
 \textbf{Response:} Fixed.
@@ -144,7 +144,7 @@ to inform the reader of some of these methods.  The interested reader will find 
 \textbf{Response:} Fixed.
 
 \item \textbf{Comment:} p. 4: ``systems such as mulitple anntannae'' $\to$ should be ``multiple antennae'' \\
-\textbf{Response:} Reviewer 1 comment~\eqref{eq:rev1:multantenna} wanted ``antenna'' and I have used this spelling.
+\textbf{Response:} Reviewer 1 comment~\eqref{eq:rev1:multantenna} wanted ``antenna'' and we have used this spelling.
 
 \item \textbf{Comment:} p. 4: ``the other reciever components'' $\to$ should be ``receiver components'' \\
 \textbf{Response:} Fixed.
@@ -153,10 +153,10 @@ to inform the reader of some of these methods.  The interested reader will find 
 \textbf{Response:} All occurences of ``pilots symbols'' have been changed to ``pilot symbols''. 
 
 \item \label{rev2:commentnotationsection} \textbf{Comment:} I think it would be a good idea to specify the main notational conventions at the end of the introductory section \\
-\textbf{Response:} We request not to make this change.  It is the authors' preference to introduce notation as it is used in the text rather than in a dedicated notation section. %BLERG. This need to be done. It's connected with comment~\ref{rev2:commentE}.
+\textbf{Response:} We respectfully request not to make this change.  It is the authors' preference to introduce notation as it is used in the text rather than in a dedicated notation section. %BLERG. This need to be done. It's connected with comment~\ref{rev2:commentE}.
 
 \item \textbf{Comment:} between (5) and (6): start new paragraph \\
-\textbf{Response:} The paragraph ends at ``\dots least squares estimator of the data symbols~\cite{Sweldens2001,Mackenthun1994}'' and the new paragraph begins with ``To see this, let $a = \rho e^{j\theta}$ \dots''
+\textbf{Response:} Done.  The paragraph ends at ``\dots least squares estimator of the data symbols~\cite{Sweldens2001,Mackenthun1994}'' and the new paragraph begins with ``To see this, let $a = \rho e^{j\theta}$ \dots''
 
 \item \textbf{Comment:} before (6): drop the 'to' \\
 \textbf{Response:} Done.
@@ -182,13 +182,27 @@ are valid. For the purpose of minimisation the constants have no effect.  Howeve
 
 ``Whenever there is no chance of ambiguity we write simply $\expect X$ rather than $\expect(X)$ to denote the expected value of the random variable $X$.  For two random variables $X$ and $Y$ the notation $\expect X Y$ will always mean the expected value of the product $XY$, that is, $\expect(XY)$ and not $\expect(X)Y$.''
 
-The bracketless notation is heavily employed in the statistical literature on empirical processes~\cite{Pollard_new_ways_clts_1986,Pollard_conv_stat_proc_1984,Pollard_asymp_empi_proc_1989,van2009empirical}. The notation would become heavily cluttered with brackets otherwise.  Our proofs in the appendix rely upon this literature.
+The bracketless notation is heavily employed in the statistical literature on empirical processes~\cite{Pollard_new_ways_clts_1986,Pollard_conv_stat_proc_1984,Pollard_asymp_empi_proc_1989,van2009empirical}. The notation would become heavily cluttered otherwise.  Our proofs in the appendix rely upon this literature.
 
 \item \textbf{Comment:} p. 12: ``the amplitude estimation error with bias removed'' $\to$ bit strange formulation \\
 \textbf{Response:} This phrase has been removed.
 
-\item \textbf{Comment:} p. 14: "Equivalently $\hat\theta$ is the maximiser of \dots" $\to$ could you please provide some further explanation (is the maximum of $\Re(Z(\theta)$) never negative? and why) \\
-\textbf{Response:}
+\item \textbf{Comment:} p. 14: ``Equivalently $\hat\theta$ is the maximiser of \dots'' $\to$ could you please provide some further explanation (is the maximum of $\Re(Z(\theta))$ never negative? and why) \\
+\textbf{Response:} The least squares phase estimator is the minimiser of
+\[
+LS(\theta) = A - \frac{1}{L}\Re(Z(\theta))^2.
+\]
+Because the least squares amplitude estimator $\hat{\rho} = \Re(Z(\hat{\theta}))$ is positive by definition, we are only interested in those values of $\theta$ that correspond with a positive amplitude estimator, that is, such that
+\[
+\hat{\rho}(\theta) = \Re(Z(\theta)) > 0.
+\]
+Thus, the least squares phase estimator $\hat{\theta}$ must be such that
+\[
+\hat{\rho} = \Re(Z(\hat{\theta})) > 0.
+\]
+This is explained in the text by the sentences:
+
+``By definition the amplitude $\rho_0$ and its estimator $\hat{\rho}$ are positive.  However, $\hat{\rho}(\theta) = \Re(Z(\theta))$ may take negative values for some $\theta \in [-\pi,\pi)$.  The least square estimator $\hat{\theta}$ of $\theta_0$ is the minimiser of $LS(\theta)$ under the constraint $\hat{\rho}(\theta) = \Re(Z(\theta)) > 0$.  Equivalently $\hat{\theta}$ is the maximiser of $\Re(Z(\theta))$ with no constraints required.''
 
 \item \textbf{Comment:} p. 15: the use of `A' as notation for a sample space is confusing since `A' has already been used as a constant \\
 \textbf{Response:} $A$ has been replaced by $\Sigma$ and $A^\prime$ by $\Sigma^\prime$.

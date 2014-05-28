@@ -45,14 +45,14 @@ for( L <- Ls; M <- Ms ) {
 
     val filep = new java.io.FileWriter("data/" + cltname + "p")
     val filea = new java.io.FileWriter("data/" + cltname + "a")
-    val fileb = new java.io.FileWriter("data/" + cltname + "b")
     val filemsea = new java.io.FileWriter("data/" + cltname + "msea")
+    val fileb = new java.io.FileWriter("data/" + cltname + "b")
       (cltlist, SNRdBs).zipped.foreach{ (mse, snr) =>
-	val (vp,va,b2,msea) = mse
+	val (vp,va,msea,b2) = mse
         filea.write(snr.toString.replace('E', 'e') + "\t" + va.toString.replace('E', 'e')  + "\n")
 	filep.write(snr.toString.replace('E', 'e') + "\t" + vp.toString.replace('E', 'e')  + "\n")
-        fileb.write(snr.toString.replace('E', 'e') + "\t" + b2.toString.replace('E', 'e')  + "\n")
         filemsea.write(snr.toString.replace('E', 'e') + "\t" + msea.toString.replace('E', 'e')  + "\n")
+        fileb.write(snr.toString.replace('E', 'e') + "\t" + b2.toString.replace('E', 'e')  + "\n")
       }
     filea.close; filep.close; fileb.close; filemsea.close //close all the files we wrote to
     println(" finished")
