@@ -1,4 +1,5 @@
 cd code/data/
+mpost biasvarplot.mp
 mpost plotM2.mp
 mpost plotM4.mp
 mpost plotM8.mp

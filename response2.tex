@@ -52,7 +52,7 @@
 \newcommand{\wbf}{{\mathbf w}}
 \newcommand{\kbf}{{\mathbf k}}
 \newcommand{\sbf}{{\mathbf s}}
-\newcommand{\tbf}{{\mathbf t}}
+\newcommand{\tbf}{{\mathbf t}} 
 \newcommand{\pbf}{{\mathbf p}}
 \newcommand{\Pibf}{{\mathbf \Pi}}
 \newcommand{\onebf}{{\mathbf 1}}
@@ -132,7 +132,7 @@ to inform the reader of some of these methods.  The reader interested in the mot
 \textbf{Response:} Fixed.
 
 \item \textbf{Comment:} p. 3: ``all of the exiting bounds are applicable only in the fully non-data-aided case or in the completely data-aided case \dots'' $\to$ bounds for the common scenario where there is a mixture of pilot and data symbols can be found in ``N. Noels, H. Steendam, M. Moeneclaey en H. Bruneel, Carrier Phase and Frequency Estimation for Pilot Symbol Assisted Transmission: Bounds and Algorithms, IEEE TSP, Vol. 53, No. 12, p. 4578-4587, Dec. 2005.'' \\
-\textbf{Response:} We have added this reference and have removed the sentences begining ``To the authors' knowledge, all of the existing bounds are applicable only in the fully non-data-aided case \dots''. Note that the model considered in the paper by Noels~et.~al.~\cite{Noels_crbs_with_pilots_2005} treats the amplitude as fixed and known and includes a frequency offset term.  Thus, the bounds are not immediately applicable in our setting and we are not able to meaningfully compare these bounds with our simulation results.  %For this reason with have kept with the bound described in~\cite{950345} as in the previous version of the manuscript.
+\textbf{Response:} We have added this reference and have removed the sentences beginning ``To the authors' knowledge, all of the existing bounds are applicable only in the fully non-data-aided case \dots''. Note that the model considered in the paper by Noels~et.~al.~\cite{Noels_crbs_with_pilots_2005} treats the amplitude as fixed and known and includes a frequency offset term.  Thus, the bounds are not immediately applicable in our setting and we are not able to meaningfully compare these bounds with our simulation results.  %For this reason with have kept with the bound described in~\cite{950345} as in the previous version of the manuscript.
 
 \item \textbf{Comment:} p. 3: ``the situations is'' $\to$ drop `s' at the end of situations \\
 \textbf{Response:} Fixed.
@@ -144,13 +144,13 @@ to inform the reader of some of these methods.  The reader interested in the mot
 \textbf{Response:} Fixed.
 
 \item \textbf{Comment:} p. 4: ``systems such as mulitple anntannae'' $\to$ should be ``multiple antennae'' \\
-\textbf{Response:} Reviewer 1 comment~\eqref{eq:rev1:multantenna} wanted ``antenna'' and we have used this spelling.
+\textbf{Response:} Reviewer 1 comment~\eqref{eq:rev1:multantenna} wanted ``antenna'' and we have used this spelling. ``Multiple'' is now spelt correctly.
 
 \item \textbf{Comment:} p. 4: ``the other reciever components'' $\to$ should be ``receiver components'' \\
 \textbf{Response:} Fixed.
 
 \item \textbf{Comment:} p. 5 (and further throughout the text): ``pilots symbols" (with `s') and ``pilot symbols'' (without `s') are both used $\to$ use only 1, I prefer ``pilot symbols'' \\
-\textbf{Response:} All occurences of ``pilots symbols'' have been changed to ``pilot symbols''. 
+\textbf{Response:} All occurrences of ``pilots symbols'' have been changed to ``pilot symbols''. 
 
 \item \label{rev2:commentnotationsection} \textbf{Comment:} I think it would be a good idea to specify the main notational conventions at the end of the introductory section \\
 \textbf{Response:} We respectfully request not to make this change.  It is the authors' preference to introduce notation as it is used in the text rather than in a dedicated notation section. %BLERG. This need to be done. It's connected with comment~\ref{rev2:commentE}.
@@ -158,7 +158,7 @@ to inform the reader of some of these methods.  The reader interested in the mot
 \item \textbf{Comment:} between (5) and (6): start new paragraph \\
 \textbf{Response:} Done.  The paragraph ends at ``\dots least squares estimator of the data symbols~\cite{Sweldens2001,Mackenthun1994}'' and the new paragraph begins with ``To see this, let $a = \rho e^{j\theta}$ \dots''
 
-\item \textbf{Comment:} before (6): drop the 'to' \\
+\item \textbf{Comment:} before (6): drop the `to' \\
 \textbf{Response:} Done.
 
 \item \textbf{Comment:} before (7): change ``for given $\theta$'' to ``for given $\theta$ and $\rho$'' \\
@@ -171,7 +171,7 @@ LS(\{d_i, i \in D\}) = A - \frac{1}{L}\abs{Y}^2
 \]
 are valid. For the purpose of minimisation the constants have no effect.  However, in this case, we feel that introducing notation to describe ``equivalent for the purpose of minimisation'' is more cumbersome than simply retaining constants in the few cases that they occur.
 
-\item \textbf{Comment:} I would prefer to see comma's between two subindices; so, `$k,i$' rather than`'$ki$' \\
+\item \textbf{Comment:} I would prefer to see comma's between two subindices; so, `$k,i$' rather than`$ki$' \\
 \textbf{Response:} Done.
 
 \item \textbf{Comment:} below (11) '$g_{ik}$' should be '$g_{ki}$' (change order of the subscripts) \\
@@ -192,7 +192,7 @@ The bracketless notation is heavily employed in the statistical literature on em
 \[
 LS(\theta) = A - \frac{1}{L}\Re(Z(\theta))^2.
 \]
-Because the least squares amplitude estimator $\hat{\rho} = \Re(Z(\hat{\theta}))$ is positive by definition, we are only interested in those values of $\theta$ that correspond with a positive amplitude estimator, that is, such that
+Because the least squares amplitude estimator $\hat{\rho} = \Re(Z(\hat{\theta}))$ is positive by definition, we are only interested in those values of phase $\theta$ that correspond with a positive amplitude estimator, that is, such that
 \[
 \hat{\rho}(\theta) = \Re(Z(\theta)) > 0.
 \]
@@ -202,24 +202,26 @@ Thus, the least squares phase estimator $\hat{\theta}$ must be such that
 \]
 This is explained in the text by the sentences:
 
-``By definition the amplitude $\rho_0$ and its estimator $\hat{\rho}$ are positive.  However, $\hat{\rho}(\theta) = \Re(Z(\theta))$ may take negative values for some $\theta \in [-\pi,\pi)$.  The least square estimator $\hat{\theta}$ of $\theta_0$ is the minimiser of $LS(\theta)$ under the constraint $\hat{\rho}(\theta) = \Re(Z(\theta)) > 0$.  Equivalently $\hat{\theta}$ is the maximiser of $\Re(Z(\theta))$ with no constraints required.''
+``By definition the amplitude $\rho_0$ and its estimator $\hat{\rho}$ are positive.  However, $\hat{\rho}(\theta) = \Re(Z(\theta))$ may take negative values for some $\theta \in [-\pi,\pi)$.  The least squares estimator $\hat{\theta}$ of $\theta_0$ is the minimiser of $LS(\theta)$ under the constraint $\hat{\rho}(\theta) = \Re(Z(\theta)) > 0$.  Equivalently $\hat{\theta}$ is the maximiser of $\Re(Z(\theta))$ with no constraints required.''
 
 \item \textbf{Comment:} p. 15: the use of `A' as notation for a sample space is confusing since `A' has already been used as a constant \\
 \textbf{Response:} $A$ has been replaced by $\Sigma$ and $A^\prime$ by $\Sigma^\prime$.
 
 \item \textbf{Comment:} in general, I find the numerical results section rather short \\
-\textbf{Response:} We have greatly expanded the simulation section as detailed in the responses that follow.
+\textbf{Response:} We have expanded the simulation section as detailed in the responses that follow.
 
 \item \textbf{Comment:} although different figures are shown for M=2,4,8 (phase estimation), the effect of the constellation size is not addressed in the text  \\
 \textbf{Response:}  We have included the follows sentences to Section~\ref{sec:simulations}:
 
-``As expected, the figures indicate the estimator to become more accurate as the number of pilot symbols is increased.  An interesting property distriguishing the case when no pilot symbols exist is the slope of the MSE curve at low SNR.  When a finite proportion of pilot symbols exist the slope at low SNR is similar to that when all symbols are pilots.  The slope is steeper in the case that no pilot symbols exist.''
+``As expected, the figures indicate that the accuracy of the estimator increases with the number of pilot symbols.  One interesting observation is that, at low SNR, the slope of the MSE curve when no pilot symbols exist is steeper than the slope when pilot symbols do exist.''
 
 \item \textbf{Comment:} p. 18, first sentence: ``when $L$ is sufficiently large'' $\to$ in these figures the value of $L$ is fixed, should this be ``when the SNR is sufficiently large''  \\
 \textbf{Response:} Fixed.
 
 \item \textbf{Comment:} p. 18, first sentence: a qualitative explanation for the fact the theory and simulations diverge at low SNR would be appreciated  \\
-\textbf{Response:} BLERG: Added a reference to Tazras crb paper.
+\textbf{Response:} The following text has been included in Section~\ref{sec:simulations}:
+
+``As the SNR decreases the variance of the phase estimator approaches that of the uniform distribution on $[-\pi, \pi)$ when $\abs{P} \neq 0$, and the uniform distribution on $[-\tfrac{\pi}{M}, \tfrac{\pi}{M})$ when $\abs{P}=0$~\cite{McKilliam_leastsqPSKnoncoICASSP_2012}.  Our asymptotic theory cannot be expected to model the behaviour of the estimator for fixed $L$ as SNR goes to zero.  Similar conclusions are made in the literature~\cite{ViterbiViterbi_phase_est_1983,6365847}.''
 
 \item \textbf{Comment:} p.18, last sentence of first paragraph: ``non-data aided'' $\to$ should be ``non-data-aided''  \\
 \textbf{Response:} Fixed.
@@ -229,9 +231,25 @@ This is explained in the text by the sentences:
 
 \item \textbf{Comment:}  a separate plot of the two terms that contribute to Fig. 4 would be welcome \\
 
-\textbf{Response:}
+\textbf{Response:} Figure~\ref{fig:biasvarcomp} in this document displays such a plot.  The number of symbols is set to $L=4096$.  The solid line shows that asymptotic squared bias 
+\[
+\rho_0^2\big(1 - G(0)\big)^2
+\]
+and the dashed line in the asymptotic variance
+\[
+\rho_0^2\frac{p B_1 + d B_2}{L}.
+\]
+The number of pilots consider is $\abs{P}=0$ and $\abs{P}=L/2$.  The obvious relationship is observed: the bias dominates the variance at low SNR and the variance dominates the bias at high SNR.  We believe that this plot is not particularly informative and have not included it in the manuscript.
+  
+\end{enumerate} 
 
-\end{enumerate}
+\begin{figure}[tp] 
+	\centering  
+		\includegraphics[]{code/data/biasvarplot-1.mps}
+		\caption{Plot of asymptotic bias squared (dashed) and variance (solid) of the amplitude estimator for QPSK with $L=4096$.}
+		\label{fig:biasvarcomp}
+\end{figure}
+
 
 \section{Comments from reviewer 3}
 
@@ -241,7 +259,7 @@ This is explained in the text by the sentences:
 \textbf{Response:} Done.
 
 \item \textbf{Comment:}  There are many formulas (starting from page 11) with the notation $\fracpart{x}$ meaning ``$x$ taken modulo $2\pi/M$''. These angle brackets don't strike the eye and can be easily confused with ordinary parentheses. To make them much more visible, the authors could use the same approach as for ``$x$ taken modulo $2\pi$'' - by using corresponding subscript, i.e. use $\fracpart{x}_{2\pi/M}$ instead of $\fracpart{x}$. \\
-\textbf{Response:} We request not to make this change.  There are two reasons.  The first is that this notation leads to situations where there are subscripts withing superscripts.  For example, in the proof of Theorem 1 we would have expressions of the form
+\textbf{Response:} We respectfully request not to make this change.  There are two reasons.  The first is aesthetic.  For example, in the proof of Theorem 1 we would have expressions of the form
 \[
 \rho_0 R_i e^{j\sfracpart{\lambda + \Phi_i}_{2\pi/M}}
 \]
@@ -292,6 +310,9 @@ LS(a, &\{d_i, i \in D\}) = \sum_{i \in P \cup D} \abs{ y_i - a s_i }^2  \\
 
 \end{enumerate}
 
+{
+\small
 \input{paper.bbl}
+}
 
 \end{document}
