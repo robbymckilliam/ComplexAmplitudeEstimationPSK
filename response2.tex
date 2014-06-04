@@ -125,7 +125,7 @@ to inform the reader of some of these methods.  The reader interested in the mot
 \item \textbf{Comment:} ``such as binary phase shift keying (BPSK), \dots'' $\to$ mentioning BPSK and QPSK apart from general M-PSK is pure overhead in this stage, I would drop it \\
 \textbf{Response:} Done.
 
-\item \textbf{Comment:} ``the data symbols are not known to the receiver and must also be estimated'' $\to$ I would drop the second part of the sentence because (e.g. Viterbi and Vterbi estimator) non-data-aided estimators typically do not actually estimate the unknown data symbols \\
+\item \textbf{Comment:} ``the data symbols are not known to the receiver and must also be estimated'' $\to$ I would drop the second part of the sentence because (e.g. Viterbi and Viterbi estimator) non-data-aided estimators typically do not actually estimate the unknown data symbols \\
 \textbf{Response:} Done.
 
 \item \textbf{Comment:} p. 3: ``bounds that are valid asymptoticially'': typo in asymptotically \\
@@ -180,7 +180,7 @@ are valid. For the purpose of minimisation the constants have no effect.  Howeve
 \item \label{rev2:commentE} \textbf{Comment:} I would prefer to see brackets around the functions of which the mean is computed (use of the operator $\mathbb E$) \\
 \textbf{Response:} We prefer not to use brackets whenever there is no chance of ambiguity.  To clarify this for the reader the following sentences have been added to Section~\ref{sec:stat-prop-least}:
 
-``Whenever there is no chance of ambiguity we write simply $\expect X$ rather than $\expect(X)$ to denote the expected value of the random variable $X$.  For two random variables $X$ and $Y$ the notation $\expect X Y$ will always mean the expected value of the product $XY$, that is, $\expect(XY)$ and not $\expect(X)Y$.''
+``Whenever there is no chance of ambiguity we write simply $\expect X$ rather than $\expect(X)$ to denote the expected value of a random variable $X$.  For two random variables $X$ and $Y$ the notation $\expect X Y$ will always mean the expected value of the product $XY$, that is, $\expect(XY)$ and not $\expect(X)Y$.''
 
 The bracketless notation is heavily employed in the statistical literature on empirical processes~\cite{Pollard_new_ways_clts_1986,Pollard_conv_stat_proc_1984,Pollard_asymp_empi_proc_1989,van2009empirical}. The notation would become heavily cluttered otherwise.  Our proofs in the appendix rely upon this literature.
 
@@ -211,9 +211,9 @@ This is explained in the text by the sentences:
 \textbf{Response:} We have expanded the simulation section as detailed in the responses that follow.
 
 \item \textbf{Comment:} although different figures are shown for M=2,4,8 (phase estimation), the effect of the constellation size is not addressed in the text  \\
-\textbf{Response:}  We have included the follows sentences to Section~\ref{sec:simulations}:
+\textbf{Response:}  We have included the following sentences to Section~\ref{sec:simulations}:
 
-``As expected, the figures indicate that the accuracy of the estimator increases with the number of pilot symbols.  One interesting observation is that, at low SNR, the slope of the MSE curve when no pilot symbols exist is steeper than the slope when pilot symbols do exist.''
+``As expected, the figures indicate that the accuracy of the estimator increases with the number of pilot symbols.  One interesting observation is that, for low SNR, the slope of the MSE curve when no pilot symbols exist is steeper than the slope when pilot symbols do exist.  This indicates that pilot symbols are particularly important when the SNR is low.''
 
 \item \textbf{Comment:} p. 18, first sentence: ``when $L$ is sufficiently large'' $\to$ in these figures the value of $L$ is fixed, should this be ``when the SNR is sufficiently large''  \\
 \textbf{Response:} Fixed.
@@ -221,7 +221,7 @@ This is explained in the text by the sentences:
 \item \textbf{Comment:} p. 18, first sentence: a qualitative explanation for the fact the theory and simulations diverge at low SNR would be appreciated  \\
 \textbf{Response:} The following text has been included in Section~\ref{sec:simulations}:
 
-``As the SNR decreases the variance of the phase estimator approaches that of the uniform distribution on $[-\pi, \pi)$ when $\abs{P} \neq 0$, and the uniform distribution on $[-\tfrac{\pi}{M}, \tfrac{\pi}{M})$ when $\abs{P}=0$~\cite{McKilliam_leastsqPSKnoncoICASSP_2012}.  Our asymptotic theory cannot be expected to model the behaviour of the estimator for fixed $L$ as SNR goes to zero.  Similar conclusions are made in the literature~\cite{ViterbiViterbi_phase_est_1983,6365847}.''
+``As the SNR decreases the variance of the phase estimator approaches that of the uniform distribution on $[-\pi, \pi)$ when $\abs{P} \neq 0$, and the uniform distribution on $[-\tfrac{\pi}{M}, \tfrac{\pi}{M})$ when $\abs{P}=0$~\cite{McKilliam_leastsqPSKnoncoICASSP_2012}.  Our asymptotic theory cannot be expected to model the behaviour of the estimator for fixed $L$ as SNR goes to zero.  Similar observations have been made in the literature~\cite{ViterbiViterbi_phase_est_1983,6365847}.''
 
 \item \textbf{Comment:} p.18, last sentence of first paragraph: ``non-data aided'' $\to$ should be ``non-data-aided''  \\
 \textbf{Response:} Fixed.
@@ -235,11 +235,11 @@ This is explained in the text by the sentences:
 \[
 \rho_0^2\big(1 - G(0)\big)^2
 \]
-and the dashed line in the asymptotic variance
+and the dashed line is the asymptotic variance
 \[
 \rho_0^2\frac{p B_1 + d B_2}{L}.
 \]
-The number of pilots consider is $\abs{P}=0$ and $\abs{P}=L/2$.  The obvious relationship is observed: the bias dominates the variance at low SNR and the variance dominates the bias at high SNR.  We believe that this plot is not particularly informative and have not included it in the manuscript.
+The number of pilots considered is $\abs{P}=0$ and $\abs{P}=L/2$.  The obvious relationship is observed: the bias dominates the variance at low SNR and the variance dominates the bias at high SNR.  We believe that this plot is not particularly informative because the same conclusion can be drawn from Figures~\ref{fig:plotampBPSK},~\ref{fig:plotampQPSK}~and~\ref{fig:plotamp8PSK}.  For this reason we have not included this plot in the manuscript.
   
 \end{enumerate} 
 
