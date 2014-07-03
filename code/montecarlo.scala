@@ -73,14 +73,14 @@ for( L <- Ls; M <- Ms ) {
       val filep = new java.io.FileWriter("data/" + estname + "p")
       val filec = new java.io.FileWriter("data/" + estname + "c")
       val fileaunb = new java.io.FileWriter("data/" + estname + "aunb")
-      (mselist, SNRdBs).zipped.foreach{ (mse, snr) =>
-	val (ma,mp,mc,mu) = mse
-				       filea.write(snr.toString.replace('E', 'e') + "\t" + ma.toString.replace('E', 'e')  + "\n") 
-				       filep.write(snr.toString.replace('E', 'e') + "\t" + mp.toString.replace('E', 'e')  + "\n") 
-				       filec.write(snr.toString.replace('E', 'e') + "\t" + mc.toString.replace('E', 'e')  + "\n") 
-                                       fileaunb.write(snr.toString.replace('E', 'e') + "\t" + mu.toString.replace('E', 'e')  + "\n") 
-				     }
-      filea.close; filep.close; filec.close; fileaunb.close; //close all the files we wrote to 
+        (mselist, SNRdBs).zipped.foreach{ (mse, snr) =>
+	  val (ma,mp,mc,mu) = mse
+	  filea.write(snr.toString.replace('E', 'e') + "\t" + ma.toString.replace('E', 'e')  + "\n")
+	  filep.write(snr.toString.replace('E', 'e') + "\t" + mp.toString.replace('E', 'e')  + "\n")
+	  filec.write(snr.toString.replace('E', 'e') + "\t" + mc.toString.replace('E', 'e')  + "\n")
+          fileaunb.write(snr.toString.replace('E', 'e') + "\t" + mu.toString.replace('E', 'e')  + "\n")
+	}
+      filea.close; filep.close; filec.close; fileaunb.close; //close all the files we wrote to
 
     }
 
