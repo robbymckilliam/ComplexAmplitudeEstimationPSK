@@ -35,7 +35,7 @@
 %\maketitle
 
 \begin{enumerate}
-\item Page 1, column 2.  The formating of the first equation is wrong.  Space between $p_i$ and $i$ and $d_i$ and $i$ must be included.  It should look like:
+\item Page 1, column 2.  The formatting of the first equation is wrong.  Space between $p_i$ and $i$, and $d_i$ and $i$ need to be included.  It should look like:
 \[
 s_i = \begin{cases}
 p_i & i \in P \\
@@ -52,9 +52,9 @@ d_i & i \in D,
 
 \item Page 4, column 2.  The phrase ``the loops on lines 1 and II'' the II should be 11 (the number eleven rather than two capital I's).  That is, ``the loops on lines 1 and 11''.
 
-\item Page 5, column 1.  The phrase ``to denote $x$ taken `~modulo $2\pi$' into the interval \dots''.  There is a space between the apostrophe and the word modulo.  That is `~modulo $2\pi$' shoud be `modulo $2\pi$'. 
+\item Page 5, column 1.  The phrase ``to denote $x$ taken `~modulo $2\pi$' into the interval \dots''.  There is a space between the apostrophe and the word modulo.  That is `~modulo $2\pi$' should be `modulo $2\pi$'. 
 
-\item Page 6, column 1, start of section 4.  The first equation starting $LS(\rho, \theta) = \dots$ has the word `where' placed in the middle of the column.  The word `where' should be left justified rather than centered.  It should look like:
+\item \label{com:leftjustwhere} Page 6, column 1, start of section 4.  The first equation starting $LS(\rho, \theta) = \dots$ has the word `where' placed in the middle of the column.  The word `where' should be left justified rather than centered.  It should look like:
  \begin{align*}
 LS(\rho, \theta) &=\sum_{i \in P} \abs{ y_i - \rho e^{j\theta} p_i }^2 + \sum_{i \in D} \abs{ y_i - \rho e^{j\theta} \hat{d_i}(\theta) }^2 \\
 &= A - \rho Z(\theta) - \rho Z^*(\theta) + L \rho^2,
@@ -64,14 +64,46 @@ where
 Z(\theta)  = \sum_{i \in P} y_i e^{-j\theta} p_i^* + \sum_{i \in D} y_i e^{-j\theta} \hat{d}_i^*(\theta),
 \]
 
-\item Page 6 column 2 second last equation starting $Z(\theta) = \dots$.  The equation ends with a full stop.  The full stop is put into the superscript of the equations, but it should not be.  It should look like:
+\item Page 6 column 2 second last equation starting $Z(\theta) = \dots$.  The equation ends with a full stop.  The full stop is put into the superscript of the equation, but it should not be.  It should look like:
 \[
 Z(\theta) = \rho_0 \sum_{i \in P} R_i e^{j(\lambda + \Phi_i)} + \rho_0  \sum_{i \in D} R_i e^{j\sfracpart{\lambda + \Phi_i}}.
 \]
 
-\item On page 7 the section entitled ``Proof of asymptotic normality (Theorem~2)'' does not have a section number.  It should be V (i.e. the roman numeral for 5).  The sections that follow entitled ``Simulations'' and ``Conclusion'' and correspondingly numbered incorrecty.  The ``Simulations'' section should be section VI (i.e. 6) and the ``Conclusion'' section should be VII (i.e. 7). 
+\item On page 7 the section entitled ``Proof of asymptotic normality (Theorem~2)'' does not have a section number.  It should be V (i.e. the roman numeral for 5).  The sections that follow entitled ``Simulations'' and ``Conclusion'' are correspondingly numbered incorrectly.  The ``Simulations'' section should be section VI (i.e. 6) and the ``Conclusion'' section should be VII (i.e. 7). 
 
-\item
+\item Page 10, bottom of first column, equation beginning $LS(\{r_i, i \in D\})$.  This equation would preferably not be split over multiple columns, i.e., it should all be in a single column like:
+\begin{align*}
+LS&(\{r_i, i \in D\}) \\
+&= A - \frac{1}{L} \sabs{ Y(\{ r_i, i \in D\}) }^2 \\
+&= A - \frac{1}{L} \sabs{ \hat{Y} + \eta y_k\hat{d}_k^* }^2 \\
+&= A - \frac{1}{L}\sabs{\hat{Y}}^2 - \frac{2}{L}\Re\left(\eta \hat{Y}^* y_k \hat{d}_k^* \right) -  \frac{1}{L}\sabs{ \eta y_k}^2\\
+&= LS(\{\hat{d}_i, i \in D\}) - C,
+\end{align*}
+% If you can make it fit then:
+% \begin{align*} 
+% LS(\{r_i, i \in D\}) &= A - \frac{1}{L} \sabs{ Y(\{ r_i, i \in D\}) }^2 \\
+% &= A - \frac{1}{L} \sabs{ \hat{Y} + \eta y_k\hat{d}_k^* }^2 \\
+% &= A - \frac{1}{L}\sabs{\hat{Y}}^2 - \frac{2}{L}\Re\left(\eta \hat{Y}^* y_k \hat{d}_k^* \right) -  \frac{1}{L}\sabs{ \eta y_k}^2\\
+% &= LS(\{\hat{d}_i, i \in D\}) - C,
+% \end{align*}
+% would be even better.
+
+\item Page 10 column 2, between first and second equation.  The word `where' is centered rather than left justified.  This is similar to my comment~\ref{com:leftjustwhere}. 
+
+\item Page 10 column 2, half way down.  The word `and' is centered rather than left justified.  This is similar to the above comment and my comment~\ref{com:leftjustwhere}.  It should look like:
+\begin{align*}
+\eta e^{j\sfracpart{\hat{\lambda}_L + \Phi_k}} &= (e^{-j2\pi/M} - 1) e^{j \pi/M} e^{jv} \\
+&= (e^{-j\pi/M} - e^{j\pi/M}) e^{jv} \\
+&= -2 j \sin(\tfrac{\pi}{M}) e^{j v },
+\end{align*}
+and
+\[
+\Re\left( \eta e^{j\sfracpart{\hat{\lambda}_L + \Phi_k}}\right) = 2 \sin(\tfrac{\pi}{M}) \sin(v).
+\]
+
+\item Page 11, top of column 2, between first and second equations.  The word `where' is centered when it should be left justified.
+
+
 
 \end{enumerate}
 
